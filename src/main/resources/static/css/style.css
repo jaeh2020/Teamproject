@@ -2034,7 +2034,7 @@ textarea {
   color: #67757c;
   left: 0;
   padding: 17px 15px;
-  position: absolute;
+  position: static;
   right: 0;
 }
 .footer {
@@ -5423,6 +5423,7 @@ tbody tr td:last-child {
 }
 .table {
   margin-bottom: 0;
+  text-align: center;
 }
 .table .badge {
   text-transform: uppercase;
@@ -6908,6 +6909,7 @@ tbody tr td:last-child {
     left: 0;
   }
 }
+
 /*  10 - media screen and (max-width: 320px)
 ---------------------------------------------------------------------- */
 /*---------------------------------------------------------------*/
