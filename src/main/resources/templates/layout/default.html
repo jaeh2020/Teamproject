@@ -27,6 +27,7 @@
                     </ol>
                 </div>
             </div>
+       
             <!-- End Bread crumb -->
             <!-- Container fluid  -->
             <div class="container-fluid">
@@ -34,12 +35,15 @@
 				<th:block layout:fragment="customContents"></th:block>
 				<!-- End PAge Content -->
 			</div>
+		</div>
+			<!-- End Container fluid  -->
+		
 			<!-- footer -->
 			<footer th:replace="fragments/footer :: footerFragment"></footer>
 			<!-- End footer -->
-		</div>	
-		<!-- End Container fluid  -->
 	</div>
+	
+	
 	<!-- All Jquery -->
     <script src="js/lib/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
@@ -55,5 +59,6 @@
     <script src="js/custom.min.js"></script>
     <!--Custom JavaScript -->
     <th:block layout:fragment="customJsLib"></th:block>
+    
 </body>
 </html>
