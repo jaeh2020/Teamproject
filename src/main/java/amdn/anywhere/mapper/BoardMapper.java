@@ -8,6 +8,7 @@ import amdn.anywhere.domain.Board;
 
 @Mapper
 public interface BoardMapper {
-	public List<Board> getBoardList();
-
+	/*
+	 * public List<Board> getBoardList();
+	 */
 }

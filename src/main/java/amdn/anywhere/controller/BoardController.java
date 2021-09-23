@@ -35,10 +35,10 @@ private final BoardService boardService;
 	
 	@GetMapping("/boardList")
 	public String boardList(Model model) {
-		 List<Board> boardList = boardService.getBoardList();
+		/* List<Board> boardList = boardService.getBoardList(); */
 		
 		model.addAttribute("title", "게시판 목록");
-		model.addAttribute("boardList", boardList);
+		/* model.addAttribute("boardList", boardList); */
 		return "board/boardList";
 	}
 	
