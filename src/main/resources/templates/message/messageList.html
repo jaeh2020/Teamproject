@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!-- th:replace="fragments/head.html(html확장자를 제외한 경로) :: (해당 html안에 선언된 조각변수이름) -->
+<head th:replace="fragments/head :: headFragment"></head>
+<!-- css -->
+<style type= "text/css">
+	.btn{
+		
+		margin-bottom: -20px;
+		color: #505050;
+	}
+	.btn-primary{
+		margin: 8px 0 8px 8px;
+		color: #fff;
+	}
+</style>
+<body class="fix-header fix-sidebar mini-sidebar">
+<!-- All Jquery -->
+    <script src="js/lib/jquery/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="js/lib/bootstrap/js/popper.min.js"></script>
+    <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="js/jquery.slimscroll.js"></script>
+    <!--Menu sidebar -->
+    <script src="js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/custom.min.js"></script>
+    	
+	<div id="main-wrapper">
+		<!-- begin header -->
+		<div th:replace="fragments/header :: headerFragment"></div>
+		<!-- end header -->
+		
+		<!-- begin leftsidebar -->
+		<div th:replace="fragments/leftsidebar :: leftsidebarFragment"></div>
+		<!-- end leftsidebar -->
+		
+		<!-- Page wrapper  -->
+		<div class="page-wrapper">
+			<!-- Bread crumb -->
+            <div class="row page-titles">
+                <div class="col-md-5 align-self-center">
+                    <h3 class="text-primary" th:text="${location}">알림</h3> </div>
+                <div class="col-md-7 align-self-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active" th:text="${location}">알림</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- End Bread crumb -->
+            <!-- Container fluid  -->
+            <div class="container-fluid">
+            	<!-- Start Page Content -->
+				<th:block layout:fragment="customContents">
+					<!-- 상단 버튼부분 -->
+					<div class="row">
+						<div class="col-lg-3"></div>
+						<div class="col-lg-8">
+							<div class="btn">
+								<button type="button" class="btn btn-default btn-flat m-b-10" id="all">전체</button>
+								<button type="button" class="btn btn-default btn-flat m-b-10" id="order_pay">주문/결제</button>
+								<button type="button" class="btn btn-default btn-flat m-b-10" id="waiting">대기</button>
+								<button type="button" class="btn btn-default btn-flat m-b-10" id="board_review">게시판/리뷰</button>
+								<button type="button" class="btn btn-default btn-flat m-b-10" id="point">포인트</button>
+								<button type="button" class="btn btn-default btn-flat m-b-10" id="evaluator">평가단</button>
+								<button type="button" class="btn btn-default btn-flat m-b-10" id="membership">등급</button>
+								<button type="button" class="btn btn-default btn-flat m-b-10" id="event">이벤트</button>
+								<button type="button" class="btn btn-default btn-flat m-b-10" id="favorite">추천/즐겨찾기</button>
+							</div>
+						</div>
+						<div class="col-lg-1">
+							<!-- 버튼에 링크 -->
+							<a th:href="@{/messageCheck}" class="btn btn-primary btn-flat m-b-10"><i class="ti-settings"></i></a>
+						</div>
+					</div>
+					<div class="row">
+						<!-- 왼쪽부분 -->
+						<div class="col-lg-3">
+							<div class="card">
+								<ul class="list-group list-group-flush">
+								    <li class="list-group-item">읽지 않은 알림</li>
+								    <li class="list-group-item">읽은 알림</li>
+								</ul> 
+							</div>
+							<button type="button" class="btn btn-default btn-block m-b-10">읽은 알림 삭제</button>
+							<button type="button" class="btn btn-default btn-block m-b-10">전체 삭제</button>
+						</div>
+						<!-- 알림리스트 -->
+						<div class="col-lg-9 ">
+							<div class="card">
+					            <div class="card-header">
+					                <strong class="card-title">전체 알림</strong>
+					            </div>
+					            <div class="card-body">
+									<table class="table table-hover ">
+										<tbody>
+						                    <tr th:each="l : ${messageList}">
+												<td th:text="${l.messageCode}"></td>
+												<td th:text="${l.messageNoticeTime}"></td>
+						                    </tr> 
+					               		</tbody>
+					            	</table>
+					        	</div>
+					
+							</div>
+						</div>
+					</div>
+					
+					
+					<table border="1">
+						<thead>
+							<tr>
+								<th>아이디</th>
+								<th>비밀번호</th>
+								<th>이름</th>
+								<th>권한</th>
+								<th>주소</th>
+								<th>이메일</th>
+								<th>등록일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="l : ${messageList}">
+								<td th:text="${l.messageNum}"></td>
+								<td th:text="${l.storeCode}"></td>
+								<td th:text="${l.memberId}"></td>
+								<td th:text="${l.messageCode}"></td>
+								<td th:text="${l.messageNoticeTime}"></td>
+								<td th:text="${l.messageReadTime}"></td>
+								<td th:text="${l.messageMark}"></td>
+							</tr>
+						</tbody>
+					</table>
+
+					
+				</th:block>
+				<!-- End PAge Content -->
+			</div>
+			<!-- footer -->
+			<footer th:replace="fragments/footer :: footerFragment"></footer>
+			<!-- End footer -->
+		</div>	
+		<!-- End Container fluid  -->
+	</div>
+	
+    <!--Custom JavaScript -->
+    <th:block layout:fragment="customJsLib"></th:block>
+</body>
+</html>
