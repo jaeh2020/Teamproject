@@ -35,10 +35,10 @@
 	                                    <td class="cateName" th:text="${l.cateCode}"></td>
 	                                    <td class="cateName" th:text="${l.cateName}"></td>
 	                                    <td>
-	                                    	<button type="button" class="btn btn-primary btn-rounded btn-addon m-b-10 m-l-5"><a th:href="@{/addQCate}"><i class="ti-pencil"></i></a></button>
+	                                    	<button type="button" class="btn btn-primary btn-rounded btn-addon m-b-10 m-l-5"><a th:href="@{#}"><i class="ti-pencil"></i></a></button>
 	                                    </td>
 	                                    <td>
-	                                    	<button type="button" class="btn btn-danger btn-rounded btn-addon m-b-10 m-l-5"><i class="ti-minus"></i></button>
+	                                    	<button type="button" class="deleteCateBtn btn btn-danger btn-rounded btn-addon m-b-10 m-l-5"><a th:href="@{/survey/deleteQCate(cateCode=${l.cateCode},cateName=${l.cateName})}"><i class="ti-minus"></i></a></button>
 	                                   	</td>
 	                                    <td th:id="${l.cateCode}">
 	                                    	<button type="button" class="viewQ btn btn-dark btn-outline btn-rounded m-b-10 m-l-5"><i class="ti-search"></i></button>
@@ -47,7 +47,7 @@
 	                            </tbody>
 	                        </table>
 	                    </div>
-	                    <form method="post" th:action="@{/addQCate}">  
+	                    <form method="post" th:action="@{/survey/addQCate}">  
 	                    	 <p>새 항목을 추가하려면 <code>항목코드</code>와 <code>항목명</code>을 입력하세요</p>            
 	                         <div class="form-group">
 	                               <div class="input-group input-group-flat">
@@ -67,7 +67,7 @@
 	                    <h4>문항 목록</h4> 
 		                    <div class="card-body">
 			                     <button type="button" class=" btn btn-default btn-rounded btn-addon m-b-10 m-l-5">
-				                		<a th:href="@{/updateQuestions}"><i class="ti-pencil"></i>수정하기</a>
+				                		<a th:href="@{/survey/updateQuestions}"><i class="ti-pencil"></i>수정하기</a>
 				                </button>
 		                     	 <div class="table-responsive">
 		                       		 <table class="table table-hover ">
@@ -97,7 +97,7 @@
 				var tdId = this.parentElement.id;
 				
 				var request =  $.ajax({
-					  url: "/questionList", //요청 주소
+					  url: "/survey/questionList", //요청 주소
 					  method: "GET", //요청 방식
 					  data: { cateCode : tdId },
 					  dataType: "json" //받아올 포맷방식
@@ -136,6 +136,17 @@
 		$('form').submit();
 			
 			
+		});
+	});
+	/*항목 삭제 버튼*/
+	$(function(){
+		$('.deleteCateBtn').click(function(){
+			var result = confirm('해당 항목에 해당되는 문항들도 모두 삭제됩니다. 삭제하시겠습니까?');
+			if(result){
+				return true;
+			}else {
+				return false;
+			}
 		});
 	});
 	

@@ -21,4 +21,6 @@ public interface QuestionsMapper {
 	public int deleteQuestion(String qCode);
 	//5 문항 추가
 	public int insertQuestion(Questionnaire question);
+	//6 항목 삭제
+	public int deleteQCate(String cateCode);
 }
