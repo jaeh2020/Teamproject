@@ -54,7 +54,7 @@
 	}
 	
 	input[type="checkbox"]:checked + label {
-	  background-color: #3F0387;
+	  background-color: #5c4ac7;
 	  
 	}
 	
@@ -65,6 +65,8 @@
 	tbody tr td{
 		color: #505050;
 	}
+
+
 </style>
 
 <body class="fix-header fix-sidebar mini-sidebar">
@@ -83,11 +85,11 @@
 			<!-- Bread crumb -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">알림</h3> </div>
+                    <h3 class="text-primary" th:text="${location}">알림</h3> </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item active">알림</li>
+                        <li class="breadcrumb-item active" th:text="${location}">알림</li>
                     </ol>
                 </div>
             </div>
@@ -193,6 +195,7 @@
 							                    </tr>
 						               		</tbody>
 						            	</table>
+						            	<a th:href="@{/messageList}" class="btn btn-dark btn-flat m-b-10 m-l-5">닫기</a>
 						        	</div>
 						
 								</div>
