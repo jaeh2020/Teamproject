@@ -11,19 +11,19 @@ import amdn.anywhere.mapper.BoardMapper;
 @Service
 public class BoardService {
 	
-	
-	  private final BoardMapper boardMapper;
-	
-	  @Autowired
-	  public BoardService(BoardMapper boardMapper) { 
-		  this.boardMapper = boardMapper; 
-		  
-	  }
-	 
-	 public List<Board> getBoardList(){ 
-		 List<Board> boardList = boardMapper.getBoardList();
-	
-	 return boardList; }
+	/*
+	 * private final BoardMapper boardMapper;
+	 * 
+	 * @Autowired public BoardService(BoardMapper boardMapper) { this.boardMapper =
+	 * boardMapper;
+	 * 
+	 * }
+	 * 
+	 * public List<Board> getBoardList(){ List<Board> boardList =
+	 * boardMapper.getBoardList();
+	 * 
+	 * return boardList; }
+	 */
 	 
 
 
