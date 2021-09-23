@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+
+
+
+            <!-- Container fluid  -->
+            <div class="container-fluid">
+	                <!-- Start Page Content -->
+	                <div class="row">
+	                    <div class="col-lg-8">
+	                        <div class="card card-outline-primary">
+	                            <div class="card-header">
+	                                <h4 class="m-b-0 text-white">주문 정보 입력</h4>
+	                            </div>
+	                            <div class="card-body">
+	                                <form action="/addbook_member" class="form-horizontal"  method="post">
+	                                    <div class="form-body">
+	                                        <hr class="m-t-0 m-b-40">
+	                                        <div class="row">
+	                                        	<!--start 메뉴선택-->
+	                                            <div class="col-md-12">
+	                                                <div class="form-group row">
+	                                                    <label class="control-label text-right col-md-3">메뉴선택</label>
+														  <div class="col-md-6" >	
+															<div class="card-body">
+																
+																<!-- start메인메뉴 -->
+																<ul class="nav nav-tabs customtab" role="tablist">
+																	<li class="nav-item active"> 
+																		<a class="nav-link " data-toggle="tab" href="#tab1" role="tab">
+																			<span class="hidden-sm-up">
+																			<i class="ti-home"></i>
+																			</span> 
+																			<span class="hidden-xs-down">메인 메뉴</span>
+																		</a> 
+																	</li>
+																	<li class="nav-item"> 
+																		<a class="nav-link" data-toggle="tab" href="#tab2" role="tab">
+																			<span class="hidden-sm-up">
+																			<i class="ti-user"></i>
+																			</span> 
+																			<span class="hidden-xs-down">사이드메뉴</span>
+																		</a> 
+																	</li>
+																</ul>
+																<!-- end메인메뉴 -->
+																
+																<div class="tab-content">
+																
+																	<!-- 메뉴선택 메인메뉴탭 start -->
+																	<div class="tab-pane active" id="tab1" role="tabpanel">
+																		<div class="p-20">
+																			<ul>
+																					<li>
+																						<a href="#">자장면 5000</a>
+																					</li>
+																					<li>
+																						<a href="#">해물짬뽕 8000</a>
+																					</li>
+																					<li>
+																						<a href="#">고기짬뽕 9000</a>
+																					</li>
+																					<li>
+																						<a href="#">탕수육 소 15000</a>
+																					</li>
+																					<li>
+																						<a href="#">탕수육 중 20000</a>
+																					</li>
+																					<li>
+																						<a href="#">탕수육 대 23000</a>
+																					</li>
+																				</ul>
+																		</div>
+																	</div>
+																	<!-- 메뉴선택 메인메뉴탭 end -->
+																	<!-- 메뉴선택 사이드메뉴탭 start-->
+																	<div class="tab-pane  p-20" id="tab2" role="tabpanel">
+																		<ul>
+																				<li>
+																					<a href="#">콜라 1500</a>
+																				</li>
+																				<li>
+																					<a href="#">사이다 1500</a>
+																				</li>
+																				<li>
+																					<a href="#">맥주 4000</a>
+																				</li>
+																				<li>
+																					<a href="#">소주 5000</a>
+																				</li>
+																		</ul>
+																	</div>
+																	<!-- 메뉴선택 사이드메뉴탭 end -->
+																</div>
+																<small class="form-control-feedback"> 원하시는 메뉴를 선택해주세요. </small>
+															</div>
+														</div>
+	                                                </div>
+	                                            </div>
+	                                            <!--end 메뉴선택-->
+	                                            
+	                                            
+	                                            
+	                                            <!--start 수량선택-->
+	                                            <div class="col-md-12">
+	                                                <div class="form-group row">
+	                                                    <label class="control-label text-right col-md-3">수량선택</label>
+		                                                    <div class="card">
+																<div class="card-body">
+																	<!-- 수량선택상세 -->
+				                                                    <div class="col-md-12">
+				                                                        	해물짬뽕 
+																				 <button type="button" class="plus" style="font-size:20px; border:none; background:none;">+</button>
+																				 <input type="number" class="numBox" min="1" max="100" value="1" readonly="readonly" />
+																				 <button type="button" class="minus" style="font-size:20px; border:none; background:none;">-</button>
+																				 
+																				 <script type="text/javascript">
+																				  $(".plus").click(function(){
+																				   var num = $(".numBox").val();
+																				   var plusNum = Number(num) + 1;
+																				   
+																				   if(plusNum >= 100) {
+																				    $(".numBox").val(num);
+																				   } else {
+																				    $(".numBox").val(plusNum);          
+																				   }
+																				  });
+																				  
+																				  $(".minus").click(function(){
+																				   var num = $(".numBox").val();
+																				   var minusNum = Number(num) - 1;
+																				   
+																				   if(minusNum <= 0) {
+																				    $(".numBox").val(num);
+																				   } else {
+																				    $(".numBox").val(minusNum);          
+																				   }
+																				  });
+																				 </script>
+				                                                    </div>
+				                                                    <div class="col-md-12">
+				                                                        	자장면
+																				 <button type="button" class="plus" style="font-size:20px; border:none; background:none;">+</button>
+																				 <input type="number" class="numBox" min="1" max="100" value="1" readonly="readonly" />
+																				 <button type="button" class="minus" style="font-size:20px; border:none; background:none;">-</button>
+																				 
+																				 <script type="text/javascript">
+																				  $(".plus").click(function(){
+																				   var num = $(".numBox").val();
+																				   var plusNum = Number(num) + 1;
+																				   
+																				   if(plusNum >= 100) {
+																				    $(".numBox").val(num);
+																				   } else {
+																				    $(".numBox").val(plusNum);          
+																				   }
+																				  });
+																				  
+																				  $(".minus").click(function(){
+																				   var num = $(".numBox").val();
+																				   var minusNum = Number(num) - 1;
+																				   
+																				   if(minusNum <= 0) {
+																				    $(".numBox").val(num);
+																				   } else {
+																				    $(".numBox").val(minusNum);          
+																				   }
+																				  });
+																				 </script>
+				                                                    </div>
+																</div>
+															</div>
+	                                                </div>
+	                                            </div>
+	                                            <!--end 수량선택-->
+	                                            <!--start 요청사항-->
+	                                            <div class="col-md-12">
+	                                                <div class="form-group row">
+	                                                    <label class="control-label text-right col-md-3">요청사항</label>
+	                                                    <div class="col-md-6">
+	                                                        <textarea name="textarea-input" id="textarea-input" rows="20" class="form-control"></textarea>
+	                                                    </div>
+	                                                </div>
+	                                            </div>
+	                                            <!--end 요청사항-->
+	                                      </div>
+	                                    </div>
+	                                </form>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    
+	                    <!--주문내역-->
+		               <div class="col-lg-4">
+							<div class="card">
+								<div class="card-header user-header alt bg-dark">
+								<strong class="card-title">주문 내역</strong>
+								</div>
+								<div class="card-body" style="padding: 5px; text-align: center;">
+		                               <table class="table">
+			                                 <tbody>
+			                                   <tr>
+			                                       <th scope="row">메뉴 </th>
+			                                       <th scope="row">수량</th>
+			                                       <td>가격</td>
+			                                   </tr>
+			                                   <tr>
+			                                       <th scope="row">해물짬뽕  </th>
+			                                       <th scope="row">2</th>
+			                                       <td>16000</td>
+			                                   </tr>
+			                                   <tr>
+			                                       <th scope="row">자장면</th>
+			                                       <th scope="row">1</th>
+			                                       <td>6000</td>
+			                                   </tr>
+			                                   <tr  style="border-top: 2px solid #5A78AF">
+			                                       <th scope="row">총 결제금액</th>
+			                                       <td colspan="2">22000</td>
+			                                   </tr>
+			                               </tbody>
+		                               </table>
+								</div>
+							</div>
+							<div class="offset-sm-3 col-sm-9">
+								<button type="submit" class="btn btn-dark">결제하기</button>
+								<button type="button" class="btn btn-pink">이전</button>
+							</div>
+		               </div>
+		               <!--/주문내역-->
+		               
+	               </div>
+	               
+            </div>
+            <!-- End Container fluid  -->
+
+
+
+
+</th:block>
+
+<th:block layout:fragment="customJsLib">
+	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+</th:block>
+</html>
+
