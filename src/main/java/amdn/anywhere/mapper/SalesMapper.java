@@ -5,14 +5,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import amdn.anywhere.domain.Board;
+import amdn.anywhere.domain.Sales;
 
 @Mapper
-public interface BoardMapper {
+public interface SalesMapper {
+
 	
-	//게시판 등록
-	public int boardWrite(Board board);
-	
-	//게시판 목록
-	 public List<Board> getBoardList();
-	 
+	// 1. 항목리스트
+	public List<Sales> getSalesList();
 }
