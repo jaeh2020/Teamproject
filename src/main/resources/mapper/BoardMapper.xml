@@ -14,18 +14,19 @@
 	
 
 
-<insert id="boardWirte" parameterType="Board">
+<insert id="boardWrite" parameterType="Board" >
 	INSERT INTO tb_board_management
-	(board_num
-	, b_cate_code
-	, board_title
-	, board_contents
-	, board_file_attach
-	, board_secret
-	, board_time
-	, board_views
-	, member_id
-	, state_code)
+	(board_num    AS boardNum
+	, b_cate_code  AS boardCateCode
+	, board_title  AS boardTitle
+	, board_contents  AS boardContents
+	, board_file_attach  AS boardFile
+	, board_secret  AS boardSecret
+	, board_time    AS boardRegTime
+	, board_views   AS boardViews
+	, member_id     AS memberId
+	, state_code    AS stateCode
+	)
 	VALUES (
 	  #{boardNum}
 	, #{boardCateCode}
@@ -36,7 +37,7 @@
 	, NOW()
 	, #{boardViews}
 	, #{memberId}
-	, #{stateCode})
+	, #{stateCode});
 </insert>
 
 
