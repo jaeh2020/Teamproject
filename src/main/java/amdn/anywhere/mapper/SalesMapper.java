@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import amdn.anywhere.domain.Board;
+import amdn.anywhere.domain.Sales;
 
 @Mapper
-public interface BoardMapper {
-	public List<Board> getBoardList();
+public interface SalesMapper {
+	public List<Sales> getSalesList();
 
 }
