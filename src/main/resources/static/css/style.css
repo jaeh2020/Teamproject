@@ -5400,13 +5400,15 @@ tbody tr th {
   color: #455a64;
   font-family: 'Poppins', sans-serif;
   font-weight: normal;
+  text-align: center;
 }
 tbody tr td {
   font-family: 'Poppins', sans-serif;
   color: #99abb4;
+  text-align: center;
 }
 tbody tr td:last-child {
-  text-align: right;
+  text-align: center;
 }
 .table > tbody > tr > td,
 .table > tbody > tr > th,
@@ -5420,6 +5422,7 @@ tbody tr td:last-child {
 .table > thead > tr > th {
   border-bottom: 1px solid #e7e7e7;
   font-weight: 600;
+  text-align: center;
 }
 .table {
   margin-bottom: 0;
