@@ -24,6 +24,8 @@
     <link th:href="@{css/lib/owl.theme.default.min.css}" rel="stylesheet" />
     <link th:href="@{css/helper.css}" rel="stylesheet">
     <link th:href="@{css/style.css}" rel="stylesheet">
+    <!-- All Jquery -->
+    <script th:src="@{js/lib/jquery/jquery.min.js}"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:** -->
@@ -37,7 +39,9 @@
 	<!-- 사용자 지정 title -->
 	<th:block layout:fragment="customTitle"></th:block>
 	<!-- 사용자 지정 Js -->
-	<th:block layout:fragment="customJs"></th:block>
+	<th:block layout:fragment="customJs">
+
+	</th:block>
 	<style type="text/css">
 		.footer{
 			bottom:0; 

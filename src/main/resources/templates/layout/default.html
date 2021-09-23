@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
@@ -19,14 +20,15 @@
 			<!-- Bread crumb -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">Dashboard</h3> </div>
+                    <h3 class="text-primary" th:text="${location}">Dashboard</h3> </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item active" th:text="${location}">Dashboard</li>
                     </ol>
                 </div>
             </div>
+       
             <!-- End Bread crumb -->
             <!-- Container fluid  -->
             <div class="container-fluid">
@@ -34,13 +36,17 @@
 				<th:block layout:fragment="customContents"></th:block>
 				<!-- End PAge Content -->
 			</div>
+		</div>
+			<!-- End Container fluid  -->
+		
 			<!-- footer -->
 			<footer th:replace="fragments/footer :: footerFragment"></footer>
 			<!-- End footer -->
-		</div>	
-		<!-- End Container fluid  -->
 	</div>
+
 	
+	
+
     <!-- Bootstrap tether Core JavaScript -->
     <script src="js/lib/bootstrap/js/popper.min.js"></script>
     <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
@@ -54,5 +60,6 @@
     <script src="js/custom.min.js"></script>
     <!--Custom JavaScript -->
     <th:block layout:fragment="customJsLib"></th:block>
+    
 </body>
 </html>
