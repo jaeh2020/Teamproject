@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="col-lg-12">
+		<form action="${path}/board/boardWirte" role="form" id="wirteForm" method="post">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title" style="font-weight: bold;"><i class="fa fa-pencil"></i>  게시글 작성</h3>
+				</div>
+				<div class="box-body">
+					<div class="form-group">
+						<label for="title" style="margin-top: 30px; font-weight:bold; ">제목</label>
+						<input class="form-control" id="title" name="title" placeholder="제목을 입력해주세요">
+					</div>
+					
+					<div class="form-group">
+						<label for="writer" style="font-weight:bold;">작성자 아이디</label>
+						<input class="form-control" id="wirter" name="wirter">
+					</div>
+					
+					<div class="form-group">
+						<label for="writer" style="font-weight:bold;">내용</label>
+						<textarea class="form-control" id="content" name="content" rows="30" placeholder="내용을 입력해주세요" style="resize: none; height: 380px;" ></textarea>
+					</div>
+				</div>
+				<div>
+					<label for="title" style="margin-top: 30px; font-weight:bold; display: block; ">파일첨부</label>
+					<input name="boardFile" type="file" style="outline: solid 1px #D5D5D5;"/>
+				</div>
+				<div style="padding-top: 25px; padding-bottom: 15px;">
+					<input type="checkbox" class="secretContent" >
+					<label style="font-weight: bold;">비밀글 설정</label>
+				</div>
+				
+				
+				
+				<div class="box-footer">
+					<button type="button" class="btn btn-primary"  onClick="location.href='boardList'"><i class="fa fa-list"></i>목록</button>
+					<div class="pull-right">
+						<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> 저장</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</th:block>
+
+</html>
