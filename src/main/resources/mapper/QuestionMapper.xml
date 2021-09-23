@@ -37,6 +37,46 @@
 			<result property="cateUpdateId" column="update_id"/>
 		</association>
 	</resultMap>
+	<insert id="insertQuestion" parameterType="Questionnaire">
+		INSERT INTO tb_questionnaire
+			(	question_code
+				,question_content
+				,question_add_time
+				,question_add_id
+				,question_update_time
+				,question_update_id
+				,question_cate_code
+			)VALUES(
+				 ''
+				,#{qContent}
+				,NOW()
+				,#{qAddId}
+				,null
+				,null
+				,#{qCateCode}
+			);		 
+	</insert>
+	<delete id="deleteQuestion" parameterType="String">
+		DELETE FROM tb_questionnaire WHERE question_code=#{qCode};
+	</delete>
+	
+	<insert id="addQCate" parameterType="QuestionCate">
+		INSERT INTO tb_question_cate
+			(	question_cate_code
+				,cate_name
+				,add_time
+				,add_id
+				,update_time
+				,update_id
+			)VALUES(
+				 #{cateCode}
+				,#{cateName}
+				,NOW()
+				,#{cateAddId}
+				,null
+				,null
+			);		
+	</insert>
 	
 	<select id="getQuestionList" resultMap="QuestionnaireResultMap" parameterType="String" >
 		SELECT
@@ -50,7 +90,7 @@
 			,c.cate_name
 		FROM
 			tb_questionnaire AS q
-			RIGHT JOIN 
+			INNER JOIN 
 			tb_question_cate AS c
 		ON q.question_cate_code = c.question_cate_code
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
@@ -65,8 +105,11 @@
     <select id="getQuestionCateList" resultMap="questionCateResultMap"> 
 		SELECT 
 			  question_cate_code
-			 ,cate_name			
-			  
+			 ,cate_name
+			 ,add_time
+			 ,add_id
+			 ,update_time
+			 ,update_id			 
 		FROM 
 			tb_question_cate;
 	</select>
