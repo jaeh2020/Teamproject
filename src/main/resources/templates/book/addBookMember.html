@@ -31,9 +31,11 @@
 			                                        	<!--매장명-->
 			                                            <div class="col-md-12">
 			                                                <div class="form-group row">
-			                                                    <label class="control-label text-right col-md-3">매장명</label>
+			                                                    <label class="control-label text-right col-md-3">
+			                                                    	매장명
+			                                                    </label>
 			                                                    <div class="col-md-6">
-			                                                        <input type="text" class="form-control">
+			                                                        <input type="text" class="form-control" th:value="${store.storeName}"  readonly="readonly">   
 			                                                    </div>
 			                                                </div>
 			                                            </div>
@@ -63,8 +65,9 @@
 			                                            <div class="col-md-12">
 			                                                <div class="form-group row">
 			                                                    <label class="control-label text-right col-md-3">연락처</label>
-			                                                    <div class="col-md-9">
+			                                                    <div class="col-md-6">
 			                                                        <input type="text" class="form-control form-control-danger">
+			                                                        <small class="form-control-feedback"> 000-000-0000 형태로 작성 / </small>
 			                                                        <small class="form-control-feedback"> 입력하신 연락처로 알림메세지가 발송됩니다. </small> </div>
 			                                                </div>
 			                                            </div>
@@ -87,7 +90,7 @@
 			                                                            <option value="Category 9">9인</option>
 			                                                            <option value="Category 10">10인 이상</option>
 			                                                        </select>
-			                                                        <small class="form-control-feedback"> 예약하실 인원 수를 선택 해주세요. </small>
+			                                                        <small class="form-control-feedback"> 예약인원 수를 선택 해주세요. </small>
 			                                                    </div>
 			                                                </div>
 			                                            </div>

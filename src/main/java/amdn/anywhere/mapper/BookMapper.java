@@ -9,7 +9,7 @@ import amdn.anywhere.domain.Store;
 @Mapper
 public interface BookMapper {
 	
-	//상점목록 조회
-	public List<Store> getMainList();
+	//상점명 조회
+	public Store getStoreInfoById(String storeName);
 
 }

@@ -149,30 +149,30 @@
 				                                                    </div>
 				                                                    <div class="col-md-12">
 				                                                        	자장면
-																				 <button type="button" class="plus" style="font-size:20px; border:none; background:none;">+</button>
-																				 <input type="number" class="numBox" min="1" max="100" value="1" readonly="readonly" />
-																				 <button type="button" class="minus" style="font-size:20px; border:none; background:none;">-</button>
+																				 <button type="button" class="plus2" style="font-size:20px; border:none; background:none;">+</button>
+																				 <input type="number" class="numBox2" min="1" max="100" value="1" readonly="readonly" />
+																				 <button type="button" class="minus2" style="font-size:20px; border:none; background:none;">-</button>
 																				 
 																				 <script type="text/javascript">
-																				  $(".plus").click(function(){
-																				   var num = $(".numBox").val();
+																				  $(".plus2").click(function(){
+																				   var num = $(".numBox2").val();
 																				   var plusNum = Number(num) + 1;
 																				   
 																				   if(plusNum >= 100) {
-																				    $(".numBox").val(num);
+																				    $(".numBox2").val(num);
 																				   } else {
-																				    $(".numBox").val(plusNum);          
+																				    $(".numBox2").val(plusNum);          
 																				   }
 																				  });
 																				  
-																				  $(".minus").click(function(){
-																				   var num = $(".numBox").val();
+																				  $(".minus2").click(function(){
+																				   var num = $(".numBox2").val();
 																				   var minusNum = Number(num) - 1;
 																				   
 																				   if(minusNum <= 0) {
-																				    $(".numBox").val(num);
+																				    $(".numBox2").val(num);
 																				   } else {
-																				    $(".numBox").val(minusNum);          
+																				    $(".numBox2").val(minusNum);          
 																				   }
 																				  });
 																				 </script>
@@ -182,6 +182,7 @@
 	                                                </div>
 	                                            </div>
 	                                            <!--end 수량선택-->
+	                                            
 	                                            <!--start 요청사항-->
 	                                            <div class="col-md-12">
 	                                                <div class="form-group row">
@@ -192,6 +193,12 @@
 	                                                </div>
 	                                            </div>
 	                                            <!--end 요청사항-->
+	                                            <!-- start 포장여부 -->
+	                                            <div class="col-md-12">
+	                                            <label class="control-label text-right col-md-3">포장여부</label>
+	                                            <input type="checkbox" id="checkboxId1" name="checkboxName"> 체크시 포장으로 주문/예약이 됩니다.
+	                                            </div>
+	                                            <!-- end포장여부 -->
 	                                      </div>
 	                                    </div>
 	                                </form>
