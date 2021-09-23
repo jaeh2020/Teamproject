@@ -9,17 +9,18 @@
 
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
+	
 	<div class="card card-outline-primary" >
 		<div class="col-lg-12">
 			<div class="box box-primary">
 				<div class="card-header" >
-					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 게시글 목록  </h4>
+					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 소비자 게시판 목록  </h4>
 				</div>
 				<div class="box-body" style="padding-top: 20px;">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th style="width: 30px; font-style: italic; font-weight: bold;">#</th>
+								<th style="width: 30px; font-style: italic; font-weight: bold;">NO.</th>
 								<th style="font-weight: bold;">제목</th>
 								<th style="width: 120px; font-weight: bold;">작성자 아이디</th>
 								<th style="width: 150px;  font-weight: bold;">작성시간</th>
@@ -27,8 +28,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:if="${#lists.size(boardList) > 0}" th:each=" b : ${boardList}">
-								<td> # </td>
+							<tr th:if="${boardList ne null and #lists.size(boardList) > 0}" th:each=" b : ${boardList}">
+								<td th:text="${b.boardNum}"></td>
 								<td th:text="${b.boardTitle}"></td>
 								<td th:text="${b.memberId}"></td>
 								<td th:text="${b.boardRegTime}"></td>
@@ -37,11 +38,10 @@
 						</tbody>
 					</table>
 				</div>
+				
 				<div class="box-footer">
 					<div class="pull-right">
-						<button type="button" class="btn btn-success btn-flat" id="writeBtn" style="margin-top: 15px;" onClick="location.href='boardWirte'">
-							<i class="fa fa-pencil"></i> 글쓰기
-						</button>
+						<a th:href="@{/boardWirte}" class="btn btn-success btn-flat"  style="margin-top: 15px;"><i class="fa fa-pencil"></i> 글쓰기</a>
 					</div>
 				</div>
 			</div>

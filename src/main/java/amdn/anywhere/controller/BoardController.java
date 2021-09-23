@@ -35,10 +35,10 @@ private final BoardService boardService;
 	
 	@GetMapping("/boardList")
 	public String boardList(Model model) {
-		/* List<Board> boardList = boardService.getBoardList(); */
+		List<Board> boardList = boardService.getBoardList();
 		
 		model.addAttribute("title", "게시판 목록");
-		/* model.addAttribute("boardList", boardList); */
+		model.addAttribute("boardList", boardList);
 		return "board/boardList";
 	}
 	
@@ -46,6 +46,11 @@ private final BoardService boardService;
 	
 	@GetMapping("/boardWirte")
 	public String reviewList(Model model) {
+		System.out.println("=============================");
+		System.out.println("커맨드 객체 board");
+		System.out.println("=============================");
+		
+		
 		model.addAttribute("title", "게시판 등록");
 		return "board/boardWirte";
 	}
