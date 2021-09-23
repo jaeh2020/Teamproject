@@ -26,59 +26,91 @@
 	                                    <div class="form-body">
 	                                        <hr class="m-t-0 m-b-40">
 	                                        <div class="row">
-	                                        	<!--메뉴선택-->
+	                                        	<!--start 메뉴선택-->
 	                                            <div class="col-md-12">
 	                                                <div class="form-group row">
 	                                                    <label class="control-label text-right col-md-3">메뉴선택</label>
 														  <div class="col-md-6" >	
 															<div class="card-body">
-																<ul class="nav nav-tabs" id="postTab"> 
-																	<li class="nav-item">
-																	<a data-toggle="tab" href="#tab1" class="nav-link active">메인메뉴</a>
-																	</li> 
-																	<li class="nav-item"><a data-toggle="tab" href="#tab2" class="nav-link">사이드메뉴</a>
-																	</li> 
-																</ul> 
-																<div class="tab-content" id="postTabContent" style="padding: 10px;"> 
-																	<div id="tab1" class="tab-pane fade show active">
+																
+																<!-- start메인메뉴 -->
+																<ul class="nav nav-tabs customtab" role="tablist">
+																	<li class="nav-item active"> 
+																		<a class="nav-link " data-toggle="tab" href="#tab1" role="tab">
+																			<span class="hidden-sm-up">
+																			<i class="ti-home"></i>
+																			</span> 
+																			<span class="hidden-xs-down">메인 메뉴</span>
+																		</a> 
+																	</li>
+																	<li class="nav-item"> 
+																		<a class="nav-link" data-toggle="tab" href="#tab2" role="tab">
+																			<span class="hidden-sm-up">
+																			<i class="ti-user"></i>
+																			</span> 
+																			<span class="hidden-xs-down">사이드메뉴</span>
+																		</a> 
+																	</li>
+																</ul>
+																<!-- end메인메뉴 -->
+																
+																<div class="tab-content">
+																
+																	<!-- 메뉴선택 메인메뉴탭 start -->
+																	<div class="tab-pane active" id="tab1" role="tabpanel">
+																		<div class="p-20">
+																			<ul>
+																					<li>
+																						<a href="#">자장면 5000</a>
+																					</li>
+																					<li>
+																						<a href="#">해물짬뽕 8000</a>
+																					</li>
+																					<li>
+																						<a href="#">고기짬뽕 9000</a>
+																					</li>
+																					<li>
+																						<a href="#">탕수육 소 15000</a>
+																					</li>
+																					<li>
+																						<a href="#">탕수육 중 20000</a>
+																					</li>
+																					<li>
+																						<a href="#">탕수육 대 23000</a>
+																					</li>
+																				</ul>
+																		</div>
+																	</div>
+																	<!-- 메뉴선택 메인메뉴탭 end -->
+																	<!-- 메뉴선택 사이드메뉴탭 start-->
+																	<div class="tab-pane  p-20" id="tab2" role="tabpanel">
 																		<ul>
-																			<li>
-																				<a href="#">자장면 5000</a>
-																			</li>
-																			<li>
-																				<a href="#">해물짬뽕 8000</a>
-																			</li>
-																			<li>
-																				<a href="#">고기짬뽕 9000</a>
-																			</li>
-																			<li>
-																				<a href="#">탕수육 소 15000</a>
-																			</li>
-																			<li>
-																				<a href="#">탕수육 중 20000</a>
-																			</li>
-																			<li>
-																				<a href="#">탕수육 대 23000</a>
-																			</li>
+																				<li>
+																					<a href="#">콜라 1500</a>
+																				</li>
+																				<li>
+																					<a href="#">사이다 1500</a>
+																				</li>
+																				<li>
+																					<a href="#">맥주 4000</a>
+																				</li>
+																				<li>
+																					<a href="#">소주 5000</a>
+																				</li>
 																		</ul>
-																		
-																		
-																	</div> 
-																	<div id="tab2" class="tab-pane fade">
-																		<p>콜라</p>
-																		<p>사이다</p>
-																		<p>맥주</p>
-																		<p>소주</p>
-																	</div> 
+																	</div>
+																	<!-- 메뉴선택 사이드메뉴탭 end -->
 																</div>
-															
 																<small class="form-control-feedback"> 원하시는 메뉴를 선택해주세요. </small>
 															</div>
 														</div>
 	                                                </div>
 	                                            </div>
-	                                            <!--/메뉴선택-->
-	                                            <!--수량선택-->
+	                                            <!--end 메뉴선택-->
+	                                            
+	                                            
+	                                            
+	                                            <!--start 수량선택-->
 	                                            <div class="col-md-12">
 	                                                <div class="form-group row">
 	                                                    <label class="control-label text-right col-md-3">수량선택</label>
@@ -145,14 +177,12 @@
 																				  });
 																				 </script>
 				                                                    </div>
-				                                                	<!--/수량선택상세 -->
 																</div>
 															</div>
-	                                                    
 	                                                </div>
 	                                            </div>
-	                                            <!--/요청사항-->
-	                                            <!--요청사항-->
+	                                            <!--end 수량선택-->
+	                                            <!--start 요청사항-->
 	                                            <div class="col-md-12">
 	                                                <div class="form-group row">
 	                                                    <label class="control-label text-right col-md-3">요청사항</label>
@@ -161,8 +191,7 @@
 	                                                    </div>
 	                                                </div>
 	                                            </div>
-	                                            <!--/요청사항-->
-	                                            
+	                                            <!--end 요청사항-->
 	                                      </div>
 	                                    </div>
 	                                </form>
