@@ -74,7 +74,7 @@
 				if(count == 0){
 					count = 1 ;
 					var request = $.ajax({
-						  url: "/selectList", //요청 주소
+						  url: "/survey/selectList", //요청 주소
 						  method: "GET", //요청 방식
 						  dataType: "json" //받아올 포맷방식
 						});	
@@ -105,7 +105,7 @@
 				console.log(this.value);
 				var selected = this.value;
 				var request = $.ajax({
-					  url: "/questionList", //요청 주소
+					  url: "/survey/questionList", //요청 주소
 					  method: "GET", //요청 방식
 					  data: { cateCode : selected },
 					  dataType: "json" //받아올 포맷방식
@@ -174,7 +174,7 @@
 					insertList.push(newQ.eq(i).text());
 				}
 				console.log(insertList);
-				location.href='/saveList?qDeleteList='+ deleteList + '&qInsertList='+ insertList + '&qCateCode='+cateCode + '&qCode='+qCode;	
+				location.href='/survey/saveList?qDeleteList='+ deleteList + '&qInsertList='+ insertList + '&qCateCode='+cateCode + '&qCode='+qCode;	
 			});
 		});
 		

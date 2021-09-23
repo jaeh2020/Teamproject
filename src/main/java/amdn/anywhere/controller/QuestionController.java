@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,13 +20,28 @@ import amdn.anywhere.domain.Questionnaire;
 import amdn.anywhere.service.QuestionService;
 
 @Controller
+@RequestMapping("/survey")
 public class QuestionController{
 	private QuestionService questionService;
 	
 	public QuestionController(QuestionService questionService){
 		this.questionService = questionService;
 	}
-	//6. 삭제리스트, 추가리스트 있는 문항 삭제/추가하기
+	//7. 항목 삭제버튼
+	@GetMapping("/deleteQCate")
+	public String deleteQCate(
+			@RequestParam(name="cateCode", required = false) String cateCode
+			,@RequestParam(name="cateName", required = false) String cateName) {
+		System.out.println(cateCode);
+		System.out.println(cateName);
+		questionService.deleteQCate(cateCode, cateName);
+		
+		return "redirect:/survey/questionManage";
+				
+	}
+	
+	
+	//6. 삭제리스트, 추가리스트 있는 문항 삭제/추가하기(미완성)
 	@GetMapping("/saveList")
 	public String saveQuestion(
 			@RequestParam(name="qDeleteList", required = false) List<String> qDeleteList
@@ -47,7 +63,7 @@ public class QuestionController{
 		questionService.insertQuestion(paramMap);
 		questionService.deleteQuestion(qDeleteList);
 		
-		return "question/updateQuestion";
+		return "redirect:/survey/questionManage";
 	}
 	//5. 항목 추가하기
 	@PostMapping("/addQCate")
@@ -63,8 +79,8 @@ public class QuestionController{
 		qCate.setCateName(newCateName);
 		qCate.setCateAddId((String)session.getAttribute("SID"));
 		System.out.println(qCate + "<<<<<<<<<<<qCate QuestionController.java");
-		questionService.addQCate(qCate);
-		return "redirect:/questionCate";
+		questionService.addQCate(qCate); 
+		return "redirect:/survey/questionManage";
 	}
 	
 	//4. question List 가져오기 - ajax
@@ -93,10 +109,10 @@ public class QuestionController{
 	public String updateQuestions(Model model) {
 		System.out.println("updateQuestions.QuestionController.java");
 		model.addAttribute("title", "설문조사 항목추가");
-		return "question/updateQuestion";
+		return "/survey/updateQuestion";
 	}
 	//1. 항목 리스트 
-	@GetMapping("/questionCate")
+	@GetMapping("/questionManage")
 	public String getQuestionCate(Model model) {
 		System.out.println("----1------QuestionController");
 		List<QuestionCate> cateList = questionService.getQuestionCateList();
@@ -105,7 +121,7 @@ public class QuestionController{
 		model.addAttribute("location", "항목 관리");
 		model.addAttribute("cateList", cateList);
 		
-		return "question/cateInfo";
+		return "/survey/questionManage";
 	} 
 }
 

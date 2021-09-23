@@ -37,6 +37,10 @@
 			<result property="cateUpdateId" column="update_id"/>
 		</association>
 	</resultMap>
+	<delete id="deleteQCate" parameterType="String">
+		DELETE FROM tb_question_cate WHERE question_cate_code=#{cateCode};
+	</delete>
+	
 	<insert id="insertQuestion" parameterType="Questionnaire">
 		INSERT INTO tb_questionnaire
 			(	question_code
