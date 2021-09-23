@@ -4,12 +4,49 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="amdn.anywhere.mapper.BoardMapper">
 
-<select id="getBoardList" resultType="Board">
+<resultMap type="Board" id="borderMap">
+	<result property="boardNum"		column="board_num"></result>
+	<result property="boardTitle"		column="board_title"></result>
+	<result property="memberId"		column="member_id"></result>
+	<result property="boardRegTime"	column="board_time"></result>
+	<result property="boardViews"		column="board_views"></result>
+</resultMap>
+	
+
+
+<insert id="boardWirte" parameterType="Board">
+	INSERT INTO tb_board_management
+	(board_num
+	, b_cate_code
+	, board_title
+	, board_contents
+	, board_file_attach
+	, board_secret
+	, board_time
+	, board_views
+	, member_id
+	, state_code)
+	VALUES (
+	  #{boardNum}
+	, #{boardCateCode}
+	, #{boardTitle}
+	, #{boardContents}
+	, #{boardFile}
+	, #{boardSecret}
+	, NOW()
+	, #{boardViews}
+	, #{memberId}
+	, #{stateCode})
+</insert>
+
+
+<select id="getBoardList" resultMap="borderMap">
 	SELECT 
-		board_title AS boardTilte
-		,member_id AS memberId
-		,board_time AS boardRegTime
-		,board_views AS boardViews
+		board_num 
+		,board_title 
+		,member_id
+		,board_time 
+		,board_views 
 	FROM 
 		tb_board_management;
 </select>
