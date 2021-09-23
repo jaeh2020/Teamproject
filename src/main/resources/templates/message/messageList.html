@@ -74,7 +74,8 @@
 							</div>
 						</div>
 						<div class="col-lg-1">
-							<button type="button" class="btn btn-primary btn-flat m-b-10"><i class="ti-settings"></i></button>
+							<!-- 버튼에 링크 -->
+							<a th:href="@{/messageCheck}" class="btn btn-primary btn-flat m-b-10"><i class="ti-settings"></i></a>
 						</div>
 					</div>
 					<div class="row">
@@ -121,21 +122,17 @@
 								<th>주소</th>
 								<th>이메일</th>
 								<th>등록일자</th>
-								<th>수정</th>
-								<th>삭제</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="l : ${messageList}">
 								<td th:text="${l.messageNum}"></td>
-								<td th:text="${l.messageCheckCode}"></td>
 								<td th:text="${l.storeCode}"></td>
 								<td th:text="${l.memberId}"></td>
 								<td th:text="${l.messageCode}"></td>
 								<td th:text="${l.messageNoticeTime}"></td>
 								<td th:text="${l.messageReadTime}"></td>
 								<td th:text="${l.messageMark}"></td>
-								<td>삭제</td>
 							</tr>
 						</tbody>
 					</table>
