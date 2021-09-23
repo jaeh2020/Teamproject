@@ -9,6 +9,6 @@ import amdn.anywhere.domain.Message;
 @Mapper
 public interface MessageMapper {
 
-	//알림 목록 조회
+	//받은 알림메시지 조회
 	public List<Message> getMessageList();
 }
