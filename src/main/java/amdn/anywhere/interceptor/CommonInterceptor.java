@@ -35,7 +35,9 @@ public class CommonInterceptor implements HandlerInterceptor{
 		
 		HandlerMethod handlerObj = (HandlerMethod) handler;
 		
+
 		request.getSession().setAttribute("SID", "id010");
+
 		
 		Set<String> paramKeySet = request.getParameterMap().keySet();
 		

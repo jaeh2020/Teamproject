@@ -22,6 +22,11 @@ public class BoardService {
 	 }
 	  
 	  
+	 
+	  public String getNewBoardNum() {
+		  return boardMapper.getNewBoardNum();
+	  }
+	  
 	  public int boardWrite(Board board) {
 		  return boardMapper.boardWrite(board);
 	  }

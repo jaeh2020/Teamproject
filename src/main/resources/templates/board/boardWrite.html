@@ -11,19 +11,23 @@
 <th:block layout:fragment="customContents">
 	<div class="card card-outline-primary" >
 		<div class="col-lg-12">
-			<form th:action="@{/boardWrite}" role="form" id="wirteForm" method="post">
+			<form th:action="@{/boardWrite}" role="form" id="writeForm" method="post">
 				<div class="card-header" >
 					<h4 class="m-b-0 text-white" ><i class="fa fa-pencil"></i>  게시글 작성</h4>
 				</div>
 				<div class="box-body">
 					<div class="form-group">
+						<input type="hidden" name="boardNum" th:value="${boardNum}" readonly="readonly">
+						<input type="hidden" name="boardViews" id="boardViews" value="0">
+						<input type="hidden" name="boardCateCode" id="boardCateCode" value="u_qa">
+						<input type="hidden" name="stateCode" id="stateCode" value="state_board_com">
 						<label for="title" style="margin-top: 30px; font-weight:bold; ">제목</label>
-						<input class="form-control" id="title" name="title" placeholder="제목을 입력해주세요">
+						<input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해주세요">
 					</div>
 					
 					<div class="form-group">
 						<label for="writer" style="font-weight:bold;">작성자 아이디</label>
-						<input class="form-control" id="wirter" name="wirter">
+						<input type="text" class="form-control" id="writer" name="writer">
 					</div>
 					
 					<div class="form-group">
@@ -34,16 +38,16 @@
 				<!-- 첨부파일 -->
 				<form action="post" class="dropzone">
 						<div class="fallback">
-							<input name="file" type="file" multiple="">
+							<input name="file" type="file">
 						</div>
 				</form>
 				<div style="padding-top: 25px; padding-bottom: 15px;">
-					<input type="checkbox" class="secretContent" >
+					<input type="checkbox" class="secretContent" value="0" >
 					<label style="font-weight: bold;">비밀글 설정</label>
 				</div>
 				
 				<div class="box-footer">
-					<button type="button" class="btn btn-primary"  onClick="location.href='boardList'"><i class="fa fa-list"></i>목록</button>
+					<a th:href="@{/boardList}" class="btn btn-primary"  ><i class="fa fa-list"></i>목록</a>
 					<div class="pull-right">
 						<button type="submit" class="btn btn-success" onclick="mySubmit1()"><i class="fa fa-save"></i> 저장</button>
 					</div>
@@ -53,16 +57,16 @@
 	</div>
 	<script type="text/javascript">
 		function mySubmit1() {
-			var form = wirteForm;
+			var form = writeForm;
 
 			if(form.title.value == ''){
 				alert('제목을 입력해주세요')
 				form.title.focus();
 				return false;
 			}
-			if(form.wirter.value == ''){
+			if(form.writer.value == ''){
 				alert('작성자 명을 입력해주세요')
-				form.wirter.focus();
+				form.writer.focus();
 				return false;
 			}
 			if (form.content.value == '') {
@@ -70,7 +74,6 @@
 				form.content.focus();
 				return false;
 			}
-			form.action = '/boardList';
 			alert('게시글 작성완료!')
 			form.submit();
 		}

@@ -11,12 +11,13 @@
 <th:block layout:fragment="customContents">
 	
 	<div class="card card-outline-primary" >
+	
 		<div class="col-lg-12">
 			<div class="box box-primary">
 				<div class="card-header" >
 					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 소비자 게시판 목록  </h4>
 				</div>
-				<div class="box-body" style="padding-top: 20px;">
+				<div class="box-body" style="padding-top: 20px;" >
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -27,7 +28,7 @@
 								<th style="width: 60px; font-weight: bold;">조회</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="boardListMore">
 							<tr th:if="${boardList ne null and #lists.size(boardList) > 0}" th:each=" b : ${boardList}">
 								<td th:text="${b.boardNum}"></td>
 								<td th:text="${b.boardTitle}"></td>
@@ -39,14 +40,43 @@
 					</table>
 				</div>
 				
+				<div class="more-btn">
+					<button id="moreBtn" class="btn btn-primary btn-block m-b-10" style="font-weight: bold; color: black; margin-top: 10px; background-color: white;">더보기(More)</button>
+				</div>
+				
 				<div class="box-footer">
 					<div class="pull-right">
-						<a th:href="@{/boardWirte}" class="btn btn-success btn-flat"  style="margin-top: 15px;"><i class="fa fa-pencil"></i> 글쓰기</a>
+						<a th:href="@{/boardWrite}" class="btn btn-success btn-flat"  style="margin-top: 15px;"><i class="fa fa-pencil"></i> 글쓰기</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </th:block>
+<script type="text/javascript">
+$(function(){
+	$('#moreBtn').click(function(){
+		var request = $.ajax({ // 수정해야함
+			  url: "/boardList", //요청 주소
+			  method: "POST", //요청 방식
+			  data: {"boardList", boardList}, //전달할 파라미터
+			  dataType: "json" // 받아올 포맷방식
+			});
+			
+		    //응답이 완료 되었을 경우 실행 : 수정해야함
+		    //콜백함수 함수를 호출하면 서버에서 json에 들어있는 데이터를 긁어 자바스크립트로 파싱하여 들어온다.
+			request.done(function( data ) {
+			  console.log(data);
+			  
+			});
+			//응답에 실패 혹은 에러 발생 시 실행  : 수정할 필요없음
+			request.fail(function( jqXHR, textStatus ) {
+			  alert( "Request failed: " + textStatus );
+			});
+	});
+});
+</script>
+
+
 
 </html>
