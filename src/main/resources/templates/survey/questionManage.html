@@ -5,6 +5,7 @@
 
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
+
 </th:block>
 
 <!-- contents layout:fragment 정의 -->
@@ -12,9 +13,9 @@
  		
 	   <div class="row">
 		  	<div class="col-lg-6">
-	            <div class="card">
-	                <div class="card-title" >
-	                    <h4 >설문조사 항목</h4> 
+	            <div class="card card-outline-success">
+	                <div class="card-header">
+	                    <h4 class="TBMargin m-b-0 text-white">설문조사 항목</h4> 
 	                </div>
 	                <div class="card-body">
 	                    <div class="table-responsive">
@@ -32,13 +33,13 @@
 	                            <tbody>
 	                                <tr th:each="l : ${cateList}">
 	                                    <td th:text="${lStat.count}"></td>
-	                                    <td class="cateName" th:text="${l.cateCode}"></td>
+	                                    <td class="cateCode" th:text="${l.cateCode}"></td>
 	                                    <td class="cateName" th:text="${l.cateName}"></td>
 	                                    <td>
-	                                    	<button type="button" class="btn btn-primary btn-rounded btn-addon m-b-10 m-l-5"><a th:href="@{#}"><i class="ti-pencil"></i></a></button>
+	                                    	<button type="button" class="viewModify btn btn-default btn-rounded btn-addon m-b-10 m-l-5"><i class="ti-pencil"></i></button>
 	                                    </td>
 	                                    <td>
-	                                    	<button type="button" class="deleteCateBtn btn btn-danger btn-rounded btn-addon m-b-10 m-l-5"><a th:href="@{/survey/deleteQCate(cateCode=${l.cateCode},cateName=${l.cateName})}"><i class="ti-minus"></i></a></button>
+	                                    	<a class="deleteCateBtn btn btn-danger btn-rounded btn-addon m-b-10 m-l-5" th:href="@{/survey/deleteQCate(cateCode=${l.cateCode},cateName=${l.cateName})}"><i class="ti-minus text-white"></i></a>
 	                                   	</td>
 	                                    <td th:id="${l.cateCode}">
 	                                    	<button type="button" class="viewQ btn btn-dark btn-outline btn-rounded m-b-10 m-l-5"><i class="ti-search"></i></button>
@@ -47,40 +48,63 @@
 	                            </tbody>
 	                        </table>
 	                    </div>
-	                    <form method="post" th:action="@{/survey/addQCate}">  
-	                    	 <p>새 항목을 추가하려면 <code>항목코드</code>와 <code>항목명</code>을 입력하세요</p>            
-	                         <div class="form-group">
-	                               <div class="input-group input-group-flat">
-	                                   <input type="text" placeholder="항목코드를 입력하세요" name="newCateCode" class="form-control input-focus">
-	                                   <input type="text" placeholder="항목명을 입력하세요" name="newCateName" class="form-control input-focus">
-	                                   <span class="input-group-btn"><button class="btn btn-primary btn-group-right " type="button" id="addCateBtn"><i class="ti-plus"></i>항목 추가</button></span>
-	                               </div>
-	                           </div>
-                         </form>                    
+	                    <form method="post" th:action="@{/survey/addQCate}"> 
+							 <strong class="text-success alert-heading">새 항목을 추가하려면 <code >항목코드</code>와 <code>항목명</code>을 입력하세요</strong>            
+	                         <div class="row alert">
+	                         	<div class="col-md-6">
+			                         <div class="form-group has-success">
+			                         	<label><strong>항목코드</strong></label>
+		                             	<div class="input-group input-group-flat">
+		                               	   		<input type="text" name="defaultCode" value="q_cate_" class="form-control" readonly="readonly">
+		                                  		<input type="text" placeholder="항목코드" name="newCateCode" class="form-control input-focus">
+		                                </div>
+			                         </div>
+			                         <label class="text-default">항목코드는 영문자 5글자 이내로 입력해주세요.</label>
+		                         </div>
+		                         <div class="col-md-6">
+			                         <div class="form-group has-success">
+			                         	<label><strong>항목명</strong></label>
+		                             	<div class="input-group input-group-flat">
+		                                   <input type="text" placeholder="항목명" name="newCateName" class="form-control input-focus">
+		                                   <span class="input-group-btn"><button class="btn btn-success btn-group-right " type="button" id="addCateBtn"><i class="ti-plus"></i>항목 추가</button></span>
+		                                </div>
+			                         </div>
+		                         </div>
+		                         
+	                         </div>
+                         </form>              
 	                </div>
 	            </div>
 	            <!-- /# card -->
 	        </div>
 	        <div class="col-lg-6">
-		        <div class="card">
-		        	<div class="card-title">
-	                    <h4>문항 목록</h4> 
-		                    <div class="card-body">
-			                     <button type="button" class=" btn btn-default btn-rounded btn-addon m-b-10 m-l-5">
-				                		<a th:href="@{/survey/updateQuestions}"><i class="ti-pencil"></i>수정하기</a>
-				                </button>
-		                     	 <div class="table-responsive">
-		                       		 <table class="table table-hover ">
-		                            	<thead>
-		                                	 	<th>번호</th>
-			                                    <th>문항 내용</th>
-		                                </thead>
-		                                <tbody id="questionList">
-		                                </tbody>
-		                              </table>
-		                         </div>
-		                    </div>
-	                 </div>
+		        <div class="card card-outline-success">
+		        	<div class="card-header">
+
+		        		<div class="row">
+		        			<div class="col-md-9">
+	                  			  <h4 class="pushMargin m-b-0 text-white ">문항 목록</h4>
+                  			 </div>
+	                   		 <div class="col-md-3">
+		                    	<button type="button" class="btn btn-default btn-rounded btn-group-right btn-addon m-b-10 m-l-5 noMargin">
+	                				<a th:href="@{/survey/updateQuestions}"><i class="ti-pencil"></i>수정하기</a>
+				            	</button> 
+			           		 </div>
+			            </div>
+			           
+	                </div>
+                    <div class="card-body">
+	                     <div class="table-responsive">
+                       		 <table class="table table-hover ">
+                            	<thead>
+                                	 	<th>번호</th>
+	                                    <th>문항 내용</th>
+                                </thead>
+                                <tbody id="questionList">
+                                </tbody>
+                              </table>
+                         </div>
+                    </div>
 		        </div>
 	        </div>
         </div>
@@ -89,7 +113,113 @@
 
 <th:block layout:fragment="customJsLib">
 	<script type="text/javascript">
+	var eng = RegExp(/[^a-zA-Z]/);
 	
+	/*항목 삭제 버튼*/
+	$(function(){
+		$('.deleteCateBtn').click(function(){
+			var result = confirm('해당 항목에 해당되는 문항들도 모두 삭제됩니다. 삭제하시겠습니까?');
+			if(result){
+				return true;
+			}else{
+				return false;
+			}
+		});
+	});
+	
+	/*수정 버튼 이벤트*/
+	function viewModifyFn(){
+		var parentTd = $(this).parent();
+		var tdCateCode = parentTd.parent().find('.cateCode'); 
+		var tdCateName = parentTd.parent().find('.cateName');
+		var oldCateName = tdCateName.text();
+		var oldCateCode = tdCateCode.text();
+		
+		var newBtns = '<div class="btn-group">'
+					+ '<button type="button" class="btn btn-success newSaveBtn">저장</button>'
+					+ '<button type="button" class="btn btn-default newCancelBtn">취소</button></div>';		
+		var inputCateCode ='<div class="input-group input-group-flat newInputMargin"><input type="text" readonly="readonly" value="q_cate_" class="form-control newInputXSmall" ><input type="text" name="updateCateCode" placeholder="' + tdCateCode.text().substr(7) +'" class="form-control newInputSmall"></div>'
+		var inputCateName ='<input type="text" name="updateCateName" placeholder="' + tdCateName.text() +'" class="form-control newInputSmall">';
+		
+		tdCateCode.html(inputCateCode);
+		tdCateName.html(inputCateName);
+		parentTd.html(newBtns);
+		
+		//취소버튼 이벤트
+		$('.newCancelBtn').click(function(){
+			tdCateCode.html('');
+			tdCateName.html('');
+			tdCateCode.text(oldCateCode);
+			tdCateName.text(oldCateName);
+			parentTd.html('<button type="button" class="viewModify btn btn-default btn-rounded btn-addon m-b-10 m-l-5"><i class="ti-pencil"></i></button>');
+			
+			$('.viewModify').click(viewModifyFn);
+		});
+		//저장버튼 이벤트
+		$('.newSaveBtn').click(function(){
+			var newCateCode = tdCateCode.children().children('[name=updateCateCode]');
+			var newCateName = tdCateName.children();
+			
+			//유효성 검사
+			if(newCateCode.val().trim() == ''){
+				alert('항목코드를 작성해주세요.');
+				newCateCode.focus();
+				return;
+			}
+			if(newCateName.val().trim() == ''){
+				alert('항목명을 작성해주세요.');
+				newCateName.focus();
+				return;
+			}
+			if(('q_cate_'+ newCateCode.val()) == oldCateCode && newCateName.val() == oldCateName){
+				alert('값이 변경되지 않았습니다.');
+				return;
+			}
+			if(eng.test(newCateCode.val())){
+				alert('항목코드는 영문만 가능합니다.');
+				newCateCode.focus();
+				return;
+			}
+			if(newCateCode.val().length >5){
+				alert('항목코드는 다섯 자 이내로 작성해주세요.');
+				newCateCode.focus();
+				return;
+			}
+			if(newCateName.val().length >5){
+				alert('항목명은 열 자 이내로 작성해주세요.');
+				newCateName.focus();
+				return;
+			}
+				
+			var request =  $.ajax({
+				  url: "/survey/modifyCate", //요청 주소
+				  method: "GET", //요청 방식
+				  data: { oldCode : oldCateCode
+					  	 , newCode : 'q_cate_' + newCateCode.val()
+					  	 , newName : newCateName.val()},
+				  dataType: "json" //받아올 포맷방식
+				});	 
+			request.done(function(data){				
+
+				tdCateCode.text(data.newCateCode);
+				tdCateName.text(data.newCateName);
+				
+				parentTd.html('<button type="button" class="viewModify btn btn-default btn-rounded btn-addon m-b-10 m-l-5"><i class="ti-pencil"></i></button>');
+				
+				$('.viewModify').click(viewModifyFn);
+			});
+			request.fail(function( jqXHR, textStatus){
+				 alert( "Request failed: " + textStatus );
+			});
+			
+		});
+		
+	}
+	/* 수정버튼 클릭시 이벤트 발동 */
+		$(function(){
+			$('.viewModify').click(viewModifyFn);
+		});
+
 	/*문항 목록 가져오기*/	
 		
 		$(function(){
@@ -105,50 +235,59 @@
 				request.done(function(data){
 					var tbody= '';
 					var length = data.length;
-					for(var i= 0; i<length; i++){
-						tbody += '<tr><td>' + (i+1) + '</td><td>' + data[i].qContent + '</td></tr>';  
+					if(length > 0){
+						for(var i= 0; i<length; i++){
+							tbody += '<tr><td>' + (i+1) + '</td><td>' + data[i].qContent + '</td></tr>';  
+						}
+					}if(length == 0){
+						tbody += '<tr><td colspan="2">등록된 문항이 없습니다.</td></tr>';
 					}
+					
 					$('#questionList').html(tbody);	
+				
 				});
 				request.fail(function( jqXHR, textStatus){
 					 alert( "Request failed: " + textStatus );
 				});
 			});
 		});
+	
 	/*항목 추가하기*/
-	$(function(){
-		$('#addCateBtn').click(function(){
-			
-			var newCode = $('[name=newCateCode]');
-			var newName = $('[name=newCateName]');
-			console.log(newCode,newName);
-			//유효성검사
-			if(newCode.val().trim() ==''){
-				alert('항목코드를 입력해주세요');
-				newCode.focus();
-				return;
-			}
-			if(newName.val().trim() ==''){
-				alert('항목명을 입력해주세요');
-				newName.focus();
-				return;
-			}
-		$('form').submit();
-			
-			
+	
+		$(function(){
+			$('#addCateBtn').click(function(){
+				var newCode = $('[name=newCateCode]');
+				var newName = $('[name=newCateName]');
+				
+				//유효성검사
+				if(newCode.val().trim() ==''){
+					alert('항목코드를 입력해주세요');
+					newCode.focus();
+					return;
+				}else if(newName.val().trim() ==''){
+					alert('항목명을 입력해주세요');
+					newName.focus();
+					return;
+				}else if(eng.test(newCode.val().trim())){
+					alert('항목코드는 영문만 가능합니다.');
+					newCode.focus();
+					return;
+				}
+				if(newCode.val().length >5){
+					alert('항목코드는 다섯 자 이내로 작성해주세요.');
+					newCode.focus();
+					return;
+				}
+				if(newName.val().length >10){
+					alert('항목명은 열 자 이내로 작성해주세요.');
+					newName.focus();
+					return;
+				}
+			$('form').submit();	
+			});
 		});
-	});
-	/*항목 삭제 버튼*/
-	$(function(){
-		$('.deleteCateBtn').click(function(){
-			var result = confirm('해당 항목에 해당되는 문항들도 모두 삭제됩니다. 삭제하시겠습니까?');
-			if(result){
-				return true;
-			}else {
-				return false;
-			}
-		});
-	});
+	
+
 	
 
 	</script>

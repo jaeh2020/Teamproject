@@ -27,6 +27,28 @@ public class QuestionController{
 	public QuestionController(QuestionService questionService){
 		this.questionService = questionService;
 	}
+	//8. 항목 수정버튼
+	@GetMapping(value="modifyCate", produces = "application/json")
+	@ResponseBody
+	public Map<String, Object> modifyCate(
+			 @RequestParam(value="oldCode", required = false) String oldCode
+		    ,@RequestParam(value="newCode", required = false) String newCode
+			,@RequestParam(value="newName", required = false) String newName
+			,HttpSession session){
+		System.out.println(oldCode + newCode + newName);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("oldCode", oldCode);
+		paramMap.put("newCode", newCode);
+		paramMap.put("newName", newName);
+		paramMap.put("updateId", session.getAttribute("SID"));
+		questionService.modifyQCate(paramMap);
+		QuestionCate qCate=questionService.selectQCate(newCode);
+		paramMap.clear();
+		paramMap.put("newCateCode", qCate.getCateCode());
+		paramMap.put("newCateName", qCate.getCateName());
+		
+		return paramMap;
+	}
 	//7. 항목 삭제버튼
 	@GetMapping("/deleteQCate")
 	public String deleteQCate(
@@ -52,9 +74,7 @@ public class QuestionController{
 		System.out.println(qDeleteList + "<<<<<qDeleteList saveQuestion QuestionController.java");
 		System.out.println(qInsertList + "<<<<<qInsertList saveQuestion QuestionController.java");
 		System.out.println(qCateCode + "<<<<<qCateCode saveQuestion QuestionController.java");
-		//세션 아이디 가정
-		session.setAttribute("SID", "id001");
-		
+
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("qInsertList", qInsertList);
 		paramMap.put("qCateCode", qCateCode);
@@ -70,12 +90,12 @@ public class QuestionController{
 	public String addQCate(
 					@RequestParam(name="newCateCode", required = false)String newCateCode
 					, @RequestParam(name="newCateName", required = false)String newCateName
+					, @RequestParam(name="defaultCode", required = false)String defaultCode
 					, HttpSession session) {
 			
 		//세션 아이디 가정
-		session.setAttribute("SID", "id001");
 		QuestionCate qCate = new QuestionCate();
-		qCate.setCateCode(newCateCode);
+		qCate.setCateCode(defaultCode + newCateCode);
 		qCate.setCateName(newCateName);
 		qCate.setCateAddId((String)session.getAttribute("SID"));
 		System.out.println(qCate + "<<<<<<<<<<<qCate QuestionController.java");
