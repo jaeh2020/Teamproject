@@ -12,6 +12,9 @@ public interface BoardMapper {
 	//게시판 등록
 	public int boardWrite(Board board);
 	
+	//게시판 번호 증가코드
+	public String getNewBoardNum();
+	
 	//게시판 목록
 	 public List<Board> getBoardList();
 	 
