@@ -12,22 +12,22 @@
 <th:block layout:fragment="customContents">
  		
 	   <div class="row">
-		  	<div class="col-lg-6">
+		  	<div class="col-lg-7">
 	            <div class="card card-outline-success">
 	                <div class="card-header">
 	                    <h4 class="TBMargin m-b-0 text-white">설문조사 항목</h4> 
 	                </div>
 	                <div class="card-body">
 	                    <div class="table-responsive">
-	                        <table class="table table-hover ">
+	                        <table class="table table-hover QcateTable">
 	                            <thead>
 	                                <tr>
-	                                    <th>번호</th>
+	                                    <th class="xSmallTh">번호</th>
 	                                    <th>항목코드</th>
 	                                    <th>항목명</th>
 	                                    <th>항목수정</th>
-	                                    <th>항목삭제</th>
-	                                    <th>문항보기</th>
+	                                    <th class="smallTh">항목삭제</th>
+	                                    <th class="smallTh">문항보기</th>
 	                                </tr>
 	                            </thead>
 	                            <tbody>
@@ -36,68 +36,60 @@
 	                                    <td class="cateCode" th:text="${l.cateCode}"></td>
 	                                    <td class="cateName" th:text="${l.cateName}"></td>
 	                                    <td>
-	                                    	<button type="button" class="viewModify btn btn-default btn-rounded btn-addon m-b-10 m-l-5"><i class="ti-pencil"></i></button>
+	                                    	<button type="button" class="viewModify btn btn-dark btn-outline btn-rounded btn-addon m-b-10 m-l-5"><i class="ti-pencil"></i></button>
 	                                    </td>
 	                                    <td>
 	                                    	<a class="deleteCateBtn btn btn-danger btn-rounded btn-addon m-b-10 m-l-5" th:href="@{/survey/deleteQCate(cateCode=${l.cateCode},cateName=${l.cateName})}"><i class="ti-minus text-white"></i></a>
 	                                   	</td>
 	                                    <td th:id="${l.cateCode}">
-	                                    	<button type="button" class="viewQ btn btn-dark btn-outline btn-rounded m-b-10 m-l-5"><i class="ti-search"></i></button>
+	                                    	<button type="button" class="viewQ btn btn-primary btn-outline btn-rounded m-b-10 m-l-5"><i class="ti-search text-white"></i></button>
 	                                    </td>
 	                                </tr>
 	                            </tbody>
 	                        </table>
 	                    </div>
+						<p class="text-muted m-b-15 f-m-12">항목을 추가하려면 아래에 <code> 항목코드 </code>와  <code> 항목명 </code>을 입력하세요.</p>            
 	                    <form method="post" th:action="@{/survey/addQCate}"> 
-							 <strong class="text-success alert-heading">새 항목을 추가하려면 <code >항목코드</code>와 <code>항목명</code>을 입력하세요</strong>            
-	                         <div class="row alert">
+	                         <div class="row">
 	                         	<div class="col-md-6">
 			                         <div class="form-group has-success">
-			                         	<label><strong>항목코드</strong></label>
 		                             	<div class="input-group input-group-flat">
-		                               	   		<input type="text" name="defaultCode" value="q_cate_" class="form-control" readonly="readonly">
-		                                  		<input type="text" placeholder="항목코드" name="newCateCode" class="form-control input-focus">
+	                               	   		<input type="text" name="defaultCode" value="q_cate_" class="form-control" readonly="readonly">
+	                                  		<input type="text" placeholder="항목코드" name="newCateCode" class="form-control input-focus">
 		                                </div>
 			                         </div>
-			                         <label class="text-default">항목코드는 영문자 5글자 이내로 입력해주세요.</label>
 		                         </div>
 		                         <div class="col-md-6">
 			                         <div class="form-group has-success">
-			                         	<label><strong>항목명</strong></label>
 		                             	<div class="input-group input-group-flat">
 		                                   <input type="text" placeholder="항목명" name="newCateName" class="form-control input-focus">
 		                                   <span class="input-group-btn"><button class="btn btn-success btn-group-right " type="button" id="addCateBtn"><i class="ti-plus"></i>항목 추가</button></span>
 		                                </div>
 			                         </div>
 		                         </div>
-		                         
 	                         </div>
                          </form>              
 	                </div>
 	            </div>
 	            <!-- /# card -->
 	        </div>
-	        <div class="col-lg-6">
+	        <div class="col-lg-5">
 		        <div class="card card-outline-success">
 		        	<div class="card-header">
-
 		        		<div class="row">
-		        			<div class="col-md-9">
+		        			<div class="col-sm-8">
 	                  			  <h4 class="pushMargin m-b-0 text-white ">문항 목록</h4>
                   			 </div>
-	                   		 <div class="col-md-3">
-		                    	<button type="button" class="btn btn-default btn-rounded btn-group-right btn-addon m-b-10 m-l-5 noMargin">
-	                				<a th:href="@{/survey/updateQuestions}"><i class="ti-pencil"></i>수정하기</a>
-				            	</button> 
+	                   		 <div class="col-sm-4">
+	                				<a th:href="@{/survey/updateQuestions}" class="btn btn-primary btn-outline btn-rounded  m-b-10 m-l-5 noMargin text-white"><i class="ti-pencil"></i>수정하기</a>
 			           		 </div>
-			            </div>
-			           
+			            </div>           
 	                </div>
                     <div class="card-body">
 	                     <div class="table-responsive">
-                       		 <table class="table table-hover ">
+                       		 <table class="table table-hover QcateTable">
                             	<thead>
-                                	 	<th>번호</th>
+                                	 	<th class="xSmallTh">번호</th>
 	                                    <th>문항 내용</th>
                                 </thead>
                                 <tbody id="questionList">
@@ -138,8 +130,8 @@
 		var newBtns = '<div class="btn-group">'
 					+ '<button type="button" class="btn btn-success newSaveBtn">저장</button>'
 					+ '<button type="button" class="btn btn-default newCancelBtn">취소</button></div>';		
-		var inputCateCode ='<div class="input-group input-group-flat newInputMargin"><input type="text" readonly="readonly" value="q_cate_" class="form-control newInputXSmall" ><input type="text" name="updateCateCode" placeholder="' + tdCateCode.text().substr(7) +'" class="form-control newInputSmall"></div>'
-		var inputCateName ='<input type="text" name="updateCateName" placeholder="' + tdCateName.text() +'" class="form-control newInputSmall">';
+		var inputCateCode ='<div class="input-group input-group-flat newInputMargin"><input type="text" readonly="readonly" value="q_cate_" class="form-control newInputXSmall" ><input type="text" name="updateCateCode" placeholder="' + tdCateCode.text().substr(7) +'" class="form-control newInputSmall input-focus2"></div>'
+		var inputCateName ='<input type="text" name="updateCateName" placeholder="' + tdCateName.text() +'" class="form-control newInputSmall input-focus2">';
 		
 		tdCateCode.html(inputCateCode);
 		tdCateName.html(inputCateName);
@@ -151,7 +143,7 @@
 			tdCateName.html('');
 			tdCateCode.text(oldCateCode);
 			tdCateName.text(oldCateName);
-			parentTd.html('<button type="button" class="viewModify btn btn-default btn-rounded btn-addon m-b-10 m-l-5"><i class="ti-pencil"></i></button>');
+			parentTd.html('<button type="button" class="viewModify btn btn-dark btn-outline btn-rounded btn-addon m-b-10 m-l-5"><i class="ti-pencil"></i></button>');
 			
 			$('.viewModify').click(viewModifyFn);
 		});
