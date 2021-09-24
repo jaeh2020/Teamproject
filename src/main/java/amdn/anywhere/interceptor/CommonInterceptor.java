@@ -5,6 +5,7 @@ import java.util.StringJoiner;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import amdn.anywhere.domain.Message;
 
 @Component
 public class CommonInterceptor implements HandlerInterceptor{
@@ -31,6 +34,8 @@ public class CommonInterceptor implements HandlerInterceptor{
 			throws Exception {
 		
 		HandlerMethod handlerObj = (HandlerMethod) handler;
+		
+		request.getSession().setAttribute("SID", "id001");
 		
 		Set<String> paramKeySet = request.getParameterMap().keySet();
 		
@@ -52,6 +57,17 @@ public class CommonInterceptor implements HandlerInterceptor{
 		log.info("ACCESS INFO======================================================END");
 		
 		//return HandlerInterceptor.super.preHandle(request, response, handler);
+		
+		//세션의 정보가 없으면 로그인페이지로 이동
+		
+		/**
+		 * HttpSession session = request.getSession();
+		 * 
+		 * Message message = new Message(); message.setMemberId("111111111");
+		 * 
+		 * session.setAttribute("message", message);
+		 */
+		
 		return true;
 	}
 	

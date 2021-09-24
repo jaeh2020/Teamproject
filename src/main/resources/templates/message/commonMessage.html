@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!-- th:replace="fragments/head.html(html확장자를 제외한 경로) :: (해당 html안에 선언된 조각변수이름) -->
+<head th:replace="fragments/head :: headFragment"></head>
+<!-- css -->
+<style type= "text/css">
+	tbody tr td{
+		color: #505050;
+	}
+	.btn-primary{
+		display : block;
+		float : right;
+		color: #fff;
+	}
+</style>
+<body class="fix-header fix-sidebar mini-sidebar">
+<!-- All Jquery -->
+    <script th:src="@{js/lib/jquery/jquery.min.js}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script th:src="@{js/lib/bootstrap/js/popper.min.js}"></script>
+    <script th:src="@{js/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script th:src="@{js/jquery.slimscroll.js}"></script>
+    <!--Menu sidebar -->
+    <script th:src="@{js/sidebarmenu.js}"></script>
+    <!--stickey kit -->
+    <script th:src="@{js/lib/sticky-kit-master/dist/sticky-kit.min.js}"></script>
+    <script th:src="@{js/scripts.js}"></script>
+    <script th:src="@{js/custom.min.js}"></script>
+
+    	
+	<div id="main-wrapper">
+		<!-- begin header -->
+		<div th:replace="fragments/header :: headerFragment"></div>
+		<!-- end header -->
+		
+		<!-- begin leftsidebar -->
+		<div th:replace="fragments/leftsidebar :: leftsidebarFragment"></div>
+		<!-- end leftsidebar -->
+		
+		<!-- Page wrapper  -->
+		<div class="page-wrapper">
+			<!-- Bread crumb -->
+            <div class="row page-titles">
+                <div class="col-md-5 align-self-center">
+                    <h3 class="text-primary" th:text="${location}">Dashboard</h3> </div>
+                <div class="col-md-7 align-self-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active" th:text="${location}">Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- End Bread crumb -->
+            <!-- Container fluid  -->
+            <div class="container-fluid">
+            	<!-- Start Page Content -->
+				<th:block layout:fragment="customContents">
+					<div class="row">
+						<div class="col-lg-9"></div>
+						<div class="col-lg-3">
+							<!-- 모달 이용 예정 -->
+							<button type="button" class="btn btn-primary btn-flat m-b-10">새로운 공통 알림 등록</button>
+						</div>
+					</div>
+					<div class="card">
+						<table class="table table-hover ">
+							<thead>
+								<tr>
+									<th>공통 알림 코드</th>
+									<th>공통 알림 대분류</th>
+									<th>공통 알림 아이콘</th>
+									<th>공통 알림 소분류</th>
+									<th>공통 알림 상세내용</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="l : ${messageCommonList}">
+									<td th:text="${l.messageCode}"></td>
+									<td th:text="${l.messageCate1}"></td>
+									<td th:text="${l.messageIcon}"></td>
+									<td th:text="${l.messgeCate2}"></td>
+									<td th:text="${l.messageDetail}"></td>
+								</tr>
+							</tbody>
+						</table>						
+					</div>
+					
+					
+				</th:block>
+				<!-- End PAge Content -->
+			</div>
+			<!-- footer -->
+			<footer th:replace="fragments/footer :: footerFragment"></footer>
+			<!-- End footer -->
+		</div>	
+		<!-- End Container fluid  -->
+	</div>
+	
+    <!--Custom JavaScript -->
+    <th:block layout:fragment="customJsLib"></th:block>
+</body>
+</html>
