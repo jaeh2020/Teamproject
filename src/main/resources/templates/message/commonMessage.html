@@ -3,20 +3,32 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <!-- th:replace="fragments/head.html(html확장자를 제외한 경로) :: (해당 html안에 선언된 조각변수이름) -->
 <head th:replace="fragments/head :: headFragment"></head>
+<!-- css -->
+<style type= "text/css">
+	tbody tr td{
+		color: #505050;
+	}
+	.btn-primary{
+		display : block;
+		float : right;
+		color: #fff;
+	}
+</style>
 <body class="fix-header fix-sidebar mini-sidebar">
 <!-- All Jquery -->
-    <script src="js/lib/jquery/jquery-3.6.0.min.js"></script>
+    <script th:src="@{js/lib/jquery/jquery.min.js}"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="js/lib/bootstrap/js/popper.min.js"></script>
-    <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script th:src="@{js/lib/bootstrap/js/popper.min.js}"></script>
+    <script th:src="@{js/lib/bootstrap/js/bootstrap.min.js}"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
+    <script th:src="@{js/jquery.slimscroll.js}"></script>
     <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
+    <script th:src="@{js/sidebarmenu.js}"></script>
     <!--stickey kit -->
-    <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="js/custom.min.js"></script>
+    <script th:src="@{js/lib/sticky-kit-master/dist/sticky-kit.min.js}"></script>
+    <script th:src="@{js/scripts.js}"></script>
+    <script th:src="@{js/custom.min.js}"></script>
+
     	
 	<div id="main-wrapper">
 		<!-- begin header -->
@@ -44,7 +56,39 @@
             <!-- Container fluid  -->
             <div class="container-fluid">
             	<!-- Start Page Content -->
-				<th:block layout:fragment="customContents"></th:block>
+				<th:block layout:fragment="customContents">
+					<div class="row">
+						<div class="col-lg-9"></div>
+						<div class="col-lg-3">
+							<!-- 모달 이용 예정 -->
+							<button type="button" class="btn btn-primary btn-flat m-b-10">새로운 공통 알림 등록</button>
+						</div>
+					</div>
+					<div class="card">
+						<table class="table table-hover ">
+							<thead>
+								<tr>
+									<th>공통 알림 코드</th>
+									<th>공통 알림 대분류</th>
+									<th>공통 알림 아이콘</th>
+									<th>공통 알림 소분류</th>
+									<th>공통 알림 상세내용</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="l : ${messageCommonList}">
+									<td th:text="${l.messageCode}"></td>
+									<td th:text="${l.messageCate1}"></td>
+									<td th:text="${l.messageIcon}"></td>
+									<td th:text="${l.messgeCate2}"></td>
+									<td th:text="${l.messageDetail}"></td>
+								</tr>
+							</tbody>
+						</table>						
+					</div>
+					
+					
+				</th:block>
 				<!-- End PAge Content -->
 			</div>
 			<!-- footer -->

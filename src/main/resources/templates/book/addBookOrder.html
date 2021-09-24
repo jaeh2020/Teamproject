@@ -119,69 +119,14 @@
 																	<!-- 수량선택상세 -->
 				                                                    <div class="col-md-12">
 				                                                        	해물짬뽕 
-																				 <button type="button" class="plus" style="font-size:20px; border:none; background:none;">+</button>
-																				 <input type="number" class="numBox" min="1" max="100" value="1" readonly="readonly" />
-																				 <button type="button" class="minus" style="font-size:20px; border:none; background:none;">-</button>
-																				 
-																				 <script type="text/javascript">
-																				  $(".plus").click(function(){
-																				   var num = $(".numBox").val();
-																				   var plusNum = Number(num) + 1;
-																				   
-																				   if(plusNum >= 100) {
-																				    $(".numBox").val(num);
-																				   } else {
-																				    $(".numBox").val(plusNum);          
-																				   }
-																				  });
-																				  
-																				  $(".minus").click(function(){
-																				   var num = $(".numBox").val();
-																				   var minusNum = Number(num) - 1;
-																				   
-																				   if(minusNum <= 0) {
-																				    $(".numBox").val(num);
-																				   } else {
-																				    $(".numBox").val(minusNum);          
-																				   }
-																				  });
-																				 </script>
-				                                                    </div>
-				                                                    <div class="col-md-12">
-				                                                        	자장면
-																				 <button type="button" class="plus" style="font-size:20px; border:none; background:none;">+</button>
-																				 <input type="number" class="numBox" min="1" max="100" value="1" readonly="readonly" />
-																				 <button type="button" class="minus" style="font-size:20px; border:none; background:none;">-</button>
-																				 
-																				 <script type="text/javascript">
-																				  $(".plus").click(function(){
-																				   var num = $(".numBox").val();
-																				   var plusNum = Number(num) + 1;
-																				   
-																				   if(plusNum >= 100) {
-																				    $(".numBox").val(num);
-																				   } else {
-																				    $(".numBox").val(plusNum);          
-																				   }
-																				  });
-																				  
-																				  $(".minus").click(function(){
-																				   var num = $(".numBox").val();
-																				   var minusNum = Number(num) - 1;
-																				   
-																				   if(minusNum <= 0) {
-																				    $(".numBox").val(num);
-																				   } else {
-																				    $(".numBox").val(minusNum);          
-																				   }
-																				  });
-																				 </script>
+																				 <input type="number" name="numBox1">
 				                                                    </div>
 																</div>
 															</div>
 	                                                </div>
 	                                            </div>
 	                                            <!--end 수량선택-->
+	                                            
 	                                            <!--start 요청사항-->
 	                                            <div class="col-md-12">
 	                                                <div class="form-group row">
@@ -192,6 +137,7 @@
 	                                                </div>
 	                                            </div>
 	                                            <!--end 요청사항-->
+	                                            
 	                                      </div>
 	                                    </div>
 	                                </form>

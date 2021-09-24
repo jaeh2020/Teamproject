@@ -54,7 +54,7 @@
 	}
 	
 	input[type="checkbox"]:checked + label {
-	  background-color: #3F0387;
+	  background-color: #5c4ac7;
 	  
 	}
 	
@@ -65,9 +65,28 @@
 	tbody tr td{
 		color: #505050;
 	}
+	.table td, .table th {
+    	padding: 0.75rem;
+	}
+	.card-header{
+	}
+
 </style>
 
 <body class="fix-header fix-sidebar mini-sidebar">
+<!-- All Jquery -->
+    <script src="js/lib/jquery/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="js/lib/bootstrap/js/popper.min.js"></script>
+    <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="js/jquery.slimscroll.js"></script>
+    <!--Menu sidebar -->
+    <script src="js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/custom.min.js"></script>
 	
 	<div id="main-wrapper">
 		<!-- begin header -->
@@ -83,11 +102,11 @@
 			<!-- Bread crumb -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">알림</h3> </div>
+                    <h3 class="text-primary" th:text="${location}">알림</h3> </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item active">알림</li>
+                        <li class="breadcrumb-item active" th:text="${location}">알림</li>
                     </ol>
                 </div>
             </div>
@@ -103,28 +122,29 @@
 								<div class="card">
 						            <div class="card-header">
 						                <strong class="card-title">알림 설정</strong>
+						                <div>※주문/예약/결제/대기 알림은 필수입니다.</div>
 						            </div>
 						            <div class="card-body">
 										<table class="table table-hover ">
 											<tbody>
 							                    <tr>
-							                        <td>주문</td>
+							                        <td>주문/예약</td>
 							                        <td>
-							                        	<input type="checkbox" id="order_reservation" checked>
+							                        	<input type="checkbox" id="order_reservation" checked disabled="disabled">
 														<label for="order_reservation"><span></span></label>
 													</td>
 							                    </tr>
 							                    <tr>
 							                        <td>결제</td>
 							                        <td>
-							                        	<input type="checkbox" id="pay" checked>
+							                        	<input type="checkbox" id="pay" checked disabled="disabled">
 														<label for="pay"><span></span></label>
 													</td>
 							                    </tr>
 							                    <tr>
 							                        <td>대기</td>
 							                        <td>
-							                        	<input type="checkbox" id="waiting" checked>
+							                        	<input type="checkbox" id="waiting" checked disabled="disabled">
 														<label for="waiting"><span></span></label>
 													</td>
 							                    </tr>
@@ -193,12 +213,13 @@
 							                    </tr>
 						               		</tbody>
 						            	</table>
+						            	<a th:href="@{/messageList}" class="btn btn-dark btn-flat m-b-10 m-l-5">닫기</a>
 						        	</div>
 						
 								</div>
 							</div>
 					</div>
-				</th:block>
+				</th:block>      
         
 				<!-- End PAge Content -->
 			</div>
@@ -209,19 +230,7 @@
 		</div>	
 		<!-- End Container fluid  -->
 	</div>
-	<!-- All Jquery -->
-    <script src="js/lib/jquery/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="js/lib/bootstrap/js/popper.min.js"></script>
-    <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
-    <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
-    <!--stickey kit -->
-    <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="js/custom.min.js"></script>
+	
     <!--Custom JavaScript -->
     <th:block layout:fragment="customJsLib"></th:block>
 </body>

@@ -70,6 +70,9 @@
 42. responsive
 
 */
+
+
+
 .preloader {
   width: 100%;
   height: 100%;
@@ -5404,7 +5407,7 @@ tbody tr th {
 }
 tbody tr td {
   font-family: 'Poppins', sans-serif;
-  color: #99abb4;
+
   text-align: center;
 }
 tbody tr td:last-child {
@@ -6915,6 +6918,30 @@ tbody tr td:last-child {
 
 /*  10 - media screen and (max-width: 320px)
 ---------------------------------------------------------------------- */
+/* ----saewon ----*/
+.noMargin {
+	margin-bottom : 0px!important;
+}
+.pushMargin {
+	margin-top: 7px!important;
+}
+.TBMargin{
+	margin: 6px 0px 6px 0px!important;
+}
+.newInputs{
+	margin-left : 20px;
+ 	width: 80%;
+}
+.newInputMargin{
+	width: 190px!important;
+	margin-left: 20px;
+}
+.newInputSmall{
+	margin-left : 20px;
+ 	width: 75px!important;
+}
+/* ----saewon ----*/
+
 /*---------------------------------------------------------------*/
 /* Retina */
 /*---------------------------------------------------------------*/

@@ -4,11 +4,21 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="amdn.anywhere.mapper.MessageMapper">
+	
+	<select id="getMessageCommonList" resultType="MessageCommon">
+		SELECT 
+			message_code		AS messageCode
+			,message_cate_1		AS messageCate1
+			,message_icon		AS messageIcon
+			,message_cate_2 	AS messgeCate2
+			,message_detail		AS messageDetail
+		FROM 
+			tb_message;
+	</select>
 
 	<select id="getMessageList" resultType="Message">
 		SELECT 
 			not_num					AS messageNum
-			, message_check_code	AS messageCheckCode
 			, store_code			AS storeCode
 			, member_id				AS memberId
 			, message_code			AS messageCode

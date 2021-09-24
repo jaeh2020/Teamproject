@@ -9,11 +9,188 @@
 
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
-	SPRING BOOT LAYOUT
+
+
+	<!-- start searchbar page -->
+	
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body">
+					
+					<div class="form-group">
+								<div class="input-group input-group-flat">
+									<span class="input-group-btn"><button class="btn btn-warning" type="submit"><i class="ti-map"></i></button></span>
+									<input type="text" class="form-control" placeholder="건물명, 도로명 또는 지번으로 검색">
+									<span class="input-group-btn"><button class="btn btn-info" type="submit"><i class="ti-search"></i></button></span>
+								</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- end searchbar page -->
+
+	<!-- start menu cate -->
+	<div class="row">
+		<div class="col-3">
+			<div class="card">
+				<div class="card-body">
+					<div class="row justify-content-between">
+						<div class="col-lg-12">
+							<div class="card-content">
+								<button type="button" class="btn btn-info" disabled=”disabled”>카테고리</button>
+                                	
+                                	<ul class="list-group list-group-flush" >
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 아시안
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 카페,디저트
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 치킨
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 중식
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 햄버거
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 횟집
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 일식
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 한식
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 도시락
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 야식
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 보양식
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 유기농
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 피자
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 주점
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 혼밥
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 분식
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 비건
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 양식
+	                                	</li>
+	                                    <li class="list-group-item">
+	                                    	 <i class="ti-quote-left"></i> 기타
+	                                	</li>
+	                                </ul>
+							</div>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+ 	<!-- end menu cate -->
+	
+	
+	
+	<!-- start store info -->
+		<div class="col-9">
+			<div class="card">
+				<div class="card-body">
+					<div class="row justify-content-between">
+					
+						<!-- start 상점목록 -->
+						<th:block th:if="${#lists.size(mainList) > 0}" th:each="l : ${mainList}">
+								<div class="col-lg-4">
+									<div class="card-content">
+											<div class="card">
+												<div class="card-header text-sm-center">
+														
+														
+												<!-- start ajax -->
+												<button class="btn btn-danger btn sweet-wrong" id="storeInfo" th:text="${l.storeName}">
+												</button>
+												
+												<script type="text/javascript">
+												$('#storeInfo').click(function(){
+													Swal.fire(`Your IP address is`);
+												});
+												
+												</script>
+
+
+												
+												
+												</div>
+												<div class="card-body">
+													<div class="mx-auto d-block">
+														<!-- <img class="rounded-circle mx-auto d-block" src="images/admin.jpg" alt="상점이미지"> -->
+														<h5 class="text-sm-center mt-2 mb-1" th:text="${l.storePhone}">전화번호</h5>
+														
+															<div class="location text-sm-center">
+																<i class="fa fa-star"></i> 
+																4.5
+															</div>
+															
+															<div class="card-text text-sm-center">
+																<i class="ti-user"></i>
+																대기인원
+															</div>
+													</div>
+													<hr>
+													<div class="card-text text-sm-center">
+														<a th:href="@{/addBookMember(storeName=${l.storeName})}">
+														<button type="button" class="btn btn-outline-danger btn-sm">예약/주문하기</button>
+														</a>
+													</div>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+								
+						</th:block>
+						<!-- start 상점목록 -->
+
+							
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end store info -->
+
+
+
+
+
 </th:block>
 
 <th:block layout:fragment="customJsLib">
 	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
     <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+    
 </th:block>
 </html>

@@ -35,6 +35,10 @@ public class CommonInterceptor implements HandlerInterceptor{
 		
 		HandlerMethod handlerObj = (HandlerMethod) handler;
 		
+
+		request.getSession().setAttribute("SID", "id010");
+
+		
 		Set<String> paramKeySet = request.getParameterMap().keySet();
 		
 		StringJoiner param = new StringJoiner(", ");
@@ -58,16 +62,14 @@ public class CommonInterceptor implements HandlerInterceptor{
 		
 		//세션의 정보가 없으면 로그인페이지로 이동
 		
-	
-		/*
+		/**
 		 * HttpSession session = request.getSession();
 		 * 
-		 * Message message = new Message();
-		 * 
-		 * message.setMemberId("111111111");
+		 * Message message = new Message(); message.setMemberId("111111111");
 		 * 
 		 * session.setAttribute("message", message);
 		 */
+		
 		return true;
 	}
 	
