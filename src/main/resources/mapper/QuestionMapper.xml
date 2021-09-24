@@ -37,6 +37,31 @@
 			<result property="cateUpdateId" column="update_id"/>
 		</association>
 	</resultMap>
+	
+	<select id="selectQCate" resultMap="questionCateResultMap" parameterType="String"> 
+		SELECT 
+			  question_cate_code
+			 ,cate_name
+			 ,add_time
+			 ,add_id
+			 ,update_time
+			 ,update_id			 
+		FROM 
+			tb_question_cate
+		WHERE question_cate_code = #{cateCode}
+				
+	</select>
+	
+	<update id="modifyQCate" parameterType="map">
+		UPDATE tb_question_cate 
+			SET 
+				question_cate_code = #{newCode}
+				,cate_name = #{newName}
+				,update_id = #{updateId}
+				,update_time = NOW()
+        WHERE question_cate_code= #{oldCode};
+	</update>
+	
 	<delete id="deleteQCate" parameterType="String">
 		DELETE FROM tb_question_cate WHERE question_cate_code=#{cateCode};
 	</delete>
@@ -102,7 +127,6 @@
 				q.question_cate_code = #{cateCode}
 			</if>			
 		</trim>		
-		
 	</select>
 	
 	
@@ -115,6 +139,6 @@
 			 ,update_time
 			 ,update_id			 
 		FROM 
-			tb_question_cate;
+			tb_question_cate;	
 	</select>
 </mapper>
