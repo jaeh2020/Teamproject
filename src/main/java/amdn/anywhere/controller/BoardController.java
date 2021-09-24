@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import amdn.anywhere.domain.Board;
 import amdn.anywhere.service.BoardService;
@@ -35,19 +36,31 @@ private final BoardService boardService;
 	
 	@GetMapping("/boardList")
 	public String boardList(Model model) {
-		/* List<Board> boardList = boardService.getBoardList(); */
+		List<Board> boardList = boardService.getBoardList();
 		
 		model.addAttribute("title", "게시판 목록");
-		/* model.addAttribute("boardList", boardList); */
+		model.addAttribute("boardList", boardList);
 		return "board/boardList";
 	}
 	
 	
+	@PostMapping("/boardWrite")
+	public String boardWrite(Board board) {
+		System.out.println("====================");
+		System.out.println("커맨드객체 board : " + board);
+		System.out.println("====================");
+		if(board != null)boardService.boardWrite(board);
+		
+		return "redirect:/boardList";
+	}
 	
-	@GetMapping("/boardWirte")
+	
+	@GetMapping("/boardWrite")
 	public String reviewList(Model model) {
+
+		
 		model.addAttribute("title", "게시판 등록");
-		return "board/boardWirte";
+		return "board/boardWrite";
 	}
 	
 	

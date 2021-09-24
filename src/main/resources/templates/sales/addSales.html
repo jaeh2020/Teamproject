@@ -11,24 +11,35 @@
 <th:block layout:fragment="customContents">
 	<div class="card card-outline-primary" >
 		<div class="col-lg-12">
-			<form action="${path}/board/boardWirte" role="form" id="wirteForm" method="get">
+			<form action="${path}/sales/addsales" role="form" id="addSales" method="get">
 				<div class="card-header" >
-					<h4 class="m-b-0 text-white" ><i class="fa fa-pencil"></i>  게시글 작성</h4>
+					<h4 class="m-b-0 text-white" ><i class="fa fa-pencil"></i>  매출 현황</h4>
 				</div>
 				<div class="box-body">
 					<div class="form-group">
-						<label for="title" style="margin-top: 30px; font-weight:bold; ">제목</label>
-						<input class="form-control" id="title" name="title" placeholder="제목을 입력해주세요">
+						<label for="title" style="margin-top: 30px; font-weight:bold;">매장코드</label>
+						<input class="form-control" id="title" name="title" placeholder=${/SESSION} readonly="readonly">
 					</div>
 					
 					<div class="form-group">
-						<label for="writer" style="font-weight:bold;">작성자 아이디</label>
-						<input class="form-control" id="wirter" name="wirter">
+						<label for="writer" style="font-weight:bold;">권한</label>
+						<input class="form-control" id="memberLevel" name="memberLevel" placeholder="판매자 권한" readonly="readonly">
 					</div>
 					
 					<div class="form-group">
 						<label for="writer" style="font-weight:bold;">내용</label>
-						<textarea class="form-control" id="content" name="content" rows="30" placeholder="내용을 입력해주세요" style="resize: none; height: 380px;" ></textarea>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th style="width: 30px; font-style: italic; font-weight: bold;">No</th>
+										<th style="font-weight: bold;">내용</th>
+										<th style="width: 120px; font-weight: bold;">매장코드</th>
+										<th style="width: 120px; font-weight: bold;">가격</th>
+										<th style="width: 150px;  font-weight: bold;">등록시간</th>
+										<th style="width: 150px;  font-weight: bold;">마감시간</th>
+									</tr>
+								</thead>
+							</table>	
 					</div>
 				</div>
 				<!-- 첨부파일 -->
@@ -43,10 +54,16 @@
 				</div>
 				
 				<div class="box-footer">
+				
+				<!-- [[${session?.message?.memberId}]]  세션 추가 하기 -->
 					<button type="button" class="btn btn-primary"  onClick="location.href='boardList'"><i class="fa fa-list"></i>목록</button>
+					<a th:href="@{/salesList}" class="btn pull-right btn-success" type="submit">
+						<i class="btn fa fa-save"></i> 저장
+					</a>
+					<!-- 
 					<div class="pull-right">
 						<button type="submit" class="btn btn-success" onclick="mySubmit1()"><i class="fa fa-save"></i> 저장</button>
-					</div>
+					</div> -->
 				</div>
 			</form>	
 		</div>
