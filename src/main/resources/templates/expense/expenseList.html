@@ -11,15 +11,19 @@
 <th:block layout:fragment="customContents">
 	<div class="card card-outline-primary" >
 		<div class="col-lg-12">
-			<form action="${path}/expense/addexpense" role="form" id="addExpense" method="get">
-				<div class="card-header">
-					<h4 class="m-b-0 text-white" ><i class="fa fa-pencil"></i>  지출 현황</h4>
+			<div class="box box-primary">
+				<div class="card-header" >
+					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 지출 현황  </h4>
 				</div>
 				
-				<!-- 검색창 -->
-		       <div class="card">
+				
+				
+				
+				
+				
+				<div class="card">
 					<div class="card-title" >
-						<h4>매출 검색</h4> 
+						<h4>지출 검색</h4> 
 					</div>
 					<div class="card-content">
 					<div class="basic-form">
@@ -43,8 +47,6 @@
 					</div>
 				</div>
 				
-				<!-- contents -->
-				<div class="box-body">
 					<div class="form-group">
 						<label for="title" style="margin-top: 30px; font-weight:bold;">매장코드</label>
 						<input class="form-control" id="title" name="title" placeholder=${/SESSION} readonly="readonly">
@@ -54,98 +56,88 @@
 						<label for="writer" style="font-weight:bold;">권한</label>
 						<input class="form-control" id="memberLevel" name="memberLevel" placeholder="판매자 권한" readonly="readonly">
 					</div>
-					
-					
-					
-					
-						<table style="width:100%; border: 0">
-								<tr>
-									<th ><label for="inputBoxNo">No</label></th>
-									<th ><label for="inputBoxContent">내용</label></th>
-									<th ><label for="inputBoxCode">매장코드</label></th>
-									<th ><label for="inputBoxPrice">가격</label></th>
-									<th ><label for="inputBoxRegTime">등록시간</label></th>
-									<th ><label for="inputBoxClose">마감시간</label></th>
-								</tr>
-							<tr class="input">
-								<td>
-								<input type="text" style="width:95%; border: 0; text-align: center;" class="column" >
-								</td>
-								<td>
-								<input type="text" style="width:95%; border: 0; text-align: center;" class="column" >
-								</td>
-								<td>
-								<input type="text" style="width:95%; border: 0; text-align: center;" class="column" >
-								</td>
-								<td>
-								<input type="text" style="width:95%; border: 0; text-align: center;"  class="column">
-								</td>
-								<td>
-								<input type="text" style="width:95%; border: 0; text-align: center;"  class="column">
-								</td>
-								<td>
-								<input type="text" style="width:95%; border: 0; text-align: center;" class="column" >
-								</td>
+				
+				
+				
+				<div class="box-body" style="padding-top: 20px;">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th style="width: 30px; font-style: italic; font-weight: bold;">No</th>
+								<th style="font-weight: bold;">내용</th>
+								<th style="width: 120px; font-weight: bold;">매장코드</th>
+								<th style="width: 120px; font-weight: bold;">가격</th>
+								<th style="width: 150px;  font-weight: bold;">등록시간</th>
+								<th style="width: 150px;  font-weight: bold;">마감시간</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${#lists.size(expenseList) > 0}" th:each=" e : ${expenseList}">
+								<td> # </td>
+								<td th:text="${e.storeCode}"></td>
+								<td th:text="${e.salesName}"></td>
+								<td th:text="${e.salesPrice}"></td>
+								<td th:text="${e.salesRegTime}"></td>
+								<td th:text="${e.closeTime}"></td>
 							</tr>
 							<tr>
 								<td>1</td>
-								<td>군만두</td>
-								<td>st001</td>
-								<td>1000</td>
-								<td>13:00</td>
-								<td>17:00</td>
+								<td>인건비</td>
+								<td>store01</td>
+								<td>15000</td>
+								<td>14:00</td>
+								<td>24:00</td>
 							</tr>
 							<tr>
 								<td>2</td>
-								<td>만두</td>
-								<td>st001</td>
-								<td>1000</td>
-								<td>13:00</td>
-								<td>17:00</td>
+								<td>재료비</td>
+								<td>store01</td>
+								<td>1145000</td>
+								<td>14:00</td>
+								<td>24:00</td>
 							</tr>
-						</table>
+							<tr>
+								<td>3</td>
+								<td>판타지오</td>
+								<td>store01</td>
+								<td>112145000</td>
+								<td>14:00</td>
+								<td>24:00</td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>STS</td>
+								<td>store01</td>
+								<td>41450001</td>
+								<td>14:00</td>
+								<td>24:00</td>
+							</tr>
+							<tr>
+								<td>5</td>
+								<td>KSMART</td>
+								<td>store01</td>
+								<td>145645</td>
+								<td>14:00</td>
+								<td>24:00</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="box-footer">
+					<div class="pull-right">
+						<a th:href="@{/addExpense}" class="btn btn-success btn-flat" style="margin-top: 15px;">
+							<i class="fa fa-pencil"></i> 지출추가
+						</a>
+					</div>
+					<div class="pull-left">
+						<a th:href="@{/addExpense}" class="btn btn-primary" style="margin-top: 15px;">
+							<i class="fa fa-check"></i> 마감완료
+						</a>
 					</div>
 				</div>
-				
-				
-				<style>
-					/* .column {
-						padding: 1px;
-						background-color: orange;
-					} */
-				
-				</style>
-				
-				
-				
-				
-				<!-- <!-- 첨부파일 -->
-				<br><br>
-				<form action="post" class="dropzone">
-						<div class="fallback" style="border: 0;">
-							<input name="file" type="file" multiple="">
-						</div>
-				</form>
-				<div style="padding-top: 25px; padding-bottom: 15px;">
-					<input type="checkbox" class="secretContent" >
-					<label style="font-weight: bold;">비밀글 설정</label>
-				</div> 
-				
-				<div class="box-footer">
-				
-				<!-- [[${session?.message?.memberId}]]  세션 추가 하기 -->
-					<a th:href="@{/expenseList}" class="btn btn-primary" type="button"><i class="fa fa-list"></i>목록</button>
-					<!-- <button type="button" class="btn btn-primary"  onClick="location.href='salesList'"><i class="fa fa-list"></i>목록</button> -->
-					<a th:href="@{/expenseList}" class="btn pull-right btn-success" type="submit">
-						<i class="btn fa fa-save"></i> 저장
-					</a>
-					<!-- 
-					<div class="pull-right">
-						<button type="submit" class="btn btn-success" onclick="mySubmit1()"><i class="fa fa-save"></i> 저장</button>
-					</div> -->
-				</div>
-				
-			</form>	
+			</div>
 		</div>
+	</div>
 </th:block>
+
 </html>
