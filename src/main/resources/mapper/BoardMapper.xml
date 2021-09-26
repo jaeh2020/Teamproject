@@ -58,8 +58,6 @@
 </select>
 
 
-
-
 <select id="getBoardList" resultMap="borderMap">
 	SELECT 
 		board_num 

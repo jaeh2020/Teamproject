@@ -2,15 +2,17 @@ package amdn.anywhere.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.annotation.JacksonInject.Value;
-
 import amdn.anywhere.domain.Board;
+import amdn.anywhere.domain.QuestionCate;
 import amdn.anywhere.service.BoardService;
 
 @Controller
@@ -37,20 +39,33 @@ private final BoardService boardService;
 		return "board/boardView";
 	}
 	
-	@GetMapping(value = "/boardList" ,produces = "application/json")
-	/* @ResponseBody */
+	
+	
+	// 더보기 버튼 - ajax
+		@GetMapping(value="/moreList", produces = "application/json")
+		@ResponseBody
+		public List<Board> getBoardList(){
+			
+			List<Board> moreList = boardService.getBoardList();
+					
+			return moreList;
+		}
+	
+	
+	@GetMapping("/boardList")
 	public String boardList(Model model) {
 		List<Board> boardList = boardService.getBoardList();
 		
 		model.addAttribute("title", "게시판 목록");
+		model.addAttribute("location", "소비자 게시판");
 		model.addAttribute("boardList", boardList);
 		return "board/boardList";
 	}
 	
 
-	
 	@PostMapping("/boardWrite")
-	public String boardWrite(Board board) {
+	public String boardWrite(Board board
+			, HttpSession session) {
 		System.out.println("====================");
 		System.out.println("커맨드객체 board : " + board);
 		System.out.println("====================");
@@ -63,7 +78,8 @@ private final BoardService boardService;
 	
 	
 	@GetMapping("/boardWrite")
-	public String reviewList(Model model) {
+	public String reviewList(Model model
+							,HttpSession session) {
 
 		String newBoardNum = boardService.getNewBoardNum();
 		
