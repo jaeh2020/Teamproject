@@ -16,11 +16,11 @@
 		padding-top : 6px;
 		color: #fff;
 	}
-	.top{
-		padding : 0;
-	}
 	ul a{
 		display:block;
+	}
+	.all{
+		color: #000;
 	}
 </style>
 <body class="fix-header fix-sidebar mini-sidebar">
@@ -67,11 +67,10 @@
 				<th:block layout:fragment="customContents">
 					<!-- 상단 버튼부분 -->
 					<div class="row">
-						<div class="col-lg-9"></div>
-						<div class="col-lg-3 top">
+						<div class="col-lg-10"></div>
+						<div class="col-lg-2">
 							<div class="topBtn">
-								<button type="button" class="btn btn-default btn-flat m-b-10" id="all" onclick="readDelete()">읽은 알림 삭제</button>
-								<button type="button" class="btn btn-default btn-flat m-b-10" id="order_pay" onclick="allDelete()">전체 삭제</button>
+								<button type="button" class="btn btn-default btn-flat m-b-10" id="allDelete" onclick="allDelete()">전체 삭제</button>
 								<!-- 버튼에 링크 -->
 								<a th:href="@{/messageCheck}" class="btn btn-primary btn-flat m-b-10"><i class="ti-settings"></i></a>
 							</div>
@@ -81,17 +80,17 @@
 						<!-- 왼쪽부분 -->
 						<div class="col-lg-2">
 							<div class="card sidebar">
-								<ul class="list-group list-group-flush">
-								    <li class="list-group-item"><a href="#">전체</a></li>
-								    <li class="list-group-item"><a href="#">주문/결제</a></li>
-								    <li class="list-group-item"><a href="#">대기</a></li>
-								    <li class="list-group-item"><a href="#">게시판/리뷰</a></li>
-								    <li class="list-group-item"><a href="#">포인트</a></li>
-								    <li class="list-group-item"><a href="#">평가단</a></li>
-								    <li class="list-group-item"><a href="#">등급</a></li>
-								    <li class="list-group-item"><a href="#">이벤트</a></li>
-								    <li class="list-group-item"><a href="#">추천/즐겨찾기</a></li>
-								</ul> 
+								<table class="table table-hover ">
+	                            <tbody>
+	                            	<tr>
+	                            		<td class="all"><a href="#">전체</a></td>
+	                            	</tr>
+	                                <tr th:each="l : ${messageList}">
+	                                    <td th:text="${l.messageCommon.messageCate1}" th:id="${l.messageCommon.messageCate1}" class="cate"></td>
+	                                </tr>
+	                            </tbody>
+	                        	</table>
+								
 							</div>
 							
 						</div>
@@ -103,11 +102,9 @@
 					            </div>
 					            <div class="card-body">
 									<table class="table table-hover ">
-										<tbody>
+										<tbody th:id="messageList">
 						                    <tr th:each="l : ${messageList}">
-												<td th:text="${l.messageCode}"></td>
-												<td th:text="${l.messageNoticeTime}"></td>
-						                    </tr> 
+						                    </tr>
 					               		</tbody>
 					            	</table>
 					        	</div>
@@ -115,6 +112,7 @@
 							</div>
 						</div>
 					</div>
+					
 				</th:block>
 				<!-- End PAge Content -->
 			</div>
@@ -129,16 +127,51 @@
     	
 		
 		<script type="text/javascript">
+		
+	    	$(function(){
+	    		//전체조회
+				$('.all').click(function(){
+					var code = this.parentElement.id;
+					console.log(this,"this")
+					console.log(this.parentElement,"this.parentElement")
+					console.log(this.parentElement.id,"this.parentElement.id")
+	    			
+	    		var request = $.ajax({
+	    			  url: "/messageList", //요청 주소
+	    			  method: "GET", //요청 방식
+	    			  data: {messageCode : code}, //전달 할 파라미터
+	    			  dataType: "json" //받아 올 포맷방식
+	    			});
+	    			 //응답이 완료 되었을 경우 실행
+	    			request.done(function( data ) {
+		    			console.log(data);
+	    				var tbody= '';
+						for(var i= 0; i<data.length; i++){
+							tbody += '<tr><td>' ;
+							tbody += data[i].memberId +  data[i].messageCommon.messageDetail ;
+							tbody += '</td><td>' ;
+							tbody += data[i].messageNoticeTime  ;
+							tbody += '</td></tr>';  
+						}
+						
+						$('#messageList').html(tbody);	
+	    			});
+	    			 //응답에 실패 혹은 에러 발생시 실행
+	    			request.fail(function( jqXHR, textStatus ) {
+	    			  alert( "실패!: " + textStatus );
+	    			});
+	    		});
+	    	});
+		
+		
 		//삭제버튼
-		function readDelete(){
-			confirm('읽은 메세지가 모두 삭제됩니다. 삭제하시겠습니까?');
-			}
 		function allDelete(){
-			confirm('메세지 전체가 삭제됩니다. 삭제하시겠습니까?');	
+			confirm('메세지 전체가 삭제됩니다. 삭제하시겠습니까?');
+			
 		}
 		
 		
-		//사이드바
+		/* //사이드바
 		var floatPosition = parseInt($(".sidebar").css('top'))
 
 		// scroll 인식
@@ -153,8 +186,7 @@
 		      "top" : bannerTop
 		    }, 500);
 
-		}).scroll();  
-
+		}).scroll();   */
 
 		</script>
     </th:block>

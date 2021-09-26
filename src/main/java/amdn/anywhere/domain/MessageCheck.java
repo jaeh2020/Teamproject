@@ -14,7 +14,6 @@ public class MessageCheck {
 	private String messageReview;
 	private String messagePoint;
 	private String messageEvent;
-	private String messageRecommend;
 	private String messageSms;
 	private String messageEmail;
 	public String getMessageCheckCode() {
@@ -89,12 +88,6 @@ public class MessageCheck {
 	public void setMessageEvent(String messageEvent) {
 		this.messageEvent = messageEvent;
 	}
-	public String getMessageRecommend() {
-		return messageRecommend;
-	}
-	public void setMessageRecommend(String messageRecommend) {
-		this.messageRecommend = messageRecommend;
-	}
 	public String getMessageSms() {
 		return messageSms;
 	}
@@ -113,9 +106,8 @@ public class MessageCheck {
 				+ orderResevation + ", messagePay=" + messagePay + ", messageWaiting=" + messageWaiting
 				+ ", messageFavorite=" + messageFavorite + ", messageEvaluator=" + messageEvaluator
 				+ ", messageMemberShip=" + messageMemberShip + ", messageBoard=" + messageBoard + ", messageReview="
-				+ messageReview + ", messagePoint=" + messagePoint + ", messageEvent=" + messageEvent
-				+ ", messageRecommend=" + messageRecommend + ", messageSms=" + messageSms + ", messageEmail="
-				+ messageEmail + "]";
+				+ messageReview + ", messagePoint=" + messagePoint + ", messageEvent=" + messageEvent + ", messageSms="
+				+ messageSms + ", messageEmail=" + messageEmail + "]";
 	}
 	
 	
