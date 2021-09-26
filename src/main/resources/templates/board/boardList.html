@@ -40,8 +40,8 @@
 					</table>
 				</div>
 				
-				<div class="more-btn">
-					<button id="moreBtn" class="btn btn-primary btn-block m-b-10" style="font-weight: bold; color: black; margin-top: 10px; background-color: white;">더보기(More)</button>
+				<div id="${b.boardNum}">
+					<button  id="moreBtn" type="button" class="btn btn-primary btn-block m-b-10" style="font-weight: bold; color: #848484; margin-top: 10px; background-color: white;">더보기(More)</button>
 				</div>
 				
 				<div class="box-footer">
@@ -53,14 +53,20 @@
 		</div>
 	</div>
 </th:block>
+
 <script type="text/javascript">
+
 $(function(){
 	$('#moreBtn').click(function(){
-		var request = $.ajax({ // 수정해야함
-			  url: "/boardList", //요청 주소
-			  method: "POST", //요청 방식
-			  data: {"boardList", boardList}, //전달할 파라미터
+		
+		
+		var request = $.ajax({ 
+			  url: "/moreList", //요청 주소
+			  method: "GET", //요청 방식
+			  data: {boardNum : 'brd_001'}, //전달할 파라미터
 			  dataType: "json" // 받아올 포맷방식
+			  
+			  
 			});
 			
 		    //응답이 완료 되었을 경우 실행 : 수정해야함
