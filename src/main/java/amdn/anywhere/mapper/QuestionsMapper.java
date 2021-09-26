@@ -27,4 +27,6 @@ public interface QuestionsMapper {
 	public int modifyQCate(Map<String, Object> paramMap);
 	//8 수정한 항목코드, 항목명 가져오기
 	public QuestionCate selectQCate(String cateCode);
+	//9 문항코드 조회 및 생성
+	public String createQCode(String cateCode);
 }

@@ -9,57 +9,55 @@
 
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
-	   <div class="row">
-		  	<div class="col-lg-6">
-	            <div class="card">
-	                <div class="card-title" >
-	                    <h4 >항목 선택</h4> 
-	                </div>
-	                <div class="card-body">
-	                  	<div class="form-group">
-                              <label>항목을 선택하세요</label>
-                              <select class="form-control" id="selectCate">
-								<option value="default"> : : :  선 택   : : : </option>
-							</select>
-                         </div>
-	                </div>
-	            </div>
-	            <!-- /# card -->
-	        </div>
-	        <div class="col-lg-6">
-		        <div class="card">
-		        	<div class="card-title" >
-	                    <h4>문항 목록</h4> 
-	                </div>
-	                <div class="card-content">
-		            	<div class="basic-form">
-	                    	<form>
-	                              <div class="todo-list">
-	                                  <div class="tdl-holder">
-	                                      <div class="tdl-content">
-	                                          <ul id="questionUl">
-	                                              
-	                                          </ul>
-	                                      </div>
-	                                  </div>
-	                              </div>
-	                              <div class="form-group">
-                                      <div class="input-group input-group-flat">
-                                           <input type="text" class="form-control" placeholder="문항을 입력하세요" name="inputQuestion">
-                                           <span class="input-group-btn"><button class="btn btn-primary input-group-plus-icon" type="button" id="addQBtn"><i class="ti-plus"></i>추가</button></span>
-                                      </div>
-                                  </div>
-	                    	</form>
-		              	</div>
-                  	  <div class="row">
-                   	   		<div class="offset-md-2 col-md-4">
-                              	<button type="button" class="btn btn-inverse" id="reset"><i class="fa fa-repeat"></i> 되돌리기 </button>
+	<div class="row">
+	  	<div class="col-lg-6">
+            <div class="card">
+                <div class="card-title" >
+                    <h4 >항목 선택</h4> 
+                </div>
+                <div class="card-body">
+                  	<div class="form-group">
+	                    <label>항목을 선택하세요</label>
+                        <select class="form-control" id="selectCate">
+							<option value="default"> : : :  선 택   : : : </option>
+						</select>
+                    </div>
+                </div>
+            </div>
+            <!-- /# card -->
+        </div>
+        <div class="col-lg-6">
+	        <div class="card">
+	        	<div class="card-title" >
+                    <h4>문항 목록</h4> 
+                </div>
+                <div class="card-content">
+	            	<div class="basic-form">
+                    	<form>
+	                        <div class="todo-list">
+	                            <div class="tdl-holder">
+	                                <div class="tdl-content">
+	                                    <ul id="questionUl"></ul>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                            	<button type="button" class="btn btn-success" id="saveBtn"><i class="fa fa-check"></i> 저장하기 </button>
+                            <div class="form-group">
+        	                    <div class="input-group input-group-flat">
+ 	                               <input type="text" class="form-control" placeholder="문항을 입력하세요" name="inputQuestion">
+	                                   <span class="input-group-btn"><button class="btn btn-primary input-group-plus-icon" type="button" id="addQBtn"><i class="ti-plus"></i>추가</button></span>
+                                </div>
                             </div>
-                       </div>	
-                  </div>
+	                   	</form>
+					</div>
+					<div class="row">
+                	   	<div class="offset-md-2 col-md-4">
+                           	<button type="button" class="btn btn-inverse" id="reset"><i class="fa fa-repeat"></i> 되돌리기 </button>
+                        </div>
+                        <div class="col-md-4">
+                           	<button type="button" class="btn btn-success" id="saveBtn"><i class="fa fa-check"></i> 저장하기 </button>
+                        </div>
+   	                </div>	
+                </div>
 			</div>
 		</div>
 	</div>
@@ -68,20 +66,20 @@
 <script type="text/javascript">
 		
 		//옵션 선택시 항목 리스트 출력
+		
 		var count = 0;
 		$(function(){
 			$('#selectCate').click(function(){
 				if(count == 0){
 					count = 1 ;
 					var request = $.ajax({
-						  url: "/survey/selectList", //요청 주소
-						  method: "GET", //요청 방식
-						  dataType: "json" //받아올 포맷방식
+						  url: "/survey/selectList", 
+						  method: "GET", 
+						  dataType: "json" 
 						});	
 					var option ='<option value="default"> : : :  선 택   : : : </option>';
-					//응답이 완료되었을 경우 실행
+					
 					request.done(function( data ) {
-			
 					  var listSize =data.length;
 					  for(var i  = 0; i< listSize; i++){
 						  option += '<option value= ' + data[i].cateCode + '>' + data[i].cateName+ '</option>';
@@ -89,20 +87,21 @@
 					  $('#selectCate').html(option);
 					});
 					
-					//응답에 실패 혹은 에러 발생시 실행 
 					request.fail(function( jqXHR, textStatus ) {
 					  alert( "Request failed: " + textStatus );
 					});
 				};
 			});
 		});
+		
 		//옵션 변경시 항목별 문항목록 가져오기, 해당 문항 삭제 버튼 클릭시 삭제리스트로 이동 및 삭제
+		
 		var deleteList = [];
+		
 		$(function(){
 			$('#selectCate').change(function(){
 				deleteList = [];
 				var questionLi = '';
-				console.log(this.value);
 				var selected = this.value;
 				var request = $.ajax({
 					  url: "/survey/questionList", //요청 주소
@@ -110,6 +109,7 @@
 					  data: { cateCode : selected },
 					  dataType: "json" //받아올 포맷방식
 					});	
+				
 				request.done(function(data){
 				  	var listSize =data.length;
 				 	for(var i  = 0; i< listSize; i++){
@@ -123,7 +123,6 @@
 				 	$('.deleteBtn').click(function(){
 				 		var li = $(this).parent().parent();
 				 		deleteList.push(li.find('input').val());
-				 		console.log(deleteList);
 						li.remove();
 					});
 				});
@@ -135,9 +134,11 @@
 		});
 
 		//항목추가 클릭시 항목리스트에 노출.
+		
 		$(function(){
 			$('#addQBtn').click(function(){
 				var input = $('[name=inputQuestion]');
+				
 				//유효성 검사
 				if($('#selectCate').val()=='default' || $('#selectCate').val()== null){
 					alert('항목을 먼저 선택해주세요');
@@ -151,40 +152,30 @@
 				}
 				$('#questionUl').append('<li><label><span class="newQ">'+ input.val() + '</span><a class="ti-close deleteBtn"></a></label></li>');
 
-				
 				$('.deleteBtn').click(function(){
-					
 					$(this).parent().parent().remove();
 				});
-
-					
-
 			});
 		});
-		//저장버튼 클릭시 삭제 처리 실행.
+		
+		//저장버튼 클릭시 문항 추가, 삭제 처리.
+		
 		var insertList = [];
 		$(function(){
 			$('#saveBtn').click(function(){
 				//추가된 문항을 리스트에 담기
 				var cateCode = $('#selectCate').val();
 				var newQ = $('.newQ');
-				var qCode = $('.qCode').eq(0).val();
-				console.log(cateCode, newQ , qCode);
-				 for(var i =0; i< newQ.length ; i++){
+				//문항코드는 필요없음.var qCode = $('.qCode').eq(0).val();
+				
+				for(var i =0; i< newQ.length ; i++){
 					insertList.push(newQ.eq(i).text());
 				}
-				console.log(insertList);
-				location.href='/survey/saveList?qDeleteList='+ deleteList + '&qInsertList='+ insertList + '&qCateCode='+cateCode + '&qCode='+qCode;	
+				location.href='/survey/saveList?qDeleteList='+ deleteList + '&qInsertList='+ insertList + '&qCateCode='+cateCode;	
 			});
 		});
-		
-
-		
-		
-		 
-
-	</script>
-	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+</script>
+<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+<script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
 </th:block>
 </html>
