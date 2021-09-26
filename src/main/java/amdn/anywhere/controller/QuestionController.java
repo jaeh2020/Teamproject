@@ -35,7 +35,7 @@ public class QuestionController{
 		    ,@RequestParam(value="newCode", required = false) String newCode
 			,@RequestParam(value="newName", required = false) String newName
 			,HttpSession session){
-		System.out.println(oldCode + newCode + newName);
+
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("oldCode", oldCode);
 		paramMap.put("newCode", newCode);
@@ -52,10 +52,9 @@ public class QuestionController{
 	//7. 항목 삭제버튼
 	@GetMapping("/deleteQCate")
 	public String deleteQCate(
-			@RequestParam(name="cateCode", required = false) String cateCode
+			 @RequestParam(name="cateCode", required = false) String cateCode
 			,@RequestParam(name="cateName", required = false) String cateName) {
-		System.out.println(cateCode);
-		System.out.println(cateName);
+		
 		questionService.deleteQCate(cateCode, cateName);
 		
 		return "redirect:/survey/questionManage";
@@ -66,11 +65,12 @@ public class QuestionController{
 	//6. 삭제리스트, 추가리스트 있는 문항 삭제/추가하기(미완성)
 	@GetMapping("/saveList")
 	public String saveQuestion(
-			@RequestParam(name="qDeleteList", required = false) List<String> qDeleteList
-			,@RequestParam(name="qInsertList", required = false) List<String> qInsertList
-			,@RequestParam(name="qCateCode", required = false) String qCateCode
+			  @RequestParam(name="qDeleteList", required = false) List<String> qDeleteList
+			, @RequestParam(name="qInsertList", required = false) List<String> qInsertList
+			, @RequestParam(name="qCateCode", required = false) String qCateCode
 			, HttpSession session
 			, Model model) {
+		
 		System.out.println(qDeleteList + "<<<<<qDeleteList saveQuestion QuestionController.java");
 		System.out.println(qInsertList + "<<<<<qInsertList saveQuestion QuestionController.java");
 		System.out.println(qCateCode + "<<<<<qCateCode saveQuestion QuestionController.java");
@@ -83,12 +83,12 @@ public class QuestionController{
 		questionService.insertQuestion(paramMap);
 		questionService.deleteQuestion(qDeleteList);
 		
-		return "redirect:/survey/questionManage";
+		return "redirect:/survey/updateQuestion";
 	}
 	//5. 항목 추가하기
 	@PostMapping("/addQCate")
 	public String addQCate(
-					@RequestParam(name="newCateCode", required = false)String newCateCode
+				      @RequestParam(name="newCateCode", required = false)String newCateCode
 					, @RequestParam(name="newCateName", required = false)String newCateName
 					, @RequestParam(name="defaultCode", required = false)String defaultCode
 					, HttpSession session) {
@@ -98,7 +98,6 @@ public class QuestionController{
 		qCate.setCateCode(defaultCode + newCateCode);
 		qCate.setCateName(newCateName);
 		qCate.setCateAddId((String)session.getAttribute("SID"));
-		System.out.println(qCate + "<<<<<<<<<<<qCate QuestionController.java");
 		questionService.addQCate(qCate); 
 		return "redirect:/survey/questionManage";
 	}
@@ -125,18 +124,17 @@ public class QuestionController{
 	
 
 	//2. 문항 수정 페이지이동
-	@GetMapping("/updateQuestions")
+	@GetMapping("/updateQuestion")
 	public String updateQuestions(Model model) {
-		System.out.println("updateQuestions.QuestionController.java");
 		model.addAttribute("title", "설문조사 항목추가");
 		return "/survey/updateQuestion";
 	}
 	//1. 항목 리스트 
 	@GetMapping("/questionManage")
 	public String getQuestionCate(Model model) {
-		System.out.println("----1------QuestionController");
+
 		List<QuestionCate> cateList = questionService.getQuestionCateList();
-		System.out.println(cateList + "<<<<<<<<<<<<<<<<<<<cateList"); 
+
 		model.addAttribute("title", "설문조사 항목관리");
 		model.addAttribute("location", "항목 관리");
 		model.addAttribute("cateList", cateList);
