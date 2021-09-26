@@ -29,9 +29,10 @@
 			                                        <hr class="m-t-0 m-b-40">
 			                                        <div class="row">
 			                                        	<!-- 히든 -->
-			                                        	<input type="hidden" name="bookCode">
-			                                        	<input type="hidden" name="storeCode" th:value="${storeCode}">
-			                                        	<input type="hidden" name="userId" th:value="${userId}">
+			                                        	<input type="hidden" name="bookCode" th:value="${bookCode}">
+			                                        	<input type="hidden" name="storeCode" th:value="${store.storeCode}">
+			                                        	<input type="hidden" name="userId" th:value="${memberId}">
+			                                        	<input type="hidden" name="stateCode" th:value="${stateCode}">
 			                                        	
 			                                        	<!--매장명-->
 			                                            <div class="col-md-12">
@@ -40,7 +41,7 @@
 			                                                    	매장명
 			                                                    </label>
 			                                                    <div class="col-md-6">
-			                                                        <input type="text" name="storeName" class="form-control" th:value="${store.storeName}"  readonly="readonly">   
+			                                                        <input type="text" name="storeName" class="form-control" th:value="${store.storeName}" readonly="readonly">   
 			                                                    </div>
 			                                                </div>
 			                                            </div>
