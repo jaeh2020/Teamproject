@@ -46,11 +46,16 @@ public class QuestionService {
 	
 	//문항 추가
 	public int insertQuestion(Map<String, Object> paramMap) {
+		String cateCode = (String)paramMap.get("qCateCode");
 		Questionnaire question = new Questionnaire();
-		question.setqCateCode((String)paramMap.get("qCateCode"));
+		question.setqCateCode(cateCode);
 		question.setqAddId((String)paramMap.get("addId"));
 		List<String> qInsertList = (List<String>) paramMap.get("qInsertList");
+		
 		for(int i=0; i < qInsertList.size(); i++) {
+			//문항코드 생성하기 항목 카테코드 필요.
+			String newQcode = questionMapper.createQCode(cateCode);
+			question.setqCode(newQcode);
 			question.setqContent(qInsertList.get(i));
 			questionMapper.insertQuestion(question);
 		}
