@@ -128,18 +128,56 @@
 											<div class="card">
 												<div class="card-header text-sm-center">
 														
-														
 												<!-- start ajax -->
-												<button class="btn btn-danger btn sweet-wrong" id="storeInfo" th:text="${l.storeName}">
+												<label th:id="${l.storeName}">
+												<button type="button" id="storeInfo" class="btn btn-danger btn sweet-wrong" th:text="${l.storeName}" onclick="coupon()">
 												</button>
+												</label>
 												
 												<script type="text/javascript">
-												$('#storeInfo').click(function(){
-													Swal.fire(`Your IP address is`);
+											  		function coupon(){  
+											  			Swal.fire(`<상점명>
+											  						상점주소 :
+											  						상점연락처 :
+											  						영업시간 :
+											  						`);
+											  		}
+											    </script>
+											    
+											    
+											    <!-- <script type="text/javascript">
+												
+												    $(function(){
+														$('#storeInfo').click(function(){
+														var stName = this.parentElement.id;
+														
+														var request =  $.ajax({
+															  url: "/storeList", //요청 주소
+															  method: "GET", //요청 방식
+															  data: { cateCode : stName },
+															  dataType: "json" //받아올 포맷방식
+															});	
+														request.done(function(data){
+															var htmml= '';
+															var length = data.length;
+															if(length > 0){
+																for(var i= 0; i<length; i++){
+																	htmml += 'Swal.fire('' + data(i) + '')'';  
+																}
+															}
+															
+															Swal.fire(`htmml`);
+														
+														});
+														request.fail(function( jqXHR, textStatus){
+															 alert( "Request failed: " + textStatus );
+														});
+													});
 												});
 												
-												</script>
-
+												</script> -->
+												
+												
 
 												
 												
@@ -148,6 +186,7 @@
 													<div class="mx-auto d-block">
 														<!-- <img class="rounded-circle mx-auto d-block" src="images/admin.jpg" alt="상점이미지"> -->
 														<h5 class="text-sm-center mt-2 mb-1" th:text="${l.storePhone}">전화번호</h5>
+														
 														
 															<div class="location text-sm-center">
 																<i class="fa fa-star"></i> 
@@ -183,7 +222,7 @@
 	<!-- end store info -->
 
 
-
+	
 
 
 </th:block>
