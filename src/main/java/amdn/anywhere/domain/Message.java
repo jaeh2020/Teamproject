@@ -2,24 +2,25 @@ package amdn.anywhere.domain;
 
 public class Message {
 	private String messageNum;
-	private String messageCheckCode;
+	private String confirmId;
 	private String storeCode;
 	private String memberId;
 	private String messageCode;
 	private String messageNoticeTime;
 	private String messageReadTime;
 	private String messageMark;
+	private MessageCommon messageCommon;
 	public String getMessageNum() {
 		return messageNum;
 	}
 	public void setMessageNum(String messageNum) {
 		this.messageNum = messageNum;
 	}
-	public String getMessageCheckCode() {
-		return messageCheckCode;
+	public String getConfirmId() {
+		return confirmId;
 	}
-	public void setMessageCheckCode(String messageCheckCode) {
-		this.messageCheckCode = messageCheckCode;
+	public void setConfirmId(String confirmId) {
+		this.confirmId = confirmId;
 	}
 	public String getStoreCode() {
 		return storeCode;
@@ -57,11 +58,18 @@ public class Message {
 	public void setMessageMark(String messageMark) {
 		this.messageMark = messageMark;
 	}
+	public MessageCommon getMessageCommon() {
+		return messageCommon;
+	}
+	public void setMessageCommon(MessageCommon messageCommon) {
+		this.messageCommon = messageCommon;
+	}
 	@Override
 	public String toString() {
-		return "Message [messageNum=" + messageNum + ", messageCheckCode=" + messageCheckCode + ", storeCode="
-				+ storeCode + ", memberId=" + memberId + ", messageCode=" + messageCode + ", messageNoticeTime="
-				+ messageNoticeTime + ", messageReadTime=" + messageReadTime + ", messageMark=" + messageMark + "]";
+		return "Message [messageNum=" + messageNum + ", confirmId="
+				+ confirmId + ", storeCode=" + storeCode + ", memberId=" + memberId + ", messageCode=" + messageCode
+				+ ", messageNoticeTime=" + messageNoticeTime + ", messageReadTime=" + messageReadTime + ", messageMark="
+				+ messageMark + ", messageCommon=" + messageCommon + "]";
 	}
 	
 	

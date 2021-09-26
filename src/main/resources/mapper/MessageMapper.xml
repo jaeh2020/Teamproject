@@ -4,29 +4,139 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="amdn.anywhere.mapper.MessageMapper">
+	<resultMap type="Message" id="messageResultMap">
+		<result property="messageNum" column="not_num"/>
+		<result property="storeCode" column="store_code"/>
+		<result property="memberId" column="member_id"/>
+		<result property="messageCode" column="message_code"/>
+		<result property="messageNoticeTime" column="not_time"/>
+		<result property="messageReadTime" column="not_read_time"/>
+		<result property="messageMark" column="message_mark"/>
+		<association property="messageCommon" javaType="MessageCommon">
+			<id     property="messageCode" column="message_code"/>
+			<result property="messageCate1" column="message_cate_1"/>
+			<result property="messageIcon" column="message_icon"/>
+			<result property="messgeCate2" column="message_cate_2"/>
+			<result property="messageDetail" column="message_detail"/>
+		</association>
+	</resultMap>
 	
-	<select id="getMessageCommonList" resultType="MessageCommon">
+	<resultMap type="MessageCommon" id="messageCommonResultMap">
+		<result property="messageCode" column="message_code"/>
+		<result property="messageCate1" column="message_cate_1"/>
+		<result property="messageIcon" column="message_icon"/>
+		<result property="messgeCate2" column="message_cate_2"/>
+		<result property="messageDetail" column="message_detail"/>
+	</resultMap>
+
+
+	<!-- 메세지 체크 등록 -->
+	<insert id="addMessageCheck">
+		INSERT INTO tb_member_message_check
+			(message_check_code
+			, member_id
+			, favorite
+			, order_reservation
+			, pay
+			, evaluator
+			, membership
+			, waiting
+			, point
+			, board
+			, review
+			, event
+			, sms
+			, email
+		)VALUES (
+			  #{messageCheckCode}
+			, #{memberId}
+			, #{messageFavorite}
+			, #{orderResevation}
+			, #{messagePay}
+			, #{messageEvaluator}
+			, #{messageMemberShip}
+			, #{messageWaiting}
+			, #{messagePoint}
+			, #{messageBoard}
+			, #{messageReview}
+			, #{messageEvent}
+			, #{messageSms}
+			, #{messageEmail});
+	</insert>
+	<!-- 메세지 등록 쉽게.. -->
+	<insert id="addMessage">
+		INSERT INTO tb_member_notification
+			( not_num
+			, confirm_id
+			, store_code
+			, member_id
+			, message_code
+			, not_time
+			, not_read_time
+			, message_mark
+		)VALUES (
+			  #{messageNum}
+			, #{confirmId}
+			, #{storeCode}
+			, #{memberId}
+			, #{messageCode}
+			, NOW()
+			, NOW()
+			, #{messageMark});
+	</insert>
+	<!-- 체크 목록 -->
+	<select id="getMessageCheckList" resultType="MessageCheck">
 		SELECT 
-			message_code		AS messageCode
-			,message_cate_1		AS messageCate1
-			,message_icon		AS messageIcon
-			,message_cate_2 	AS messgeCate2
-			,message_detail		AS messageDetail
+			message_check_code		AS messageCheckCode
+			, member_id				AS memberId
+			, favorite				AS messageFavorite
+			, order_reservation		AS orderResevation
+			, pay					AS messagePay
+			, evaluator				AS messageEvaluator
+			, membership			AS messageMemberShip
+			, waiting				AS messageWaiting
+			, point					AS messagePoint
+			, board					AS messageBoard
+			, review				AS messageReview
+			, event					AS messageEvent
+			, sms					AS messageSms
+			, email					AS messageEmail
+		FROM 
+			tb_member_message_check;
+	</select>
+	<!-- 공통 메세지 리스트 -->
+	<select id="getMessageCommonList" resultMap="messageCommonResultMap">
+		SELECT 
+			message_code
+			,message_cate_1
+			,message_icon
+			,message_cate_2 
+			,message_detail
 		FROM 
 			tb_message;
 	</select>
 
-	<select id="getMessageList" resultType="Message">
+	<!-- 받은 알림 조회 -->
+	<select id="getMessageList" resultMap="messageResultMap">
 		SELECT 
-			not_num					AS messageNum
-			, store_code			AS storeCode
-			, member_id				AS memberId
-			, message_code			AS messageCode
-			, not_time				AS messageNoticeTime
-			, not_read_time			AS messageReadTime
-			, message_mark			AS messageMark
+			n.not_num
+			, n.store_code
+			, n.member_id
+			, n.message_code
+			, n.not_time
+			, n.not_read_time
+			, n.message_mark
+			, m.message_code
+			, m.message_cate_1
+			, m.message_detail
 		FROM 
-			tb_member_notification;
+			tb_member_notification as n
+			INNER JOIN
+			tb_message as m
+			ON
+			n.message_code = m.message_code
+		GROUP BY 
+			m.message_cate_1;
 	</select>
 
 </mapper>
