@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import amdn.anywhere.domain.Board;
+import amdn.anywhere.domain.BoardCate;
 
 @Mapper
 public interface BoardMapper {
@@ -17,5 +18,8 @@ public interface BoardMapper {
 	
 	//게시판 목록
 	 public List<Board> getBoardList();
+	 
+	 //게시판 카테고리 코드 가져오기
+	 public BoardCate getBoardCateCode(String boardCateCode);
 	 
 }
