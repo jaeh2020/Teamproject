@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+<th:block layout:fragment="customCss">
+</th:block>
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customLocation">
+	<div class="row page-titles">
+	    <div class="col-md-5 align-self-center">
+	        <h3 class="text-primary" th:text="${location2}"></h3></div>
+	    <div class="col-md-7 align-self-center">
+	        <ol class="breadcrumb">
+	            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+	            <li class="breadcrumb-item active" th:text="${location2}"></li>
+	        </ol>
+	    </div>
+	</div>
+</th:block>
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+ 		
+	  <div class="row justify-content-center">
+	      <div class="col-lg-6">
+	          <div class="card">
+	              <div class="card-body">
+	                  <div class="form-validation">
+	                      <form class="form-valide" action="#" method="post">
+	                          <div class="form-group row">
+	                              <label class="col-lg-4 col-form-label" for="selectStore">요청매장 <span class="text-danger">*</span></label>
+	                              <div class="col-lg-6">
+	                                  <select class="form-control" id="selectStore" name="val-skill">
+	                                      <option value=""> : : : 매장 목록  : : : </option>
+	                                      <option th:each="s : ${storeList}" th:text="${s.storeName}" th:value="${s.storeCode}"></option>
+	                                  </select>
+	                              </div>
+	                          </div>
+	                          <div class="form-group row">
+	                              <label class="col-lg-4 col-form-label" for="selectMenu">평가 메뉴 <span class="text-danger">*</span></label>
+	                              <div class="col-lg-6">
+	                                  <select class="form-control" id="selectMenu" name="val-skill">
+	                                      <option value=""> : : : 메뉴 목록  : : : </option>
+	                                  </select>
+	                              	<label class="css-control css-control-primary css-checkbox" for="val-terms">
+	                                          <input type="checkbox" class="css-control-input" id="val-terms" name="val-terms" value="1">
+	                                          <span class="css-control-indicator"></span> 등록되지 않은 신메뉴일 경우 체크해주세요
+	                                      </label>
+								</div>
+	                          </div>
+	                          <div class="form-group row">
+	                              <label class="col-lg-4 col-form-label" for="val-email">모집 공고 제목 <span class="text-danger">*</span></label>
+	                              <div class="col-lg-6">
+	                                  <input type="text" class="form-control" id="val-email" name="val-email" placeholder="공고명을 입력하세요..">
+	                              </div>
+	                          </div>
+	                          <div class="form-group row">
+	                              <label class="col-lg-4 col-form-label" for="val-password">설문조사 제목 <span class="text-danger">*</span></label>
+	                              <div class="col-lg-6">
+	                                  <input type="password" class="form-control" id="val-password" name="val-password" placeholder="설문조사 제목을 입력하세요..">
+	                              </div>
+	                          </div>
+	                          <div class="form-group row">
+	                              <label class="col-lg-4 col-form-label" for="val-checkbox">모집 연령대 <span class="text-danger">*</span></label>
+	                              <div class="col-lg-6">
+	                              	<label class="css-control css-control-primary css-checkbox" for="age10">
+	                                  	<input type="checkbox" class="css-control-input" id="age10" name="val-terms" value="1">
+	                                      <span class="css-control-indicator"></span> 10대
+	                                  </label>
+	                                  <label class="css-control css-control-primary css-checkbox" for="age20">
+	                                  	<input type="checkbox" class="css-control-input" id="age20" name="val-terms" value="1">
+	                                      <span class="css-control-indicator"></span> 20대
+	                                  </label>
+	                                  <label class="css-control css-control-primary css-checkbox" for="age30">
+	                                  	<input type="checkbox" class="css-control-input" id="age30" name="val-terms" value="1">
+	                                      <span class="css-control-indicator"></span> 30대
+	                                  </label>
+	                                  <label class="css-control css-control-primary css-checkbox" for="age40">
+	                                  	<input type="checkbox" class="css-control-input" id="age40" name="val-terms" value="1">
+	                                      <span class="css-control-indicator"></span> 40대
+	                                  </label> 
+	                                  <label class="css-control css-control-primary css-checkbox" for="age50">
+	                                  	<input type="checkbox" class="css-control-input" id="age50" name="val-terms" value="1">
+	                                      <span class="css-control-indicator"></span> 50대 이상
+	                                  </label>
+	                                   <label class="css-control css-control-primary css-checkbox" for="allAge">
+	                                  	<input type="checkbox" class="css-control-input" id="allAge" name="val-terms" value="1">
+	                                      <span class="css-control-indicator"></span> 모든 연령대
+	                                  </label>
+	                                  
+	                              </div>
+	                          </div>
+	                          <div class="form-group row">
+	                              <label class="col-lg-4 col-form-label" for="recruitNum">모집 인원 <span class="text-danger">*</span></label>
+	                              <div class="col-lg-6">
+	                                  <input type="text" class="form-control" id="recruitNum" name="val-phoneus" >
+	                              </div>
+	                          </div>
+	                          <div class="form-group row">
+	                              <label class="col-lg-4 col-form-label">모집 기한<span class="text-danger">*</span></label>
+	                              <div class="col-lg-6">
+	                                  <input type="date" class="form-control" placeholder="dd/mm/yyyy">
+	                              </div>
+	                        		</div>
+	                          <div class="form-group row">
+	                              <label class="col-lg-4 col-form-label" >설문 항목 <span class="text-danger">*</span></label>
+	                              <div class="col-lg-6">
+	                              	<th:block th:each="q :${qCateList}">
+	                               	<label class="css-control css-control-primary css-checkbox" >
+	                                   	<input type="checkbox" class="css-control-input"  name="val-terms" th:value="${q.cateCode}">
+	                                       <span class="css-control-indicator"></span> [[${q.cateName}]]
+	                                   </label>
+	                                  </th:block>        
+	                               </div>
+	                          </div>     
+	                          <div class="form-group row">
+	                              <label class="col-lg-4 col-form-label" for="val-website">분석 요청 항목 <span class="text-danger">*</span></label>
+	                              <div class="col-lg-6">
+	                                 <label class="css-control css-control-primary css-checkbox">
+	                                  	<input type="checkbox" class="css-control-input" id="val-website" name="val-terms" value="1">
+	                                      <span class="css-control-indicator"></span> 항목명
+	                                  </label>
+	                              </div>
+	                          </div>
+	                          <div class="form-group row">
+	                              <div class="col-lg-8 ml-auto">
+	                                  <button type="button" class="btn btn-primary">Submit</button>
+	                              </div>
+	                          </div>
+	                      </form>
+	                  </div>
+	              </div>
+	          </div>
+	      </div>
+	  </div>
+</th:block>
+<!-- End PAge Content -->
+			
+ <!--Custom JavaScript -->
+<th:block layout:fragment="customJsLib">
+	<script type="text/javascript">
+	
+	
+			//메뉴 목록 가져오기(구현중)
+			
+			$(function(){
+				$('#selectStore').change(function(){
+					var selectedStoreCode = $(this).val();
+					if(selectedStoreCode != ''){
+						
+						var request = $.ajax({
+							url: "/taster/menuList", //요청 주소
+							method: "GET", //요청 방식
+							data: { storeCode : selectedStoreCode },
+							dataType: "json" //받아올 포맷방식
+						});
+					}
+				});		
+			});
+	</script>
+</th:block>
+    
+    
+</body>
+</html>
