@@ -32,7 +32,7 @@
 			                                        	<input type="hidden" name="bookCode" th:value="${bookCode}">
 			                                        	<input type="hidden" name="storeCode" th:value="${store.storeCode}">
 			                                        	<input type="hidden" name="userId" th:value="${memberId}">
-			                                        	<input type="hidden" name="stateCode" th:value="${stateCode}">
+			                                        	<input type="hidden" name="stateCode" th:value="${statement.stateCode}">
 			                                        	
 			                                        	<!--매장명-->
 			                                            <div class="col-md-12">
@@ -94,7 +94,8 @@
 			                                            <!-- start 포장여부 -->
 				                                            <div class="col-md-12">
 					                                            <label class="control-label text-right col-md-3">포장여부</label>
-					                                            <input type="checkbox" name="bookPickup" value="1"> 체크시 포장으로 주문/예약이 됩니다.
+					                                            <input type="checkbox" name="bookPickup" value="0"> 방문식사 
+					                                            <input type="checkbox" name="bookPickup" value="1"> 포장
 				                                            </div>
 			                                            <!-- end포장여부 -->
 			

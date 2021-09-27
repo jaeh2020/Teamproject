@@ -23,8 +23,7 @@ private final BoardService boardService;
 		this.boardService = boardService;
 	}
 
-	
-	
+
 
 	@GetMapping("/boardModify")
 	public String boardModify(Model model) {
