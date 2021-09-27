@@ -18,15 +18,71 @@
 	</resultMap>
 		
 	
-	<!-- 게시판 카테고리 코드 가져오기 -->
-	<select id="getBoardCateCode" parameterType="String">
+	
+	<!-- 게시판 정보 가져오기 -->
+	<select id="getBoardInfoByCode" parameterType="String" resultType="Board">
 		SELECT
-			b_cate_code
+			board_title
+		    ,member_id
+			,board_contents
+			,board_file_attach
 		FROM
-			tb_board_cate ;
+	  		tb_board_management
+   		WHERE
+			board_num = #{boardNum};
 	</select>
 	
 	
+	
+	<!-- 게시판 상태코드 가져오기 -->
+	<select id="getboardStatement" resultType="Statement" parameterType="String">
+		SELECT
+			state_code AS stateCode
+		FROM
+			tb_statement
+		WHERE
+			state_code = 'state_board_com';
+	</select>
+	
+	
+	<!-- 게시판 카테고리 코드 가져오기 -->
+	<select id="getBoardCateCode" resultType="BoardCate"  parameterType="String" >
+		SELECT
+			b_cate_code AS boardCateCode
+		FROM
+			tb_board_cate 
+		WHERE
+			b_cate_code = 'u_qa';
+	</select>
+	
+	
+	<!-- ajax 회원정보 보여주기-->
+	<select id="getMemberList" resultType="Member">
+		SELECT
+			 member_id 			AS memberId
+			,member_pw 			AS memberPw
+			,member_name 		AS memberName
+			,level_code 		AS levelCode
+			,member_gender  	AS memberGender
+			,member_birth 		AS memberBirth
+			,member_phone 		AS memberPhone
+			,member_email 		AS memberEmail
+			,member_reg_time 	AS memberRegTime
+		FROM
+			tb_member;
+	</select>
+	
+	<select id="getMemberRead" resultType="Member" parameterType="String">
+		SELECT
+			member_id AS memberId
+			,member_name AS memberName
+			,member_gender AS memberGender
+			,member_birth AS memberBirth
+		FROM
+			tb_member 
+		WHERE
+			member_id = #{memberId};
+	</select>
 	
 	
 	<insert id="boardWrite" parameterType="Board" >
