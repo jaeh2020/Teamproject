@@ -23,6 +23,9 @@ public interface MessageMapper {
 	//공통 알림메세지 리스트
 	public List<MessageCommon> getMessageCommonList();
 	
-	//받은 알림메세지 리스트
+	//받은 알림메세지 리스트(ajax)
+	public List<Message> getMessageL(String messageCode);
+	
+	//알림메세지 리스트
 	public List<Message> getMessageList();
 }
