@@ -84,7 +84,7 @@
 			member_id = #{memberId};
 	</select>
 	
-	
+	<!-- 게시판 등록 -->
 	<insert id="boardWrite" parameterType="Board" >
 		INSERT INTO tb_board_management
 		(board_num    
@@ -111,7 +111,7 @@
 		, #{stateCode});
 	</insert>
 	
-	
+	<!-- 자동등록 게시판 번호 -->
 	<select id="getNewBoardNum" resultType="String">
 		SELECT
 			CASE
@@ -124,6 +124,7 @@
 	</select>
 	
 	
+	<!-- 게시판 리스트 -->
 	<select id="getBoardList" resultMap="borderMap">
 		SELECT 
 			 board_num 
