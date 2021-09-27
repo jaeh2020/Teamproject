@@ -35,18 +35,19 @@ public class MessageController {
 	}
 
 	
-	
 	//환경설정-공통메시지 리스트
 	@GetMapping("/commonMessage")
 	public String getcommonMessage(Model model) {
 		
 		List<MessageCommon> messageCommonList = messageService.getMessageCommonList();
 		
-		model.addAttribute("location","알림등록하기");
+		model.addAttribute("title","공통 알림 목록"); 
+		model.addAttribute("location","공통 알림 목록");
 		model.addAttribute("messageCommonList",messageCommonList);
 
 		return "message/commonMessage";
 	}
+	
 	
 	//관리자 입장 -> 알림체크리스트
 	@GetMapping("/messageCheckList")
@@ -54,7 +55,8 @@ public class MessageController {
 		
 		List<MessageCheck> messageCheckList = messageService.getMessageCheckList();
 		
-		model.addAttribute("location","알림 체크 설정 관리 어쩌고..");
+		 model.addAttribute("title","알림 체크 설정 관리"); 
+		model.addAttribute("location","알림 체크 설정 관리");
 		model.addAttribute("messageCheckList",messageCheckList);
 		return "message/messageCheckList";
 	}
@@ -69,11 +71,13 @@ public class MessageController {
 	}
 	@GetMapping("/messageCheck")
 	public String getMessageCheck(Model model) {
+		
+		 model.addAttribute("title","알림 설정"); 
 		model.addAttribute("location","알림 설정");
 		return "message/messageCheck";
 	}
 	
-	//메세지 알림 등록 쉽게하려고 만드는거임
+	//메세지 알림 등록 쉽게하려고
 	@PostMapping("/addMessage")
 	public String addMessage(Message message, HttpSession httpSession) {
 		System.out.println("커맨드객체 : " + message);
@@ -91,27 +95,37 @@ public class MessageController {
 
 		List<MessageCommon> messageCommonList = messageService.getMessageCommonList();
 		
+		model.addAttribute("title","알림등록하기"); 
 		model.addAttribute("location","알림등록하기");
 		model.addAttribute("messageCommonList",messageCommonList);
 
 		return "message/addMessage";
 	}
+	
+	//알림 메세지 조회 ajax
+	@GetMapping(value="/messageL", produces = "application/json")
+	@ResponseBody
+	public List<Message> getMessageL(
+			@RequestParam(name="messageCate1", required = false) String messageCate1){
+		
+		List<Message> messageList = messageService.getMessageL(messageCate1);
+		
+		System.out.println(messageList + "messageList");
+		
+		return messageList;
+	}
 
 	//알림 메시지 조회
 	  @GetMapping("/messageList") 
 	  public String getMessageList(Model model, HttpSession httpSession) {
-	  
+		  							
 	  List<Message> messageList = messageService.getMessageList();
-	  
-	  Message msg = new Message();
-	  msg.setMemberId((String)httpSession.getAttribute("SID"));
-	  
-	  
-	  System.out.println(msg);
+
+	  model.addAttribute("title","메세지 목록"); 
 	  model.addAttribute("location","메세지 목록"); 
 	  model.addAttribute("messageList",messageList);
 	  return "message/messageList"; 
 	  }
 	 
-
+	
 }
