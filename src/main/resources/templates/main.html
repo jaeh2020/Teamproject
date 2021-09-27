@@ -129,58 +129,12 @@
 												<div class="card-header text-sm-center">
 														
 												<!-- start ajax -->
-												<label th:id="${l.storeName}">
-												<button type="button" id="storeInfo" class="btn btn-danger btn sweet-wrong" th:text="${l.storeName}" onclick="coupon()">
+												<button type="button" class="btn btn-danger btn sweet-wrong storeInfo" 
+												th:text="${l.storeName}" 
+												th:value="${l.storeName}"
+												>
 												</button>
-												</label>
-												
-												<script type="text/javascript">
-											  		function coupon(){  
-											  			Swal.fire(`<상점명>
-											  						상점주소 :
-											  						상점연락처 :
-											  						영업시간 :
-											  						`);
-											  		}
-											    </script>
-											    
-											    
-											    <!-- <script type="text/javascript">
-												
-												    $(function(){
-														$('#storeInfo').click(function(){
-														var stName = this.parentElement.id;
-														
-														var request =  $.ajax({
-															  url: "/storeList", //요청 주소
-															  method: "GET", //요청 방식
-															  data: { cateCode : stName },
-															  dataType: "json" //받아올 포맷방식
-															});	
-														request.done(function(data){
-															var htmml= '';
-															var length = data.length;
-															if(length > 0){
-																for(var i= 0; i<length; i++){
-																	htmml += 'Swal.fire('' + data(i) + '')'';  
-																}
-															}
-															
-															Swal.fire(`htmml`);
-														
-														});
-														request.fail(function( jqXHR, textStatus){
-															 alert( "Request failed: " + textStatus );
-														});
-													});
-												});
-												
-												</script> -->
-												
-												
-
-												
-												
+																								
 												</div>
 												<div class="card-body">
 													<div class="mx-auto d-block">
@@ -230,6 +184,43 @@
 <th:block layout:fragment="customJsLib">
 	<script th:src="@{/js/lib/owl-carousel/owl.carousel.min.js}"></script>
     <script th:src="@{/js/lib/owl-carousel/owl.carousel-init.js}"></script>
+    
+    <script type="text/javascript">
+												
+    $(function(){
+    	
+		$('.storeInfo').click(function(){
+			
+			var stName = $(this).val();		
+			var request =  $.ajax({
+				  url: "/storeList", //요청 주소
+				  method: "GET", //요청 방식
+				  data: { storeName : stName }, // input name->cateCode,  value->stName
+				  dataType: "json" //받아올 포맷방식
+			});	
+			request.done(function(data){
+				
+				console.log(data);
+				console.log(data.storeName, data.storePhone, data.storeHoliday, data.storeLocation, data.storeTime);
+				
+				var htmml= '';
+				
+				htmml += '<text class="text-info"> 상점명 : </text>' + data.storeName;
+				htmml += '<br> <text class="text-info"> 주소 : </text>' + data.storeLocation;
+				htmml += '<br> <text class="text-info"> 전화번호 : </text>' + data.storePhone;
+				htmml += '<br> <text class="text-info"> 영업시간 : </text>' + data.storeTime;
+				htmml += '<br> <text class="text-danger"> 휴일 : </text>' + data.storeHoliday;
+								
+				Swal.fire(htmml);
+			
+			});
+			request.fail(function( jqXHR, textStatus){
+				 alert( "Request failed: " + textStatus );
+			});
+	});
+});
+
+</script>
     
 </th:block>
 </html>

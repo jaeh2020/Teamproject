@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import amdn.anywhere.domain.Questionnaire;
+
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.service.MainService;
 
@@ -27,11 +27,10 @@ public class MainController {
 	//ajax
 	@GetMapping(value="/storeList", produces = "application/json")
 	@ResponseBody
-	public List<Store> getStoreList(
-				@RequestParam(name="storeName", required = false) String storeName){
-		
-		List<Store> storeList = mainService.getMainList();
-		return storeList;
+	public Store getStoreList(
+				@RequestParam(name="storeName", required = false) String storeName
+	){		
+		return mainService.getMainRead(storeName);
 	}
 		
 	@GetMapping("/")
@@ -43,7 +42,9 @@ public class MainController {
 
 		return "main";
 	}
-
+	
+	
+	
 	
 
 }
