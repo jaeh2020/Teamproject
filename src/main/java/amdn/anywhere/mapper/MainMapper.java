@@ -11,5 +11,7 @@ public interface MainMapper {
 	
 	//상점목록 조회
 	public List<Store> getMainList();
+	//상점 조회
+	public Store getMainRead(String stName);
 
 }

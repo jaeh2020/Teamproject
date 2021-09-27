@@ -12,18 +12,20 @@ import amdn.anywhere.mapper.MainMapper;
 public class MainService {
 	
 	
-	  private final MainMapper mainMapper;
+	private final MainMapper mainMapper;
 	
-	  @Autowired
-	  public MainService(MainMapper mainMapper) { 
-		  this.mainMapper = mainMapper; 
-		  
-	  }
+	@Autowired
+	public MainService(MainMapper mainMapper) { 
+		 this.mainMapper = mainMapper; 
+	}
 	 
-	 public List<Store> getMainList(){ 
-		 List<Store> mainList = mainMapper.getMainList();
+	public List<Store> getMainList(){ 
+		return mainMapper.getMainList(); 
+	}
 	
-	 return mainList; }
+	public Store getMainRead(String stName){ 
+		return mainMapper.getMainRead(stName); 
+	}
 	 
 
 
