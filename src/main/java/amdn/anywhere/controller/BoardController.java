@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,7 +19,7 @@ import amdn.anywhere.domain.Statement;
 import amdn.anywhere.service.BoardService;
 
 @Controller
-/* @RequestMapping("/board") */
+@RequestMapping("/board")
 public class BoardController {
 	private final BoardService boardService;
 
@@ -30,12 +31,9 @@ public class BoardController {
 	@GetMapping("/boardModify")
 	public String boardModify(Model model) {
 		model.addAttribute("title", "게시판 수정");
-		return "board/boardModify";
+		return "/board/boardModify";
 	}
 
-	
-	
-	
 	
 	// 게시글 보기
 	@GetMapping("/boardView")
@@ -52,17 +50,18 @@ public class BoardController {
 		model.addAttribute("title", "게시판 조회");
 		model.addAttribute("board", board);
 		
-		return "board/boardView";
+		return "/board/boardView";
 	}
 
 	
 	
-	  //ajax - 회원 정보 보기
+	  //회원 정보 보기 - ajax
 	  @GetMapping(value="/memberSearch", produces = "application/json")
 	  @ResponseBody 
 	  public Member getMemberList(@RequestParam(name="memberId", required = false) String memberId){ 		  
 		  Member member = boardService.getMemberRead(memberId);
 		  if(member == null) member = new Member();		  		  
+		  
 		  return member; 
 		  
 	  }
@@ -78,10 +77,10 @@ public class BoardController {
 		model.addAttribute("location", "소비자 게시판");
 		model.addAttribute("boardList", boardList);
 		
-		return "board/boardList";
+		return "/board/boardList";
 	}
 	
-	 // 게시글 작성
+	 // 게시글 작성 
 	@PostMapping("/boardWrite")
 	public String boardWrite(Board board) {
 		System.out.println("====================");
@@ -91,9 +90,9 @@ public class BoardController {
 
 		if (board != null)
 			boardService.boardWrite(board);
-		return "redirect:/boardList";
+		return "redirect:/board/boardList";
 	}
-
+	// 게시글 작성 처리
 	@GetMapping("/boardWrite")
 	public String reviewList(Model model
 							,HttpSession session
@@ -115,7 +114,7 @@ public class BoardController {
 		model.addAttribute("boardCate", boardCate);
 		model.addAttribute("boardStatement", boardStatement);
 		
-		return "board/boardWrite";
+		return "/board/boardWrite";
 	}
 
 }

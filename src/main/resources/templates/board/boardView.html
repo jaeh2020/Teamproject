@@ -19,7 +19,7 @@
 							</h4>
 						</div>
 						<div class="userId" style=" padding-top: 20px; font-weight: bold;">
-							작성자 : <!-- <input type="text"  th:value="${board.memberId}" readonly="readonly" style="border: 0;"> -->
+							작성자 : <!-- <input type="text"  th:text="${memberId}" readonly="readonly" style="border: 0;">  -->
 						</div>
 						<div class="box-body" style=" height: 700px;  padding-top: 20px;">
 							글 내용 :
@@ -43,11 +43,11 @@
 							<hr>
 							
 					<div class="box-footer" style="margin-top: 20px;">
-							<a th:href="@{/boardList}" class="btn btn-primary listBtn" style="display: inline;">
+							<a th:href="@{/board/boardList}" class="btn btn-primary listBtn" style="display: inline;">
 								<i class="fa fa-list"></i> 목록
 							</a>
 						<div class="pull-right">
-							<a th:href="@{/boardModify}" class="btn btn-warning modBtn"><i class="fa fa-edit"></i> 수정</a>
+							<a th:href="@{/board/boardModify}" class="btn btn-warning modBtn"><i class="fa fa-edit"></i> 수정</a>
 							<a th:href="@{/#}" class="btn btn-danger delBtn"><i class="fa fa-trash"></i> 삭제</a>
 						</div>
 					</div>
