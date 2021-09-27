@@ -131,16 +131,15 @@
 			, m.message_detail
 		FROM 
 			tb_member_notification as n
-			INNER JOIN
+			inner JOIN
 			tb_message as m
 			ON
 			n.message_code = m.message_code
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="messageCate1 != null">
+		<where>
+			<if test="messageCate1 != null and messageCate1 != 'All'">
 				m.message_cate_1 = #{messageCate1}
-			</if>		
-		</trim>	
-				
+			</if>
+		</where>
 	</select>
 
 	<select id="getMessageList" resultMap="messageResultMap">
@@ -157,7 +156,7 @@
 			, m.message_detail
 		FROM 
 			tb_member_notification as n
-			left JOIN
+			inner JOIN
 			tb_message as m
 			ON
 			n.message_code = m.message_code
