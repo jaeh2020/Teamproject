@@ -50,9 +50,6 @@
 			<div class="card sidebar">
 				<table class="table table-hover ">
                     <tbody>
-                    	<tr>
-                    		<td class="all"><a href="#">전체</a></td>
-                    	</tr>
                         <tr th:each="l : ${messageList}">
                             <td th:text="${l.messageCommon.messageCate1}" th:id="${l.messageCommon.messageCate1}" class="cate"></td>
                         </tr>
