@@ -13,61 +13,16 @@
 		<div class="col-lg-12">
 			<div class="box box-primary">
 				<div class="card-header" >
-					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 매출 현황  </h4>
+					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 마감 확인  </h4>
 				</div>
-				
-				
-				
-				
-				
-				
-				<div class="card">
-					<div class="card-title" >
-						<h4>매출 검색</h4> 
-					</div>
-					<div class="card-content">
-					<div class="basic-form">
-						<form>
-							<div class="todo-list">
-								<div class="tdl-holder">
-									<div class="tdl-content">
-										<ul id="questionUl">
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="input-group input-group-flat">
-									<input type="text" class="form-control" placeholder="문항을 입력하세요">
-									<a th:href="@{/salesList}" class="btn btn-primary" type="button"><i class="ti-search"></i>  검색</a>
-								</div>
-							</div>
-						</form>
-					</div>
-					</div>
-				</div>
-				
-					<div class="form-group">
-						<label for="title" style="margin-top: 30px; font-weight:bold;">매장코드</label>
-						<input class="form-control" id="title" name="title" placeholder=${/SESSION} readonly="readonly">
-					</div>
-					
-					<div class="form-group">
-						<label for="writer" style="font-weight:bold;">권한</label>
-						<input class="form-control" id="memberLevel" name="memberLevel" placeholder="판매자 권한" readonly="readonly">
-					</div>
-				
-				
-				
 				<div class="box-body" style="padding-top: 20px;">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
 								<th style="width: 30px; font-style: italic; font-weight: bold;">No</th>
-								<th style="font-weight: bold;">내용</th>
-								<th style="width: 120px; font-weight: bold;">매장코드</th>
-								<th style="width: 120px; font-weight: bold;">가격</th>
-								<th style="width: 150px;  font-weight: bold;">등록시간</th>
+								<th style="font-weight: bold;">체크리스트</th>
+								<th style="width: 120px; font-weight: bold;">네</th>
+								<th style="width: 120px; font-weight: bold;">아니오</th>
 								<th style="width: 150px;  font-weight: bold;">마감시간</th>
 							</tr>
 						</thead>
@@ -125,13 +80,8 @@
 				</div>
 				<div class="box-footer">
 					<div class="pull-right">
-						<a th:href="@{/addSales}" class="btn btn-success btn-flat" style="margin-top: 15px;">
-							<i class="fa fa-pencil"></i> 매출추가
-						</a>
-					</div>
-					<div class="pull-left">
-						<a th:href="@{/addSales}" class="btn btn-primary" style="margin-top: 15px;">
-							<i class="fa fa-check"></i> 마감완료
+						<a th:href="@{/salesList}" class="btn btn-success btn-flat" style="margin-top: 15px;">
+							<i class="fa fa-pencil"></i> 마감등록
 						</a>
 					</div>
 				</div>

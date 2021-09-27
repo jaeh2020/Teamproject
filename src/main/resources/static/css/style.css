@@ -6921,6 +6921,7 @@ tbody tr td:last-child {
 /* ----saewon ----*/
 .noMargin {
 	margin-bottom : 0px!important;
+	float: right!important;
 }
 .pushMargin {
 	margin-top: 7px!important;
@@ -6934,11 +6935,25 @@ tbody tr td:last-child {
 }
 .newInputMargin{
 	width: 190px!important;
-	margin-left: 20px;
 }
 .newInputSmall{
-	margin-left : 20px;
- 	width: 75px!important;
+	margin: 0px 40px;
+ 	width: 70px!important;
+}
+.newInputXSmall{
+ 	width: 70px!important;
+}
+.QcateTable {
+	table-layout: fixed!important;
+}
+.QcateTable .smallTh{
+	width: 80px!important;
+}
+.QcateTable .xSmallTh{
+	width: 50px!important;
+}
+.input-focus2{
+	border-color: #26dad2;
 }
 /* ----saewon ----*/
 

@@ -4,13 +4,90 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="amdn.anywhere.mapper.BookMapper">
 
-<select id="getStoreInfoById" parameterType="String" resultType="Store">
+
+<!-- 주문정보 페이지에 메뉴리스트 불러오기 -->
+<select id="getMenuList" resultType="Menu">
+	SELECT 
+		menu_code AS menuCode
+		,store_code AS storeCode
+		,main_cate_code AS mainCateCode
+		,menu_cate_code AS menuCateCode
+		,menu_name AS menuName
+		,menu_price AS menuPrice
+		,menu_detail AS menuDetail
+		,menu_using AS menuUsing
+	FROM 
+		tb_store_menu;
+</select>
+
+
+
+<!-- 예약자정보 페이지에 매장명 불러오기 -->
+<select id="getStoreInfoByName" parameterType="String" resultType="Store">
 	SELECT 
 		store_name AS storeName
+		,store_code AS storeCode
 	FROM 
 		tb_store_info
 	WHERE
 		store_name = #{storeName};
 </select>
+
+
+<!-- 예약자정보 테이블에 저장 -->
+<insert id="addBookMember" parameterType="Book">
+	INSERT INTO tb_book
+		(b_o_code
+		,store_code
+		,user_id
+		,book_user_name
+		,book_user_phone
+		,book_peo_num
+		,book_sign_time
+		,book_comp_time
+		,book_call_agree
+		,state_code
+		,book_pickup
+	)VALUES (
+		   #{bookCode}
+		  ,#{storeCode}
+		  ,#{userId}
+		  ,#{bookUserName}
+		  ,#{bookUserPhone}
+		  ,#{bookPeoNum}
+		  ,CURDATE()
+		  ,null
+		  ,null
+		  ,#{stateCode}
+		  ,#{bookPickup}
+	);
+		
+
+</insert>
+
+
+<!-- 예약코드 자동증가 -->
+	<select id="getNewBookCode" resultType="String">
+		SELECT
+		   CASE
+		   WHEN COUNT(1) = 0 THEN 'b_001'
+		   ELSE
+		      CONCAT('b_', LPAD(MAX(CAST(SUBSTRING(b_o_code,3,3)AS DECIMAL)+1),3,0))
+		   END AS bookCode
+		FROM
+		   tb_book;
+	</select>
+	
+	
+<!-- 상품코드 조회 -->	
+	<select id="getStoreCode"  parameterType="String" resultType="Store">
+		SELECT 
+			store_code
+		FROM	
+			tb_store_info
+		WHERE 
+			store_name = #{storeName};
+	</select>
+
 
 </mapper>
