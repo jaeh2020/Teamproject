@@ -25,8 +25,10 @@ public class BoardController {
 	public BoardController(BoardService boardService) {
 		this.boardService = boardService;
 	}
+
 	
 	 // 게시글 수정
+
 	@GetMapping("/boardModify")
 	public String boardModify(Model model) {
 		model.addAttribute("title", "게시판 수정");

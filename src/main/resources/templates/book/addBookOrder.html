@@ -66,7 +66,7 @@
 																					<div class="form-check">
 																						<div class="checkbox">
 																							<label for="checkbox1" class="form-check-label ">
-																								<input type="checkbox" id="allCk" name="menuLis" th:value="${m.menuName}" class="form-check-input" th:text="${m.menuName+' '+m.menuPrice}">
+																								<input type="checkbox" name="menuLis" th:value="${m.menuName}" class="form-check-input" th:text="${m.menuName+' '+m.menuPrice}" th:data-menuCode="${m.menuCode}">
 																							</label>
 																						</div>
 																					</div>
@@ -77,20 +77,19 @@
 																	<!-- 메뉴선택 메인메뉴탭 end -->
 																	<!-- 메뉴선택 사이드메뉴탭 start-->
 																	<div class="tab-pane  p-20" id="tab2" role="tabpanel">
-																		<ul>
-																				<li>
-																					<a href="#">콜라 1500</a>
-																				</li>
-																				<li>
-																					<a href="#">사이다 1500</a>
-																				</li>
-																				<li>
-																					<a href="#">맥주 4000</a>
-																				</li>
-																				<li>
-																					<a href="#">소주 5000</a>
-																				</li>
-																		</ul>
+																		<div class="p-20">
+																			<th:block th:if="${#lists.size(menuList) > 0}" th:each="m : ${menuList}">
+																				<th:block th:if="${m.menuCateCode == 'm_c_side'}">
+																					<div class="form-check">
+																						<div class="checkbox">
+																							<label for="checkbox1" class="form-check-label ">																								
+																								<input type="checkbox" name="menuLis" th:value="${m.menuName}" class="form-check-input" th:text="${m.menuName+' '+m.menuPrice}" th:data-menuCode="${m.menuCode}">
+																							</label>
+																						</div>
+																					</div>
+																				</th:block>
+																			</th:block>
+																		</div>
 																	</div>
 																	<!-- 메뉴선택 사이드메뉴탭 end -->
 																</div>
@@ -112,7 +111,7 @@
 																	<!-- 수량선택상세 -->
 																	<div>
 					                                                    <div id="menuN" class="col-md-12">
-					                                                        	해물짬뽕 : <input type="number" name="menuNum" value="1" style="width:60px;">개
+					                                                        	
 					                                                    </div>
 				                                                    </div>
 				                                                    
@@ -200,12 +199,12 @@
 
 
 
-<th:block layout:fragment="customJsLib"><script>
+<th:block layout:fragment="customJsLib">
 
 
 <!-- 메뉴클릭하면 수량칸에 클릭한 메뉴가 화면에 뿌려짐 -->
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 
 var menuLis = document.querySelectorAll('[name=menuLis]');
 var menuN = document.querySelector('#menuN');
@@ -221,14 +220,31 @@ var menuN = document.querySelector('#menuN');
 	});
 
 	
-</script>
+</script> -->
 
 <script>
 	$(function(){
 		$('.form-check-input').on('click', function(){
-			console.log(1);
+			console.log('수량선택 시작');
+			var menuN = $('#menuN');
+			var html = '';
+			var menuCode = $(this).attr('data-menuCode');
+			
+			if(menuN.find('.'+menuCode).length == 0){				
+				html += '<section class="'+menuCode+'">';
+				html += $(this).val() + ' : <input type="number" name="menuNum" value="1" style="width:60px;">개';
+				html += '<button type="button" class="menu-target-remove btn btn-rink btn-sm">X</button>';
+				html += '</section>';
+				
+				menuN.append(html);
+			}			
+			//menuN.innerHTML = html;
 		});
-	})
+	});
+	
+	$(document).on('click','.menu-target-remove', function(){
+		$(this).parent().remove();
+	});
 </script>
 
 	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
