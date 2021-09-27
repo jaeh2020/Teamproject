@@ -6,12 +6,11 @@ public class Board {
 	private String boardTitle;
 	private String boardContents;
 	private String boardFile;
-	private String boardSecret;
+	private int boardSecret;
 	private String boardRegTime;
-	private String boardViews;
+	private int boardViews;
 	private String memberId;
 	private String stateCode;
-	
 	public String getBoardNum() {
 		return boardNum;
 	}
@@ -42,10 +41,10 @@ public class Board {
 	public void setBoardFile(String boardFile) {
 		this.boardFile = boardFile;
 	}
-	public String getBoardSecret() {
+	public int getBoardSecret() {
 		return boardSecret;
 	}
-	public void setBoardSecret(String boardSecret) {
+	public void setBoardSecret(int boardSecret) {
 		this.boardSecret = boardSecret;
 	}
 	public String getBoardRegTime() {
@@ -54,10 +53,10 @@ public class Board {
 	public void setBoardRegTime(String boardRegTime) {
 		this.boardRegTime = boardRegTime;
 	}
-	public String getBoardViews() {
+	public int getBoardViews() {
 		return boardViews;
 	}
-	public void setBoardViews(String boardViews) {
+	public void setBoardViews(int boardViews) {
 		this.boardViews = boardViews;
 	}
 	public String getMemberId() {
@@ -72,7 +71,6 @@ public class Board {
 	public void setStateCode(String stateCode) {
 		this.stateCode = stateCode;
 	}
-	
 	@Override
 	public String toString() {
 		return "Board [boardNum=" + boardNum + ", boardCateCode=" + boardCateCode + ", boardTitle=" + boardTitle
@@ -80,6 +78,7 @@ public class Board {
 				+ ", boardRegTime=" + boardRegTime + ", boardViews=" + boardViews + ", memberId=" + memberId
 				+ ", stateCode=" + stateCode + "]";
 	}
+	
 	
 	
 	
