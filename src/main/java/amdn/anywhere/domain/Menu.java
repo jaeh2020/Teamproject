@@ -8,7 +8,7 @@ public class Menu {
 	private String bizId;
 	private String storeCode;
 	private String mainCateCode;
-	private String manuCateCode;
+	private String menuCateCode;
 	private String menuName;
 	private String menuPrice;
 	private String menuDetail;
@@ -44,11 +44,11 @@ public class Menu {
 	public void setMainCateCode(String mainCateCode) {
 		this.mainCateCode = mainCateCode;
 	}
-	public String getManuCateCode() {
-		return manuCateCode;
+	public String getMenuCateCode() {
+		return menuCateCode;
 	}
-	public void setManuCateCode(String manuCateCode) {
-		this.manuCateCode = manuCateCode;
+	public void setMenuCateCode(String menuCateCode) {
+		this.menuCateCode = menuCateCode;
 	}
 	public String getMenuName() {
 		return menuName;
@@ -83,7 +83,7 @@ public class Menu {
 	@Override
 	public String toString() {
 		return "Menu [menuCode=" + menuCode + ", bizCode=" + bizCode + ", bizId=" + bizId + ", storeCode=" + storeCode
-				+ ", mainCateCode=" + mainCateCode + ", manuCateCode=" + manuCateCode + ", menuName=" + menuName
+				+ ", mainCateCode=" + mainCateCode + ", manuCateCode=" + menuCateCode + ", menuName=" + menuName
 				+ ", menuPrice=" + menuPrice + ", menuDetail=" + menuDetail + ", menuRegTime=" + menuRegTime
 				+ ", menuUsing=" + menuUsing + "]";
 	}

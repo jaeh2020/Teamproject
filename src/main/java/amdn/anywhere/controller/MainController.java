@@ -27,11 +27,10 @@ public class MainController {
 	//ajax
 	@GetMapping(value="/storeList", produces = "application/json")
 	@ResponseBody
-	public List<Store> getStoreList(
-				@RequestParam(name="storeName", required = false) String storeName){
-		
-		List<Store> storeList = mainService.getMainList();
-		return storeList;
+	public Store getStoreList(
+				@RequestParam(name="storeName", required = false) String storeName
+	){		
+		return mainService.getMainRead(storeName);
 	}
 		
 	@GetMapping("/")
