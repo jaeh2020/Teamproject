@@ -117,7 +117,7 @@
 	</select>
 
 	<!-- 받은 알림 조회 -->
-	<select id="getMessageList" resultMap="messageResultMap">
+	<select id="getMessageL" resultMap="messageResultMap">
 		SELECT 
 			n.not_num
 			, n.store_code
@@ -135,8 +135,35 @@
 			tb_message as m
 			ON
 			n.message_code = m.message_code
-		GROUP BY 
-			m.message_cate_1;
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="messageCate1 != null">
+				m.message_cate_1 = #{messageCate1}
+			</if>		
+		</trim>	
+				
 	</select>
 
+	<select id="getMessageList" resultMap="messageResultMap">
+		SELECT 
+			n.not_num
+			, n.store_code
+			, n.member_id
+			, n.message_code
+			, n.not_time
+			, n.not_read_time
+			, n.message_mark
+			, m.message_code
+			, m.message_cate_1
+			, m.message_detail
+		FROM 
+			tb_member_notification as n
+			left JOIN
+			tb_message as m
+			ON
+			n.message_code = m.message_code
+		GROUP by
+			m.message_cate_1;
+
+	</select>
+	
 </mapper>

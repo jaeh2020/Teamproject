@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import amdn.anywhere.domain.Message;
 import amdn.anywhere.domain.MessageCheck;
 import amdn.anywhere.domain.MessageCommon;
+import amdn.anywhere.domain.Questionnaire;
 import amdn.anywhere.mapper.MessageMapper;
 
 @Service
@@ -45,6 +46,12 @@ public class MessageService {
 		return messageCommonList;
 	}
 	
+	//메시지 알림 조회(ajax)
+	public List<Message> getMessageL(String messageCode){
+		List<Message> messageList = messageMapper.getMessageL(messageCode);
+		
+		return messageList;
+	}
 	//메시지 알림 조회
 	public List<Message> getMessageList(){
 		List<Message> messageList = messageMapper.getMessageList();

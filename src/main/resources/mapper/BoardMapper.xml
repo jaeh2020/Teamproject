@@ -4,68 +4,136 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="amdn.anywhere.mapper.BoardMapper">
 
-<resultMap type="Board" id="borderMap">
-	<result property="boardNum"		column="board_num"></result>
-	<result property="boardCateCode"		column="b_cate_code"></result>
-	<result property="boardTitle"		column="board_title"></result>
-	<result property="boardContents"		column="board_contents"></result>
-	<result property="boardFile"		column="board_file_attach"></result>
-	<result property="boardSecret"		column="board_secret"></result>
-	<result property="boardRegTime"	column="board_time"></result>
-	<result property="boardViews"		column="board_views"></result>
-	<result property="memberId"		column="member_id"></result>
-	<result property="stateCode"		column="state_code"></result>
-</resultMap>
+	<resultMap type="Board" id="borderMap">
+		<result property="boardNum"		column="board_num"></result>
+		<result property="boardCateCode"		column="b_cate_code"></result>
+		<result property="boardTitle"		column="board_title"></result>
+		<result property="boardContents"		column="board_contents"></result>
+		<result property="boardFile"		column="board_file_attach"></result>
+		<result property="boardSecret"		column="board_secret"></result>
+		<result property="boardRegTime"	column="board_time"></result>
+		<result property="boardViews"		column="board_views"></result>
+		<result property="memberId"		column="member_id"></result>
+		<result property="stateCode"		column="state_code"></result>
+	</resultMap>
+		
 	
-
-
-<insert id="boardWrite" parameterType="Board" >
-	INSERT INTO tb_board_management
-	(board_num    
-	, b_cate_code 
-	, board_title  
-	, board_contents  
-	, board_file_attach  
-	, board_secret  
-	, board_time    
-	, board_views   
-	, member_id    
-	, state_code   
-	)
-	VALUES (
-	  #{boardNum}
-	, #{boardCateCode}
-	, #{boardTitle}
-	, #{boardContents}
-	, #{boardFile}
-	, #{boardSecret}
-	, NOW()
-	, #{boardViews}
-	, #{memberId}
-	, #{stateCode});
-</insert>
-
-
-<select id="getNewBoardNum" resultType="String">
-	SELECT
-		CASE
-		WHEN COUNT(1) = 0 THEN 'brd_001'
-		ELSE
-		   CONCAT('brd_', LPAD(MAX(CAST(SUBSTRING(board_num,5,6)AS DECIMAL)+1),3,0))
-		END AS boardNum
-	FROM
-		tb_board_management;
-</select>
-
-
-<select id="getBoardList" resultMap="borderMap">
-	SELECT 
-		board_num 
-		,board_title 
-		,member_id
-		,board_time 
-		,board_views 
-	FROM 
-		tb_board_management;
-</select>
+	
+	<!-- 게시판 정보 가져오기 -->
+	<select id="getBoardInfoByCode" parameterType="String" resultType="Board">
+		SELECT
+			board_title
+		    ,member_id
+			,board_contents
+			,board_file_attach
+		FROM
+	  		tb_board_management
+   		WHERE
+			board_num = #{boardNum};
+	</select>
+	
+	
+	
+	<!-- 게시판 상태코드 가져오기 -->
+	<select id="getboardStatement" resultType="Statement" parameterType="String">
+		SELECT
+			state_code AS stateCode
+		FROM
+			tb_statement
+		WHERE
+			state_code = 'state_board_com';
+	</select>
+	
+	
+	<!-- 게시판 카테고리 코드 가져오기 -->
+	<select id="getBoardCateCode" resultType="BoardCate"  parameterType="String" >
+		SELECT
+			b_cate_code AS boardCateCode
+		FROM
+			tb_board_cate 
+		WHERE
+			b_cate_code = 'u_qa';
+	</select>
+	
+	
+	<!-- ajax 회원정보 보여주기-->
+	<select id="getMemberList" resultType="Member">
+		SELECT
+			 member_id 			AS memberId
+			,member_pw 			AS memberPw
+			,member_name 		AS memberName
+			,level_code 		AS levelCode
+			,member_gender  	AS memberGender
+			,member_birth 		AS memberBirth
+			,member_phone 		AS memberPhone
+			,member_email 		AS memberEmail
+			,member_reg_time 	AS memberRegTime
+		FROM
+			tb_member;
+	</select>
+	
+	<select id="getMemberRead" resultType="Member" parameterType="String">
+		SELECT
+			member_id AS memberId
+			,member_name AS memberName
+			,member_gender AS memberGender
+			,member_birth AS memberBirth
+		FROM
+			tb_member 
+		WHERE
+			member_id = #{memberId};
+	</select>
+	
+	
+	<insert id="boardWrite" parameterType="Board" >
+		INSERT INTO tb_board_management
+		(board_num    
+		, b_cate_code 
+		, board_title  
+		, board_contents  
+		, board_file_attach  
+		, board_secret  
+		, board_time    
+		, board_views   
+		, member_id    
+		, state_code   
+		)
+		VALUES (
+		  #{boardNum}
+		, #{boardCateCode}
+		, #{boardTitle}
+		, #{boardContents}
+		, #{boardFile}
+		, #{boardSecret}
+		, NOW()
+		, #{boardViews}
+		, #{memberId}
+		, #{stateCode});
+	</insert>
+	
+	
+	<select id="getNewBoardNum" resultType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN 'brd_001'
+			ELSE
+			   CONCAT('brd_', LPAD(MAX(CAST(SUBSTRING(board_num,5,6)AS DECIMAL)+1),3,0))
+			END AS boardNum
+		FROM
+			tb_board_management;
+	</select>
+	
+	
+	<select id="getBoardList" resultMap="borderMap">
+		SELECT 
+			 board_num 
+			,board_title 
+			,member_id
+			,board_time 
+			,board_views 
+		FROM 
+			tb_board_management;
+	</select>
+	
+	
 </mapper>

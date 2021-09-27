@@ -32,6 +32,7 @@ public class CommonInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+
 						
 		HandlerMethod handlerObj = null;
 		if(handler != null && handler instanceof HandlerMethod) {			
@@ -43,6 +44,8 @@ public class CommonInterceptor implements HandlerInterceptor{
 		//request.getSession().setAttribute("SID", "id004");
 		request.getSession().setAttribute("SID", "id010");
 		request.getSession().setAttribute("SNAME", "임소비");
+
+
 		
 		//request.getSession().setAttribute("SLEVEL", "level_admin");
 
