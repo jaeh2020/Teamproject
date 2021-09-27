@@ -1,3 +1,4 @@
+
 package amdn.anywhere.controller;
 
 import java.util.List;
@@ -118,3 +119,4 @@ public class BoardController {
 	}
 
 }
+

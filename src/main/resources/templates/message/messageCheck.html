@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<!-- th:replace="fragments/head.html(html확장자를 제외한 경로) :: (해당 html안에 선언된 조각변수이름) -->
-<head th:replace="fragments/head :: headFragment"></head>
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
 
-<style type= "text/css">
+
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+	<!-- css -->
+	<style type= "text/css">
 	input[type="checkbox"] {
 	  position: absolute;
 	  visibility: hidden;
@@ -66,167 +70,118 @@
 		color: #505050;
 	}
 
-
-</style>
-
-<body class="fix-header fix-sidebar mini-sidebar">
-<!-- All Jquery -->
-    <script src="js/lib/jquery/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="js/lib/bootstrap/js/popper.min.js"></script>
-    <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
-    <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
-    <!--stickey kit -->
-    <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="js/custom.min.js"></script>
+	</style>
 	
-	<div id="main-wrapper">
-		<!-- begin header -->
-		<div th:replace="fragments/header :: headerFragment"></div>
-		<!-- end header -->
-		
-		<!-- begin leftsidebar -->
-		<div th:replace="fragments/leftsidebar :: leftsidebarFragment"></div>
-		<!-- end leftsidebar -->
-		
-		<!-- Page wrapper  -->
-		<div class="page-wrapper">
-			<!-- Bread crumb -->
-            <div class="row page-titles">
-                <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary" th:text="${location}">알림</h3> </div>
-                <div class="col-md-7 align-self-center">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item active" th:text="${location}">알림</li>
-                    </ol>
-                </div>
-            </div>
-            <!-- End Bread crumb -->
-          
-            <!-- Container fluid  -->
-            <div class="container-fluid">
-            	<!-- Start Page Content -->
-				<th:block layout:fragment="customContents">
-					<!-- 알림설정부분 -->
-					<div class="row justify-content-center">
-							<div class="col-lg-6 ">
-								<div class="card">
-						            <div class="card-header">
-						                <strong class="card-title">알림 설정</strong>
-						            </div>
-						            <div class="card-body">
-										<table class="table table-hover ">
-											<tbody>
-							                    <tr>
-							                        <td>주문</td>
-							                        <td>
-							                        	<input type="checkbox" id="order_reservation" checked disabled="disabled">
-														<label for="order_reservation"><span></span></label>
-													</td>
-							                    </tr>
-							                    <tr>
-							                        <td>결제</td>
-							                        <td>
-							                        	<input type="checkbox" id="pay" checked disabled="disabled">
-														<label for="pay"><span></span></label>
-													</td>
-							                    </tr>
-							                    <tr>
-							                        <td>대기</td>
-							                        <td>
-							                        	<input type="checkbox" id="waiting" checked disabled="disabled">
-														<label for="waiting"><span></span></label>
-													</td>
-							                    </tr>
-							                    <tr>
-							                        <td>게시판</td>
-							                        <td>
-							                        	<input type="checkbox" id="board" checked>
-														<label for="board"><span></span></label>
-													</td>
-							                    </tr>
-							                    <tr>
-							                        <td>리뷰</td>
-							                        <td>
-							                        	<input type="checkbox" id="review" checked>
-														<label for="review"><span></span></label>
-													</td>
-							                    </tr>
-							                    <tr>
-							                        <td>포인트</td>
-							                        <td>
-							                        	<input type="checkbox" id="point" checked>
-														<label for="point"><span></span></label>
-													</td>
-							                    </tr>
-							                    <tr>
-							                        <td>평가단</td>
-							                        <td>
-							                        	<input type="checkbox" id="evaluator" checked>
-														<label for="evaluator"><span></span></label>
-													</td>
-							                    </tr>
-							                    <tr>
-							                        <td>회원등급</td>
-							                        <td>
-							                        	<input type="checkbox" id="membership" checked>
-														<label for="membership"><span></span></label>
-													</td>
-							                    </tr>
-							                    <tr>
-							                        <td>이벤트</td>
-							                        <td>
-							                        	<input type="checkbox" id="event" checked>
-														<label for="event"><span></span></label>
-													</td>
-							                    </tr>
-							                    <tr>
-							                        <td>추천/즐겨찾기</td>
-							                        <td>
-							                        	<input type="checkbox" id="favorite" checked>
-														<label for="favorite"><span></span></label>
-													</td>
-							                    </tr>
-							                    <tr>
-							                        <td>sms 수신 여부</td>
-							                        <td>
-							                        	<input type="checkbox" id="sms" checked>
-														<label for="sms"><span></span></label>
-													</td>
-							                    </tr>
-							                    <tr>
-							                        <td>이메일 수신 여부</td>
-							                        <td>
-							                        	<input type="checkbox" id="email" checked>
-														<label for="email"><span></span></label>
-													</td>
-							                    </tr>
-						               		</tbody>
-						            	</table>
-						            	<a th:href="@{/messageList}" class="btn btn-dark btn-flat m-b-10 m-l-5">닫기</a>
-						        	</div>
-						
-								</div>
-							</div>
-					</div>
-				</th:block>      
-        
-				<!-- End PAge Content -->
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+<!-- 알림설정부분 -->
+<div class="row justify-content-center">
+		<div class="col-lg-6 ">
+			<div class="card">
+	            <div class="card-header">
+	                <strong class="card-title">알림 설정</strong>
+	            </div>
+	            <div class="card-body">
+					<table class="table table-hover ">
+						<tbody>
+		                    <tr>
+		                        <td>주문</td>
+		                        <td>
+		                        	<input type="checkbox" id="order_reservation" checked disabled="disabled">
+									<label for="order_reservation"><span></span></label>
+								</td>
+		                    </tr>
+		                    <tr>
+		                        <td>결제</td>
+		                        <td>
+		                        	<input type="checkbox" id="pay" checked disabled="disabled">
+									<label for="pay"><span></span></label>
+								</td>
+		                    </tr>
+		                    <tr>
+		                        <td>대기</td>
+		                        <td>
+		                        	<input type="checkbox" id="waiting" checked disabled="disabled">
+									<label for="waiting"><span></span></label>
+								</td>
+		                    </tr>
+		                    <tr>
+		                        <td>게시판</td>
+		                        <td>
+		                        	<input type="checkbox" id="board" checked>
+									<label for="board"><span></span></label>
+								</td>
+		                    </tr>
+		                    <tr>
+		                        <td>리뷰</td>
+		                        <td>
+		                        	<input type="checkbox" id="review" checked>
+									<label for="review"><span></span></label>
+								</td>
+		                    </tr>
+		                    <tr>
+		                        <td>포인트</td>
+		                        <td>
+		                        	<input type="checkbox" id="point" checked>
+									<label for="point"><span></span></label>
+								</td>
+		                    </tr>
+		                    <tr>
+		                        <td>평가단</td>
+		                        <td>
+		                        	<input type="checkbox" id="evaluator" checked>
+									<label for="evaluator"><span></span></label>
+								</td>
+		                    </tr>
+		                    <tr>
+		                        <td>회원등급</td>
+		                        <td>
+		                        	<input type="checkbox" id="membership" checked>
+									<label for="membership"><span></span></label>
+								</td>
+		                    </tr>
+		                    <tr>
+		                        <td>이벤트</td>
+		                        <td>
+		                        	<input type="checkbox" id="event" checked>
+									<label for="event"><span></span></label>
+								</td>
+		                    </tr>
+		                    <tr>
+		                        <td>추천/즐겨찾기</td>
+		                        <td>
+		                        	<input type="checkbox" id="favorite" checked>
+									<label for="favorite"><span></span></label>
+								</td>
+		                    </tr>
+		                    <tr>
+		                        <td>sms 수신 여부</td>
+		                        <td>
+		                        	<input type="checkbox" id="sms" checked>
+									<label for="sms"><span></span></label>
+								</td>
+		                    </tr>
+		                    <tr>
+		                        <td>이메일 수신 여부</td>
+		                        <td>
+		                        	<input type="checkbox" id="email" checked>
+									<label for="email"><span></span></label>
+								</td>
+		                    </tr>
+	               		</tbody>
+	            	</table>
+	            	<a th:href="@{/messageList}" class="btn btn-dark btn-flat m-b-10 m-l-5">닫기</a>
+	        	</div>
 			</div>
-		
-			<!-- footer -->
-			<footer th:replace="fragments/footer :: footerFragment"></footer>
-			<!-- End footer -->
-		</div>	
-		<!-- End Container fluid  -->
-	</div>
-	
-    <!--Custom JavaScript -->
+		</div>
+</div>
+</th:block>      
+        
+
+<!--Custom JavaScript -->
     <th:block layout:fragment="customJsLib"></th:block>
 </body>
 </html>

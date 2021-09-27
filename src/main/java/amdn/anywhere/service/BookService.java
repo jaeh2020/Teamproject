@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import amdn.anywhere.domain.Book;
 import amdn.anywhere.domain.Menu;
+import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.mapper.BookMapper;
 
@@ -24,6 +25,11 @@ public class BookService {
 	  this.bookMapper = bookMapper;
 		  
 	 }
+	 
+	 //예약자정보화면에 상태코드 가져오기
+	 public Statement getStateCode(String stateCode) {
+		 return bookMapper.getStateCode(stateCode);
+	 }
 	  
 	 
 	 //주문정보에 메뉴리스트 뿌려주기
@@ -34,10 +40,9 @@ public class BookService {
 	 }
 	 
 
-	 //상점명 가져와서 예약자정보화면에 뿌려주기
-
-	 public Store getStoreInfoByName(String storeName){ 
-		 return  bookMapper.getStoreInfoByName(storeName); 
+	 //예약자정보화면에 상점명 뿌려주기
+	 public Store getStoreInfo(String storeName){ 
+		 return bookMapper.getStoreInfo(storeName); 
 	 }
 	 
 	 

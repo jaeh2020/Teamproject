@@ -154,7 +154,7 @@
 													</div>
 													<hr>
 													<div class="card-text text-sm-center">
-														<a th:href="@{/addBookMember(storeName=${l.storeName})}">
+														<a th:href="@{/book/addBookMember(storeName=${l.storeName})}">
 														<button type="button" class="btn btn-outline-danger btn-sm">예약/주문하기</button>
 														</a>
 													</div>
@@ -182,8 +182,8 @@
 </th:block>
 
 <th:block layout:fragment="customJsLib">
-	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+	<script th:src="@{/js/lib/owl-carousel/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/lib/owl-carousel/owl.carousel-init.js}"></script>
     
     <script type="text/javascript">
 												
