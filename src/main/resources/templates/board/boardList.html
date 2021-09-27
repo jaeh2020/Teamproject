@@ -69,7 +69,7 @@
 			var memId = $(this).text();		
 			
 			var request =  $.ajax({
-				  url: "/memberSearch", //요청 주소
+				  url: "/board/memberSearch", //요청 주소
 				  method: "GET", //요청 방식
 				  data: { memberId : memId }, // input name->cateCode,  value->stName
 				  dataType: "json" //받아올 포맷방식
