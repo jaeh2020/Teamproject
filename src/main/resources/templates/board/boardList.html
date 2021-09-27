@@ -16,6 +16,7 @@
 			<div class="box box-primary">
 				<div class="card-header" >
 					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 소비자 게시판 목록  </h4>
+					<!-- <input type="hidden" name="boardCateCode" th:value= "${BoardCate.boardCateCode}"> -->
 				</div>
 				<div class="box-body" style="padding-top: 20px;" >
 					<table class="table table-bordered">
@@ -31,7 +32,9 @@
 						<tbody id="boardListMore">
 							<tr th:if="${boardList ne null and #lists.size(boardList) > 0}" th:each=" b : ${boardList}">
 								<td th:text="${b.boardNum}"></td>
-								<td th:text="${b.boardTitle}"></td>
+								<td>
+									<a th:href="@{/boardView(boardNum=${b.boardNum})}"  th:text="${b.boardTitle}"></a>
+								</td>
 								<td>
 									<a href="javascript:void(0)" class="memberInfoSearch" th:text="${b.memberId}"></a>
 								</td>
@@ -41,11 +44,11 @@
 						</tbody>
 					</table>
 				</div>
-				
+			
 								
 				<div class="box-footer">
 					<div class="pull-right">
-						<a th:href="@{/boardWrite}" class="btn btn-success btn-flat"  style="margin-top: 15px;"><i class="fa fa-pencil"></i> 글쓰기</a>
+						<a th:href="@{/boardWrite}" class="btn btn-success btn-flat"  style="margin-top: 15px; "><i class="fa fa-pencil"></i> 글쓰기</a>
 					</div>
 				</div>
 			</div>
@@ -54,40 +57,53 @@
 </th:block>
 
 <th:block layout:fragment="customJsLib">
+	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
 
 	<script type="text/javascript">
-	
-		$(function(){
-			$('.memberInfoSearch').click(function(){
-				var getMemberId = $(this).text();
-				console.log(getMemberId);
-				var request = $.ajax({ 
-					url: "/memberSearch", //요청 주소
-					method: "POST", //요청 방식
-					data: {memberId : getMemberId}, //전달할 파라미터 input name-> memberId, value -> getMemberId
-					dataType: "json" // 받아올 포맷방식
-				});
-					
-				request.done(function( data ) {
-					
-					var printHtml = '';
-					
-					printHtml += '회원아이디 : ' + data.memberId;
-					printHtml += '<br>회원명 : ' + data.memberName;
-					printHtml += '<br>회원나이 : ' + data.memberAge;
-					console.log(data);
-					Swal.fire(printHtml);
-				  
-				});
-				//응답에 실패 혹은 에러 발생 시 실행  : 수정할 필요없음
-				request.fail(function( jqXHR, textStatus ) {
-				  alert( "Request failed: " + textStatus );
-				});
+												
+    $(function(){
+    	
+		$('.memberInfoSearch').click(function(){
+			
+			var memId = $(this).text();		
+			
+			var request =  $.ajax({
+				  url: "/memberSearch", //요청 주소
+				  method: "GET", //요청 방식
+				  data: { memberId : memId }, // input name->cateCode,  value->stName
+				  dataType: "json" //받아올 포맷방식
+			});	
+			request.done(function(data){
+				
+				console.log(data);
+				console.log(data.memberId, data.memberName, data.memberGender, data.memberBirth);
+				 
+				var htmml= '';
+				
+				htmml += '<h3><text class="text" style="color : #A9A9F5; font-weight: bold;"> 회원 아이디 : </text>' + data.memberId;
+				htmml += '<br> <text class="text" style="color : #A9A9F5; font-weight: bold;" > 회원 이름 : </text>' + data.memberName;
+				htmml += '<br> <text class="text" style="color : #A9A9F5; font-weight: bold;"> 회원 성별 : </text>' + data.memberGender;
+				htmml += '<br> <text class="text" style="color : #A9A9F5; font-weight: bold;"> 생년월일 : </text>' + data.memberBirth; + '</h3>'
+			
+								
+				Swal.fire(htmml); 
+			
 			});
-		});
-	</script>
+			request.fail(function( jqXHR, textStatus){
+				 alert( "Request failed: " + textStatus );
+			}); 
+	});
+});
+
+</script>
+    
 </th:block>
 
+<th:block layout:fragment="customJsLib">
+	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+</th:block>
 
 
 
