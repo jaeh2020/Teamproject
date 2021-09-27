@@ -40,8 +40,8 @@
 					</table>
 				</div>
 				
-				<div id="${b.boardNum}">
-					<button  id="moreBtn" type="button" class="btn btn-primary btn-block m-b-10" style="font-weight: bold; color: #848484; margin-top: 10px; background-color: white;">더보기(More)</button>
+				<div>
+					<button id="moreBtn" type="button" class="btn btn-primary btn-block m-b-10" style="font-weight: bold; color: #848484; margin-top: 10px; background-color: white;">더보기(More)</button>
 				</div>
 				
 				<div class="box-footer">
@@ -62,8 +62,8 @@ $(function(){
 		
 		var request = $.ajax({ 
 			  url: "/moreList", //요청 주소
-			  method: "GET", //요청 방식
-			  data: {boardNum : 'brd_001'}, //전달할 파라미터
+			  method: "POST", //요청 방식
+			  data: {moreList : moreList.val()}, //전달할 파라미터
 			  dataType: "json" // 받아올 포맷방식
 			  
 			  
@@ -72,6 +72,14 @@ $(function(){
 		    //응답이 완료 되었을 경우 실행 : 수정해야함
 		    //콜백함수 함수를 호출하면 서버에서 json에 들어있는 데이터를 긁어 자바스크립트로 파싱하여 들어온다.
 			request.done(function( data ) {
+				for(var i=0; i>data.length ; i++){
+					if(data.length == 5){
+						$('#moreBtn').remove();
+					}else if(data.length > 5){
+						$(#boardListMore).appendTo($)
+					}
+				}
+				
 			  console.log(data);
 			  
 			});

@@ -64,8 +64,7 @@ private final BoardService boardService;
 	
 
 	@PostMapping("/boardWrite")
-	public String boardWrite(Board board
-			, HttpSession session) {
+	public String boardWrite(Board board) {
 		System.out.println("====================");
 		System.out.println("커맨드객체 board : " + board);
 		System.out.println("====================");

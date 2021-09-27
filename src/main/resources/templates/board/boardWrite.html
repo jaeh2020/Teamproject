@@ -19,7 +19,7 @@
 					<div class="form-group">
 						<input type="hidden" name="boardNum" th:value="${boardNum}" readonly="readonly">
 						<input type="hidden" name="boardViews" id="boardViews" value="0">
-						<input type="hidden" name="boardCateCode" id="boardCateCode" value="u_qa">
+						<input type="hidden" name="boardCateCode" id="boardCateCode" th:value="${boardNum}">
 						<input type="hidden" name="stateCode" id="stateCode" value="state_board_com">
 						<label for="title" style="margin-top: 30px; font-weight:bold; ">제목</label>
 						<input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해주세요">
