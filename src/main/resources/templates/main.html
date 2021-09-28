@@ -154,12 +154,12 @@
 																<i class="fa fa-star"></i> 
 																4.5
 															</div>
-															
+													<hr>		
 															<div class="card-text text-sm-center">
-																<i class="ti-user"></i>
-																현재 대기인원은
-																<h5 class="text-sm-center mt-2 mb-1" th:text="${l.waiting.waitNum}">대기인원</h5>
-																명 입니다.
+																<i class="ti-user" style="color: pink;"></i><p>
+																<h6> 현재 대기인원은 </h6>
+																<h6 class="text-sm-center mt-2 mb-1" th:text="${l.waiting.waitNum + ' 명입니다'}">대기인원</h6>
+																
 															</div>
 													</div>
 													<hr>

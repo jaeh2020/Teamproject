@@ -36,12 +36,17 @@
 	                        <div class="card card-outline-primary">
 	                            <div class="card-header">
 	                                <h4 class="m-b-0 text-white">주문 정보 입력</h4>
-	                                
-	                                
-	                                
+	                             
+	                           
 	                            </div>
 	                            <div class="card-body">
-	                                <form th:action="@{/book/addBookOrder}" id="addBookOrdForm" class="form-horizontal"  method="post">
+	                                <form id="addBookOrdForm" th:action="@{/book/addBookOrder}" class="form-horizontal" method="post">
+	                                   
+	                                   	<!-- hiddn영역  -->
+	                                   	<input type="text" name="oCode" th:value="${oCode}">
+	                                   	<input type="text" name="bookCode" th:text="${bookCode}">
+	                                   	
+	                                   	
 	                                    <div class="form-body">
 	                                        <hr class="m-t-0 m-b-40">
 	                                        <div class="row">
@@ -127,7 +132,7 @@
 	                                                <div class="form-group row">
 	                                                    <label class="control-label text-right col-md-3">요청사항</label>
 	                                                    <div class="col-md-6">
-	                                                        <textarea name="orderReq" id="textarea-input" rows="20" class="form-control"></textarea>
+	                                                        <textarea name="oRequest" id="textarea-input" rows="20" class="form-control"></textarea>
 	                                                    </div>
 	                                                </div>
 	                                            </div>
@@ -263,8 +268,8 @@
 					return false;
 				}
 				
-				alert('주문이 완료되었습니다. 결제는 현장에서 진행됩니다.')
-				$('#').submit();	
+				alert('주문이 완료되었습니다. \n결제는 현장에서 진행되며, \n상세 주문내역은 상단의 "나의 주문내역" 에서 확인 가능합니다.')
+				$('#addBookOrdForm').submit();	
 			});
 		});
 	
