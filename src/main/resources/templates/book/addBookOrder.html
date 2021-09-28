@@ -14,9 +14,8 @@
 			overflow: hidden;
 			clip:rect(0,0,0,0);
 			border: 0
-			
-			
 }
+
 	</style>
 </th:block>
 
@@ -33,13 +32,16 @@
             <div class="container-fluid">
 	                <!-- Start Page Content -->
 	                <div class="row">
-	                    <div class="col-lg-8">
+	                    <div class="col-lg-6">
 	                        <div class="card card-outline-primary">
 	                            <div class="card-header">
 	                                <h4 class="m-b-0 text-white">주문 정보 입력</h4>
+	                                
+	                                
+	                                
 	                            </div>
 	                            <div class="card-body">
-	                                <form action="/addbook_member" id="addBookOrdForm" class="form-horizontal"  method="post">
+	                                <form th:action="@{/book/addBookOrder}" id="addBookOrdForm" class="form-horizontal"  method="post">
 	                                    <div class="form-body">
 	                                        <hr class="m-t-0 m-b-40">
 	                                        <div class="row">
@@ -83,7 +85,7 @@
 																					<div class="form-check">
 																						<div class="checkbox">
 																							<label style="cursor:pointer;">
-																								<input type="checkbox" name="menuLis" th:value="${m.menuName}" class="form-check-input" th:text="${m.menuName+' '+m.menuPrice}" th:data-menuCode="${m.menuCode}">
+																								<input type="checkbox" name="menuLis" th:value="${m.menuName}" class="form-check-input" th:text="${m.menuName+' '+m.menuPrice}" th:data-price="${m.menuPrice}" th:data-menuCode="${m.menuCode}">
 																							</label>
 																						</div>
 																					</div>
@@ -99,8 +101,8 @@
 																				<th:block th:if="${m.menuCateCode == 'm_c_side'}">
 																					<div class="form-check">
 																						<div class="checkbox">
-																							<label>
-																								<input type="checkbox" id="checkLa" name="menuLis" th:text="${m.menuName+' '+m.menuPrice}" th:value="${m.menuName}" class="form-check-input" th:data-menuCode="${m.menuCode}"/>
+																							<label  style="cursor:pointer;">
+																								<input type="checkbox" id="checkLa" name="menuLis" th:text="${m.menuName+' '+m.menuPrice}" th:value="${m.menuName}" th:data-price="${m.menuPrice}" class="form-check-input" th:data-menuCode="${m.menuCode}"/>
 																							</label>	
 																						</div>
 																					</div>
@@ -111,7 +113,6 @@
 																	
 																	<!-- 메뉴선택 사이드메뉴탭 end -->
 																</div>
-																<small class="form-control-feedback"> 원하시는 메뉴를 선택해주세요. </small>
 															</div>
 														</div>
 	                                                </div>
@@ -120,28 +121,7 @@
 	                                            
 	                                            
 	                                            
-	                                            <!--start 수량선택-->
-	                                            <div class="col-md-12">
-	                                                <div class="form-group row">
-	                                                    <label class="control-label text-right col-md-3">수량선택</label>
-		                                                    <div class="card">
-																<div class="card-body">
-																	<!-- 수량선택상세 -->
-																	<div>
-					                                                    <div id="menuN" class="col-md-12">
-					                                                        	
-					                                                    </div>
-				                                                    </div>
-				                                                    
-				                                                    
-				                                                    
-				                                                    
-																</div>
-															</div>
-	                                                </div>
-	                                            </div>
-	                                            <!--end 수량선택-->
-	                                            
+	                                          
 	                                            <!--start 요청사항-->
 	                                            <div class="col-md-12">
 	                                                <div class="form-group row">
@@ -163,40 +143,43 @@
 	                    </div>
 	                    
 	                    <!--주문내역-->
-		               <div class="col-lg-4">
+		               <div class="col-lg-6">
 							<div class="card">
 								<div class="card-header user-header alt bg-dark">
 								<strong class="card-title">주문 내역</strong>
 								</div>
+								
 								<div class="card-body" style="padding: 5px; text-align: center;">
 		                               <table class="table">
+			                                 <thead>
+				                                   <tr>
+				                                       <th scope="row">메뉴 </th>
+				                                       <th scope="row">수량</th>
+				                                       <th scope="row">가격</th>
+				                                       <th scope="row">삭제</th>
+				                                   </tr>
+				                             </thead>
+				                             <tbody id="menuSangse">
+				                             		  
+				                             </tbody>
 			                                 <tbody>
-			                                   <tr>
-			                                       <th scope="row">메뉴 </th>
-			                                       <th scope="row">수량</th>
-			                                       <td>가격</td>
-			                                   </tr>
-			                                   <tr>
-			                                       <th scope="row">해물짬뽕  </th>
-			                                       <th scope="row">2</th>
-			                                       <td>16000</td>
-			                                   </tr>
-			                                   <tr>
-			                                       <th scope="row">자장면</th>
-			                                       <th scope="row">1</th>
-			                                       <td>6000</td>
-			                                   </tr>
-			                                   <tr  style="border-top: 2px solid #5A78AF">
-			                                       <th scope="row">총 결제금액</th>
-			                                       <td colspan="2">22000</td>
-			                                   </tr>
+				                                 <tr style="border-top: 3px solid #5A78AF">
+				                                 	 <td> </td>
+					                                 <td colspan="2">총 결제금액</th>
+					                                 <td colspan="1">
+					                                 	<input type="text" id="totalPrice" name="totalPrice" value="0" readonly="readonly" style="border: 0;">
+					                                 </td>
+				                                 </tr>
 			                               </tbody>
 		                               </table>
 								</div>
+								
 							</div>
 							<div class="offset-sm-3 col-sm-9">
-								<button type="submit" id="addBookOrdBtn" class="btn btn-dark">결제하기</button>
+								<button type="submit" id="addBookOrdBtn" class="btn btn-dark">주문하기</button>
+								<a th:href="@{/book/addBookMember}">
 								<button type="button" class="btn btn-pink">이전</button>
+								</a>
 							</div>
 		               </div>
 		               <!--/주문내역-->
@@ -216,77 +199,75 @@
 
 	<script type="text/javascript">
 	
+	function totalPrice(){
+		var sumPrice = 0;
+		$('.prin').each(function(){
+			var num = Number($(this).val());
+			var price = Number($(this).attr('data-price'));
+			
+			sumPrice += num * price;
+		});
+		
+		$('#totalPrice').val(sumPrice);
+	}
+	
+	
 	/* 주문정보입력화면 수량체크 */
 	$(function(){
 		$('.form-check-input').on('click', function(){
 			console.log('수량선택 시작');
-			var menuN = $('#menuN');
+			var menuSangse = $('#menuSangse');
 			var html = '';
 			var menuCode = $(this).attr('data-menuCode');
+			var menuPrice = $(this).attr('data-price');
 			
-			if(menuN.find('.'+menuCode).length == 0){				
-				html += '<section class="'+menuCode+'">';
-				html += $(this).val() + ' : <input type="number" id="prin" name="menuNum" value="1" style="width:60px;" onkeyup="printName()">개';
-				html += '<button type="button" class="menu-target-remove btn btn-rink btn-sm">X</button>';
-				html += '</section>';
+			if(menuSangse.find('.'+menuCode).length == 0){				
+				html += '<tr class="'+menuCode+'">';
+				html += '<tr><td>' + $(this).val() + '</td>';
+				html += '<td> <input type="number" class="prin" name="menuNum" value="1" style="width:60px;" data-price="'+menuPrice+'">개 </td>';
+				html += '<td> '+menuPrice+' </td>';
+				html += '<td><button type="button" class="menu-target-remove btn btn-rink btn-sm">X</button></td>';
+				html += '</tr>';
 				
-				menuN.append(html);
+				menuSangse.append(html);
 			}
+			
+			totalPrice();
 		});
 	});
 	
 	$(document).on('click','.menu-target-remove', function(){
-		$(this).parent().remove();
+		$(this).parent().parent().remove();
+		 totalPrice();
+	});
+	
+	$(document).on('change','.prin', function(){
+		var num = Number($(this).val());
+		if(num > 0){			
+			totalPrice();
+		}else{
+			alert('1개 이상 선택하셔야 합니다.');
+			$(this).val(1);
+		}
 	});
 	
 	
-	/* 수량값 입력하면 오른쪽화면에 바로 반영*/
-	function printName()  {
-	  const name = document.getElementById('prin').value;
-	  document.getElementById("result").innerText = prin;
-	}
 	
 	
 	/* 예약자 정보 화면 유효성검사 */
 	$(function(){
 			$('#addBookOrdBtn').click(function(){
 				
-				if($("input[name=orderReq]:checkbox:checked").length < 0){
+				if($('.table tbody tr').length < 2){
 					alert('메뉴를 선택해주세요.');
 					return false;
 				}
 				
-				alert('결제화면 으로 이동됩니다.')
+				alert('주문이 완료되었습니다. 결제는 현장에서 진행됩니다.')
 				$('#').submit();	
 			});
 		});
 	
-	
-	
-/* 	$(function(){
-		$('input[name="menuLis"]').change(function() {
-			var checked = $(this).prop('checked');
-			var menuN = $('#menuN');
-			var html = '';
-			var menuCode = $(this).attr('data-menuCode');
-			
-			if(checked){
-				if(menuN.find('.'+menuCode).length == 0){
-					html += '<section class="'+menuCode+'">';
-					html += $(this).val() + ' : <input type="number" name="menuNum" value="1" style="width:60px;">개';
-				
-					menuN.append(html);
-				}
-			}else{
-					$(this).val().remove();
-			}
-				
-		});
-	}); */
-	
-	
-	
-
 	
 	</script>
 

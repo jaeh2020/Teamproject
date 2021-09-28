@@ -29,7 +29,7 @@
 			                                        <hr class="m-t-0 m-b-40">
 			                                        <div class="row">
 			                                        	<!-- 히든 -->
-			                                        	<input type="hidden" name="bookCode" th:value="${bookCode}">
+			                                        	<input type="text" name="bookCode" th:value="${bookCode}">
 			                                        	<input type="hidden" name="storeCode" th:value="${store.storeCode}">
 			                                        	<input type="hidden" name="userId" th:value="${memberId}">
 			                                        	<input type="hidden" name="stateCode" th:value="${statement.stateCode}">
@@ -101,7 +101,9 @@
 			
 			 
 			                                            	<div class="offset-sm-3 col-sm-9">
+			                                            			<a th:href="@{/book/addBookMember(bookCode=${bookCode})}">
 																	<button type="submit" class="btn btn-dark" id="addBookMemBtn">다음</button>
+																	</a>
 																	<a th:href="@{/}">
 																	<button type="button" class="btn btn-pink">취소</button>
 																	</a>
