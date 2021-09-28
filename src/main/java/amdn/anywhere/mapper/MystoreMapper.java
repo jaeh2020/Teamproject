@@ -14,6 +14,7 @@ public interface MystoreMapper {
 	
 	//상점목록 조회
 	public List<Store> getMystoreList(String storeCode);
+	
 	//상점 조회
 	public Store getMystoreRead(String storeCode);
 	
