@@ -10,15 +10,22 @@ import amdn.anywhere.domain.MessageCommon;
 
 @Mapper
 public interface MessageMapper {
+	
 
-	//메세지 알림설정 db에 입력
+	//메세지 알림설정(update)(ajax)
+	public int modifyMsgCheck(MessageCheck messageCheck);
+	
+	//메세지 알림설정(insert)
 	public int addMessageCheck(MessageCheck messageCheck);
+	
+	//아이디별 알림 설정 목록(id=session id)
+	public MessageCheck getMessageCheck(String memberId);
+	
+	//관리자권한 알림 설정 리스트
+	public List<MessageCheck> getMsgCheckList();
 	
 	//addmessage..
 	public int addMessage(Message message);
-	
-	//전체 소비자 알림 설정 리스트
-	public List<MessageCheck> getMessageCheckList();
 	
 	//공통 알림메세지 리스트
 	public List<MessageCommon> getMessageCommonList();
