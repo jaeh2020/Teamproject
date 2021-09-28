@@ -30,9 +30,10 @@ public class WebConfig implements WebMvcConfigurer{
 				.excludePathPatterns("/icons/**")
 				.excludePathPatterns("/images/**")
 				.excludePathPatterns("/js/**")
+				.excludePathPatterns("/error")
 				.excludePathPatterns("/favicon.ico");
 		
-		WebMvcConfigurer.super.addInterceptors(registry);
+		//WebMvcConfigurer.super.addInterceptors(registry);
 	}
 
 }

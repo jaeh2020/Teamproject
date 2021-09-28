@@ -4,7 +4,7 @@ public class MessageCheck {
 
 	private String messageCheckCode;
 	private String memberId;
-	private String orderResevation;
+	private String orderReservation;
 	private String messagePay;
 	private String messageWaiting;
 	private String messageFavorite;
@@ -28,11 +28,11 @@ public class MessageCheck {
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
-	public String getOrderResevation() {
-		return orderResevation;
+	public String getOrderReservation() {
+		return orderReservation;
 	}
-	public void setOrderResevation(String orderResevation) {
-		this.orderResevation = orderResevation;
+	public void setOrderReservation(String orderReservation) {
+		this.orderReservation = orderReservation;
 	}
 	public String getMessagePay() {
 		return messagePay;
@@ -102,8 +102,8 @@ public class MessageCheck {
 	}
 	@Override
 	public String toString() {
-		return "MessageCheck [messageCheckCode=" + messageCheckCode + ", memberId=" + memberId + ", orderResevation="
-				+ orderResevation + ", messagePay=" + messagePay + ", messageWaiting=" + messageWaiting
+		return "MessageCheck [messageCheckCode=" + messageCheckCode + ", memberId=" + memberId + ", orderReservation="
+				+ orderReservation + ", messagePay=" + messagePay + ", messageWaiting=" + messageWaiting
 				+ ", messageFavorite=" + messageFavorite + ", messageEvaluator=" + messageEvaluator
 				+ ", messageMemberShip=" + messageMemberShip + ", messageBoard=" + messageBoard + ", messageReview="
 				+ messageReview + ", messagePoint=" + messagePoint + ", messageEvent=" + messageEvent + ", messageSms="

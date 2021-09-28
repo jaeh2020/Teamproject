@@ -13,7 +13,7 @@
 		<div class="col-lg-12">
 			<div class="box box-primary">
 				<div class="card-header" >
-					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 지출 현황  </h4>
+					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 매출 현황  </h4>
 				</div>
 				
 				
@@ -23,7 +23,7 @@
 				
 				<div class="card">
 					<div class="card-title" >
-						<h4>지출 검색</h4> 
+						<h4>매출 검색</h4> 
 					</div>
 					<div class="card-content">
 					<div class="basic-form">
@@ -39,7 +39,7 @@
 							<div class="form-group">
 								<div class="input-group input-group-flat">
 									<input type="text" class="form-control" placeholder="문항을 입력하세요">
-									<a th:href="@{/expenseList}" class="btn btn-primary" type="button"><i class="ti-search"></i>  검색</a>
+									<a th:href="@{/account/salesList}" class="btn btn-primary" type="button"><i class="ti-search"></i>  검색</a>
 								</div>
 							</div>
 						</form>
@@ -72,18 +72,18 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:if="${#lists.size(expenseList) > 0}" th:each=" e : ${expenseList}">
+							<tr th:if="${#lists.size(salesList) > 0}" th:each=" s : ${salesList}">
 								<td> # </td>
-								<td th:text="${e.storeCode}"></td>
-								<td th:text="${e.salesName}"></td>
-								<td th:text="${e.salesPrice}"></td>
-								<td th:text="${e.salesRegTime}"></td>
-								<td th:text="${e.closeTime}"></td>
+								<td th:text="${s.storeCode}"></td>
+								<td th:text="${s.salesName}"></td>
+								<td th:text="${s.salesPrice}"></td>
+								<td th:text="${s.salesRegTime}"></td>
+								<td th:text="${s.closeTime}"></td>
 							</tr>
 							<tr>
 								<td><input type="checkbox" name="chk_info" value="No"></td>
 								<td>store01</td>
-								<td>인건비</td>
+								<td>짬뽕밥</td>
 								<td>15000</td>
 								<td>14:00</td>
 								<td>김경수</td>
@@ -91,7 +91,7 @@
 							<tr>
 								<td><input type="checkbox" name="chk_info" value="No"></td>
 								<td>store01</td>
-								<td>재료비</td>
+								<td>김치찜</td>
 								<td>1145000</td>
 								<td>14:00</td>
 								<td>김경수</td>
@@ -99,7 +99,7 @@
 							<tr>
 								<td><input type="checkbox" name="chk_info" value="No"></td>
 								<td>store01</td>
-								<td>판타지오</td>
+								<td>계란후라이</td>
 								<td>112145000</td>
 								<td>14:00</td>
 								<td>김경수</td>
@@ -107,7 +107,7 @@
 							<tr>
 								<td><input type="checkbox" name="chk_info" value="No"></td>
 								<td>store01</td>
-								<td>STS</td>
+								<td>판타지오</td>
 								<td>41450001</td>
 								<td>14:00</td>
 								<td>김경수</td>
@@ -115,7 +115,7 @@
 							<tr>
 								<td><input type="checkbox" name="chk_info" value="No"></td>
 								<td>store01</td>
-								<td>KSMART</td>
+								<td>하이닉스</td>
 								<td>145645</td>
 								<td>14:00</td>
 								<td>김경수</td>
@@ -125,12 +125,12 @@
 				</div>
 				<div class="box-footer">
 					<div class="pull-right">
-						<a th:href="@{/addExpense}" class="btn btn-success btn-flat" style="margin-top: 15px;">
-							<i class="fa fa-pencil"></i> 지출추가
+						<a th:href="@{/account/addSales}" class="btn btn-success btn-flat" style="margin-top: 15px;">
+							<i class="fa fa-pencil"></i> 매출추가
 						</a>
 					</div>
 					<div class="pull-left">
-						<a th:href="@{/addExpense}" class="btn btn-primary" style="margin-top: 15px;">
+						<a th:href="@{/account/salesList}" class="btn btn-primary" style="margin-top: 15px;">
 							<i class="fa fa-check"></i> 마감완료
 						</a>
 					</div>

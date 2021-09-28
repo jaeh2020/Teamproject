@@ -56,14 +56,13 @@
 </th:block>
 
 <th:block layout:fragment="customJsLib">
-	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+	
 
-	<script type="text/javascript">
+<script type="text/javascript">
 												
     $(function(){
     	
-		$('.memberInfoSearch').click(function(){
+		$('.memberInfoSearch').on('click',function(){
 			
 			var memId = $(this).text();		
 			
@@ -94,14 +93,13 @@
 			}); 
 	});
 });
+    
 
 </script>
-    
-</th:block>
 
-<th:block layout:fragment="customJsLib">
-	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+<script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->
+    
 </th:block>
 
 

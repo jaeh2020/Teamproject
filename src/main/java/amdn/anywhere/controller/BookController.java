@@ -40,12 +40,7 @@ public class BookController {
 									  ,@RequestParam(name="stateCode", required = false) String stateCode
 				  					  ,Model model
 				  					  ,HttpSession session) {
-			
-		System.out.println("=========================");
-		System.out.println("storeName : " + storeName);
-		System.out.println("stateCode : " + stateCode);
-		System.out.println("=========================");
-		
+
 		
 		//상태코드 가져오기
 		Statement statement = bookService.getStateCode(stateCode);

@@ -35,7 +35,7 @@
 							<div class="form-group">
 								<div class="input-group input-group-flat">
 									<input type="text" class="form-control" placeholder="문항을 입력하세요">
-									<a th:href="@{/salesList}" class="btn btn-primary" type="button"><i class="ti-search"></i>  검색</a>
+									<a th:href="@{/account/salesList}" class="btn btn-primary" type="button"><i class="ti-search"></i>  검색</a>
 								</div>
 							</div>
 						</form>
@@ -134,9 +134,9 @@
 				<div class="box-footer">
 				
 				<!-- [[${session?.message?.memberId}]]  세션 추가 하기 -->
-					<a th:href="@{/salesList}" class="btn btn-primary" type="button"><i class="fa fa-list"></i>목록</button>
+					<a th:href="@{/account/expenseList}" class="btn btn-primary" type="button"><i class="fa fa-list"></i>목록</button>
 					<!-- <button type="button" class="btn btn-primary"  onClick="location.href='salesList'"><i class="fa fa-list"></i>목록</button> -->
-					<a th:href="@{/salesList}" class="btn pull-right btn-success" type="submit">
+					<a th:href="@{/account/expenseList}" class="btn pull-right btn-success" type="submit">
 						<i class="btn fa fa-save"></i> 저장
 					</a>
 					<!-- 

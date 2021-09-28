@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import amdn.anywhere.domain.Store;
+import amdn.anywhere.domain.Waiting;
 import amdn.anywhere.service.MainService;
 
 
@@ -33,11 +34,15 @@ public class MainController {
 	){		
 		return mainService.getMainRead(storeName);
 	}
+	
+	
 		
 	@GetMapping("/")
 	public String main(Model model) {
+		
+		//상점 리스트, 실시간 예약대기 번호 가져오기
 		List<Store> mainList = mainService.getMainList();
-
+		
 		model.addAttribute("title", "main page");
 		model.addAttribute("mainList", mainList);
 
