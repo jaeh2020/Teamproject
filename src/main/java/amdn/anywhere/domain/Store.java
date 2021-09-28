@@ -14,7 +14,14 @@ public class Store {
 	private String storePhoto;
 	private String storeTableNum;
 	private String storeOccupancy;
+	private Waiting waiting;
 	
+	public Waiting getWaiting() {
+		return waiting;
+	}
+	public void setWaiting(Waiting waiting) {
+		this.waiting = waiting;
+	}
 	public String getStoreCode() {
 		return storeCode;
 	}
@@ -99,8 +106,9 @@ public class Store {
 				+ bizId + ", storeLocation=" + storeLocation + ", storeTime=" + storeTime + ", storePhone=" + storePhone
 				+ ", mainCateCode=" + mainCateCode + ", storeHoliday=" + storeHoliday + ", storeTasteAgree="
 				+ storeTasteAgree + ", storePhoto=" + storePhoto + ", storeTableNum=" + storeTableNum
-				+ ", storeOccupancy=" + storeOccupancy + "]";
+				+ ", storeOccupancy=" + storeOccupancy + ", waiting=" + waiting + "]";
 	}
+	
 	
 	
 }

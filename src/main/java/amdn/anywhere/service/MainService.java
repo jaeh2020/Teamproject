@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import amdn.anywhere.domain.Store;
+import amdn.anywhere.domain.Waiting;
 import amdn.anywhere.mapper.MainMapper;
 
 @Service
@@ -18,11 +19,16 @@ public class MainService {
 	public MainService(MainMapper mainMapper) { 
 		 this.mainMapper = mainMapper; 
 	}
-	 
+
+	
+	//상점리스트 조회
 	public List<Store> getMainList(){ 
-		return mainMapper.getMainList(); 
+		 List<Store> storeList = mainMapper.getMainList();
+		 
+		return storeList; 
 	}
 	
+	//상정명만조회 (ajax)
 	public Store getMainRead(String stName){ 
 		return mainMapper.getMainRead(stName); 
 	}
