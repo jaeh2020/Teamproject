@@ -159,13 +159,12 @@
 		/*항목 삭제 버튼*/
 		
 		$(function(){
-			$('.deleteCateBtn').click(function(){
+			$('.deleteCateBtn').on("click", function(){
+				
 				var result = confirm('해당 항목에 해당되는 문항들도 모두 삭제됩니다. 삭제하시겠습니까?');
-				if(result){
-					return true;
-				}else{
-					return false;
-				}
+				if(result) return true;
+				else return false;
+				
 			});
 		});
 		
@@ -178,18 +177,27 @@
 			var oldCateName = tdCateName.text();
 			var oldCateCode = tdCateCode.text();
 			
-			var newBtns = '<div class="btn-group">'
-						+ '<button type="button" class="btn btn-success newSaveBtn">저장</button>'
-						+ '<button type="button" class="btn btn-default newCancelBtn">취소</button></div>';		
-			var inputCateCode ='<div class="input-group input-group-flat newInputMargin"><input type="text" readonly="readonly" value="q_cate_" class="form-control newInputXSmall" ><input type="text" name="updateCateCode" placeholder="' + tdCateCode.text().substr(7) +'" class="form-control newInputSmall input-focus2"></div>'
-			var inputCateName ='<input type="text" name="updateCateName" placeholder="' + tdCateName.text() +'" class="form-control newInputSmall input-focus2">';
+			
+			var newBtns = 	'<div class="btn-group">';
+				newBtns +=		'<button type="button" class="btn btn-success newSaveBtn">저장</button>';
+				newBtns +=		'<button type="button" class="btn btn-default newCancelBtn">취소</button>';
+				newBtns +=  '</div>';	
+				
+				
+			var inputCateCode  = '<div class="input-group input-group-flat newInputMargin">';
+				inputCateCode += 	'<input type="text" readonly="readonly" value="q_cate_" class="form-control newInputXSmall" >';
+				inputCateCode +=	'<input type="text" name="updateCateCode" placeholder="' + tdCateCode.text().substr(7) +'" class="form-control newInputSmall input-focus2">';
+				inputCateCode += '</div>';
+				
+				
+			var inputCateName = '<input type="text" name="updateCateName" placeholder="' + tdCateName.text() +'" class="form-control newInputSmall input-focus2">';
 			
 			tdCateCode.html(inputCateCode);
 			tdCateName.html(inputCateName);
 			parentTd.html(newBtns);
 			
 			//취소버튼 이벤트
-			$('.newCancelBtn').click(function(){
+			$('.newCancelBtn').on("click", function(){
 				tdCateCode.html('');
 				tdCateName.html('');
 				tdCateCode.text(oldCateCode);
@@ -200,36 +208,37 @@
 			});
 		
 			//저장버튼 이벤트
-			$('.newSaveBtn').click(function(){
+			$('.newSaveBtn').on("click", function(){
 				var newCateCode = tdCateCode.children().children('[name=updateCateCode]');
 				var newCateName = tdCateName.children();
 				
+				
 				//유효성 검사
-				if(newCateCode.val().trim() == ''){
+				if( newCateCode.val().trim() == '' ){
 					alert('항목코드를 작성해주세요.');
 					newCateCode.focus();
 					return;
 				}
-				if(newCateName.val().trim() == ''){
+				if( newCateName.val().trim() == '' ){
 					alert('항목명을 작성해주세요.');
 					newCateName.focus();
 					return;
 				}
-				if(('q_cate_'+ newCateCode.val()) == oldCateCode && newCateName.val() == oldCateName){
+				if( ('q_cate_'+ newCateCode.val() ) == oldCateCode && newCateName.val() == oldCateName){
 					alert('값이 변경되지 않았습니다.');
 					return;
 				}
-				if(eng.test(newCateCode.val())){
+				if( eng.test(newCateCode.val()) ){
 					alert('항목코드는 영문만 가능합니다.');
 					newCateCode.focus();
 					return;
 				}
-				if(newCateCode.val().length >5){
+				if( newCateCode.val().length >5 ){
 					alert('항목코드는 다섯 자 이내로 작성해주세요.');
 					newCateCode.focus();
 					return;
 				}
-				if(newCateName.val().length >5){
+				if( newCateName.val().length >5 ){
 					alert('항목명은 열 자 이내로 작성해주세요.');
 					newCateName.focus();
 					return;
@@ -238,7 +247,7 @@
 				var request =  $.ajax({
 					  url: "/survey/modifyCate", //요청 주소
 					  method: "GET", //요청 방식
-					  data: { oldCode : oldCateCode
+					  data: {  oldCode : oldCateCode
 						  	 , newCode : 'q_cate_' + newCateCode.val()
 						  	 , newName : newCateName.val()},
 					  dataType: "json" //받아올 포맷방식
@@ -258,13 +267,13 @@
 		/* 수정버튼 클릭시 이벤트 발동 */
 		
 		$(function(){
-			$('.viewModify').click(viewModifyFn);
+			$('.viewModify').on("click", viewModifyFn);
 		});
 	
 		/*문항 목록 가져오기*/	
 			
 		$(function(){
-			$('.viewQ').click(function(){
+			$('.viewQ').on("click", function(){
 				var tdId = this.parentElement.id;
 					
 				var request =  $.ajax({
@@ -280,11 +289,16 @@
 					
 					if(length > 0){
 						for(var i= 0; i<length; i++){
-							tbody += '<tr><td>' + (i+1) + '</td><td>' + data[i].qContent + '</td></tr>';  
+							tbody += '<tr>';
+							tbody += 	'<td>' + (i+1) + '</td>';
+							tbody += 	'<td>' + data[i].qContent + '</td>';
+							tbody += '</tr>';  
 						}
 					}
 					if(length == 0){
-						tbody += '<tr><td colspan="2">등록된 문항이 없습니다.</td></tr>';
+						tbody += '<tr>';
+						tbody +=	 '<td colspan="2">등록된 문항이 없습니다.</td>';
+						tbody += '</tr>';
 					}	
 					$('#questionList').html(tbody);	
 				});
@@ -298,7 +312,7 @@
 		/*항목 추가하기*/
 		
 		$(function(){
-			$('#addCateBtn').click(function(){
+			$('#addCateBtn').on("click", function(){
 				var newCode = $('[name=newCateCode]');
 				var newName = $('[name=newCateName]');
 				
@@ -307,26 +321,27 @@
 					alert('항목코드를 입력해주세요');
 					newCode.focus();
 					return;
-				}else if(newName.val().trim() ==''){
+				}
+				else if(newName.val().trim() ==''){
 					alert('항목명을 입력해주세요');
 					newName.focus();
 					return;
-				}else if(eng.test(newCode.val().trim())){
+				}
+				else if(eng.test(newCode.val().trim())){
 					alert('항목코드는 영문만 가능합니다.');
 					newCode.focus();
 					return;
 				}
-				if(newCode.val().length >5){
+				else if(newCode.val().length >5){
 					alert('항목코드는 다섯 자 이내로 작성해주세요.');
 					newCode.focus();
 					return;
 				}
-				if(newName.val().length >10){
+				else if(newName.val().length >10){
 					alert('항목명은 열 자 이내로 작성해주세요.');
 					newName.focus();
 					return;
-				}
-			$('form').submit();	
+				}else $('form').submit();	
 			});
 		});
 	</script>

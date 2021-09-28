@@ -163,12 +163,17 @@
 			//연령대 선택 - 모든 연령대 이벤트
 			
 			$(function(){
-				$('#allAge').change(function(){
+				$('#allAge').on("change", function(){
+					
 					for(var i = 0; i < ageCheckList.length; i++){
+						
 						if($(this).is(":checked") == true){
+							
 							if(i == 5) break;
 							ageCheckList.eq(i).attr('disabled','true');
+						
 						}else{
+							
 							ageCheckList.eq(i).removeAttr('disabled');
 						}
 					}
@@ -178,36 +183,48 @@
 			//분석항목 '선택안함' 이벤트
 			
 			$(function(){
-				$('#notSelectSpecial').change(function(){
+				$('#notSelectSpecial').on("change", function(){
+					
 					var checked = $(this).is(":checked");
-						if(checked == true){
-							for(var i = 1; i < specialCateList.length; i++){
-								specialCateList.eq(i).attr('disabled','true');
-							}
-						}else {
-							for(var i = 0 ; i < surveyCateList.length; i++){
-								 if(surveyCateList.eq(i).is(":checked") == true){
-									 for(var j = 0; j < specialCateList.length; j++){
-										 if(specialCateList.eq(j).val() == surveyCateList.eq(i).val()){
-											 specialCateList.eq(j).removeAttr('disabled');
-										 }
-									 }
-								  }
-							 }
+					
+					if(checked == true){
+						
+						for(var i = 1; i < specialCateList.length; i++){
+							specialCateList.eq(i).attr('disabled','true');
+							
 						}
+					}else {
+						
+						for(var i = 0 ; i < surveyCateList.length; i++){
+							
+							 if(surveyCateList.eq(i).is(":checked") == true){
+								 
+								 for(var j = 0; j < specialCateList.length; j++){
+									 if(specialCateList.eq(j).val() == surveyCateList.eq(i).val()){
+										 specialCateList.eq(j).removeAttr('disabled');
+									 }
+								 }
+							  }
+						 }
+					}
 				});
 			});
 			
 			//설문항목 체크박스 이벤트
 			
 			$(function(){
-				surveyCateList.change(function(){
+				surveyCateList.on("change", function(){
+					
 					var checked = $(this).is(":checked");
+					
 					for(var i = 0; i < specialCateList.length; i++){
+						
 						if(specialCateList.eq(0).is(":checked")== true){
 							break;
+							
 						}else{
 							if($(this).val() == specialCateList.eq(i).attr('value')){
+								
 								if(checked == true){	
 									specialCateList.eq(i).removeAttr('disabled');
 								}else if(checked == false){
@@ -222,10 +239,12 @@
 			//신메뉴 체크박스 이벤트
 			
 			$(function(){
-				newMenuCheck.change(function(){
+				newMenuCheck.on("change", function(){
+					
 					if(newMenuCheck.is(":checked") == true){
 						newMenuCheck.val('newMenu');
 						selectMenu.attr('disabled', 'true');
+						
 					}else if(newMenuCheck.is(":checked") == false){
 						selectMenu.removeAttr('disabled');
 					}
@@ -235,8 +254,10 @@
 			//메뉴 목록 가져오기
 			
 			$(function(){
-				selectStore.change(function(){
+				selectStore.on("change", function(){
+					
 					var selectedStoreCode = $(this).val();
+					
 					if(selectedStoreCode != ''){
 						
 						var request = $.ajax({
