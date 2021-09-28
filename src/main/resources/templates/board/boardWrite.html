@@ -11,7 +11,7 @@
 <th:block layout:fragment="customContents">
 	<div class="card card-outline-primary" >
 		<div class="col-lg-12">
-			<form th:action="@{/boardWrite}" role="form" id="writeForm" method="post">
+			<form th:action="@{/board/boardWrite}" role="form" id="writeForm" method="post">
 				<div class="card-header" >
 					<h4 class="m-b-0 text-white" ><i class="fa fa-pencil"></i>  게시글 작성</h4>
 				</div>
@@ -75,6 +75,7 @@
 				return false;
 			}
 			alert('게시글 작성완료!')
+			
 			form.submit();
 		}
 	</script>
