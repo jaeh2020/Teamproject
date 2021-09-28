@@ -16,7 +16,7 @@
 	.topBtn{
 		float: right;
 	}
-	.btn-primary{
+	.btn-success{
 		padding-top : 6px;
 		color: #fff;
 	}
@@ -25,6 +25,9 @@
 	}
 	.all{
 		color: #000;
+	}
+	#messageList{
+		cursor: pointer;
 	}
 </style>
 </th:block>
@@ -40,7 +43,7 @@
 			<div class="topBtn">
 				<button type="button" class="btn btn-default btn-flat m-b-10" id="allDelete" >전체 삭제</button>
 			<!-- 버튼에 링크 -->
-				<a th:href="@{/messageCheck}" class="btn btn-primary btn-flat m-b-10"><i class="ti-settings"></i></a>
+				<a th:href="@{/message/messageCheck}" class="btn btn-success m-b-10 m-l-5"><i class="ti-settings"></i></a>
 			</div>
 		</div>
 	</div>
@@ -60,16 +63,16 @@
 		</div>
 		<!-- 알림리스트 -->
 		<div class="col-lg-10 ">
-			<div class="card">
+			<div class="card card-outline-primary">
 	            <div class="card-header">
-	                <strong class="card-title">알림 메세지</strong>
+	                <h4 class="m-b-0 text-white">알림 메세지</h4>
 	            </div>
 	            <div class="card-body"  id="list">
 					<table class="table table-hover " id="msgTb">
 						<tbody th:id="messageList">
 		                    <tr th:each="l : ${messageList}">
-		                    	<td th:text="${l.messageCommon.messageDetail}"></td>
-		                    	<td th:text="${l.messageNoticeTime}"></td>
+		                    	<!-- <td th:text="${l.messageCommon.messageDetail}"></td>
+		                    	<td th:text="${l.messageNoticeTime}"></td> -->
 		                    </tr>
 	               		</tbody>
 	            	</table>
@@ -85,12 +88,33 @@
 
 		//ajax
     	$(function(){
-    		//전체 누를 때
-    		$('.all').click(function(){  
-    			 $("#list").load(window.location.href + " #list table");
-    		});
-    		
-			//카테고리 누를 때
+           	//1.페이지 로드되었을 때 전체 메세지 출력
+   			var request = $.ajax({
+       			  url: "/messageL", //요청 주소
+       			  method: "GET", //요청 방식
+       			  data: {messageCate1 : "All"}, //전달 할 파라미터
+       			  dataType: "json" //받아 올 포맷방식
+       			});
+        			 //응답이 완료 되었을 경우 실행
+       			request.done(function( data ) {
+   	    			console.log(data);
+       				var tbody= '';
+   					for(var i= 0; i<data.length; i++){
+   						tbody += '<tr><td>' ;
+   						tbody += data[i].messageCommon.messageDetail ;
+   						tbody += '</td><td>' ;
+   						tbody += data[i].messageNoticeTime  ;
+   						tbody += '</td></tr>';  
+   					}
+   					
+   					$('#messageList').html(tbody);	
+        		});
+       			 //응답에 실패 혹은 에러 발생시 실행
+       			request.fail(function( jqXHR, textStatus ) {
+       			  alert( "실패!: " + textStatus );
+       			});
+           	
+			//2.카테고리 누를 때
 			$('.cate').click(function(){
 			var getId = $(this).attr("id");
             console.log(getId,'getId');
@@ -121,10 +145,10 @@
     			});
     		});
 			
-			//전체 삭제 버튼
+			//3.전체 삭제 버튼 누를 때
 			 $('#allDelete').click( function() {
 				 if(confirm('메세지 전체가 삭제됩니다. 정말 삭제하시겠습니까?') == true){
-			        $('#msgTb').remove();					 
+			        $('#msgTb').remove();
 				 }
 			 });
     	});

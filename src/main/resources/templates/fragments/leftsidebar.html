@@ -11,13 +11,18 @@
                      <li class="nav-label">회원관리</li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-tachometer"></i><span class="hide-menu">회원관리 <span class="label label-rouded label-primary pull-right">2</span></span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a href="index.html">회원목록 </a></li>
+                             <li><a href="#" class="has-arrow"> 회원 목록</a>
+                                 <ul aria-expanded="false" class="collapse">
+                                     <li><a href="page-login.html"> 소비자 회원 목록</a></li>
+                                     <li><a href="#">소상공인 회원 목록</a></li>
+                                 </ul>
+                             </li>
                          </ul>
                      </li>
                      <li class="nav-label">메세지 관리 / 문유미</li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-envelope"></i><span class="hide-menu">메세지 관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/messageList}">메세지 목록 / 문유미</a></li>
+                             <li><a th:href="@{/message/messageList}">메세지 목록 / 문유미</a></li>
                          </ul>
                      </li>
                      <li class="nav-label">게시판 관리 / 김채연</li>
@@ -109,7 +114,7 @@
                        <li class="nav-label">환경 설정</li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-level-down"></i><span class="hide-menu">환경 설정</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/commonMessage}">공통메세지 / 문유미</a></li>
+                             <li><a th:href="@{/message/commonMessage}">공통메세지 / 문유미</a></li>
                              <li><a href="#">포인트 소멸기준</a></li>
                              <li><a href="#">페널티 기준</a></li>
                              <li><a href="#">블랙리스트 기준 / 김채연</a></li>
