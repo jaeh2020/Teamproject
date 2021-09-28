@@ -16,11 +16,6 @@
 					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 내 매장 관리  </h4>
 				</div>
 				
-				
-				
-				
-				
-				
 				<div class="card">
 					<div class="card-title" >
 						<h4>전체 검색</h4> 
@@ -135,6 +130,9 @@
 					<div class="pull-right">
 						<a th:href="@{/account/mystore}" class="btn btn-success btn-flat" style="margin-top: 15px;">
 							<i class="fa fa-pencil"></i> 매출추가
+							<script>
+							 alert( "매장이 확인되었습니다." );
+							</script>
 						</a>
 					</div>
 					<div class="pull-left">
@@ -146,6 +144,28 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="storeSearchModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Modal title</h4>
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">...</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save
+						changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+				
 </th:block>
 
 <th:block layout:fragment="customJsLib">
@@ -181,20 +201,21 @@
      
      function classPolicyNameCheck(policyName){
      }
-     </script>  --> -->
+     </script>  --> 
      
-     <script type="text/javascript">
+    <!--  <script type="text/javascript">
      
 	    $(function(){
 	       
 	      $('.btn btn-primary').click(function(){
 	         var stCode = $(this).val();      
+	         
 	         var request =  $.ajax({
 	              url: "/mystoreList", //요청 주소
 	              method: "GET", //요청 방식
 	              /* data: { $("stCode") : stCode }, // input name->cateCode,  value->stName */
-	              //dataType: "json" //받아올 포맷방식
-	              success : 
+	              dataType: "json" 
+	             
 	         });   
 	         request.done(function(data){
 	            
@@ -219,7 +240,95 @@
 		}); 
 
 	</script> 
+     -->
+    <script th:inline="javascript">
+	    /*<![CDATA[*/
+		var storeCode = [[${session.STCODE}]];
+		/*]]>*/ 	
+    </script> 
     
+    
+    <script type="text/javascript">
+                                    
+    $(function(){
+    	
+      $(document).on('click', '.storeBtn', function(){
+    		$('#title').val($(this).text());
+    		
+    		Swal.close();
+      });
+      
+      $('#storeSearch').on('click',function(){
+         
+         var stCode = $(this).val();      
+         
+         var request =  $.ajax({
+              url: "/account/mystoreList", //요청 주소
+              method: "GET", //요청 방식
+              data: { "storeCode" : storeCode }, // input name->cateCode,  value->stName */
+              dataType: "json" //받아올 포맷방식
+         });   
+         request.done(function(data){
+        	
+            
+            var storeListLength = data.length;
+            
+            
+            var content= '';
+            content += '<table class="table table-bordered">';
+            content += '	<thead>';
+           	content += '		<tr>';
+           	content += '			<th > 회원 상점코드</th>';
+           	content += '			<th >사업자ID</th>';
+           	content += '			<th >상호명</th>';
+           	content += '			<th >위치</th>';
+           	content += '			<th >메뉴분류</th>';
+           	content += '		</tr>';
+           	content += '	</thead>';
+           	content += '	<tbody>';
+           	
+           	for(var i=0; i<storeListLength; i++){           		
+	           	content += '	<tr>';
+	           	content += '		<td><a href="javascript:void(0)" class="storeBtn">' + data[i].storeCode + '</a></td>';
+	           	content += '		<td>' + data[i].salesName + '</td>';
+	           	content += '		<td>' + data[i].salesPrice + '</td>';
+	           	content += '		<td>' + data[i].salesRegTime + '</td>';
+	           	content += '		<td>' + data[i].closeTime + '</td>';
+	           	content += '	</tr>';
+           	}
+           	content += '	</tbody>';
+           	content += '</table>';
+           	
+           	/*
+            content += '<h3><text class="text" style="color : #A9A9F5; font-weight: bold;"> 회원 상점코드 : </text>' + data.store_code;
+            content += '<br> <text class="text" style="color : #A9A9F5; font-weight: bold;" > 사업자ID : </text>' + data.biz_id;
+            content += '<br> <text class="text" style="color : #A9A9F5; font-weight: bold;"> 상호명 : </text>' + data.store_name;
+            content += '<br> <text class="text" style="color : #A9A9F5; font-weight: bold;"> 위치 : </text>' + data.store_location;
+            content += '<br> <text class="text" style="color : #A9A9F5; font-weight: bold;"> 메뉴분류 : </text>' + data.main_cate_code; + '</h3>'
+         	*/
+                        
+            //Swal.fire(html); 
+            
+            Swal.fire({
+					// className : 'red-bg', // 클래스 이름 지정, 즉 css 지정 가능
+					title : '나의 상점 리스트',
+					closeOnClickOutside: false, 
+					html:content,
+					showConfirmButton:false
+         	});
+         	/*
+         	.then(function(result){
+         		console.log(result);
+         	});
+            */
+		 });
+         request.fail(function( jqXHR, textStatus){
+             alert( "매장이 확인되었습니다." );
+             
+         }); 
+	 });
+    });
+    </script> 
     
 </th:block>
 

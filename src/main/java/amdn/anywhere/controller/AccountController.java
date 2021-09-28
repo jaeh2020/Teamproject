@@ -2,6 +2,8 @@ package amdn.anywhere.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,11 @@ import amdn.anywhere.service.AccountService;
 @Controller
 @RequestMapping("/account")
 public class AccountController {
-private final AccountService accountService;
+	
+	private static final Logger log = LoggerFactory.getLogger(AccountController.class);
+
+	
+	private final AccountService accountService;
 
 	public AccountController(AccountService accountService) {
 		this.accountService = accountService;
@@ -32,7 +38,8 @@ private final AccountService accountService;
 	//ajax (내 매장 정보) -- 확인
    @GetMapping(value="/mystoreList", produces = "application/json")
    @ResponseBody
-   public List<Store> getMystoreList(@RequestParam(name="storecode", required = false) String storeCode){   
+   public List<Store> getMystoreList(@RequestParam(name="storeCode", required = false) String storeCode){
+	  log.debug("storeCode : {}",storeCode);
       return accountService.getMystoreList(storeCode);
    }
 
