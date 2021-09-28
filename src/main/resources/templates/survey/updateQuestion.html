@@ -184,18 +184,21 @@
 		var insertList = [];
 		$(function(){
 			$('#saveBtn').click(function(){
-	
-				var cateCode = $('#selectCate');
-				var newQ = $('.newQ');
-				
-				if(cateCode.val() =='default' || cateCode.val()== null){
-					alert('항목을 먼저 선택해주세요');
-					cateCode.focus();
-				}else{
-					for(var i =0; i< newQ.length ; i++){
-						insertList.push(newQ.eq(i).text());
+				if (!confirm('수정사항을 저장하시겠습니까?')) return;
+				else { 
+					alert('저장되었습니다.'); 
+					var cateCode = $('#selectCate');
+					var newQ = $('.newQ');
+					
+					if(cateCode.val() =='default' || cateCode.val()== null){
+						alert('항목을 먼저 선택해주세요');
+						cateCode.focus();
+					}else{
+						for(var i =0; i< newQ.length ; i++){
+							insertList.push(newQ.eq(i).text());
+						}
+						location.href='/survey/saveList?qDeleteList='+ deleteList + '&qInsertList='+ insertList + '&qCateCode='+cateCode.val();
 					}
-					location.href='/survey/saveList?qDeleteList='+ deleteList + '&qInsertList='+ insertList + '&qCateCode='+cateCode.val();
 				}
 			});
 		});
@@ -204,7 +207,8 @@
 		
 		$(function(){
 			$('#reset').click(function(){
-				window.location.reload();
+				if(!confirm('변경사항이 저장되지 않고 초기화됩니다.')) return;
+				else window.location.reload();
 			});
 		});
 </script>
