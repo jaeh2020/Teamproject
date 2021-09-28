@@ -38,8 +38,8 @@
 							</div>
 							<div class="form-group">
 								<div class="input-group input-group-flat">
-									<input type="text" class="form-control" placeholder="문항을 입력하세요">
-									<a th:href="@{/#}" class="btn btn-primary" type="button"><i class="ti-search"></i>  매장 선택</a>
+									<input id="stCode" type="text" class="form-control" placeholder="문항을 입력하세요" value="내 매장 코드 : ID001" readonly="readonly" style="text-align: center;">
+									<button type="button" class="btn btn-primary" id="storeSearch"> 매장 선택 </button><!-- <a href="javascript:void(0)" class="btn btn-primary" type="button"><i class="ti-search"></i>  매장 선택</a> -->
 								</div>
 							</div>
 						</form>
@@ -48,23 +48,23 @@
 				</div>
 				
 					<div class="form-group">
-						<label for="title" style="margin-top: 30px; font-weight:bold;">매장코드</label>
-						<input class="form-control" id="title" name="title" placeholder=${/SESSION} readonly="readonly">
+						<label for="title" style="margin-top: 30px; font-weight:bold;">접속자 아이디</label>
+						<input class="form-control" id="title" name="title" placeholder=${/SID} readonly="readonly">
 					</div>
 					
 					<div class="form-group">
 						<label for="writer" style="font-weight:bold;">주소</label>
-						<input class="form-control" id="memberLevel" name="memberLevel" placeholder="판매자 권한" readonly="readonly">
+						<input class="form-control" id="memberLevel" name="memberLevel" placeholder="Business Location!!" readonly="readonly">
 					</div>
 				
 					<div class="form-group">
 						<label for="writer" style="font-weight:bold;">사업주명</label>
-						<input class="form-control" id="memberLevel" name="memberLevel" placeholder="판매자 권한" readonly="readonly">
+						<input class="form-control" id="memberLevel" name="memberLevel" placeholder="사업주의 이름!!" readonly="readonly">
 					</div>
 				
 					<div class="form-group">
 						<label for="writer" style="font-weight:bold;">상호명</label>
-						<input class="form-control" id="memberLevel" name="memberLevel" placeholder="판매자 권한" readonly="readonly">
+						<input class="form-control" id="memberLevel" name="memberLevel" placeholder="상호의 이름!!" readonly="readonly">
 					</div>
 				
 				<div class="box-body" style="padding-top: 20px;">
@@ -133,12 +133,12 @@
 				</div>
 				<div class="box-footer">
 					<div class="pull-right">
-						<a th:href="@{/addSales}" class="btn btn-success btn-flat" style="margin-top: 15px;">
+						<a th:href="@{/account/mystore}" class="btn btn-success btn-flat" style="margin-top: 15px;">
 							<i class="fa fa-pencil"></i> 매출추가
 						</a>
 					</div>
 					<div class="pull-left">
-						<a th:href="@{/addSales}" class="btn btn-primary" style="margin-top: 15px;">
+						<a th:href="@{/account/mystore}" class="btn btn-primary" style="margin-top: 15px;">
 							<i class="fa fa-check"></i> 마감완료
 						</a>
 					</div>
@@ -146,6 +146,81 @@
 			</div>
 		</div>
 	</div>
+</th:block>
+
+<th:block layout:fragment="customJsLib">
+	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+    
+     <!-- <script type="text/javascript">
+
+     <!-- $(function(){
+        $("#storeSearch").on("click", function(){
+           
+            var stCode = $("#stCode").val();
+            var sendData = {"sendData":sendData}
+            $.ajax({
+                method : 'POST',
+                url : 'stCodeList',
+                data : sendData,
+                success : function(resp){
+                    if(resp=='fail'){
+                       $('#available').css('display', 'none');
+                       $('#in_use').css('display', 'inline');
+                        flag=false;
+          
+                    }else{
+                       $('#available').css('display', 'inline');
+                       $('#in_use').css('display', 'none');
+                        flag=true;
+                    }}
+            })   
+           
+        });
+     })
+     
+     function classPolicyNameCheck(policyName){
+     }
+     </script>  --> -->
+     
+     <script type="text/javascript">
+     
+	    $(function(){
+	       
+	      $('.btn btn-primary').click(function(){
+	         var stCode = $(this).val();      
+	         var request =  $.ajax({
+	              url: "/mystoreList", //요청 주소
+	              method: "GET", //요청 방식
+	              /* data: { $("stCode") : stCode }, // input name->cateCode,  value->stName */
+	              //dataType: "json" //받아올 포맷방식
+	              success : 
+	         });   
+	         request.done(function(data){
+	            
+	            console.log(data);
+	            console.log(data.store_code, data.biz_id, data.store_name, data.store_location, data.main_cate_code);
+	            
+	            var html= '';
+	            
+	            html += '<text class="text-info"> 상점코드 : </text>' + data.store_code;
+	            html += '<br> <text class="text-info"> 사업자ID : </text>' + data.biz_id;
+	            html += '<br> <text class="text-info"> 상호명 : </text>' + data.store_name;
+	            html += '<br> <text class="text-info"> 위치 : </text>' + data.store_location;
+	            html += '<br> <text class="text-info"> 메뉴분류 : </text>' + data.main_cate_code;
+	                        
+	            Swal.fire(html);
+	         
+	         });
+	         request.fail(function( jqXHR, textStatus){
+	             alert( "Request failed: " + textStatus );
+	         });
+		   });
+		}); 
+
+	</script> 
+    
+    
 </th:block>
 
 </html>

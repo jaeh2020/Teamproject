@@ -1,6 +1,6 @@
 package amdn.anywhere.domain;
 
-public class Account {
+public class Mystore {
 	private String storeCode;
 	private String salesName;
 	private String salesPrice;
