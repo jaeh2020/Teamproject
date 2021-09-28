@@ -14,6 +14,7 @@ public class WebConfig implements WebMvcConfigurer{
 	
 	private final CommonInterceptor commonInterceptor;
 
+
 	
 	
 	public WebConfig(CommonInterceptor commonInterceptor) {
