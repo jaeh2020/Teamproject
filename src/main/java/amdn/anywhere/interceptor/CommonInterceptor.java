@@ -5,6 +5,7 @@ import java.util.StringJoiner;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import amdn.anywhere.domain.Message;
 
 @Component
 public class CommonInterceptor implements HandlerInterceptor{
@@ -29,8 +32,24 @@ public class CommonInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+
+		HandlerMethod handlerObj = null;
+		if(handler != null && handler instanceof HandlerMethod) {
+			handlerObj = (HandlerMethod) handler;
+		}
+
+
+		//request.getSession().setAttribute("SID", "id001");
+		request.getSession().setAttribute("SID", "id004");
+		//request.getSession().setAttribute("SID", "id010");
 		
-		HandlerMethod handlerObj = (HandlerMethod) handler;
+		request.getSession().setAttribute("STCODE", "s_001");
+
+		//request.getSession().setAttribute("SNAME", "임소비");
+
+
+		//request.getSession().setAttribute("SLEVEL", "level_admin");
+
 		
 		Set<String> paramKeySet = request.getParameterMap().keySet();
 		
@@ -47,11 +66,24 @@ public class CommonInterceptor implements HandlerInterceptor{
 		log.info("SERVER NAME		::::::		{}", 	request.getServerName());
 		log.info("HTTP METHOD		::::::		{}", 	request.getMethod());
 		log.info("URI			::::::		{}", 			request.getRequestURI());
-		log.info("CONTROLLER		::::::		{}", 	handlerObj.getBean().getClass().getSimpleName());
+		if(handlerObj != null) {			
+			log.info("CONTROLLER		::::::		{}", 	handlerObj.getBean().getClass().getSimpleName());
+		}
 		log.info("PARAMETER		::::::		{}", 		param);
 		log.info("ACCESS INFO======================================================END");
 		
 		//return HandlerInterceptor.super.preHandle(request, response, handler);
+		
+		//세션의 정보가 없으면 로그인페이지로 이동
+		
+		/**
+		 * HttpSession session = request.getSession();
+		 * 
+		 * Message message = new Message(); message.setMemberId("111111111");
+		 * 
+		 * session.setAttribute("message", message);
+		 */
+		
 		return true;
 	}
 	

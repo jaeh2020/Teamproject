@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="amdn.anywhere.mapper.MessageMapper">
+	<resultMap type="Message" id="messageResultMap">
+		<result property="messageNum" column="not_num"/>
+		<result property="storeCode" column="store_code"/>
+		<result property="memberId" column="member_id"/>
+		<result property="messageCode" column="message_code"/>
+		<result property="messageNoticeTime" column="not_time"/>
+		<result property="messageReadTime" column="not_read_time"/>
+		<result property="messageMark" column="message_mark"/>
+		<association property="messageCommon" javaType="MessageCommon">
+			<id     property="messageCode" column="message_code"/>
+			<result property="messageCate1" column="message_cate_1"/>
+			<result property="messageIcon" column="message_icon"/>
+			<result property="messgeCate2" column="message_cate_2"/>
+			<result property="messageDetail" column="message_detail"/>
+		</association>
+	</resultMap>
+	
+	<!-- 공통 메세지 -->
+	<resultMap type="MessageCommon" id="messageCommonResultMap">
+		<result property="messageCode" column="message_code"/>
+		<result property="messageCate1" column="message_cate_1"/>
+		<result property="messageIcon" column="message_icon"/>
+		<result property="messgeCate2" column="message_cate_2"/>
+		<result property="messageDetail" column="message_detail"/>
+	</resultMap>
+	
+	<!-- 메세지 체크 -->
+	<resultMap type="MessageCheck" id="messageCheckResultMap">
+		<result property="messageCheckCode" column="message_check_code"/>
+		<result property="memberId" column="member_id"/>
+		<result property="orderReservation" column="order_reservation"/>
+		<result property="messagePay" column="pay"/>
+		<result property="messageWaiting" column="waiting"/>
+		<result property="messageBoard" column="board"/>
+		<result property="messageReview" column="review"/>
+		<result property="messagePoint" column="point"/>
+		<result property="messageEvaluator" column="evaluator"/>
+		<result property="messageMemberShip" column="membership"/>
+		<result property="messageFavorite" column="favorite"/>
+		<result property="messageEvent" column="event"/>
+		<result property="messageSms" column="sms"/>
+		<result property="messageEmail" column="email"/>
+	</resultMap>
+
+	<!-- 메세지 체크 수정처리 -->
+	<update id="modifyMsgCheck" parameterType="MessageCheck">
+		UPDATE tb_member_message_check
+			<trim prefix="SET" suffixOverrides=",">
+				<if test="messageFavorite != null and messageFavorite != ''.toString()">
+					favorite = #{messageFavorite},
+				</if>
+				<if test="orderReservation != null and orderReservation != ''.toString()">
+					order_reservation = #{orderReservation},
+				</if>
+				<if test="messagePay != null and messagePay != ''.toString()">
+					pay = #{messagePay},
+				</if>
+				<if test="messageWaiting != null and messageWaiting != ''.toString()">
+					waiting = #{messageWaiting},
+				</if>
+				<if test="messageBoard != null and messageBoard != ''.toString()">
+					board = #{messageBoard},
+				</if>
+				<if test="messageReview != null and messageReview != ''.toString()">
+					review = #{messageReview},
+				</if>
+				<if test="messagePoint != null and messagePoint != ''.toString()">
+					point = #{messagePoint},
+				</if>
+				<if test="messageEvaluator != null and messageEvaluator != ''.toString()">
+					evaluator = #{messageEvaluator},
+				</if>
+				<if test="messageMemberShip != null and messageMemberShip != ''.toString()">
+					membership = #{messageMemberShip},
+				</if>
+				<if test="messageEvent != null and messageEvent != ''.toString()">
+					event = #{messageEvent},
+				</if>
+				<if test="messageSms != null and messageSms != ''.toString()">
+					sms = #{messageSms},
+				</if>
+				<if test="messageEmail != null and messageEmail != ''.toString()">
+					email = #{messageEmail},
+				</if>			
+			</trim>
+			<where>
+			<if test="memberId != null">
+				member_id = #{memberId}
+			</if>
+		</where>
+	</update>
+	
+	<!-- 메세지 체크 등록 -->
+	<insert id="addMessageCheck">
+		INSERT INTO tb_member_message_check
+			(message_check_code
+			, member_id
+			, order_reservation
+			, pay
+			, waiting
+			, board
+			, review
+			, point
+			, evaluator
+			, membership
+			, favorite
+			, event
+			, sms
+			, email
+		)VALUES (
+			  #{messageCheckCode}
+			, #{memberId}
+			, #{orderReservation}
+			, #{messagePay}
+			, #{messageWaiting}
+			, #{messageBoard}
+			, #{messageReview}
+			, #{messagePoint}
+			, #{messageEvaluator}
+			, #{messageMemberShip}
+			, #{messageFavorite}
+			, #{messageEvent}
+			, #{messageSms}
+			, #{messageEmail});
+	</insert>
+	
+	<!-- 아이디별 알림체크 리스트 -->
+	<select id="getMessageCheck" resultMap="messageCheckResultMap">
+		SELECT 
+			message_check_code
+			, member_id
+			, order_reservation
+			, pay
+			, waiting
+			, board
+			, review
+			, point
+			, evaluator
+			, membership
+			, favorite
+			, event
+			, sms
+			, email
+		FROM 
+			tb_member_message_check
+		WHERE
+			member_id = #{memberId};
+	</select>
+	
+	<!-- 관리자권한 알림체크 리스트 -->
+	<select id="getMsgCheckList" resultMap="messageCheckResultMap">
+		SELECT 
+			message_check_code
+			, member_id
+			, order_reservation
+			, pay
+			, waiting
+			, board
+			, review
+			, point
+			, evaluator
+			, membership
+			, favorite
+			, event
+			, sms
+			, email
+		FROM 
+			tb_member_message_check;
+	</select>
+	
+	<!-- 메세지 등록 쉽게.. -->
+	<insert id="addMessage">
+		INSERT INTO tb_member_notification
+			( not_num
+			, confirm_id
+			, store_code
+			, member_id
+			, message_code
+			, not_time
+			, not_read_time
+			, message_mark
+		)VALUES (
+			  #{messageNum}
+			, #{confirmId}
+			, #{storeCode}
+			, #{memberId}
+			, #{messageCode}
+			, NOW()
+			, NOW()
+			, #{messageMark});
+	</insert>
+	
+	<!-- 공통 메세지 리스트 -->
+	<select id="getMessageCommonList" resultMap="messageCommonResultMap">
+		SELECT 
+			message_code
+			,message_cate_1
+			,message_icon
+			,message_cate_2 
+			,message_detail
+		FROM 
+			tb_message;
+	</select>
+
+	<!-- 받은 알림 조회 -->
+	<select id="getMessageL" resultMap="messageResultMap">
+		SELECT 
+			n.not_num
+			, n.store_code
+			, n.member_id
+			, n.message_code
+			, n.not_time
+			, n.not_read_time
+			, n.message_mark
+			, m.message_code
+			, m.message_cate_1
+			, m.message_detail
+		FROM 
+			tb_member_notification as n
+			inner JOIN
+			tb_message as m
+			ON
+			n.message_code = m.message_code
+		<where>
+			<if test="messageCate1 != null and messageCate1 != 'All'">
+				m.message_cate_1 = #{messageCate1}
+			</if>
+		</where>
+	</select>
+	<!-- 받은 알림 조회의 카테고리 -->
+	<select id="getMessageList" resultMap="messageResultMap">
+		SELECT 
+			n.not_num
+			, n.store_code
+			, n.member_id
+			, n.message_code
+			, n.not_time
+			, n.not_read_time
+			, n.message_mark
+			, m.message_code
+			, m.message_cate_1
+			, m.message_detail
+		FROM 
+			tb_member_notification as n
+			inner JOIN
+			tb_message as m
+			ON
+			n.message_code = m.message_code
+		GROUP by
+			m.message_cate_1;
+
+	</select>
+	
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="amdn.anywhere.mapper.ExpenseMapper">
+<resultMap type="Expense" id="expenseResultMap">
+	<result property="storeCode" column="e_code"/>
+	<result property="salesName" column="e_name"/>
+	<result property="salesPrice" column="e_price"/>
+	<result property="salesRegTime" column="e_regtime"/>
+	<result property="closeTime" column="c_time"/>
+</resultMap>		
+
+
+
+
+<select id="getExpenseList" resultMap="expenseResultMap" parameterType="String">
+	SELECT
+		*
+	FROM
+		tb_account_order_d		AS S
+		LEFT JOIN
+		tb_expense_d 				AS E
+	ON	
+		E.store_code=S.store_code
+</select>
+
+<insert id="addExpense" parameterType="sales">
+	INSERT INTO tb_question
+
+
+</insert>
+
+</mapper>

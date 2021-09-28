@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
@@ -13,20 +14,22 @@
 		<!-- begin leftsidebar -->
 		<div th:replace="fragments/leftsidebar :: leftsidebarFragment"></div>
 		<!-- end leftsidebar -->
-		
+
 		<!-- Page wrapper  -->
 		<div class="page-wrapper">
 			<!-- Bread crumb -->
-            <div class="row page-titles">
-                <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">Dashboard</h3> </div>
-                <div class="col-md-7 align-self-center">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                </div>
-            </div>
+			<th:block layout:fragment="customLocation">
+	            <div class="row page-titles">
+	                <div class="col-md-5 align-self-center">
+	                    <h3 class="text-primary" th:text="${location}">Dashboard</h3> </div>
+	                <div class="col-md-7 align-self-center">
+	                    <ol class="breadcrumb">
+	                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+	                        <li class="breadcrumb-item active" th:text="${location}">Dashboard</li>
+	                    </ol>
+	                </div>
+	            </div>
+     		 </th:block>
             <!-- End Bread crumb -->
             <!-- Container fluid  -->
             <div class="container-fluid">
@@ -34,26 +37,34 @@
 				<th:block layout:fragment="customContents"></th:block>
 				<!-- End PAge Content -->
 			</div>
+		</div>
+			<!-- End Container fluid  -->
+		
 			<!-- footer -->
 			<footer th:replace="fragments/footer :: footerFragment"></footer>
 			<!-- End footer -->
-		</div>	
-		<!-- End Container fluid  -->
 	</div>
-	<!-- All Jquery -->
-    <script src="js/lib/jquery/jquery.min.js"></script>
+
+	
+	
+
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="js/lib/bootstrap/js/popper.min.js"></script>
-    <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
+    
+    
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
+    <script th:src="@{/js/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery.slimscroll.js}"></script>
     <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
+    <script th:src="@{/js/sidebarmenu.js}"></script>
     <!--stickey kit -->
-    <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="js/custom.min.js"></script>
+    <script th:src="@{/js/lib/sticky-kit-master/dist/sticky-kit.min.js}"></script>
+    <script th:src="@{/js/scripts.js}"></script>
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+           
+    <!-- <script th:src="@{/js/custom.min.js}"></script> -->
     <!--Custom JavaScript -->
     <th:block layout:fragment="customJsLib"></th:block>
+    
+    
 </body>
 </html>

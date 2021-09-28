@@ -12,7 +12,7 @@ document.querySelector('.sweet-success').onclick = function(){
 };
 document.querySelector('.sweet-confirm').onclick = function(){
     swal({
-            title: "Are you sure to delete ?",
+            title: "정말 삭제하시겠습니까",
             text: "You will not be able to recover this imaginary file !!",
             type: "warning",
             showCancelButton: true,

@@ -8,10 +8,14 @@ import amdn.anywhere.interceptor.CommonInterceptor;
 
 
 
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
 	
 	private final CommonInterceptor commonInterceptor;
+
+
+	
 	
 	public WebConfig(CommonInterceptor commonInterceptor) {
 		this.commonInterceptor = commonInterceptor;
@@ -26,9 +30,10 @@ public class WebConfig implements WebMvcConfigurer{
 				.excludePathPatterns("/icons/**")
 				.excludePathPatterns("/images/**")
 				.excludePathPatterns("/js/**")
+				.excludePathPatterns("/error")
 				.excludePathPatterns("/favicon.ico");
-					
-		WebMvcConfigurer.super.addInterceptors(registry);
+		
+		//WebMvcConfigurer.super.addInterceptors(registry);
 	}
 
 }

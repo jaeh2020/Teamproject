@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="card">
+		<form method="post">
+			<table class="table table-hover ">
+				<tr>
+					<td>관리자아이디</td>
+					<td>
+						<input type="text" name="confirmId" th:value="${session.SID}" />
+					</td>
+				</tr>
+				<tr>
+					<td>회원 알림 번호(not_00x)</td>
+					<td>
+						<input type="text" name="messageNum" />
+					</td>
+				</tr>
+				<tr>
+					<td>매장정보(s_001~s_006)</td>
+					<td>
+						<input type="text" name="storeCode" />
+					</td>
+				</tr>
+				<tr>
+					<td>회원 아이디(id010~id015)</td>
+					<td>
+						<input type="text" name="memberId" />
+					</td>
+				</tr>
+				<tr>
+					<td>공통 알림 코드</td>
+					<td>
+						<select name="messageCode">
+							<th:block th:each="l : ${messageCommonList}">
+								<option th:value="${l.messageCode}">
+									[[${l.messageDetail}]]
+								</option>
+							</th:block>
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>읽음 상태</td>
+					<td>
+						<input type="checkbox" name="messageMark" value="y"/>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<button type="submit">알림등록</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</th:block>
+	
+    <!--Custom JavaScript -->
+    <th:block layout:fragment="customJsLib"></th:block>
+</body>
+</html>
