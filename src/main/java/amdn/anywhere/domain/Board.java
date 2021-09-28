@@ -11,6 +11,7 @@ public class Board {
 	private int boardViews;
 	private String memberId;
 	private String stateCode;
+	
 	public String getBoardNum() {
 		return boardNum;
 	}
@@ -78,6 +79,7 @@ public class Board {
 				+ ", boardRegTime=" + boardRegTime + ", boardViews=" + boardViews + ", memberId=" + memberId
 				+ ", stateCode=" + stateCode + "]";
 	}
+	
 	
 	
 	

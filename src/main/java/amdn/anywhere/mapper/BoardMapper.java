@@ -13,6 +13,17 @@ import amdn.anywhere.domain.Statement;
 public interface BoardMapper {
 	
 	
+	
+	//게시물 조회 수 증가
+	/* public int updateBoardCnt(int boardViews); */
+	
+	//게시물 삭제 처리
+	public int boardDelete(String boardNum);
+	
+	
+	//게시물 수정 처리
+	 public int boardModify(Board board);
+	 
 	 //게시물 정보 가져오기
 	 public Board getBoardInfoByCode(String BoardNum);
 	 
@@ -27,7 +38,8 @@ public interface BoardMapper {
 	
 	 //아이디 조회
 	 public Member getMemberRead(String memId);
-	
+	 
+	 
 	 //게시판 등록
 	 public int boardWrite(Board board);
 	

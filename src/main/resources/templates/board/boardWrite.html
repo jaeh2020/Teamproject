@@ -41,15 +41,18 @@
 				</div>
 				
 				<!-- 첨부파일 -->
-				<form action="post" class="dropzone">
+				
 						<div class="fallback">
 							<input name="boardFile" type="file" >
 						</div>
-				</form>
-				<div style="padding-top: 25px; padding-bottom: 15px;">
-					<input type="checkbox"  name="boardSecret" value="1" checked="checked"> 공개글
-					<input type="checkbox"  name="boardSecret" value="0"> 비밀글
-				</div>
+				
+				
+				
+					<div style="padding-top: 25px; padding-bottom: 15px;">
+						<label><input type="radio"  name="boardSecret" value="1" checked="checked"> 공개글</label>
+						<label><input type="radio"  name="boardSecret" value="0"> 비밀글</label>
+					</div>
+				
 				
 				<div class="box-footer">
 					<a th:href="@{/board/boardList}" class="btn btn-primary"  ><i class="fa fa-list"></i>목록</a>
@@ -78,11 +81,15 @@
 			
 			form.submit();
 		}
+		
+		/* if($("input[name=boardSecret]:checkbox:checked").length == 1){
+			console.log('체크 된 대상입니다.');
+		}*/
 	</script>
 </th:block>
 
 <th:block layout:fragment="customJsLib">
-	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->
 </th:block>
 </html>

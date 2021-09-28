@@ -25,6 +25,25 @@ public class BoardService {
 	 }
 	  
 	 
+	  //게시판 조회 수 증가
+	/*
+	 * public int updateBoardCnt(int boardViews) {
+	 * 
+	 * return boardMapper.updateBoardCnt(boardViews); }
+	 */
+	 
+	
+	  //게시판 삭제 처리
+	  public int boardDelete(String boardNum) {
+		  return boardMapper.boardDelete(boardNum);
+	  }
+	  
+	  //게시판 수정 처리
+	  public int boardModify(Board board) {
+		  return boardMapper.boardModify(board);
+	  }
+	 
+	  
 	  //게시판 정보 가져오기
 	  public Board getBoardInfoByCode(String boardNum) {
 		  return boardMapper.getBoardInfoByCode(boardNum);
@@ -42,7 +61,7 @@ public class BoardService {
 	  }
 	 
 	  
-	  //ajax처리
+	  //회원보기 - ajax처리
 	  public List<Member> getMemberList(){ 
 			return boardMapper.getMemberList(); 
 		}
@@ -50,6 +69,7 @@ public class BoardService {
 		public Member getMemberRead(String memId){ 
 			return boardMapper.getMemberRead(memId); 
 		}
+		
 	  
 	  //자동증가 코드 가져오기
 	  public String getNewBoardNum() {

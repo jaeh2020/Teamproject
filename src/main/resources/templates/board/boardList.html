@@ -56,19 +56,18 @@
 </th:block>
 
 <th:block layout:fragment="customJsLib">
-	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+	
 
-	<script type="text/javascript">
+<script type="text/javascript">
 												
     $(function(){
     	
-		$('.memberInfoSearch').click(function(){
+		$('.memberInfoSearch').on('click',function(){
 			
 			var memId = $(this).text();		
 			
 			var request =  $.ajax({
-				  url: "/memberSearch", //요청 주소
+				  url: "/board/memberSearch", //요청 주소
 				  method: "GET", //요청 방식
 				  data: { memberId : memId }, // input name->cateCode,  value->stName
 				  dataType: "json" //받아올 포맷방식
@@ -94,14 +93,13 @@
 			}); 
 	});
 });
+    
 
 </script>
-    
-</th:block>
 
-<th:block layout:fragment="customJsLib">
-	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+<script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->
+    
 </th:block>
 
 
