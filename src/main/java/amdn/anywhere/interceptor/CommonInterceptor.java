@@ -39,12 +39,12 @@ public class CommonInterceptor implements HandlerInterceptor{
 		}
 
 
-		request.getSession().setAttribute("SID", "id001");
-		//request.getSession().setAttribute("SID", "id004");
+		//request.getSession().setAttribute("SID", "id001");
+		request.getSession().setAttribute("SID", "id004");
 		//request.getSession().setAttribute("SID", "id010");
 	
 
-		request.getSession().setAttribute("SNAME", "임소비");
+		//request.getSession().setAttribute("SNAME", "임소비");
 
 
 		//request.getSession().setAttribute("SLEVEL", "level_admin");

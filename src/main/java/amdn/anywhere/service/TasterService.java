@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.QuestionCate;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.mapper.QuestionsMapper;
@@ -22,6 +23,11 @@ public class TasterService {
 		this.questionsMapper = questionsMapper;
 		this.tasterMapper = tasterMapper;
 	}
+	// 2. 모집신청 - 평가할 메뉴목록 조회
+	public List<Menu> getMenuList(String storeCode){	
+		return tasterMapper.getMenuList(storeCode);
+	}
+	
 	// 1. 모집신청- 매장리스트 조회
 	public Map<String, Object> getListForRecruit(String bizId){
 		
