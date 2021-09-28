@@ -32,16 +32,22 @@ public class CommonInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
-		HandlerMethod handlerObj = (HandlerMethod) handler;
-		
 
-		//request.getSession().setAttribute("SID", "id001");
+		HandlerMethod handlerObj = null;
+		if(handler != null && handler instanceof HandlerMethod) {
+			handlerObj = (HandlerMethod) handler;
+		}
+
+
+		request.getSession().setAttribute("SID", "id001");
 		//request.getSession().setAttribute("SID", "id004");
-		request.getSession().setAttribute("SID", "id010");
+		//request.getSession().setAttribute("SID", "id010");
 		
+		request.getSession().setAttribute("STCODE", "s_001");
+
 		request.getSession().setAttribute("SNAME", "임소비");
-		
+
+
 		//request.getSession().setAttribute("SLEVEL", "level_admin");
 
 		
@@ -60,7 +66,9 @@ public class CommonInterceptor implements HandlerInterceptor{
 		log.info("SERVER NAME		::::::		{}", 	request.getServerName());
 		log.info("HTTP METHOD		::::::		{}", 	request.getMethod());
 		log.info("URI			::::::		{}", 			request.getRequestURI());
-		log.info("CONTROLLER		::::::		{}", 	handlerObj.getBean().getClass().getSimpleName());
+		if(handlerObj != null) {			
+			log.info("CONTROLLER		::::::		{}", 	handlerObj.getBean().getClass().getSimpleName());
+		}
 		log.info("PARAMETER		::::::		{}", 		param);
 		log.info("ACCESS INFO======================================================END");
 		

@@ -44,7 +44,6 @@
 			tb_questionnaire
 		WHERE question_cate_code = #{cateCode}
 	</select>
-	
 	<select id="selectQCate" resultMap="questionCateResultMap" parameterType="String"> 
 		SELECT 
 			  question_cate_code

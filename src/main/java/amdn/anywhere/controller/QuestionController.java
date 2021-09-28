@@ -71,19 +71,20 @@ public class QuestionController{
 			, HttpSession session
 			, Model model) {
 		
-		System.out.println(qDeleteList + "<<<<<qDeleteList saveQuestion QuestionController.java");
-		System.out.println(qInsertList + "<<<<<qInsertList saveQuestion QuestionController.java");
-		System.out.println(qCateCode + "<<<<<qCateCode saveQuestion QuestionController.java");
-
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("qInsertList", qInsertList);
-		paramMap.put("qCateCode", qCateCode);
-		paramMap.put("addId", (String)session.getAttribute("SID"));
-		
-		questionService.insertQuestion(paramMap);
-		questionService.deleteQuestion(qDeleteList);
-		
-		return "redirect:/survey/updateQuestion";
+		if(qDeleteList.isEmpty() && qInsertList.isEmpty()) {
+			return "redirect:/survey/updateQuestion";
+			
+		}else {
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("qInsertList", qInsertList);
+			paramMap.put("qCateCode", qCateCode);
+			paramMap.put("addId", (String)session.getAttribute("SID"));
+			
+			questionService.insertQuestion(paramMap);
+			questionService.deleteQuestion(qDeleteList);
+			
+			return "redirect:/survey/updateQuestion";
+		}
 	}
 	//5. 항목 추가하기
 	@PostMapping("/addQCate")
@@ -126,7 +127,12 @@ public class QuestionController{
 	//2. 문항 수정 페이지이동
 	@GetMapping("/updateQuestion")
 	public String updateQuestions(Model model) {
-		model.addAttribute("title", "설문조사 항목추가");
+		
+		model.addAttribute("title", "설문조사 항목별 문항관리");
+		model.addAttribute("location1URL", "questionManage");
+		model.addAttribute("location1", "항목 관리");
+		model.addAttribute("location2", "문항 관리");
+		
 		return "/survey/updateQuestion";
 	}
 	//1. 항목 리스트 
@@ -136,7 +142,7 @@ public class QuestionController{
 		List<QuestionCate> cateList = questionService.getQuestionCateList();
 
 		model.addAttribute("title", "설문조사 항목관리");
-		model.addAttribute("location", "항목 관리");
+		model.addAttribute("location2", "항목 관리");
 		model.addAttribute("cateList", cateList);
 		
 		return "/survey/questionManage";

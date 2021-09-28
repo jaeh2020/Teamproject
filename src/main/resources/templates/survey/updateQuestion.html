@@ -2,11 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="@{layout/default}">
-
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
 </th:block>
 
+<th:block layout:fragment="customLocation">
+	<div class="row page-titles">
+	    <div class="col-md-5 align-self-center">
+	        <h3 class="text-primary" th:text="${location2}"></h3></div>
+	    <div class="col-md-7 align-self-center">
+	        <ol class="breadcrumb">
+	            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+	            <li class="breadcrumb-item active">
+	            	<a th:text="${location1}" th:href="@{${location1URL}}"></a>
+	            </li>
+	            <li class="breadcrumb-item active" th:text="${location2}"></li>
+	        </ol>
+	    </div>
+	</div>
+</th:block>
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 	<div class="row">
@@ -50,10 +64,8 @@
 	                   	</form>
 					</div>
 					<div class="row">
-                	   	<div class="offset-md-2 col-md-4">
+                	   	<div class="offset-sm-4 col-md-8">
                            	<button type="button" class="btn btn-inverse" id="reset"><i class="fa fa-repeat"></i> 되돌리기 </button>
-                        </div>
-                        <div class="col-md-4">
                            	<button type="button" class="btn btn-success" id="saveBtn"><i class="fa fa-check"></i> 저장하기 </button>
                         </div>
    	                </div>	
@@ -112,13 +124,17 @@
 				
 				request.done(function(data){
 				  	var listSize =data.length;
-				 	for(var i  = 0; i< listSize; i++){
-				 		  questionLi += '<li><label>'+(i+1)+'<input type="hidden" class="qCode" value= '
-					        		  + data[i].qCode + '><i class="bg-success"></i><span>'
-					       			  + data[i].qContent
-					      			  + '</span><a class="ti-close deleteBtn"></a>'
-					        		  + '</label></li>';
-				 		 }
+				  		if(listSize == 0){
+				  			questionLi +='<li name="noResult"> 등록된 문항이 없습니다. </li>';
+				 	 	}else{
+					 		for(var i  = 0; i< listSize; i++){
+					 			  questionLi += '<li><label>'+(i+1)+'<input type="hidden" class="qCode" value= '
+						        			  + data[i].qCode + '><i class="bg-success"></i><span>'
+						       			  	  + data[i].qContent
+						      				  + '</span><a class="ti-close deleteBtn"></a>'
+						        			  + '</label></li>';
+					 		 }
+				  		}
 				 	$('#questionUl').html(questionLi);
 				 	$('.deleteBtn').click(function(){
 				 		var li = $(this).parent().parent();
@@ -138,7 +154,7 @@
 		$(function(){
 			$('#addQBtn').click(function(){
 				var input = $('[name=inputQuestion]');
-				
+				var Ul= $('#questionUl');
 				//유효성 검사
 				if($('#selectCate').val()=='default' || $('#selectCate').val()== null){
 					alert('항목을 먼저 선택해주세요');
@@ -150,32 +166,49 @@
 					input.focus();
 					return;
 				}
-				$('#questionUl').append('<li><label><span class="newQ">'+ input.val() + '</span><a class="ti-close deleteBtn"></a></label></li>');
 
+				if(Ul.children('li:last').attr('name')=='noResult'){
+					$('[name=noResult]').remove();
+				}
+
+				Ul.append('<li><label><span class="newQ">'+ input.val() + '</span><a class="ti-close deleteBtn"></a></label></li>');
+				input.val('');
 				$('.deleteBtn').click(function(){
 					$(this).parent().parent().remove();
 				});
 			});
 		});
 		
-		//저장버튼 클릭시 문항 추가, 삭제 처리.
+		//저장버튼 클릭시 변경된 사항들을 삭제리스트와 추가리스트에 각각 담아서 컨트롤러에 전달한다.
 		
 		var insertList = [];
 		$(function(){
 			$('#saveBtn').click(function(){
-				//추가된 문항을 리스트에 담기
-				var cateCode = $('#selectCate').val();
+	
+				var cateCode = $('#selectCate');
 				var newQ = $('.newQ');
-				//문항코드는 필요없음.var qCode = $('.qCode').eq(0).val();
 				
-				for(var i =0; i< newQ.length ; i++){
-					insertList.push(newQ.eq(i).text());
+				if(cateCode.val() =='default' || cateCode.val()== null){
+					alert('항목을 먼저 선택해주세요');
+					cateCode.focus();
+				}else{
+					for(var i =0; i< newQ.length ; i++){
+						insertList.push(newQ.eq(i).text());
+					}
+					location.href='/survey/saveList?qDeleteList='+ deleteList + '&qInsertList='+ insertList + '&qCateCode='+cateCode.val();
 				}
-				location.href='/survey/saveList?qDeleteList='+ deleteList + '&qInsertList='+ insertList + '&qCateCode='+cateCode;	
+			});
+		});
+		
+		//되돌리기 버튼 이벤트
+		
+		$(function(){
+			$('#reset').click(function(){
+				window.location.reload();
 			});
 		});
 </script>
-<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-<script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+<script th:src="@{/js/lib/owl-carousel/owl.carousel.min.js}"></script>
+<script th:src="@{/js/lib/owl-carousel/owl.carousel-init.js}"></script>
 </th:block>
 </html>

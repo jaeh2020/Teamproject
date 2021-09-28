@@ -20,9 +20,17 @@
 					
 					<div class="form-group">
 								<div class="input-group input-group-flat">
-									<span class="input-group-btn"><button class="btn btn-warning" type="submit"><i class="ti-map"></i></button></span>
-									<input type="text" class="form-control" placeholder="건물명, 도로명 또는 지번으로 검색">
-									<span class="input-group-btn"><button class="btn btn-info" type="submit"><i class="ti-search"></i></button></span>
+									<span class="input-group-btn">
+										<button class="btn btn-warning" type="submit">
+											<i class="ti-map"></i>
+										</button>
+									</span>
+									<input type="text" class="form-control" name="placeInput"placeholder="건물명, 도로명 또는 지번으로 검색">
+									<span class="input-group-btn">
+										<button class="btn btn-info" name="place" type="submit" id="placeBtn">
+											<i class="ti-search"></i>
+										</button>
+									</span>
 								</div>
 					</div>
 					
@@ -42,9 +50,9 @@
 					<div class="row justify-content-between">
 						<div class="col-lg-12">
 							<div class="card-content">
-								<button type="button" class="btn btn-info" disabled=”disabled”>카테고리</button>
+								<button type="button" class="btn btn-danger" style="font-family: 'Gowun Batang', serif;">카테고리</button>
                                 	
-                                	<ul class="list-group list-group-flush" >
+                                	<ul class="list-group list-group-flush" style="font-family: Gowun Batang, serif;">
 	                                    <li class="list-group-item">
 	                                    	 <i class="ti-quote-left"></i> 아시안
 	                                	</li>
@@ -129,58 +137,12 @@
 												<div class="card-header text-sm-center">
 														
 												<!-- start ajax -->
-												<label th:id="${l.storeName}">
-												<button type="button" id="storeInfo" class="btn btn-danger btn sweet-wrong" th:text="${l.storeName}" onclick="coupon()">
+												<button type="button" class="btn btn-danger btn sweet-wrong storeInfo" 
+												th:text="${l.storeName}" 
+												th:value="${l.storeName}"
+												>
 												</button>
-												</label>
-												
-												<script type="text/javascript">
-											  		function coupon(){  
-											  			Swal.fire(`<상점명>
-											  						상점주소 :
-											  						상점연락처 :
-											  						영업시간 :
-											  						`);
-											  		}
-											    </script>
-											    
-											    
-											    <!-- <script type="text/javascript">
-												
-												    $(function(){
-														$('#storeInfo').click(function(){
-														var stName = this.parentElement.id;
-														
-														var request =  $.ajax({
-															  url: "/storeList", //요청 주소
-															  method: "GET", //요청 방식
-															  data: { cateCode : stName },
-															  dataType: "json" //받아올 포맷방식
-															});	
-														request.done(function(data){
-															var htmml= '';
-															var length = data.length;
-															if(length > 0){
-																for(var i= 0; i<length; i++){
-																	htmml += 'Swal.fire('' + data(i) + '')'';  
-																}
-															}
-															
-															Swal.fire(`htmml`);
-														
-														});
-														request.fail(function( jqXHR, textStatus){
-															 alert( "Request failed: " + textStatus );
-														});
-													});
-												});
-												
-												</script> -->
-												
-												
-
-												
-												
+																								
 												</div>
 												<div class="card-body">
 													<div class="mx-auto d-block">
@@ -200,7 +162,7 @@
 													</div>
 													<hr>
 													<div class="card-text text-sm-center">
-														<a th:href="@{/addBookMember(storeName=${l.storeName})}">
+														<a th:href="@{/book/addBookMember(storeName=${l.storeName})}">
 														<button type="button" class="btn btn-outline-danger btn-sm">예약/주문하기</button>
 														</a>
 													</div>
@@ -228,8 +190,67 @@
 </th:block>
 
 <th:block layout:fragment="customJsLib">
-	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+	<script th:src="@{/js/lib/owl-carousel/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/lib/owl-carousel/owl.carousel-init.js}"></script>
+    
+    
+    
+    <!-- 스윗얼랏 ajax 자바스크립트 -->
+    <script type="text/javascript">
+												
+	    $(function(){
+	    	
+			$('.storeInfo').click(function(){
+				
+				var stName = $(this).val();		
+				var request =  $.ajax({
+					  url: "/storeList", //요청 주소
+					  method: "GET", //요청 방식
+					  data: { storeName : stName }, // input name->cateCode,  value->stName
+					  dataType: "json" //받아올 포맷방식
+				});	
+				request.done(function(data){
+					
+					console.log(data);
+					console.log(data.storeName, data.storePhone, data.storeHoliday, data.storeLocation, data.storeTime);
+					
+					var htmml= '';
+					
+					htmml += '<br><span class="ti-comments-smiley"></span> ' + '<text style="font-family: Jua, sans-serif; font-size:40px">' + data.storeName + '</text>';
+					htmml += '<br><br> <text class="text-info" style="font-family: Jua, sans-serif;"> 주소 : </text>' + '<text style="font-family: Jua, sans-serif;">' + data.storeLocation + '</text>';
+					htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 전화번호 : </text>' + '<text style="font-family: Jua, sans-serif;">' + data.storePhone + '</text>';
+					htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 영업시간 : </text>' + '<text style="font-family: Jua, sans-serif;">' + data.storeTime + '</text>';
+					htmml += '<br> <text class="text-danger" style="font-family: Jua, sans-serif;"> 휴일 : </text>' + '<text style="font-family: Jua, sans-serif;">' + data.storeHoliday + '</text>';
+									
+					Swal.fire(htmml);
+				
+				});
+				request.fail(function( jqXHR, textStatus){
+					 alert( "Request failed: " + textStatus );
+				});
+			});
+		});
+
+	
+	
+	<!-- 주소검색버튼 유효성검사 -->
+
+	$(function(){
+		$('#placeBtn').click(function(){
+			var plaIn = $('[name=placeInput]');
+			
+			//유효성검사
+			if(plaIn.val().trim() == ''){
+				alert('주소를 입력해주세요.');
+				plaIn.focus();
+				return;
+			}
+		$('#').submit();	
+		});
+	});
+	
+    </script>
+	
     
 </th:block>
 </html>
