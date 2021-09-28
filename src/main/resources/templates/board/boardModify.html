@@ -41,19 +41,17 @@
 				</div>
 				
 				<!-- 첨부파일 -->
-				<form action="post" class="dropzone">
-						<div class="fallback">
-							<input name="boardFile" type="file">
-						</div>
-				</form>
+				<div class="fallback">
+					<input name="boardFile" type="file">
+				</div>
 				<div style="padding-top: 25px; padding-bottom: 15px;">
-					<input type="checkbox"  name="boardSecret" value="1" checked="checked"> 공개글
-					<input type="checkbox"  name="boardSecret" value="0"> 비밀글
+					<label><input type="radio"  name="boardSecret" value="1" checked="checked"> 공개글</label>
+					<label><input type="radio"  name="boardSecret" value="0" > 비밀글</label>
 				</div>
 				
 				<div class="box-footer">
 						<div class="pull-right">
-							<button type="submit" class="btn btn-success" onclick="mySubmit1()"><i class="fa fa-save"></i>수정완료</button>
+							<button type="submit" class="btn btn-success" onclick="mySubmit1()"><i class="fa fa-save"></i> 수정완료</button>
 						</div>
 				</div>
 			</form>	
@@ -73,7 +71,7 @@
 				form.content.focus();
 				return false;
 			}
-			alert('게시글 작성완료!')
+			alert('게시글 수정완료!')
 			form.submit();
 		}
 	</script>

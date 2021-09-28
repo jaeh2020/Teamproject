@@ -79,10 +79,10 @@
 				 
 				var htmml= '';
 				
-				htmml += '<h3><text class="text" style="color : #A9A9F5; font-weight: bold;"> 회원 아이디 : </text>' + data.memberId;
-				htmml += '<br> <text class="text" style="color : #A9A9F5; font-weight: bold;" > 회원 이름 : </text>' + data.memberName;
-				htmml += '<br> <text class="text" style="color : #A9A9F5; font-weight: bold;"> 회원 성별 : </text>' + data.memberGender;
-				htmml += '<br> <text class="text" style="color : #A9A9F5; font-weight: bold;"> 생년월일 : </text>' + data.memberBirth; + '</h3>'
+				htmml += '<br><span class="ti-comments-smiley"></span> ' + '<text style="font-family: Jua, sans-serif; font-size:40px">'+ data.memberId + '</text>';
+				htmml += '<br><br> <text class="text-info" style="font-family: Jua, sans-serif;"> 회원 이름 : </text>' + '<text style="font-family: Jua, sans-serif;">' + data.memberName + '</text>' ;
+				htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 회원 성별 : </text>'  + '<text style="font-family: Jua, sans-serif;">' + data.memberGender + '</text>';
+				htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 생년월일 : </text>' + '<text style="font-family: Jua, sans-serif;">'+ data.memberBirth + '</text>'; 
 			
 								
 				Swal.fire(htmml); 

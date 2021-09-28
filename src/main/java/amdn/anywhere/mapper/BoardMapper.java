@@ -15,8 +15,8 @@ public interface BoardMapper {
 	
 	
 	//게시물 조회 수 증가
-	/* public int updateBoardCnt(int boardViews); */
-	
+	 public int updateBoardCnt(String boardNum); 
+	 
 	//게시물 삭제 처리
 	public int boardDelete(String boardNum);
 	
