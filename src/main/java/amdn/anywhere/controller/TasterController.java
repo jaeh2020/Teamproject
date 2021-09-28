@@ -30,7 +30,14 @@ public class TasterController {
 	}
 	@PostMapping("/recruitApplyProcess")
 	public String recruitApplyProcess(HttpServletRequest request, HttpServletResponse response) {
-		request.getParameter("selectStore");
+		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^recruitApplyProcess TasterController.java");
+	
+	
+		String[] ageCheckList = request.getParameterValues("ageCheck");
+		for(int i = 0; i < ageCheckList.length ; i++) {
+			System.out.println(ageCheckList[i]);
+		}
+		
 		return "redirect:/taster/recruitApply";
 	}
 	
@@ -44,7 +51,7 @@ public class TasterController {
 		model.addAttribute("qCateList", paramMap.get("qCateList"));
 		model.addAttribute("storeList", paramMap.get("storeList"));
 		model.addAttribute("title", "평가단 모집 신청");
-		model.addAttribute("location", "모집 신청");
+		model.addAttribute("location2", "모집 신청");
 		
 		return "/taster/recruitApply";
 	}
