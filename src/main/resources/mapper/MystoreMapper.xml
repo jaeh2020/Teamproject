@@ -30,6 +30,8 @@
          ,store_phone AS storePhone
          ,store_code AS storeCode
          ,store_holiday AS storeHoliday
+         ,biz_code AS bizCode
+	     ,main_cate_code AS mainCateCode
          ,store_location AS storeLocation
          ,store_time AS storeTime
       FROM 
@@ -62,6 +64,8 @@
       SELECT 
          store_name AS storeName
          ,store_phone AS storePhone
+         ,biz_code AS bizCode
+	     ,main_cate_code AS mainCateCode
          ,store_code AS storeCode
          ,store_holiday AS storeHoliday
          ,store_location AS storeLocation
@@ -73,6 +77,8 @@
 	   <select id="getMystoreRead" resultType="Mystore" parameterType="String">
 	      SELECT 
 	         store_name AS storeName
+	         ,biz_code AS bizCode
+	         ,main_cate_code AS mainCateCode
 	         ,store_phone AS storePhone
 	         ,store_code AS storeCode
 	         ,store_holiday AS storeHoliday

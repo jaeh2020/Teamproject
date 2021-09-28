@@ -2,54 +2,53 @@ package amdn.anywhere.domain;
 
 public class Mystore {
 	private String storeCode;
-	private String salesName;
-	private String salesPrice;
-	private String salesRegTime;
-	private String closeTime;
-	
+	private String storeLocation;
+	private String bizCode;
+	private String storeName;
+	private String mainCateCode;
 	public String getStoreCode() {
 		return storeCode;
 	}
 	public void setStoreCode(String storeCode) {
 		this.storeCode = storeCode;
 	}
-	public String getSalesName() {
-		return salesName;
+	public String getStoreLocation() {
+		return storeLocation;
 	}
-	public void setSalesName(String salesName) {
-		this.salesName = salesName;
+	public void setStoreLocation(String storeLocation) {
+		this.storeLocation = storeLocation;
 	}
-	public String getSalesPrice() {
-		return salesPrice;
+	public String getBizCode() {
+		return bizCode;
 	}
-	public void setSalesPrice(String salesPrice) {
-		this.salesPrice = salesPrice;
+	public void setBizCode(String bizCode) {
+		this.bizCode = bizCode;
 	}
-	public String getSalesRegTime() {
-		return salesRegTime;
+	public String getStoreName() {
+		return storeName;
 	}
-	public void setSalesRegTime(String salesRegTime) {
-		this.salesRegTime = salesRegTime;
+	public void setStoreName(String storeName) {
+		this.storeName = storeName;
 	}
-	public String getCloseTime() {
-		return closeTime;
+	public String getMainCateCode() {
+		return mainCateCode;
 	}
-	public void setCloseTime(String closeTime) {
-		this.closeTime = closeTime;
+	public void setMainCateCode(String mainCateCode) {
+		this.mainCateCode = mainCateCode;
 	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Sales [storeCode=");
+		builder.append("Mystore [storeCode=");
 		builder.append(storeCode);
-		builder.append(", salesName=");
-		builder.append(salesName);
-		builder.append(", salesPrice=");
-		builder.append(salesPrice);
-		builder.append(", salesRegTime=");
-		builder.append(salesRegTime);
-		builder.append(", closeTime=");
-		builder.append(closeTime);
+		builder.append(", storeLocation=");
+		builder.append(storeLocation);
+		builder.append(", bizCode=");
+		builder.append(bizCode);
+		builder.append(", storeName=");
+		builder.append(storeName);
+		builder.append(", mainCateCode=");
+		builder.append(mainCateCode);
 		builder.append("]");
 		return builder.toString();
 	}

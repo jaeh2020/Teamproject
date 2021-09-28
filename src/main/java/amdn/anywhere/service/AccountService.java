@@ -2,6 +2,8 @@ package amdn.anywhere.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +15,10 @@ import amdn.anywhere.mapper.SalesMapper;
 @Service
 @Transactional
 public class AccountService {
+	
+	
+	private static final Logger log = LoggerFactory.getLogger(AccountService.class);
+
 	
 	private final MystoreMapper mysyotrMapper;
 	private final ExpenseMapper expenseMapper;
@@ -29,6 +35,8 @@ public class AccountService {
 	}
 
 	public List<Store> getMystoreList(String storeCode){
-		return mysyotrMapper.getMystoreList(storeCode);
+		List<Store> mystoreList = mysyotrMapper.getMystoreList(storeCode);
+		log.info("mystoreList : {}",mystoreList);
+		return mystoreList;
    }   
 }

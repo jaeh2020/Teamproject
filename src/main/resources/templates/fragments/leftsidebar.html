@@ -90,12 +90,12 @@
                      <li class="nav-label">재무 관리 / 양재혁</li>
                       <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-columns"></i><span class="hide-menu">재무관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/account/salesList}">매출 현황 / 양재혁</a></li>
-                             <li><a th:href="@{/account/expenseList}">지출 목록 / 양재혁</a></li>
+                             <li><a th:href="@{/account/salesList}">매출 현황 / 양재혁<span class="label label-rouded label-warning pull-right">4</span></a></li>
+                             <li><a th:href="@{/account/expenseList}">지출 목록 / 양재혁<span class="label label-rouded label-warning pull-right">4</span></a></li>
                              <li><a th:href="@{/account/close}">결산 관리</a></li>
-                             <li><a href="#" class="has-arrow">My Store / 양재혁<span class="label label-rounded label-success">6</span></a>
+                             <li><a href="#" class="has-arrow">My Store / 양재혁<span class="label label-rouded label-warning pull-right">2</span></a>
                                  <ul aria-expanded="false" class="collapse">
-                                     <li><a href="{/account/mystore}">내 매장 관리</a></li>
+                                     <li><a th:href="@{/account/mystore}">내 매장 관리</a></li>
                                      <li><a href="#">통계 요약 </a></li>
                                      <li><a href="#">수익률 분석</a></li>
                                  </ul>
