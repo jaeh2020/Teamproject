@@ -32,8 +32,8 @@
 			(o_code
 			,b_o_code
 			,store_code
-			,menu_code
 			,o_count
+			,menu_code
 			,o_request
 			,pay_gro_code
 			,o_total_price
@@ -46,8 +46,8 @@
 			   #{oCode}
 			  ,#{bookCode}
 			  ,#{storeCode}
-			  ,#{menuCode}
 			  ,#{oCount}
+			  ,#{menuCode}
 			  ,#{oRequest}
 			  ,#{payGroCode}
 			  ,#{oTotalPrice}
