@@ -59,7 +59,7 @@ public class BoardController {
 		
 		return "/board/boardModify";
 	}
-
+	
 	
 	//게시글 삭제처리
 	@GetMapping("/boardDelete")
@@ -103,7 +103,7 @@ public class BoardController {
 		
 		
 	}
-
+	
 	
 	
 	  //회원 정보 보기 - ajax
@@ -138,7 +138,7 @@ public class BoardController {
 		System.out.println("커맨드객체 board : " + board);
 		System.out.println("====================");
 		
-
+	
 		if (board != null)
 			boardService.boardWrite(board);
 		
@@ -150,7 +150,7 @@ public class BoardController {
 							,HttpSession session
 			,@RequestParam(name = "boardCateCode" , required = false) String boardCateCode
 			,@RequestParam(name = "boardStatementCode" , required = false) String boardStatementCode) {
-
+	
 		//게시글 번호 가져오기
 		String newBoardNum = boardService.getNewBoardNum();
 		//로그인 아이디 가져오기
@@ -159,7 +159,7 @@ public class BoardController {
 		BoardCate boardCate = boardService.getBoardCateCode(boardCateCode);
 		//상태코드 가져오기
 		Statement boardStatement = boardService.getboardStatement(boardStatementCode);
-
+	
 		model.addAttribute("title", "게시판 등록");
 		model.addAttribute("boardNum", newBoardNum);
 		model.addAttribute("memberId", memberId);
@@ -167,7 +167,7 @@ public class BoardController {
 		model.addAttribute("boardStatement", boardStatement);
 		
 		return "/board/boardWrite";
-	}
+		}
 
 }
 
