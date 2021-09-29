@@ -146,7 +146,7 @@ public class BoardController {
 	}
 	// 게시글 작성 처리
 	@GetMapping("/boardWrite")
-	public String reviewList(Model model
+	public String boardWrite(Model model
 							,HttpSession session
 			,@RequestParam(name = "boardCateCode" , required = false) String boardCateCode
 			,@RequestParam(name = "boardStatementCode" , required = false) String boardStatementCode) {

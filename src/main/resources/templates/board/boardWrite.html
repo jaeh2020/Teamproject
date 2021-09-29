@@ -57,13 +57,21 @@
 				<div class="box-footer">
 					<a th:href="@{/board/boardList}" class="btn btn-primary"  ><i class="fa fa-list"></i>목록</a>
 					<div class="pull-right">
-						<button type="submit" class="btn btn-success" onclick="mySubmit1()"><i class="fa fa-save"></i> 저장</button>
+						<button type="button" class="btn btn-success boardSaveBtn" onclick="mySubmit1()"><i class="fa fa-save"></i> 저장</button>
 					</div>
 				</div>
 			</form>	
 		</div>
 	</div>
+	
+</th:block>
+
+<th:block layout:fragment="customJsLib">
 	<script type="text/javascript">
+		
+	
+	
+		//유효성 검사
 		function mySubmit1() {
 			var form = writeForm;
 
@@ -80,15 +88,33 @@
 			alert('게시글 작성완료!')
 			
 			form.submit();
-		}
+		} 
+	
+	
 		
-		/* if($("input[name=boardSecret]:checkbox:checked").length == 1){
-			console.log('체크 된 대상입니다.');
-		}*/
+		/* $(function(){
+		$('.boardSaveBtn').click(function()
+			var boardTitle = $('[name=boardTitle]');
+			var boardContents = $('[name=boardContents]');
+			
+			if(boardTitle.val().trim() == ''){
+				alert('제목을 입력해주세요');
+				boardTitle.focus();
+				return false;
+			}else if(boardContents.val().trim() == ''){
+				alert('내용을 입력해주세요');
+				boardContents.focus();
+				return false;
+			}
+			
+			alert('게시글 작성완료!')
+			$('#writeForm').submit();
+				
+		});
+	});  */
+	
+		
 	</script>
-</th:block>
-
-<th:block layout:fragment="customJsLib">
 	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
     <script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->
 </th:block>
