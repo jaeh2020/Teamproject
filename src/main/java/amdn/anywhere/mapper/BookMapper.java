@@ -15,7 +15,7 @@ public interface BookMapper {
 	
 
 	//예약리스트 조회
-	public List<Book> getBookList(String bookCode);
+	public List<Book> getBookList();
 	
 	//주문코드자동증가
 	public String getNewOrderCode();

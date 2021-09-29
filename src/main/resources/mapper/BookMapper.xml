@@ -7,7 +7,7 @@
 
 
 <!-- 예약리스트 조회  -->
-	<select id="getBookList" resultType="Book" parameterType="String">
+	<select id="getBookList" resultType="Book">
 		SELECT 
 			b_o_code			AS bookCode
 			,store_code			AS storeCode

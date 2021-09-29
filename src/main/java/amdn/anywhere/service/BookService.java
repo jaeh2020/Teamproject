@@ -29,8 +29,8 @@ public class BookService {
 	 
 
 	 //예약리스트 조회
-	 public List<Book> getBookList(String bookCode){
-		 List<Book> bookList = bookMapper.getBookList(bookCode);
+	 public List<Book> getBookList(){
+		 List<Book> bookList = bookMapper.getBookList();
 		 
 		 return bookList;
 	 }
