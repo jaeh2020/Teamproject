@@ -72,7 +72,7 @@ public class BookController {
 								  ,Book book) {
 		
 		//예약정보입력>주문입력 post방식 전송
-			bookService.getBookList(bookCode);
+			bookService.getBookList();
 	
 		
 		//예약자정보입력 예약테이블에 insert 
@@ -90,7 +90,7 @@ public class BookController {
 		
 		
 		//예약리스트 조회
-		List<Book> bookList = bookService.getBookList(stateCode);
+		List<Book> bookList = bookService.getBookList();
 		
 		
 		//상태코드 가져오기
