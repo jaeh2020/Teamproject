@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import amdn.anywhere.domain.Board;
 import amdn.anywhere.domain.BoardCate;
@@ -79,19 +79,29 @@ public class BoardController {
 	@GetMapping("/boardView")
 	public String boardView(Model model
 			    			,@RequestParam(name = "boardNum" , required = false) String boardNum
-						/* ,@RequestParam(name = "boardViews" , required = false) int boardViews */) {
+			    			,HttpSession session) {
 		
 		//게시물 정보 가져오기
 		Board board = boardService.getBoardInfoByCode(boardNum);
-		/* int boardCnt = boardService.updateBoardCnt(boardViews); */
-		
-		System.out.println(board);
+		//조회 수 증가
+		Integer boardCnt = 0;
+		boardCnt = boardService.updateBoardCnt(boardNum);
+		//로그인 아이디 가져오기
+		String memberId = (String) session.getAttribute("SID");
+			
 		model.addAttribute("title", "게시판 조회");
 		model.addAttribute("board", board);
-		/* model.addAttribute("boardCnt", boardCnt); */
-		//세션아이디랑 
+		model.addAttribute("boardCnt", boardCnt);
+		model.addAttribute("memberId", memberId);
 		
-		return "/board/boardView";
+		
+		if(board.getMemberId().equals(memberId)) {
+			return "/board/boardMyView";
+		}else {
+			return "/board/boardView";
+		}
+		
+		
 	}
 
 	
