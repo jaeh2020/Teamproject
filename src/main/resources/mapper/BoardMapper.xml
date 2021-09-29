@@ -26,8 +26,8 @@
 		WHERE 
 			board_num = #{boardNum};
 	</update>
-	
-	
+
+
 	<!-- 게시판 삭제처리 -->
 	<delete id="boardDelete" parameterType="String">
 		DELETE
@@ -57,7 +57,7 @@
 	<!-- 게시판 정보 가져오기 -->
 	<select id="getBoardInfoByCode" parameterType="String" resultMap="borderMap">
 		SELECT
- 			 board_num
+				 board_num
 			,board_title
 			,member_id
 			,board_contents
@@ -69,7 +69,7 @@
 			,state_code
 		FROM
 	  		tb_board_management
-   		WHERE
+	  		WHERE
 			board_num = #{boardNum};
 	</select>
 	
@@ -166,16 +166,14 @@
 	
 	
 	<!-- 게시판 리스트 -->
-	<select id="getBoardList" resultMap="borderMap">
-		SELECT 
-			 board_num 
-			,board_title 
-			,member_id
-			,board_time 
-			,board_views 
-		FROM 
-			tb_board_management;
-	</select>
-	
-	
+		<select id="getBoardList" resultMap="borderMap">
+			SELECT 
+				 board_num 
+				,board_title 
+				,member_id
+				,board_time 
+				,board_views 
+			FROM 
+				tb_board_management;
+		</select>
 </mapper>
