@@ -168,6 +168,38 @@
 			});
 		});
 		
+		function checkValue(code, name){
+			if(code.val().trim() ==''){
+				alert('항목코드를 입력해주세요');
+				code.focus();
+				return false;
+			}
+			if(name.val().trim() ==''){
+				alert('항목명을 입력해주세요');
+				name.focus();
+				return false;
+			}
+			if(eng.test(code.val().trim())){
+				alert('항목코드는 영문만 가능합니다.');
+				code.focus();
+				return false;
+			}
+			if(code.val().length >5){
+				alert('항목코드는 열 자 이내로 작성해주세요.');
+				code.focus();
+				return false;
+			}
+			if(name.val().length >10){
+				alert('항목명은 열 자 이내로 작성해주세요.');
+				name.focus();
+				return false;
+			}
+			return true;
+		}
+		
+		
+		
+		
 		/*수정 버튼 함수*/
 		
 		function viewModifyFn(){
@@ -212,55 +244,32 @@
 				var newCateCode = tdCateCode.children().children('[name=updateCateCode]');
 				var newCateName = tdCateName.children();
 				
-				
 				//유효성 검사
-				if( newCateCode.val().trim() == '' ){
-					alert('항목코드를 작성해주세요.');
-					newCateCode.focus();
-					return;
+				if(checkValue(newCateCode, newCateName)){
+					if( ('q_cate_'+ newCateCode.val() ) == oldCateCode && newCateName.val() == oldCateName){
+						alert('값이 변경되지 않았습니다.');
+						return;
+					}else{
+						var request =  $.ajax({
+							  url: "/survey/modifyCate", //요청 주소
+							  method: "GET", //요청 방식
+							  data: {  oldCode : oldCateCode
+								  	 , newCode : 'q_cate_' + newCateCode.val()
+								  	 , newName : newCateName.val()},
+							  dataType: "json" //받아올 포맷방식
+							});	 
+						
+						request.done(function(data){
+							alert('저장되었습니다.');
+							window.location.reload();
+							
+						});
+						
+						request.fail(function( jqXHR, textStatus){
+							 alert( "Request failed: " + textStatus );
+						});	
+					}	
 				}
-				if( newCateName.val().trim() == '' ){
-					alert('항목명을 작성해주세요.');
-					newCateName.focus();
-					return;
-				}
-				if( ('q_cate_'+ newCateCode.val() ) == oldCateCode && newCateName.val() == oldCateName){
-					alert('값이 변경되지 않았습니다.');
-					return;
-				}
-				if( eng.test(newCateCode.val()) ){
-					alert('항목코드는 영문만 가능합니다.');
-					newCateCode.focus();
-					return;
-				}
-				if( newCateCode.val().length >5 ){
-					alert('항목코드는 다섯 자 이내로 작성해주세요.');
-					newCateCode.focus();
-					return;
-				}
-				if( newCateName.val().length >5 ){
-					alert('항목명은 열 자 이내로 작성해주세요.');
-					newCateName.focus();
-					return;
-				}
-					
-				var request =  $.ajax({
-					  url: "/survey/modifyCate", //요청 주소
-					  method: "GET", //요청 방식
-					  data: {  oldCode : oldCateCode
-						  	 , newCode : 'q_cate_' + newCateCode.val()
-						  	 , newName : newCateName.val()},
-					  dataType: "json" //받아올 포맷방식
-					});	 
-				
-				request.done(function(data){				
-					window.location.reload();
-					
-				});
-				
-				request.fail(function( jqXHR, textStatus){
-					 alert( "Request failed: " + textStatus );
-				});
 			});
 		}
 		
@@ -317,31 +326,27 @@
 				var newName = $('[name=newCateName]');
 				
 				//유효성검사
-				if(newCode.val().trim() ==''){
-					alert('항목코드를 입력해주세요');
-					newCode.focus();
-					return;
+				if(checkValue(newCode, newName)){
+					var request =  $.ajax({
+					url: "/survey/checkCateCode", //요청 주소
+					method: "GET", //요청 방식
+					data: { checkCateCode : newCode.val() },
+					dataType: "json" //받아올 포맷방식
+					});	
+			
+					request.done(function(data){
+						if(data){
+							$('form').submit();	
+						}else{
+							alert('동일한 항목코드가 존재합니다!');
+							return;
+						}	
+					});
+	
+					request.fail(function( jqXHR, textStatus){
+						alert( "Request failed: " + textStatus );
+					}); 
 				}
-				else if(newName.val().trim() ==''){
-					alert('항목명을 입력해주세요');
-					newName.focus();
-					return;
-				}
-				else if(eng.test(newCode.val().trim())){
-					alert('항목코드는 영문만 가능합니다.');
-					newCode.focus();
-					return;
-				}
-				else if(newCode.val().length >5){
-					alert('항목코드는 다섯 자 이내로 작성해주세요.');
-					newCode.focus();
-					return;
-				}
-				else if(newName.val().length >10){
-					alert('항목명은 열 자 이내로 작성해주세요.');
-					newName.focus();
-					return;
-				}else $('form').submit();	
 			});
 		});
 	</script>

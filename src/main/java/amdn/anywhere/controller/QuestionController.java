@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,27 +26,38 @@ public class QuestionController{
 	public QuestionController(QuestionService questionService){
 		this.questionService = questionService;
 	}
+	//9.항목코드 중복 검사
+	@GetMapping(value="checkCateCode" , produces = "application/json")
+	@ResponseBody
+	public boolean checkCateCode(
+			 @RequestParam(value="checkCateCode", required = false) String cateCode) {
+		
+		boolean result = false;
+		QuestionCate qCate = null;
+		qCate = questionService.selectQCate("q_cate_" + cateCode);
+		System.out.println(qCate + "<<<<<<<<<<<<<<<<<<<<<qCate");
+		if(qCate == null) {
+			result = true;
+		}
+		return result;
+	}
 	//8. 항목 수정버튼
 	@GetMapping(value="modifyCate", produces = "application/json")
 	@ResponseBody
-	public Map<String, Object> modifyCate(
+	public int modifyCate(
 			 @RequestParam(value="oldCode", required = false) String oldCode
 		    ,@RequestParam(value="newCode", required = false) String newCode
 			,@RequestParam(value="newName", required = false) String newName
 			,HttpSession session){
-
+		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("oldCode", oldCode);
 		paramMap.put("newCode", newCode);
 		paramMap.put("newName", newName);
 		paramMap.put("updateId", session.getAttribute("SID"));
 		questionService.modifyQCate(paramMap);
-		QuestionCate qCate=questionService.selectQCate(newCode);
-		paramMap.clear();
-		paramMap.put("newCateCode", qCate.getCateCode());
-		paramMap.put("newCateName", qCate.getCateName());
 		
-		return paramMap;
+		return 0;
 	}
 	//7. 항목 삭제버튼
 	@GetMapping("/deleteQCate")
@@ -109,7 +119,10 @@ public class QuestionController{
 	public List<Questionnaire> getQuestionList(
 				@RequestParam(name="cateCode", required = false) String cateCode){
 		
-		List<Questionnaire> questionList = questionService.getQuestionList(cateCode);
+		List<Questionnaire> questionList = null;
+		if(cateCode != null) {
+			questionList = questionService.getQuestionList(cateCode);
+		}
 		return questionList;
 	}
 	
