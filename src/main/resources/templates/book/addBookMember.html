@@ -130,6 +130,20 @@
 
 	<script type="text/javascript">
 	
+	
+	/* 포장여부 체크박스 복수선택 불가 경고창 */
+		$(document).ready(function() {
+		    $('input[type="checkbox"][name="bookPickup"]').click(function(){
+		        if ($(this).prop('checked')
+		        && $("input[name=bookPickup]:checkbox:checked").length > 1) {
+		            $(this).prop('checked', false);
+		        alert('두개 이상 선택할 수 없습니다.');
+		        }
+		    });
+		});  
+	
+	
+	
 	/* 예약자 정보 화면 유효성검사 */
 	$(function(){
 			$('#addBookMemBtn').click(function(){
