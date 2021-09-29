@@ -10,7 +10,7 @@
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 
-
+	
 
             <!-- Container fluid  -->
             <div class="container-fluid">
@@ -29,7 +29,7 @@
 			                                        <hr class="m-t-0 m-b-40">
 			                                        <div class="row">
 			                                        	<!-- 히든 -->
-			                                        	<input type="hidden" name="bookCode" th:value="${bookCode}">
+			                                        	<!-- <input type="hidden" name="bookCode" th:value="${bookCode}"> -->
 			                                        	<input type="hidden" name="storeCode" th:value="${store.storeCode}">
 			                                        	<input type="hidden" name="userId" th:value="${memberId}">
 			                                        	<input type="hidden" name="stateCode" th:value="${statement.stateCode}">
@@ -105,7 +105,7 @@
 																	<button type="submit" class="btn btn-dark" id="addBookMemBtn">다음</button>
 																	<!-- </a> -->
 																	<a th:href="@{/}">
-																	<button type="button" class="btn btn-pink">취소</button>
+																	<button type="button" class="btn btn-pink bookCancleBtn">취소</button>
 																	</a>
 															</div>
 			
