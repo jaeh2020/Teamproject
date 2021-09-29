@@ -9,8 +9,8 @@ public class Order {
 	private String oRequest;
 	private String payGroCode;
 	private String oTotalPrice;
-	private String bookSignTime;
-	private String bookCompTime;
+	private String orderSignTime;
+	private String orderCompTime;
 	private String orderStateCode;
 	private String storeTableCode;
 	private String tabelStateCode;
@@ -62,17 +62,17 @@ public class Order {
 	public void setoTotalPrice(String oTotalPrice) {
 		this.oTotalPrice = oTotalPrice;
 	}
-	public String getBookSignTime() {
-		return bookSignTime;
+	public String getOrderSignTime() {
+		return orderSignTime;
 	}
-	public void setBookSignTime(String bookSignTime) {
-		this.bookSignTime = bookSignTime;
+	public void setOrderSignTime(String orderSignTime) {
+		this.orderSignTime = orderSignTime;
 	}
-	public String getBookCompTime() {
-		return bookCompTime;
+	public String getOrderCompTime() {
+		return orderCompTime;
 	}
-	public void setBookCompTime(String bookCompTime) {
-		this.bookCompTime = bookCompTime;
+	public void setOrderCompTime(String orderCompTime) {
+		this.orderCompTime = orderCompTime;
 	}
 	public String getOrderStateCode() {
 		return orderStateCode;
@@ -94,14 +94,12 @@ public class Order {
 	}
 	@Override
 	public String toString() {
-		return "Order [oCode=" + oCode + ", bookCode=" + bookCode
-				+ ", storeCode=" + storeCode + ", menuCode=" + menuCode + ", oCount=" + oCount + ", oRequest="
-				+ oRequest + ", payGroCode=" + payGroCode + ", oTotalPrice=" + oTotalPrice + ", bookSignTime="
-				+ bookSignTime + ", bookCompTime=" + bookCompTime + ", orderStateCode=" + orderStateCode
-				+ ", storeTableCode=" + storeTableCode + ", tabelStateCode=" + tabelStateCode + "]";
+		return "Order [oCode=" + oCode + ", bookCode=" + bookCode + ", storeCode=" + storeCode + ", menuCode="
+				+ menuCode + ", oCount=" + oCount + ", oRequest=" + oRequest + ", payGroCode=" + payGroCode
+				+ ", oTotalPrice=" + oTotalPrice + ", orderSignTime=" + orderSignTime + ", orderCompTime="
+				+ orderCompTime + ", orderStateCode=" + orderStateCode + ", storeTableCode=" + storeTableCode
+				+ ", tabelStateCode=" + tabelStateCode + "]";
 	}
 	
 	
-	
-
 }
