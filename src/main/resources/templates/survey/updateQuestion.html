@@ -98,13 +98,13 @@
 					  	
 					 	for(var i  = 0; i< listSize; i++){
 						  option += '<option value= ' + data[i].cateCode + '>' + data[i].cateName+ '</option>';
-					  }
-					  $('#selectCate').html(option);
+					  	}
+					  	$('#selectCate').html(option);
 					});
 					
 					request.fail(function( jqXHR, textStatus ) {
 					  alert( "Request failed: " + textStatus );
-					});
+					});					
 				};
 			});
 		});
@@ -114,7 +114,8 @@
 		var deleteList = [];
 		
 		$(function(){
-			$('#selectCate').change(function(){
+			$('#selectCate').on("change" ,function(){
+				$('[name = inputQuestion]').val('');
 				deleteList = [];
 				var questionLi = '';
 				var selected = this.value;
@@ -143,7 +144,8 @@
 					 		 }
 				  		}
 				 	$('#questionUl').html(questionLi);
-				 	
+				
+					
 				 	$('.deleteBtn').on("click", function(){
 				 		
 				 		var li = $(this).parent().parent();
@@ -204,25 +206,32 @@
 		var insertList = [];
 		$(function(){
 			$('#saveBtn').click(function(){
+				var cateCode = $('#selectCate');
+				var newQ = $('.newQ');
+				
+				//유효성 검사
+				if($('#selectCate').val()=='default' || $('#selectCate').val()== null){
+					alert('항목을 먼저 선택해주세요');
+					$('#selectCate').focus();
+					return;
+				}
+				if(newQ.length == 0 && deleteList.length == 0){
+					alert('변경사항이 없습니다.');
+					return;
+				}
+				
 				if (!confirm('수정사항을 저장하시겠습니까?')) return;
 				else { 
 					alert('저장되었습니다.'); 
-					var cateCode = $('#selectCate');
-					var newQ = $('.newQ');
 					
-					if(cateCode.val() =='default' || cateCode.val()== null){
-						alert('항목을 먼저 선택해주세요');
-						cateCode.focus();
-					}else{
-						for(var i =0; i< newQ.length ; i++){
-							insertList.push(newQ.eq(i).text());
-						}
-						location.href  = '/survey/saveList?qDeleteList=' + deleteList + '&qInsertList=' + insertList + '&qCateCode='+cateCode.val();
+					for(var i =0; i< newQ.length ; i++){
+						insertList.push(newQ.eq(i).text());
 					}
+					location.href  = '/survey/saveList?qDeleteList=' + deleteList + '&qInsertList=' + insertList + '&qCateCode='+cateCode.val();
+				
 				}
 			});
 		});
-		
 		//되돌리기 버튼 이벤트
 		
 		$(function(){
