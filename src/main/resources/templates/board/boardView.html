@@ -14,29 +14,32 @@
 			<form th:action="@{/board/boardDelete}" role="form" id="deleteForm" method="post">
 				<div class="box box-primary">
 				
-					<!-- 게시물 번호 가져오기 -->
+					<!-- 히든 된 데이터 -->
 					<input type="hidden" name="boardNum" th:value="${board.boardNum}">
 					<input type="hidden" name="boardSecret" th:value="${board.boardSecret}"> 
 					
+					
 					<div class="box box-content" style="outline: solid 1px #D5D5D5; height: 600px;">
 						<div class="card-header">
-							<h4 class="m-b-0 text-white"><i class="fa fa-pencil"></i> 
-								글 제목 : [[${board.boardTitle}]] 
+							<h4 class="m-b-0 text-white"><i class="ti-menu"></i>
+								[[${board.boardNum}]] 
 							</h4>
+							 
 						</div>
-						<div class="userId" style=" padding-top: 20px; font-weight: bold;">
-							작성자 : [[${board.memberId}]] 
+						<div class="boardTitle" style="padding-top: 20px; font-weight: bold; font-size: 15px;">
+							<i class="fa fa-pencil "></i> 제목 : [[${board.boardTitle}]] 
 						</div>
-						<div class="box-body" style=" height: 700px;  padding-top: 20px; font-weight: bold;">
-							글 내용 
-							<br>
-							<hr>
+						<div class="userId" style=" padding-top: 10px; font-weight: bold; font-size: 15px;">
+							<i class="fa fa-user f-s-20 color-blueviolet"></i>  작성자 : [[${board.memberId}]] 
+						</div>
+						<hr>
+						<div class="box-body" style=" height: 700px;  padding-top: 20px;  font-size: 15px;">
 							[[${board.boardContents}]]
 						</div>
 						</div>
 						<div>
 						<label for="title" style="margin-top: 30px; font-weight:bold; display: block; ">파일첨부</label>
-						<input name="boardFile" type="file" style="outline: solid 1px #D5D5D5;" />
+						<input name="boardFile" type="file" style="outline: solid 1px #D5D5D5;" readonly="readonly" />
 					</div>
 					<h3 class="box-title m-t-40"></h3>
 						<hr>
@@ -52,12 +55,10 @@
 							<hr>
 							
 					<div class="box-footer" style="margin-top: 20px;">
+						<div class="pull-left">
 							<a th:href="@{/board/boardList}" class="btn btn-primary listBtn" style="display: inline;">
 								<i class="fa fa-list"></i> 목록
-							</a>
-						<div class="pull-right">
-								<a th:href="@{/board/boardModify(boardNum=${board.boardNum})}" class="btn btn-warning modBtn"><i class="fa fa-edit"></i> 수정</a>
-								<a th:href="@{/board/boardDelete(boardNum=${board.boardNum})}" class="btn btn-danger delBtn" id="baordDel"><i class="fa fa-trash"></i> 삭제</a>
+							</a>	
 						</div>
 					</div>
 				</div>	

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="~{layout/default}">
 
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
@@ -13,7 +13,7 @@
 
 	<!-- start searchbar page -->
 	
-	<div class="row">
+	<!-- <div class="row">
 		<div class="col-12">
 			<div class="card">
 				<div class="card-body">
@@ -37,13 +37,14 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	
 	
 	<!-- end searchbar page -->
 
 	<!-- start menu cate -->
-	<div class="row">
+	
+	<!-- <div class="row">
 		<div class="col-3">
 			<div class="card">
 				<div class="card-body">
@@ -117,14 +118,14 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	
  	<!-- end menu cate -->
 	
 	
 	
 	<!-- start store info -->
-		<div class="col-9">
+		<div class="col-12">
 			<div class="card">
 				<div class="card-body">
 					<div class="row justify-content-between">
@@ -154,18 +155,18 @@
 																<i class="fa fa-star"></i> 
 																4.5
 															</div>
-															
+													<hr>		
 															<div class="card-text text-sm-center">
-																<i class="ti-user"></i>
-																현재 대기인원은
-																<h5 class="text-sm-center mt-2 mb-1" th:text="${l.waiting.waitNum}">대기인원</h5>
-																명 입니다.
+																<i class="ti-user" style="color: pink;"></i><p>
+																<h6> 현재 대기인원은 </h6>
+																<h6 class="text-sm-center mt-2 mb-1" th:text="${l.waiting.waitNum + ' 명입니다'}">대기인원</h6>
+																
 															</div>
 													</div>
 													<hr>
 													<div class="card-text text-sm-center">
 														<a th:href="@{/book/addBookMember(storeName=${l.storeName})}">
-														<button type="button" class="btn btn-outline-danger btn-sm">예약/주문하기</button>
+														<button type="button" class="btn btn-outline-danger btn-sm bookBtn">예약/주문하기</button>
 														</a>
 													</div>
 													
@@ -182,7 +183,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 	<!-- end store info -->
 
 
@@ -223,6 +223,7 @@
 					htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 전화번호 : </text>' + '<text style="font-family: Jua, sans-serif;">' + data.storePhone + '</text>';
 					htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 영업시간 : </text>' + '<text style="font-family: Jua, sans-serif;">' + data.storeTime + '</text>';
 					htmml += '<br> <text class="text-danger" style="font-family: Jua, sans-serif;"> 휴일 : </text>' + '<text style="font-family: Jua, sans-serif;">' + data.storeHoliday + '</text>';
+					htmml += '<br> <text class="text-warning" style="font-family: Jua, sans-serif;"> 현재 예약 가능 상태 : </text>' + '<text style="font-family: Jua, sans-serif;"> 가능  </text>';
 									
 					Swal.fire(htmml);
 				

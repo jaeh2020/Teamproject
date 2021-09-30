@@ -29,6 +29,9 @@
 	#messageList{
 		cursor: pointer;
 	}
+	.clicked {
+        color: gold;
+      }
 </style>
 </th:block>
 
@@ -38,9 +41,10 @@
 
 	<!-- 상단 버튼부분 -->
 	<div class="row">
-		<div class="col-lg-10"></div>
-		<div class="col-lg-2">
+		<div class="col-lg-9"></div>
+		<div class="col-lg-3">
 			<div class="topBtn">
+				<button type="button" class="btn btn-default btn-flat m-b-10" id="selDelete" >선택 삭제</button>
 				<button type="button" class="btn btn-default btn-flat m-b-10" id="allDelete" >전체 삭제</button>
 			<!-- 버튼에 링크 -->
 				<a th:href="@{/message/messageCheck}" class="btn btn-success m-b-10 m-l-5"><i class="ti-settings"></i></a>
@@ -101,12 +105,16 @@
        				var tbody= '';
    					for(var i= 0; i<data.length; i++){
    						tbody += '<tr><td>' ;
+   						tbody += '<label><input type="checkbox" name="delCk" class="chBox" id="' ;
+   						tbody += [i];
+   						tbody += '"></label>';
+						tbody += '</td><td>' ;
    						tbody += data[i].messageCommon.messageDetail ;
    						tbody += '</td><td>' ;
    						tbody += data[i].messageNoticeTime  ;
    						tbody += '</td></tr>';  
    					}
-   					
+   					console.log(tbody,'tbody')
    					$('#messageList').html(tbody);	
         		});
        			 //응답에 실패 혹은 에러 발생시 실행
@@ -116,21 +124,23 @@
            	
 			//2.카테고리 누를 때
 			$('.cate').click(function(){
-			var getId = $(this).attr("id");
-            console.log(getId,'getId');
-    			
-    		var request = $.ajax({
-    			  url: "/messageL", //요청 주소
-    			  method: "GET", //요청 방식
-    			  data: {messageCate1 : getId}, //전달 할 파라미터
-    			  dataType: "json" //받아 올 포맷방식
-    			});
+				var getId = $(this).attr("id");
+	            console.log(getId,'getId');
+	            
+    			var request = $.ajax({
+	    			  url: "/messageL", //요청 주소
+	    			  method: "GET", //요청 방식
+	    			  data: {messageCate1 : getId}, //전달 할 파라미터
+	    			  dataType: "json" //받아 올 포맷방식
+    				});
     			 //응답이 완료 되었을 경우 실행
     			request.done(function( data ) {
 	    			console.log(data);
     				var tbody= '';
 					for(var i= 0; i<data.length; i++){
 						tbody += '<tr><td>' ;
+						tbody += '<input type="checkbox">' ;
+						tbody += '</td><td>' ;
 						tbody += data[i].messageCommon.messageDetail ;
 						tbody += '</td><td>' ;
 						tbody += data[i].messageNoticeTime  ;
@@ -150,9 +160,33 @@
 				 if(confirm('메세지 전체가 삭제됩니다. 정말 삭제하시겠습니까?') == true){
 			        $('#msgTb').remove();
 				 }
+				 /* var chk = $("#allDelete").prop("checked");
+				 console.log(chk,'chk1');
+				 if(chk) {
+				  $("checkbox").prop("checked", true);
+				 } else {
+				  $(".chBox").prop("checked", false);
+				 }
+				 console.log(chk,'chk2'); */
 			 });
+			
+			//4. 선택 삭제 버튼 누를 때
+			 $('#selDelete').click( function() {
+				var cnt = $("input[name='delCk']:checked").length;
+				var delArr = new Array();
+				$("input[name='delCk']:checked").each(function() {
+					delArr.push($(this).attr('id'));
+		        });
+				console.log(cnt,"cnt");
+				console.log(delArr,"delArr");
+				if(cnt == 0){
+		            alert("선택된 메세지가 없습니다.");
+		        } else{
+		        	if(confirm('선택한 메세지가 삭제됩니다. 정말 삭제하시겠습니까?') == true) $('#msgTb').remove();
+			 }			
     	});
 
+    });
 
 	</script>
 </th:block>

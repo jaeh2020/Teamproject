@@ -26,8 +26,8 @@
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 
-
-
+			[[${book}]]
+	
             <!-- Container fluid  -->
             <div class="container-fluid">
 	                <!-- Start Page Content -->
@@ -36,12 +36,26 @@
 	                        <div class="card card-outline-primary">
 	                            <div class="card-header">
 	                                <h4 class="m-b-0 text-white">주문 정보 입력</h4>
-	                                
-	                                
-	                                
+	                             
+	                           
 	                            </div>
 	                            <div class="card-body">
-	                                <form th:action="@{/book/addBookOrder}" id="addBookOrdForm" class="form-horizontal"  method="post">
+	                                <form id="addBookOrdForm" th:action="@{/book/addBookOrder}" class="form-horizontal" method="post">
+	                                   
+	                                   	<!-- hidden영역  -->
+	                                   	<!-- 예약테이블에 삽입할 영역 -->
+	                                   	<input type="hidden" name="storeCode" th:value="${book.storeCode}">
+	                                   	<input type="hidden" name="userId" th:value="${book.userId}">
+	                                    <input type="hidden" name="bookUserName" th:value="${book.bookUserName}">
+	                                   	<input type="hidden" name="bookUserPhone" th:value="${book.bookUserPhone}">
+	                                   	<input type="hidden" name="bookPeoNum" th:value="${book.bookPeoNum}">
+	                                   	<input type="hidden" name="stateCode" th:value="${book.stateCode}">
+	                                   	<input type="hidden" name="bookPickup" th:value="${book.bookPickup}">
+	                                   	
+	                                   	<!-- 주문테이블에 삽입할 영역 -->
+
+	                                   	
+	                                   	
 	                                    <div class="form-body">
 	                                        <hr class="m-t-0 m-b-40">
 	                                        <div class="row">
@@ -127,7 +141,7 @@
 	                                                <div class="form-group row">
 	                                                    <label class="control-label text-right col-md-3">요청사항</label>
 	                                                    <div class="col-md-6">
-	                                                        <textarea name="orderReq" id="textarea-input" rows="20" class="form-control"></textarea>
+	                                                        <textarea name="oRequest" id="textarea-input" rows="20" class="form-control"></textarea>
 	                                                    </div>
 	                                                </div>
 	                                            </div>
@@ -177,9 +191,9 @@
 							</div>
 							<div class="offset-sm-3 col-sm-9">
 								<button type="submit" id="addBookOrdBtn" class="btn btn-dark">주문하기</button>
-								<a th:href="@{/book/addBookMember}">
-								<button type="button" class="btn btn-pink">이전</button>
-								</a>
+								
+								<button type="button" id="addBookBfBtn" class="btn btn-pink">이전</button>
+								
 							</div>
 		               </div>
 		               <!--/주문내역-->
@@ -224,7 +238,7 @@
 			if(menuSangse.find('.'+menuCode).length == 0){				
 				html += '<tr class="'+menuCode+'">';
 				html += '<tr><td>' + $(this).val() + '</td>';
-				html += '<td> <input type="number" class="prin" name="menuNum" value="1" style="width:60px;" data-price="'+menuPrice+'">개 </td>';
+				html += '<td> <input type="number" class="prin" name="oCount" value="1" style="width:60px;" data-price="'+menuPrice+'">개 </td>';
 				html += '<td> '+menuPrice+' </td>';
 				html += '<td><button type="button" class="menu-target-remove btn btn-rink btn-sm">X</button></td>';
 				html += '</tr>';
@@ -256,6 +270,17 @@
 	
 	/* 예약자 정보 화면 유효성검사 */
 	$(function(){
+			$('#addBookBfBtn').click(function(){
+				
+				window.history.back();
+				
+			});
+		});
+	
+	
+	/* 이전버튼시 뒤로가기 이벤트 */
+	
+	$(function(){
 			$('#addBookOrdBtn').click(function(){
 				
 				if($('.table tbody tr').length < 2){
@@ -263,10 +288,12 @@
 					return false;
 				}
 				
-				alert('주문이 완료되었습니다. 결제는 현장에서 진행됩니다.')
+				alert('주문이 완료되었습니다. \n결제는 현장에서 진행되며, \n상세 주문내역은 상단의 "나의 주문내역" 에서 확인 가능합니다.')
+				/* $('#addBookOrdForm').submit();	 */
 				$('#').submit();	
 			});
 		});
+	
 	
 	
 	</script>

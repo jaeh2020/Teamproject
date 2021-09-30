@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -43,6 +44,22 @@ public class AccountController {
       return accountService.getMystoreList(storeCode);
    }
 
+   //ajax (매장 리스트 조회)
+   @RequestMapping(value="/storeSearch", method= RequestMethod.POST, produces = "application/json")
+   @ResponseBody
+   public List<Store> getstoreSearch( @RequestParam(value="storeSearchKey", required = false) String storeSearchKey
+		   ,@RequestParam(value="searchStartDate", required = false) String searchStartDate
+		   ,@RequestParam(value="searchEndDate", required = false) String searchEndDate){
+	   
+	   log.info("레벨테스트신청리스트 검색 옵션 : {}", storeSearchKey);
+	   log.info("레벨테스트신청리스트 검색 옵션 : {}", searchStartDate);
+	   log.info("레벨테스트신청리스트 검색 옵션 : {}", searchEndDate);
+	   
+	   List<Store> storeSearch = accountService.getstoreSearch(storeSearchKey, searchStartDate, searchEndDate);
+	   
+	   return storeSearch;
+   }
+   
     // Sales (매출파트)    
 	@GetMapping("/addSales")
 	public String getaddSales(Model model) {

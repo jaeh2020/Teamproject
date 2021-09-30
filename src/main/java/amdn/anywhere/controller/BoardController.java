@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import amdn.anywhere.domain.Board;
 import amdn.anywhere.domain.BoardCate;
@@ -59,7 +59,7 @@ public class BoardController {
 		
 		return "/board/boardModify";
 	}
-
+	
 	
 	//게시글 삭제처리
 	@GetMapping("/boardDelete")
@@ -79,21 +79,30 @@ public class BoardController {
 	@GetMapping("/boardView")
 	public String boardView(Model model
 			    			,@RequestParam(name = "boardNum" , required = false) String boardNum
-						/* ,@RequestParam(name = "boardViews" , required = false) int boardViews */) {
+			    			,HttpSession session) {
 		
 		//게시물 정보 가져오기
 		Board board = boardService.getBoardInfoByCode(boardNum);
-		/* int boardCnt = boardService.updateBoardCnt(boardViews); */
-		
-		System.out.println(board);
+		//조회 수 증가
+		Integer boardCnt = 0;
+		boardCnt = boardService.updateBoardCnt(boardNum);
+		//로그인 아이디 가져오기
+		String memberId = (String) session.getAttribute("SID");
+			
 		model.addAttribute("title", "게시판 조회");
 		model.addAttribute("board", board);
-		/* model.addAttribute("boardCnt", boardCnt); */
-		//세션아이디랑 
+		model.addAttribute("boardCnt", boardCnt);
+		model.addAttribute("memberId", memberId);
 		
-		return "/board/boardView";
-	}
-
+		
+		if(board.getMemberId().equals(memberId)) {
+			return "/board/boardMyView";
+			}else {
+				return "/board/boardView";
+			}
+		
+		
+		}
 	
 	
 	  //회원 정보 보기 - ajax
@@ -128,7 +137,7 @@ public class BoardController {
 		System.out.println("커맨드객체 board : " + board);
 		System.out.println("====================");
 		
-
+	
 		if (board != null)
 			boardService.boardWrite(board);
 		
@@ -136,11 +145,11 @@ public class BoardController {
 	}
 	// 게시글 작성 처리
 	@GetMapping("/boardWrite")
-	public String reviewList(Model model
+	public String boardWrite(Model model
 							,HttpSession session
 			,@RequestParam(name = "boardCateCode" , required = false) String boardCateCode
 			,@RequestParam(name = "boardStatementCode" , required = false) String boardStatementCode) {
-
+	
 		//게시글 번호 가져오기
 		String newBoardNum = boardService.getNewBoardNum();
 		//로그인 아이디 가져오기
@@ -149,7 +158,7 @@ public class BoardController {
 		BoardCate boardCate = boardService.getBoardCateCode(boardCateCode);
 		//상태코드 가져오기
 		Statement boardStatement = boardService.getboardStatement(boardStatementCode);
-
+	
 		model.addAttribute("title", "게시판 등록");
 		model.addAttribute("boardNum", newBoardNum);
 		model.addAttribute("memberId", memberId);
@@ -157,7 +166,7 @@ public class BoardController {
 		model.addAttribute("boardStatement", boardStatement);
 		
 		return "/board/boardWrite";
-	}
+		}
 
 }
 
