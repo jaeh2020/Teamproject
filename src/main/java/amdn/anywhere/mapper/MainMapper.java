@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import amdn.anywhere.domain.Store;
-import amdn.anywhere.domain.Waiting;
 
 @Mapper
 public interface MainMapper {
