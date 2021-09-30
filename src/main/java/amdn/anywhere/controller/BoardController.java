@@ -97,13 +97,12 @@ public class BoardController {
 		
 		if(board.getMemberId().equals(memberId)) {
 			return "/board/boardMyView";
-		}else {
-			return "/board/boardView";
+			}else {
+				return "/board/boardView";
+			}
+		
+		
 		}
-		
-		
-	}
-	
 	
 	
 	  //회원 정보 보기 - ajax
