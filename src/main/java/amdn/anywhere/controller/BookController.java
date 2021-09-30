@@ -37,19 +37,21 @@ public class BookController {
 		
 	//주문정보 입력 후 insert
 	@PostMapping("/addBookOrder")
-		public String addBookOrder(Order order, Book book) {
+		public String addBookOrder(Order order
+								  ,Book book) {
 					
-			//주문코드 자동증가 생성 후 order테이블에 insert
-			if(order != null) {
-				order.setBookCode( bookService.getNewOrderCode());
-				bookService.addBookOrder(order);
-			}
-			
 			//예약코드 자동증가 생성 후 book테이블에 insert
 			if(book != null) {
 				book.setBookCode(bookService.getNewBookCode());
 				bookService.addBookMember(book);
 			}
+			
+			//주문코드 자동증가 생성 후 order테이블에 insert
+			if(order != null) {
+				order.setoCode(bookService.getNewOrderCode());
+				bookService.addBookOrder(order);
+			}
+			
 
 		return "redirect:/";
 	}
@@ -68,10 +70,10 @@ public class BookController {
 								   ,Book book) {
 		
 
-		//예약자정보입력 예약테이블에 insert 
-			//if(book != null) bookService.addBookMember(book);
+			//예약자정보입력 예약테이블에 insert 
+				//if(book != null) bookService.addBookMember(book);
 		
-		//주문코드 자동증가
+			//주문코드 자동증가
 				//String newOrderCode = bookService.getNewOrderCode();
 				
 				//메뉴 조회
@@ -90,8 +92,7 @@ public class BookController {
 									  ,@RequestParam(name="stateCode", required = false) String stateCode
 				  					  ,Model model
 				  					  ,HttpSession session) {
-		
-		
+				
 		//예약리스트 조회
 		List<Book> bookList = bookService.getBookList();
 		
@@ -110,7 +111,6 @@ public class BookController {
 			
 		//세션아이디(로그인되어있는 아이디)
 		String memberId = (String) session.getAttribute("SID");
-
 
 		model.addAttribute("bookList", bookList);
 		model.addAttribute("store", store);
