@@ -7,7 +7,7 @@
 
 
 <!-- 예약리스트 조회  -->
-	<select id="getBookList" resultType="Book" parameterType="String">
+	<select id="getBookList" resultType="Book">
 		SELECT 
 			b_o_code			AS bookCode
 			,store_code			AS storeCode
@@ -37,8 +37,8 @@
 			,o_request
 			,pay_gro_code
 			,o_total_price
-			,book_sign_time
-			,book_comp_time
+			,order_sign_time
+			,order_comp_time
 			,order_state_code
 			,store_table_code
 			,table_state_code

@@ -26,8 +26,8 @@
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 
-
-
+			[[${book}]]
+	
             <!-- Container fluid  -->
             <div class="container-fluid">
 	                <!-- Start Page Content -->
@@ -43,8 +43,8 @@
 	                                <form id="addBookOrdForm" th:action="@{/book/addBookOrder}" class="form-horizontal" method="post">
 	                                   
 	                                   	<!-- hiddn영역  -->
-	                                   	<input type="text" name="oCode" th:value="${oCode}">
-	                                   	<input type="text" name="bookCode" th:text="${bookCode}">
+	                                   	<input type="hidden" name="oCode" th:value="${oCode}">
+	                                   	<input type="hidden" name="bookCode" th:text="${bookCode}">
 	                                   	
 	                                   	
 	                                    <div class="form-body">
@@ -181,7 +181,7 @@
 								
 							</div>
 							<div class="offset-sm-3 col-sm-9">
-								<button type="submit" id="addBookOrdBtn" class="btn btn-dark">주문하기</button>
+								<button type="button" id="addBookOrdBtn" class="btn btn-dark">주문하기</button>
 								<a th:href="@{/book/addBookMember}">
 								<button type="button" class="btn btn-pink">이전</button>
 								</a>

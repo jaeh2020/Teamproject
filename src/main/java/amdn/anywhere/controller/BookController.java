@@ -37,30 +37,26 @@ public class BookController {
 		
 	//주문정보 입력 후 insert
 	@PostMapping("/addBookOrder")
-		public String addBookOrder(Order order) {
-
-			if(order != null) bookService.addBookOrder(order);
-
+		public String addBookOrder(Order order, Book book) {
+					
+			//주문코드 자동증가 생성 후 order테이블에 insert
+			if(order != null) {
+				order.setBookCode( bookService.getNewOrderCode());
+				bookService.addBookOrder(order);
+			}
+			
+			//예약코드 자동증가 생성 후 book테이블에 insert
+			if(book != null) {
+				book.setBookCode(bookService.getNewBookCode());
+				bookService.addBookMember(book);
+			}
 
 		return "redirect:/";
 	}
 	
 	@GetMapping("/addBookOrder")
 		public String getaddBookOrder(Model model) {
-		
-
-		
-		//주문코드 자동증가
-		String newOrderCode = bookService.getNewOrderCode();
-		
-		//메뉴 조회
-		List<Menu> menuList = bookService.getMenuList();
-		
-				
-		model.addAttribute("oCode", newOrderCode);
-		model.addAttribute("menuList", menuList);
-		model.addAttribute("title", "주문정보입력");
-		model.addAttribute("location", "주문정보");
+			
 		
 		return "/book/addBookOrder";
 		}
@@ -68,17 +64,24 @@ public class BookController {
 	
 	
 	@PostMapping("/addBookMember")
-		public String addBookMember(@RequestParam(name="bookCode", required = false) String bookCode
-								  ,Book book) {
+		public String addBookMember(Model model
+								   ,Book book) {
 		
-		//예약정보입력>주문입력 post방식 전송
-			bookService.getBookList(bookCode);
-	
-		
-		//예약자정보입력 예약테이블에 insert 
-			if(book != null) bookService.addBookMember(book);
 
-		return "redirect:/book/addBookOrder";
+		//예약자정보입력 예약테이블에 insert 
+			//if(book != null) bookService.addBookMember(book);
+		
+		//주문코드 자동증가
+				//String newOrderCode = bookService.getNewOrderCode();
+				
+				//메뉴 조회
+				List<Menu> menuList = bookService.getMenuList();				
+				model.addAttribute("menuList", menuList);
+				model.addAttribute("title", "주문정보입력");
+				model.addAttribute("location", "주문정보");
+				model.addAttribute("book", book);
+				
+		return "/book/addBookOrder";
 	}
 		
 	
@@ -90,7 +93,7 @@ public class BookController {
 		
 		
 		//예약리스트 조회
-		List<Book> bookList = bookService.getBookList(stateCode);
+		List<Book> bookList = bookService.getBookList();
 		
 		
 		//상태코드 가져오기
@@ -102,14 +105,13 @@ public class BookController {
 		
 		
 		//예약코드 자동증가
-		String newBookCode = bookService.getNewBookCode();
+		//String newBookCode = bookService.getNewBookCode();
 		
 			
 		//세션아이디(로그인되어있는 아이디)
 		String memberId = (String) session.getAttribute("SID");
 
 
-		model.addAttribute("bookCode", newBookCode);
 		model.addAttribute("bookList", bookList);
 		model.addAttribute("store", store);
 		model.addAttribute("statement", statement);

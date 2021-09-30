@@ -58,8 +58,8 @@ public class MessageService {
 	}
 	
 	//메시지 알림 조회(ajax)
-	public List<Message> getMessageL(String messageCode){
-		List<Message> messageL = messageMapper.getMessageL(messageCode);
+	public List<Message> getMessageL(String messageCate1){
+		List<Message> messageL = messageMapper.getMessageL(messageCate1);
 		
 		return messageL;
 	}
