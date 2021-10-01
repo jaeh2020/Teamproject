@@ -39,18 +39,27 @@ public class BookController {
 	@PostMapping("/addBookOrder")
 		public String addBookOrder(Order order
 								  ,Book book) {
-					
+		
+			//결제예정 그룹코드 자동증가
+			order.setPayGroCode(bookService.getnewOGroupCode());
+			
+			
+			String newBookCode = bookService.getNewBookCode();
+			String newOrderCode = bookService.getNewOrderCode();
+			
 			//예약코드 자동증가 생성 후 book테이블에 insert
-			if(book != null) {
-				book.setBookCode(bookService.getNewBookCode());
+			if(book != null && newBookCode != null) {
+				book.setBookCode(newBookCode);
 				bookService.addBookMember(book);
 			}
-			
+					
 			//주문코드 자동증가 생성 후 order테이블에 insert
-			if(order != null) {
-				order.setoCode(bookService.getNewOrderCode());
+			if(order != null && newOrderCode != null && newBookCode != null) {
+				order.setBookCode(newBookCode);
+				order.setoCode(newOrderCode);
 				bookService.addBookOrder(order);
 			}
+
 			
 
 		return "redirect:/";
