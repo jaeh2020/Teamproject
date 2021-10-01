@@ -27,6 +27,11 @@ public class BookService {
 		  
 	 }
 	 
+	 //결제예정 그룹코드 자동증가
+	 public String getnewOGroupCode() {
+		 return bookMapper.getnewOGroupCode();
+	 }
+	 
 
 	 //예약리스트 조회
 	 public List<Book> getBookList(){
