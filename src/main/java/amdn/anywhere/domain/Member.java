@@ -69,11 +69,8 @@ public class Member {
 	@Override
 	public String toString() {
 		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName + ", levelCode="
-				+ levelCode + ", memberGender=" + memberGender + ", memberBirth=" + memberBirth + ", memberPhone="
-				+ memberPhone + ", memberEmail=" + memberEmail + ", memberRegTime=" + memberRegTime + "]";
+			+ levelCode + ", memberGender=" + memberGender + ", memberBirth=" + memberBirth + ", memberPhone="
+			+ memberPhone + ", memberEmail=" + memberEmail + ", memberRegTime=" + memberRegTime + "]";
 	}
-	
-	
-	
-	
+
 }

@@ -22,21 +22,32 @@ public class MessageService {
 		this.messageMapper = messageMapper;
 	}
 	
+	//알림메세지 체크 수정화면
+	public int modifyMsgCheck(MessageCheck messageCheck) {
+		return messageMapper.modifyMsgCheck(messageCheck);
+	}
+	
+	//아이디별 알림체크 화면
+	public MessageCheck getMessageCheck(String memberId) {
+		return messageMapper.getMessageCheck(memberId);
+	}
+	
+	//관리자 권한 알림체크 리스트
+	public List<MessageCheck> getMsgCheckList(){
+		List<MessageCheck> msgCheckList = messageMapper.getMsgCheckList();
+		
+		return msgCheckList;
+	}
+	
 	//알림메세지 체크 등록
 	public int addMessageCheck(MessageCheck messageCheck) {
 		return messageMapper.addMessageCheck(messageCheck);
 	}
 	
+
 	//addmessage...
 	public int addMessage(Message message) {
 		return messageMapper.addMessage(message);
-	}
-	
-	//알림메세지 체크 조회
-	public List<MessageCheck> getMessageCheckList(){
-		List<MessageCheck> messageCheckList = messageMapper.getMessageCheckList();
-		
-		return messageCheckList;
 	}
 	
 	//공통 메시지 조회
@@ -47,10 +58,10 @@ public class MessageService {
 	}
 	
 	//메시지 알림 조회(ajax)
-	public List<Message> getMessageL(String messageCode){
-		List<Message> messageList = messageMapper.getMessageL(messageCode);
+	public List<Message> getMessageL(String messageCate1){
+		List<Message> messageL = messageMapper.getMessageL(messageCate1);
 		
-		return messageList;
+		return messageL;
 	}
 	//메시지 알림 조회
 	public List<Message> getMessageList(){

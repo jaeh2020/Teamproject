@@ -17,18 +17,59 @@
 		<result property="stateCode"		column="state_code"></result>
 	</resultMap>
 		
+	<!-- 게시판 조회 수 증가 -->
+	<update id="updateBoardCnt" parameterType="String">
+		UPDATE 
+			tb_board_management 
+		SET 
+			board_views = board_views + 1 
+		WHERE 
+			board_num = #{boardNum};
+	</update>
+
+
+	<!-- 게시판 삭제처리 -->
+	<delete id="boardDelete" parameterType="String">
+		DELETE
+		FROM
+			tb_board_management
+		WHERE 
+			board_num = #{boardNum};
+	</delete>
 	
 	
+	<!-- 게시판 수정 처리 -->
+	<update id="boardModify" parameterType="Board" >
+		UPDATE 
+			tb_board_management 
+		SET
+			board_title = #{boardTitle}
+			,board_contents = #{boardContents}
+			,board_file_attach = #{boardFile}
+			,board_secret = #{boardSecret}
+			,state_code = 'state_board_rev'
+		WHERE
+			board_num = #{boardNum};
+		
+	</update>
+	
+	 
 	<!-- 게시판 정보 가져오기 -->
-	<select id="getBoardInfoByCode" parameterType="String" resultType="Board">
+	<select id="getBoardInfoByCode" parameterType="String" resultMap="borderMap">
 		SELECT
-			board_title
-		    ,member_id
+				 board_num
+			,board_title
+			,member_id
 			,board_contents
 			,board_file_attach
+			,board_secret
+			,b_cate_code
+			,board_views
+			,board_time
+			,state_code
 		FROM
 	  		tb_board_management
-   		WHERE
+	  		WHERE
 			board_num = #{boardNum};
 	</select>
 	
@@ -74,7 +115,7 @@
 	
 	<select id="getMemberRead" resultType="Member" parameterType="String">
 		SELECT
-			member_id AS memberId
+			 member_id AS memberId
 			,member_name AS memberName
 			,member_gender AS memberGender
 			,member_birth AS memberBirth
@@ -125,16 +166,14 @@
 	
 	
 	<!-- 게시판 리스트 -->
-	<select id="getBoardList" resultMap="borderMap">
-		SELECT 
-			 board_num 
-			,board_title 
-			,member_id
-			,board_time 
-			,board_views 
-		FROM 
-			tb_board_management;
-	</select>
-	
-	
+		<select id="getBoardList" resultMap="borderMap">
+			SELECT 
+				 board_num 
+				,board_title 
+				,member_id
+				,board_time 
+				,board_views 
+			FROM 
+				tb_board_management;
+		</select>
 </mapper>

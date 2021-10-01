@@ -1,13 +1,12 @@
 package amdn.anywhere.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import amdn.anywhere.domain.Message;
 import amdn.anywhere.domain.MessageCheck;
 import amdn.anywhere.domain.MessageCommon;
-import amdn.anywhere.domain.QuestionCate;
-import amdn.anywhere.domain.Questionnaire;
 import amdn.anywhere.service.MessageService;
 
 @Controller
@@ -29,14 +26,101 @@ public class MessageController {
 
 	private final MessageService messageService;
 	
+	
+	private static final Logger log = LoggerFactory.getLogger(MessageController.class);
+
+	
 	public MessageController(MessageService messageService) {
 
 		this.messageService = messageService;
 	}
+	
+	
+	//체크박스 -ajax
+	@GetMapping(value= "/msCheck", produces = "application/json")
+	@ResponseBody
+	public String myJson(	@RequestParam(value = "ckArr[]") List<String> ckArr
+							,@RequestParam(value="memberId", required = false) String memberId
+							,HttpSession httpSession
+							,Model model
+							,MessageCheck messageCheck) {
 
+		log.info("ckArr : {}", ckArr);
+		log.info("modi memberId : {}", memberId);
+		
+		//세션아이디 세팅
+		MessageCheck msc = new MessageCheck();
+		msc.setMemberId((String)httpSession.getAttribute("SID"));
+		
+		for(String checkedOption : ckArr) {
+			if("orderReservation".equals(checkedOption)) 	msc.setOrderReservation("y");
+			if("messagePay".equals(checkedOption)) 			msc.setMessagePay("y");
+			if("messageWaiting".equals(checkedOption)) 		msc.setMessageWaiting("y");
+			if("messageFavorite".equals(checkedOption)) 	msc.setMessageFavorite("y");
+			if("messageEvaluator".equals(checkedOption)) 	msc.setMessageEvaluator("y");
+			if("messageMemberShip".equals(checkedOption)) 	msc.setMessageMemberShip("y");
+			if("messageBoard".equals(checkedOption)) 		msc.setMessageBoard("y");
+			if("messageReview".equals(checkedOption)) 		msc.setMessageReview("y");
+			if("messagePoint".equals(checkedOption)) 		msc.setMessagePoint("y");
+			if("messageEvent".equals(checkedOption)) 		msc.setMessageEvent("y");
+			if("messageSms".equals(checkedOption)) 			msc.setMessageSms("y");
+			if("messageEmail".equals(checkedOption)) 		msc.setMessageEmail("y");
+			System.out.println(checkedOption+"<<checkedOption");
+		}
+		/*
+		 * ArrayList<String> ckList = new ArrayList<String>(); for(int i=0; i <
+		 * ckArr.size(); i++){ ckList.add(ckArr.get(i)); }
+		 */
+		log.info("msc 값 : {}", msc);
+
+		messageService.modifyMsgCheck(msc);
+		
+		return "redirect:/messageList";
+	}
+	
+	
+	//알림 뭐 받을지 체크,입력
+	@PostMapping("/message/messageCheck")
+	public String addMessageCheck(MessageCheck messageCheck) {
+		
+		if(messageCheck != null) messageService.addMessageCheck(messageCheck);
+		
+		return "redirect:/messageCheckList";
+	}
+	
+	//id별 알림체크 조회
+	@GetMapping("/message/messageCheck")
+	public String getMessageCheck(  @RequestParam(value = "memberId", required = false) String memberId
+									,HttpSession httpSession
+									,Model model) {
+		
+		MessageCheck msc = new MessageCheck();
+		msc.setMemberId((String)httpSession.getAttribute("SID"));
+		
+		MessageCheck messageCheck = messageService.getMessageCheck(memberId);
+		
+		model.addAttribute("messageCheck", messageCheck);
+		
+		log.info("msc!!! : {}", msc);
+		log.info("memberId : {}", memberId);
+		return "message/messageCheck";
+	}
+	
+	//관리자가 알림체크 조회
+	@GetMapping("message/messageCheckList")
+	public String getMessageCheckList(Model model) {
+			
+		  List<MessageCheck> msgCheckList = messageService.getMsgCheckList();
+
+		  model.addAttribute("title","메세지 체크목록"); 
+		  model.addAttribute("location","메세지 체크목록"); 
+		  model.addAttribute("msgCheckList",msgCheckList);
+		  
+		  return "message/messageCheckList"; 
+	}
 	
 	//환경설정-공통메시지 리스트
-	@GetMapping("/commonMessage")
+	@GetMapping("/message/commonMessage")
 	public String getcommonMessage(Model model) {
 		
 		List<MessageCommon> messageCommonList = messageService.getMessageCommonList();
@@ -49,36 +133,9 @@ public class MessageController {
 	}
 	
 	
-	//관리자 입장 -> 알림체크리스트
-	@GetMapping("/messageCheckList")
-	public String getMessageCheckList(Model model) {
-		
-		List<MessageCheck> messageCheckList = messageService.getMessageCheckList();
-		
-		 model.addAttribute("title","알림 체크 설정 관리"); 
-		model.addAttribute("location","알림 체크 설정 관리");
-		model.addAttribute("messageCheckList",messageCheckList);
-		return "message/messageCheckList";
-	}
-	
-	//알림 뭐 받을지 체크,입력
-	@PostMapping("/messageCheck")
-	public String addMessageCheck(MessageCheck messageCheck) {
-		
-		if(messageCheck != null) messageService.addMessageCheck(messageCheck);
-		
-		return "redirect:/messageCheckList";
-	}
-	@GetMapping("/messageCheck")
-	public String getMessageCheck(Model model) {
-		
-		 model.addAttribute("title","알림 설정"); 
-		model.addAttribute("location","알림 설정");
-		return "message/messageCheck";
-	}
 	
 	//메세지 알림 등록 쉽게하려고
-	@PostMapping("/addMessage")
+	@PostMapping("/message/addMessage")
 	public String addMessage(Message message, HttpSession httpSession) {
 		System.out.println("커맨드객체 : " + message);
 		
@@ -90,7 +147,7 @@ public class MessageController {
 		return "redirect:/messageList";
 	}
 	
-	@RequestMapping(value = "/addMessage", method = RequestMethod.GET)
+	@RequestMapping(value = "/message/addMessage", method = RequestMethod.GET)
 	public String addMessage(Model model) {
 
 		List<MessageCommon> messageCommonList = messageService.getMessageCommonList();
@@ -108,15 +165,15 @@ public class MessageController {
 	public List<Message> getMessageL(
 			@RequestParam(name="messageCate1", required = false) String messageCate1){
 		
-		List<Message> messageList = messageService.getMessageL(messageCate1);
+		List<Message> messageL = messageService.getMessageL(messageCate1);
 		
-		System.out.println(messageList + "messageList");
+		System.out.println(messageL + "messageL");
 		
-		return messageList;
+		return messageL;
 	}
 
 	//알림 메시지 조회
-	  @GetMapping("/messageList") 
+	  @GetMapping("/message/messageList") 
 	  public String getMessageList(Model model, HttpSession httpSession) {
 		  							
 	  List<Message> messageList = messageService.getMessageList();
@@ -124,6 +181,7 @@ public class MessageController {
 	  model.addAttribute("title","메세지 목록"); 
 	  model.addAttribute("location","메세지 목록"); 
 	  model.addAttribute("messageList",messageList);
+	  
 	  return "message/messageList"; 
 	  }
 	 

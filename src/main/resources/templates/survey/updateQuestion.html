@@ -78,10 +78,10 @@
 <script type="text/javascript">
 		
 		//옵션 선택시 항목 리스트 출력
-		
 		var count = 0;
 		$(function(){
-			$('#selectCate').click(function(){
+			$('#selectCate').on( "click" , function(){
+				
 				if(count == 0){
 					count = 1 ;
 					var request = $.ajax({
@@ -89,19 +89,22 @@
 						  method: "GET", 
 						  dataType: "json" 
 						});	
-					var option ='<option value="default"> : : :  선 택   : : : </option>';
+					
+					var option = '<option value="default"> : : :  선 택   : : : </option>';
 					
 					request.done(function( data ) {
-					  var listSize =data.length;
-					  for(var i  = 0; i< listSize; i++){
+						
+					  	var listSize =data.length;
+					  	
+					 	for(var i  = 0; i< listSize; i++){
 						  option += '<option value= ' + data[i].cateCode + '>' + data[i].cateName+ '</option>';
-					  }
-					  $('#selectCate').html(option);
+					  	}
+					  	$('#selectCate').html(option);
 					});
 					
 					request.fail(function( jqXHR, textStatus ) {
 					  alert( "Request failed: " + textStatus );
-					});
+					});					
 				};
 			});
 		});
@@ -111,7 +114,8 @@
 		var deleteList = [];
 		
 		$(function(){
-			$('#selectCate').change(function(){
+			$('#selectCate').on("change" ,function(){
+				$('[name = inputQuestion]').val('');
 				deleteList = [];
 				var questionLi = '';
 				var selected = this.value;
@@ -128,16 +132,24 @@
 				  			questionLi +='<li name="noResult"> 등록된 문항이 없습니다. </li>';
 				 	 	}else{
 					 		for(var i  = 0; i< listSize; i++){
-					 			  questionLi += '<li><label>'+(i+1)+'<input type="hidden" class="qCode" value= '
-						        			  + data[i].qCode + '><i class="bg-success"></i><span>'
-						       			  	  + data[i].qContent
-						      				  + '</span><a class="ti-close deleteBtn"></a>'
-						        			  + '</label></li>';
+					 			 
+					 				questionLi += '<li>';
+					 				questionLi += 	'<label>' + (i+1);
+					 				questionLi += 		'<input type="hidden" class="qCode" value= '+ data[i].qCode + '>';
+					 				questionLi += 		'<i class="bg-success"></i>';
+					 				questionLi +=		'<span>' + data[i].qContent + '</span>';
+					 				questionLi +=		'<a class="ti-close deleteBtn"></a>';
+					 				questionLi +=  	'</label>';
+					 				questionLi += '</li>';
 					 		 }
 				  		}
 				 	$('#questionUl').html(questionLi);
-				 	$('.deleteBtn').click(function(){
+				
+					
+				 	$('.deleteBtn').on("click", function(){
+				 		
 				 		var li = $(this).parent().parent();
+			 		
 				 		deleteList.push(li.find('input').val());
 						li.remove();
 					});
@@ -152,9 +164,11 @@
 		//항목추가 클릭시 항목리스트에 노출.
 		
 		$(function(){
-			$('#addQBtn').click(function(){
+			$('#addQBtn').on("click", function(){
+				
 				var input = $('[name=inputQuestion]');
 				var Ul= $('#questionUl');
+				
 				//유효성 검사
 				if($('#selectCate').val()=='default' || $('#selectCate').val()== null){
 					alert('항목을 먼저 선택해주세요');
@@ -170,10 +184,18 @@
 				if(Ul.children('li:last').attr('name')=='noResult'){
 					$('[name=noResult]').remove();
 				}
-
-				Ul.append('<li><label><span class="newQ">'+ input.val() + '</span><a class="ti-close deleteBtn"></a></label></li>');
+				
+				var appendLi  = '<li>';
+					appendLi += 	'<label>';
+					appendLi +=			'<span class="newQ">'+ input.val() + '</span>';
+					appendLi +=			'<a class="ti-close deleteBtn"></a>';
+					appendLi +=		'</label>';
+					appendLi += '</li>';
+					
+				Ul.append(appendLi);
 				input.val('');
-				$('.deleteBtn').click(function(){
+				
+				$('.deleteBtn').on("click", function(){
 					$(this).parent().parent().remove();
 				});
 			});
@@ -184,31 +206,40 @@
 		var insertList = [];
 		$(function(){
 			$('#saveBtn').click(function(){
-	
 				var cateCode = $('#selectCate');
 				var newQ = $('.newQ');
 				
-				if(cateCode.val() =='default' || cateCode.val()== null){
+				//유효성 검사
+				if($('#selectCate').val()=='default' || $('#selectCate').val()== null){
 					alert('항목을 먼저 선택해주세요');
-					cateCode.focus();
-				}else{
+					$('#selectCate').focus();
+					return;
+				}
+				if(newQ.length == 0 && deleteList.length == 0){
+					alert('변경사항이 없습니다.');
+					return;
+				}
+				
+				if (!confirm('수정사항을 저장하시겠습니까?')) return;
+				else { 
+					alert('저장되었습니다.'); 
+					
 					for(var i =0; i< newQ.length ; i++){
 						insertList.push(newQ.eq(i).text());
 					}
-					location.href='/survey/saveList?qDeleteList='+ deleteList + '&qInsertList='+ insertList + '&qCateCode='+cateCode.val();
+					location.href  = '/survey/saveList?qDeleteList=' + deleteList + '&qInsertList=' + insertList + '&qCateCode='+cateCode.val();
+				
 				}
 			});
 		});
-		
 		//되돌리기 버튼 이벤트
 		
 		$(function(){
-			$('#reset').click(function(){
-				window.location.reload();
+			$('#reset').on("click", function(){
+				if(!confirm('변경사항이 저장되지 않고 초기화됩니다.')) return;
+				else window.location.reload();
 			});
 		});
 </script>
-<script th:src="@{/js/lib/owl-carousel/owl.carousel.min.js}"></script>
-<script th:src="@{/js/lib/owl-carousel/owl.carousel-init.js}"></script>
 </th:block>
 </html>

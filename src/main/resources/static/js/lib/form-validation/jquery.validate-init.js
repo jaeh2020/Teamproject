@@ -71,6 +71,34 @@ var form_validation = function() {
                     },
                     "val-terms": {
                         required: !0
+                    },
+                    "selectStore": {
+                    	required: !0
+                    },
+                    "selectMenu" : {
+                    	required: !0
+                    },
+                    "noticeTitle" : {
+                    	required: !0
+                    },
+                    "surveyTitle" : {
+                    	required: !0
+                    },
+                    "ageCheck" : {
+                    	required: !0
+                    },
+                    "recruitNum" : {
+                    	required: !0,
+                    	number: !0
+                    },
+                    "endDate" : {
+                    	required: !0
+                    },
+                    "checkSurveyCate" : {
+                    	required: !0
+                    },
+                    "spacialSurveyCate" : {
+                    	required: !0
                     }
                 },
                 messages: {
@@ -98,13 +126,27 @@ var form_validation = function() {
                     "val-digits": "Please enter only digits!",
                     "val-number": "Please enter a number!",
                     "val-range": "Please enter a number between 1 and 5!",
-                    "val-terms": "You must agree to the service terms!"
+                    "val-terms": "You must agree to the service terms!",
+                    
+                    "selectStore": "매장을 선택해주세요!",
+                    "selectMenu" :"메뉴를 선택해주세요!",
+                    "selectStore": "매장을 선택해주세요!",
+                    "noticeTitle": "공고명을 입력해주세요!",
+                    "surveyTitle": "설문조사 제목을 입력해주세요!",
+                    "ageCheck": "설문 대상 연령대를 선택해주세요!",
+                    "recruitNum": {
+                    	 required: "모집 인원을 입력해주세요!",
+                    	 number: "숫자만 입력해주세요!"
+                    },
+                    "endDate": "모집 기한을 선택해주세요!",
+                    "checkSurveyCate": "설문항목을 선택해주세요!",
+                    "spacialSurveyCate": "분석항목을 선택해주세요!",
                 }
             })
         }
     return {
         init: function() {
-            e(), a(), jQuery(".js-select2").on("change", function() {
+            e(), jQuery(".js-select2").on("change", function() {
                 jQuery(this).valid()
             })
         }
