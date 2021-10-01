@@ -98,9 +98,10 @@
 							 alert( "매장이 확인되었습니다." );
 							</script>
 						</a>
+						
 					</div>
 					<div class="pull-left">
-						<a th:href="@{/account/mystore}" class="btn btn-primary" style="margin-top: 15px;">
+						<a href="#" class="btn btn-primary" style="margin-top: 15px;">
 							<i class="fa fa-check"></i> 컨설팅요청
 						</a>
 					</div>
@@ -136,7 +137,7 @@
 				                    <div class="col-sm-2">
 				                        <!-- text input -->
 				                        <div class="form-group">
-				                            <button type="button" class="btn btn-block btn-outline-success btn-md" id="storeSearch" style="height: 42px; text-align: center;">검색</button>
+				                            <button type="button" class="btn btn-block btn-outline-success btn-md" id="storeSearch" style="height: 42px; font-weight:bold; text-align: center;">검색</button>
 				                        </div>
 				                    </div>
 				                    <div class="col-sm-5">
@@ -148,7 +149,7 @@
 														<i class="fa fa-pencil"></i>
 													</span>
 												</div>
-												<input type="text" class="form-control float-right" id="storeSearch">
+												<input type="text" class="form-control float-right" id="storeSearch" placeholder="기간을 입력해주세요.    ( YY - MM - DD ) ~ ( YY - MM - DD )" style="font-weight:bold; text-align: center;">
 												<input type="hidden" id="startDate"/>
 												<input type="hidden" id="endDate"/>
 											</div>
@@ -289,7 +290,7 @@
             
             
             var content= '';
-            content += '<table class="table table-bordered">';
+            content += '<table class="table table-bordered" style="height:100px">';
             content += '	<thead>';
            	content += '		<tr>';
            	content += '			<th > 회원 상점코드</th>';
@@ -319,7 +320,8 @@
 					title : '나의 상점 리스트',
 					closeOnClickOutside: false, 
 					html:content,
-					showConfirmButton:false
+					showConfirmButton:false,
+					width: 1000,
          	});
          	/*
          	.then(function(result){
