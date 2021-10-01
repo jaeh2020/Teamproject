@@ -44,12 +44,12 @@
 					<input name="boardFile" type="file">
 				</div>
 				<div style="padding-top: 25px; padding-bottom: 15px;">
-					<label><input type="radio"  name="boardSecret" value="1" checked="checked"> 공개글</label>
+					<label><input type="radio"  name="boardSecret" th:value="1" checked="checked"> 공개글</label>
 					<label><input type="radio"  name="boardSecret" value="0" > 비밀글</label>
 				</div>
 				<div class="box-footer">
 					<div class="pull-right">
-						<button type="submit" class="btn btn-success" onclick="mySubmit1()"><i class="fa fa-save"></i> 수정완료</button>
+						<button type="submit" class="btn btn-success" id="modifyBoardBtn"><i class="fa fa-save"></i> 수정완료</button>
 					</div>
 				</div>
 			</form>	
@@ -58,24 +58,29 @@
 </th:block>
 	
 <th:block layout:fragment="customJsLib">
-   <script type="text/javascript">
-	function mySubmit1() {
-	
-		var form2 = modifyForm;
-
-		if(form2.title.value == ''){
-			alert('제목을 입력해주세요')
-			form2.title.focus();
-			return false;
-		}
-		if (form2.content.value == '') {
-			alert('내용을 입력해주세요')
-			form2.content.focus();
-			return false;
-		}
-		alert('게시글 수정완료!')
-		form2.submit();
-	</script> 
+   	<script type="text/javascript">
+   		$(function(){
+   			$('#modifyBoardBtn').click(function(){
+   				var boardTitle = $('[name=boardTitle]');
+   				var boardContents = $('[name=boardContents]');
+   				
+ 				if(boardTitle.val() == ''){
+ 					alert('제목을 입력해주세요.');
+ 					boardTitle.focus();
+ 					return false;
+ 				}else if(boardContents.val() == ''){
+ 					alert('내용을 입력해주세요.');
+ 					boardContents.focus();
+ 					return false;
+ 				}
+ 				alert('수정이 완료되었습니다!')
+ 				$('#modifyForm').submit();
+ 				
+   			});
+   		});
+   		
+   	
+   	</script>
 <!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
   <script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->	
 </th:block>
