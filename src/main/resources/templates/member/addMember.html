@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+	
+<!-- css -->
+<style type= "text/css">
+	h1{
+		text-align: center;
+		padding: 20px;
+	}
+	ol{
+		display:inline-block;
+		margin: 0;
+		padding: 0;
+	}
+	ol li{
+		float:left; 
+		margin-left: 30px;
+	}
+	.col-md-4{
+		margin-top: 100px;
+		margin-bottom: 80px;
+	}
+	.list{
+		display: block;
+		margin-top: 50px;
+		text-align: center;
+	}
+</style>
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="card card-outline-primary">
+		<h1>회원가입</h1>
+
+		<div class="row list">
+			<ol>
+	            <li><p><span>01</span>회원유형선택</p></li>
+	            <li><p><span>02</span>정보입력</p></li>
+	            <li><p><span>03</span>추가정보입력</p></li>
+	            <li><p><span>04</span>가입완료</p></li>
+		    </ol>
+		</div>
+		<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-4">
+                        <div class="card bg-pink p-20">                         
+                            <div>
+	                            <h2 class="color-white" style="float: left;">개인 회원</h2>
+	                            <a href="#" class="btn btn-primary m-b-10 m-l-5" style="float: right;"><b>회원가입</b></a>
+                            </div>
+                            <p class="color-white">개인회원 가입을 원하시면 선택해주세요.</p>
+                        </div>
+                    </div>
+				<div class="col-md-4">
+                        <div class="card bg-success p-20">
+                        	<div>
+	                            <h2 class="color-white" style="float: left;">소상공인 회원</h2>
+	                            <a href="#" class="btn btn-warning m-b-10 m-l-5" style="float: right;"><b>회원가입</b></a>
+                            </div>
+                            <p class="color-white">소상공인 사업자만 선택해주세요.</p>
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                    </div>
+                   </div> 
+                    
+</th:block>
+
+
+    <th:block layout:fragment="customJsLib"></th:block>
+</body>
+</html>
