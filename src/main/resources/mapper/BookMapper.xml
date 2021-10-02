@@ -19,18 +19,20 @@
 	</resultMap>
 	
 	<resultMap type="Store" id="storeResultMap">
+		<result property="storeCode"		column="store_code"/>
+		<result property="storeName"		column="store_name"/>
 		<result property="bizCode"			column="biz_code"/>
 		<result property="bizId"			column="biz_id"/>
-		<result property="mainCateCode"		column="main_cate_code"/>
-		<result property="storeCode"		column="store_code"/>
-		<result property="storeHoliday"		column="store_holiday"/>
 		<result property="storeLocation"	column="store_location"/>
-		<result property="storeName"		column="store_name"/>
-		<result property="storeOccupancy"	column="store_occupancy"/>
-		<result property="storePhone"		column="store_phone"/>
-		<result property="storeTableNum"	column="store_table_num"/>
-		<result property="storeTasteAgree"	column="store_taste_agree"/>
 		<result property="storeTime"		column="store_time"/>
+		<result property="storePhone"		column="store_phone"/>
+		<result property="mainCateCode"		column="main_cate_code"/>
+		<result property="storeHoliday"		column="store_holiday"/>
+		<result property="storeTasteAgree"	column="store_taste_agree"/>
+		<result property="storeExposAgree"	column="store_expos_agree"/>
+		<result property="storePhoto"		column="store_photo"/>
+		<result property="storeTableNum"	column="store_table_num"/>
+		<result property="storeOccupancy"	column="store_occupancy"/>
 	</resultMap>
 	
 	<resultMap type="Menu" id="menuResultMap">
@@ -65,6 +67,14 @@
 		<result property="storeTableCode"		column="store_table_code"/>
 		<result property="tabelStateCode"		column="table_state_code"/>
 	</resultMap>
+	
+	<resultMap type="Statement" id="statementResultMap">
+		<result property="stateCode"				column="state_code"/>
+		<result property="mainState"				column="main_state"/>
+		<result property="stateName"				column="state_name"/>
+	</resultMap>
+	
+
 	
 	
 <!-- 결제예정 그룹코드 자동증가  getnewOGroupCode-->
@@ -124,8 +134,11 @@
 			  ,#{userId}
 			  ,#{storeCode}
 			  ,#{menuCode}
+			  <!-- ,(SELECT menu_code
+			  	 FROM tb_store_menu
+			  	 WHERE #{menuName} = menu_name) -->
 			  ,#{oCount}
-			  ,#{menuTotalPrice}
+			  ,#{oCount} * #{oCount}
 			  ,#{oRequest}
 			  ,#{payGroCode}
 			  ,#{oTotalPrice}
@@ -155,11 +168,11 @@
 
 
 <!-- 예약자정보 페이지에 상태코드 불러오기 -->
-	<select id="getStateCode" parameterType="String" resultType="Statement">
+	<select id="getStateCode" resultMap="statementResultMap">
 		SELECT 
-			state_code AS stateCode
-			,main_state AS mainState
-			,state_name AS stateName
+			state_code
+			,main_state
+			,state_name
 		FROM 
 			tb_statement
 		WHERE
@@ -189,7 +202,7 @@
 
 
 <!-- 예약자정보 페이지에 매장명,매장코드 불러오기 -->
-	<select id="getStoreInfo" parameterType="String" resultMap="storeResultMap">
+	<select id="getStoreInfo" resultMap="storeResultMap">
 		SELECT 
 			store_name
 			,store_code
@@ -245,7 +258,7 @@
 	
 	
 <!-- 매장코드 조회 -->	
-	<select id="getStoreCode" parameterType="String" resultType="Store">
+	<!-- <select id="getStoreCode" parameterType="String" resultType="Store">
 		SELECT 
 			store_code
 		FROM	
@@ -253,6 +266,6 @@
 		WHERE 
 			store_name = #{storeName};
 	</select>
-
+ -->
 
 </mapper>

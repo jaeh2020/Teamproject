@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="amdn.anywhere.mapper.StoreMapper">
+
+<resultMap type="Store" id="storeResultMap">
+		<result property="storeCode"		column="store_code"/>
+		<result property="storeName"		column="store_name"/>
+		<result property="bizCode"			column="biz_code"/>
+		<result property="bizId"			column="biz_id"/>
+		<result property="storeLocation"	column="store_location"/>
+		<result property="storeTime"		column="store_time"/>
+		<result property="storePhone"		column="store_phone"/>
+		<result property="mainCateCode"		column="main_cate_code"/>
+		<result property="storeHoliday"		column="store_holiday"/>
+		<result property="storeTasteAgree"	column="store_taste_agree"/>
+		<result property="storeExposAgree"	column="store_expos_agree"/>
+		<result property="storePhoto"		column="store_photo"/>
+		<result property="storeTableNum"	column="store_table_num"/>
+		<result property="storeOccupancy"	column="store_occupancy"/>
+	</resultMap>
+
+
+<!-- 나의 매장정보 리스트 조회 -->
+<select id="getMyStoreList" resultMap="storeResultMap">
+	SELECT
+		biz_code
+		,biz_id
+		,main_cate_code
+		,store_code
+		,store_holiday
+		,store_location
+		,store_name
+		,store_occupancy
+		,store_phone
+		,store_table_num
+		,store_taste_agree
+		,store_expos_agree
+		,store_time
+	FROM
+		tb_store_info
+	WHERE
+		biz_id = #{bizId};
+</select>
+
+<!-- 매장 리스트 조회 -->
+<select id="getStoreList" resultMap="storeResultMap">
+	SELECT
+		biz_code
+		,biz_id
+		,main_cate_code
+		,store_code
+		,store_holiday
+		,store_location
+		,store_name
+		,store_occupancy
+		,store_phone
+		,store_table_num
+		,store_taste_agree
+		,store_expos_agree
+		,store_time
+	FROM
+		tb_store_info;
+</select>
+
+
+</mapper>

@@ -84,7 +84,7 @@
 																					<div class="form-check">
 																						<div class="checkbox">
 																							<label style="cursor:pointer;">
-																								<input type="checkbox" name="menuLis" th:value="${m.menuName}" class="form-check-input" th:text="${m.menuName+' '+m.menuPrice}" th:data-price="${m.menuPrice}" th:data-menuCode="${m.menuCode}">
+																								<input type="checkbox" name="menuName" th:value="${m.menuName}" class="form-check-input" th:text="${m.menuName+' '+m.menuPrice}" th:data-price="${m.menuPrice}" th:data-menuCode="${m.menuCode}">
 																							</label>
 																						</div>
 																					</div>
@@ -101,7 +101,7 @@
 																					<div class="form-check">
 																						<div class="checkbox">
 																							<label  style="cursor:pointer;">
-																								<input type="checkbox" name="menuLis" th:text="${m.menuName+' '+m.menuPrice}" th:value="${m.menuName}" th:data-price="${m.menuPrice}" class="form-check-input" th:data-menuCode="${m.menuCode}"/>
+																								<input type="checkbox" name="menuName" th:text="${m.menuName+' '+m.menuPrice}" th:value="${m.menuName}" th:data-price="${m.menuPrice}" class="form-check-input" th:data-menuCode="${m.menuCode}"/>
 																							</label>	
 																						</div>
 																					</div>
@@ -282,7 +282,7 @@
 				
 				alert('주문이 완료되었습니다. \n결제는 현장에서 진행되며, \n상세 주문내역은 상단의 "나의 주문내역" 에서 확인 가능합니다.')
 				/* $('#addBookOrdForm').submit();	 */
-				$('#').submit();	
+				$('#addBookOrdForm').submit();	
 			});
 		});
 	
