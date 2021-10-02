@@ -26,7 +26,7 @@ public class MainService {
 		return storeList; 
 	}
 	
-	//상정명만조회 (ajax)
+	//상점명만조회 (ajax)
 	public Store getMainRead(String stName){ 
 		return mainMapper.getMainRead(stName); 
 	}

@@ -11,17 +11,11 @@ public class Store {
 	private String mainCateCode;
 	private String storeHoliday;
 	private String storeTasteAgree;
+	private String storeExposAgree;
 	private String storePhoto;
 	private String storeTableNum;
 	private String storeOccupancy;
 	private Waiting waiting;
-	
-	public Waiting getWaiting() {
-		return waiting;
-	}
-	public void setWaiting(Waiting waiting) {
-		this.waiting = waiting;
-	}
 	public String getStoreCode() {
 		return storeCode;
 	}
@@ -82,6 +76,12 @@ public class Store {
 	public void setStoreTasteAgree(String storeTasteAgree) {
 		this.storeTasteAgree = storeTasteAgree;
 	}
+	public String getStoreExposAgree() {
+		return storeExposAgree;
+	}
+	public void setStoreExposAgree(String storeExposAgree) {
+		this.storeExposAgree = storeExposAgree;
+	}
 	public String getStorePhoto() {
 		return storePhoto;
 	}
@@ -100,14 +100,22 @@ public class Store {
 	public void setStoreOccupancy(String storeOccupancy) {
 		this.storeOccupancy = storeOccupancy;
 	}
+	public Waiting getWaiting() {
+		return waiting;
+	}
+	public void setWaiting(Waiting waiting) {
+		this.waiting = waiting;
+	}
 	@Override
 	public String toString() {
 		return "Store [storeCode=" + storeCode + ", storeName=" + storeName + ", bizCode=" + bizCode + ", bizId="
 				+ bizId + ", storeLocation=" + storeLocation + ", storeTime=" + storeTime + ", storePhone=" + storePhone
 				+ ", mainCateCode=" + mainCateCode + ", storeHoliday=" + storeHoliday + ", storeTasteAgree="
-				+ storeTasteAgree + ", storePhoto=" + storePhoto + ", storeTableNum=" + storeTableNum
-				+ ", storeOccupancy=" + storeOccupancy + ", waiting=" + waiting + "]";
+				+ storeTasteAgree + ", storeExposAgree=" + storeExposAgree + ", storePhoto=" + storePhoto
+				+ ", storeTableNum=" + storeTableNum + ", storeOccupancy=" + storeOccupancy + ", waiting=" + waiting
+				+ "]";
 	}
+	
 	
 	
 	
