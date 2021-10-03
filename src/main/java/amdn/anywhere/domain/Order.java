@@ -18,6 +18,7 @@ public class Order {
 	private String orderStateCode;
 	private String storeTableCode;
 	private String tabelStateCode;
+	private Menu menu;
 	public String getoCode() {
 		return oCode;
 	}
@@ -108,14 +109,22 @@ public class Order {
 	public void setTabelStateCode(String tabelStateCode) {
 		this.tabelStateCode = tabelStateCode;
 	}
+	public Menu getMenu() {
+		return menu;
+	}
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
 	@Override
 	public String toString() {
 		return "Order [oCode=" + oCode + ", bookCode=" + bookCode + ", userId=" + userId + ", storeCode=" + storeCode
 				+ ", menuCode=" + menuCode + ", oCount=" + oCount + ", menuTotalPrice=" + menuTotalPrice + ", oRequest="
 				+ oRequest + ", payGroCode=" + payGroCode + ", oTotalPrice=" + oTotalPrice + ", orderSignTime="
 				+ orderSignTime + ", orderCompTime=" + orderCompTime + ", orderStateCode=" + orderStateCode
-				+ ", storeTableCode=" + storeTableCode + ", tabelStateCode=" + tabelStateCode + "]";
+				+ ", storeTableCode=" + storeTableCode + ", tabelStateCode=" + tabelStateCode + ", menu=" + menu + "]";
 	}
+	
+	
 
 	
 }

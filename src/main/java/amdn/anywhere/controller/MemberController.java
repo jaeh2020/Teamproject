@@ -3,13 +3,16 @@ package amdn.anywhere.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.service.MemberService;
 
+
 @Controller
 public class MemberController {
+
 
 	@PostMapping("/member/addMember02")
 	public String addMember02(Member member) {
@@ -33,5 +36,4 @@ public class MemberController {
 		model.addAttribute("location", "회원가입  〉 회원유형선택");
 		return "/member/addMember01";
 	}
-	
 }
