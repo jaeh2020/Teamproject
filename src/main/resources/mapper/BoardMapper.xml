@@ -3,7 +3,6 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="amdn.anywhere.mapper.BoardMapper">
-
 	<resultMap type="Board" id="borderMap">
 		<result property="boardNum"		column="board_num"></result>
 		<result property="boardCateCode"		column="b_cate_code"></result>
@@ -16,6 +15,17 @@
 		<result property="memberId"		column="member_id"></result>
 		<result property="stateCode"		column="state_code"></result>
 	</resultMap>
+	<resultMap type="Member" id="memberMap">
+		<result property="memberId"		column="member_id"></result>
+		<result property="memberPw"		column="member_pw"></result>
+		<result property="memberName"		column="member_name"></result>
+		<result property="levelCode"		column="level_code"></result>
+		<result property="memberGender"		column="member_gender"></result>
+		<result property="memberBirth"		column="member_birth"></result>
+		<result property="memberPhone"	column="member_phone"></result>
+		<result property="memberEmail"		column="member_email"></result>
+		<result property="memberRegTime"		column="member_reg_time"></result>
+	</resultMap>
 		
 	<!-- 게시판 조회 수 증가 -->
 	<update id="updateBoardCnt" parameterType="String">
@@ -26,8 +36,8 @@
 		WHERE 
 			board_num = #{boardNum};
 	</update>
-	
-	
+
+
 	<!-- 게시판 삭제처리 -->
 	<delete id="boardDelete" parameterType="String">
 		DELETE
@@ -57,7 +67,7 @@
 	<!-- 게시판 정보 가져오기 -->
 	<select id="getBoardInfoByCode" parameterType="String" resultMap="borderMap">
 		SELECT
- 			 board_num
+			board_num
 			,board_title
 			,member_id
 			,board_contents
@@ -69,7 +79,7 @@
 			,state_code
 		FROM
 	  		tb_board_management
-   		WHERE
+	  		WHERE
 			board_num = #{boardNum};
 	</select>
 	
@@ -98,27 +108,27 @@
 	
 	
 	<!-- ajax 회원정보 보여주기-->
-	<select id="getMemberList" resultType="Member">
+	<select id="getMemberList" resultMap="memberMap">
 		SELECT
-			 member_id 			AS memberId
-			,member_pw 			AS memberPw
-			,member_name 		AS memberName
-			,level_code 		AS levelCode
-			,member_gender  	AS memberGender
-			,member_birth 		AS memberBirth
-			,member_phone 		AS memberPhone
-			,member_email 		AS memberEmail
-			,member_reg_time 	AS memberRegTime
+			 member_id 			
+			,member_pw 			
+			,member_name 		
+			,level_code 		
+			,member_gender  	
+			,member_birth 		
+			,member_phone 		
+			,member_email 		
+			,member_reg_time 	
 		FROM
 			tb_member;
 	</select>
 	
-	<select id="getMemberRead" resultType="Member" parameterType="String">
+	<select id="getMemberRead" resultMap="memberMap" parameterType="String">
 		SELECT
-			 member_id AS memberId
-			,member_name AS memberName
-			,member_gender AS memberGender
-			,member_birth AS memberBirth
+			 member_id 
+			,member_name 
+			,member_gender 
+			,member_birth 
 		FROM
 			tb_member 
 		WHERE
@@ -166,16 +176,14 @@
 	
 	
 	<!-- 게시판 리스트 -->
-	<select id="getBoardList" resultMap="borderMap">
-		SELECT 
-			 board_num 
-			,board_title 
-			,member_id
-			,board_time 
-			,board_views 
-		FROM 
-			tb_board_management;
-	</select>
-	
-	
+		<select id="getBoardList" resultMap="borderMap">
+			SELECT 
+				 board_num 
+				,board_title 
+				,member_id
+				,board_time 
+				,board_views 
+			FROM 
+				tb_board_management;
+		</select>
 </mapper>

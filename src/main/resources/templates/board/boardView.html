@@ -15,48 +15,47 @@
 				<div class="box box-primary">
 				
 					<!-- 히든 된 데이터 -->
-					<input type="hidden" name="boardNum" th:value="${board.boardNum}">
-					<input type="hidden" name="boardSecret" th:value="${board.boardSecret}"> 
-					<!-- <input type="text" name="boardViews" th:text="${boardCnt}">  -->
-					
-					<div class="box box-content" style="outline: solid 1px #D5D5D5; height: 600px;">
-						<div class="card-header">
-							<h4 class="m-b-0 text-white"><i class="ti-menu"></i>
-								[[${board.boardNum}]] 
-							</h4>
-							 
-						</div>
-						<div class="boardTitle" style="padding-top: 20px; font-weight: bold; font-size: 15px;">
-							<i class="fa fa-pencil "></i> 제목 : [[${board.boardTitle}]] 
-						</div>
-						<div class="userId" style=" padding-top: 10px; font-weight: bold; font-size: 15px;">
-							<i class="fa fa-user f-s-20 color-blueviolet"></i>  작성자 : [[${board.memberId}]] 
-						</div>
-						<hr>
-						<div class="box-body" style=" height: 700px;  padding-top: 20px;  font-size: 15px;">
-							[[${board.boardContents}]]
-						</div>
-						</div>
-						<div>
-						<label for="title" style="margin-top: 30px; font-weight:bold; display: block; ">파일첨부</label>
-						<input name="boardFile" type="file" style="outline: solid 1px #D5D5D5;" readonly="readonly" />
+				<input type="hidden" name="boardNum" th:value="${board.boardNum}">
+				<input type="hidden" name="boardSecret" th:value="${board.boardSecret}"> 
+				
+				
+				<div class="box box-content" style="outline: solid 1px #D5D5D5; height: 600px;">
+					<div class="card-header">
+						<h4 class="m-b-0 text-white"><i class="ti-menu"></i>
+							[[${board.boardNum}]] 
+						</h4>
+						 
 					</div>
-					<h3 class="box-title m-t-40"></h3>
-						<hr>
-							<div class="row">
-								<div class="col-md-12 ">
-									<div class="form-group">
-										<label style="font-weight: bold;">댓글</label>
-										<input type="text" class="form-control" style="height: 100px;">
-										<button type="button" class="btn btn-inverse" style="margin-top: 10px; float: right;">등록</button>
-									</div>
+					<div class="boardTitle" style="padding-top: 20px; font-weight: bold; font-size: 15px;">
+						<i class="fa fa-pencil "></i> 제목 : [[${board.boardTitle}]] 
+					</div>
+					<div class="userId" style=" padding-top: 10px; font-weight: bold; font-size: 15px;">
+						<i class="fa fa-user f-s-20 color-blueviolet"></i>  작성자 : [[${board.memberId}]] 
+					</div>
+					<hr>
+					<div class="box-body" style=" height: 700px;  padding-top: 20px;  font-size: 15px;">
+						[[${board.boardContents}]]
+					</div>
+					</div>
+					<div>
+					<label for="title" style="margin-top: 30px; font-weight:bold; display: block; ">파일첨부</label>
+					<input name="boardFile" type="file" style="outline: solid 1px #D5D5D5;" readonly="readonly" />
+				</div>
+				<h3 class="box-title m-t-40"></h3>
+					<hr>
+						<div class="row">
+							<div class="col-md-12 ">
+								<div class="form-group">
+									<label style="font-weight: bold;">댓글</label>
+									<input type="text" class="form-control" style="height: 100px;">
+									<button type="button" class="btn btn-inverse" style="margin-top: 10px; float: right;">등록</button>
 								</div>
 							</div>
-							<hr>
-							
-					<div class="box-footer" style="margin-top: 20px;">
-						<div class="pull-left">
-							<a th:href="@{/board/boardList}" class="btn btn-primary listBtn" style="display: inline;">
+						</div>
+						<hr>
+				<div class="box-footer" style="margin-top: 20px;">
+					<div class="pull-left">
+						<a th:href="@{/board/boardList}" class="btn btn-primary listBtn" style="display: inline;">
 								<i class="fa fa-list"></i> 목록
 							</a>	
 						</div>
@@ -69,16 +68,16 @@
 
 <th:block layout:fragment="customJsLib">
 	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->
-    
-    <script type="text/javascript">
-    	$(function(){
-    		var form = deleteForm;
-       		$('#baordDel').click(function(){
-				alert('정말 삭제하시겠습니까?')
-				form.submit();
-       		 });
-		});
-    </script>
+   <script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->
+   
+   <script type="text/javascript">
+   	$(function(){
+   		var form = deleteForm;
+      		$('#baordDel').click(function(){
+			alert('정말 삭제하시겠습니까?')
+			form.submit();
+      		 });
+	});
+   </script>
 </th:block>
 </html>

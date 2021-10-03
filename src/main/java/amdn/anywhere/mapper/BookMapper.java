@@ -13,6 +13,8 @@ import amdn.anywhere.domain.Store;
 @Mapper
 public interface BookMapper {
 	
+	//결제예정 그룹코드 자동증가
+	public String getnewOGroupCode();
 
 	//예약리스트 조회
 	public List<Book> getBookList();

@@ -45,7 +45,6 @@
 			tb_store_waiting as w
 			ON 
 			i.store_code = w.store_code;
-		
 	</select>
 	
 	
