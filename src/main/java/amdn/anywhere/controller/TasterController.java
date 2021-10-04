@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.RecruitTasterByBiz;
+
 import amdn.anywhere.service.TasterService;
 
 @Controller
@@ -28,6 +29,7 @@ public class TasterController {
 	public TasterController(TasterService tasterService) {
 		this.tasterService = tasterService;
 	}
+
 	
 	/* 
 	 * 메서드 : 평가단 요청 폼에서 데이터 받기
@@ -62,7 +64,6 @@ public class TasterController {
 	 * ,@RequestParam(value="checkSurveyCate", required = false)String[]
 	 * checkSurveyCate ,@RequestParam(value="cateCode", required = false)String[]
 	 * specialSurveyCate) { List<String> ageCheckList = Arrays.asList(ageCheck);
-	 * 
 	 * List<String> cateList = Arrays.asList(checkSurveyCate); List<String>
 	 * specialCateList = Arrays.asList(specialSurveyCate);
 	 * 
