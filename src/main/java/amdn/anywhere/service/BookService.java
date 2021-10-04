@@ -68,7 +68,7 @@ public class BookService {
 	 }
 	 
 
-	 //예약자정보화면에 상점명 뿌려주기
+	 //상점정보가져오기 - 예약자정보화면에 상점명 뿌려주기
 	 public Store getStoreInfo(String storeName){ 
 		 return bookMapper.getStoreInfo(storeName); 
 	 }

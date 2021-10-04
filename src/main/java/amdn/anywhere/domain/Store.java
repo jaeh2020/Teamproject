@@ -16,6 +16,7 @@ public class Store {
 	private String storeTableNum;
 	private String storeOccupancy;
 	private Waiting waiting;
+	private FoodMainCate foodmaincate;
 	public String getStoreCode() {
 		return storeCode;
 	}
@@ -106,6 +107,12 @@ public class Store {
 	public void setWaiting(Waiting waiting) {
 		this.waiting = waiting;
 	}
+	public FoodMainCate getFoodmaincate() {
+		return foodmaincate;
+	}
+	public void setFoodmaincate(FoodMainCate foodmaincate) {
+		this.foodmaincate = foodmaincate;
+	}
 	@Override
 	public String toString() {
 		return "Store [storeCode=" + storeCode + ", storeName=" + storeName + ", bizCode=" + bizCode + ", bizId="
@@ -113,9 +120,8 @@ public class Store {
 				+ ", mainCateCode=" + mainCateCode + ", storeHoliday=" + storeHoliday + ", storeTasteAgree="
 				+ storeTasteAgree + ", storeExposAgree=" + storeExposAgree + ", storePhoto=" + storePhoto
 				+ ", storeTableNum=" + storeTableNum + ", storeOccupancy=" + storeOccupancy + ", waiting=" + waiting
-				+ "]";
+				+ ", foodmaincate=" + foodmaincate + "]";
 	}
-	
 	
 	
 	
