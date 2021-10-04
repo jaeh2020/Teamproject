@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Store;
+import amdn.anywhere.service.MenuService;
 import amdn.anywhere.service.StoreService;
 
 
@@ -22,13 +24,59 @@ public class StoreController {
 	
 
 	private final StoreService storeService;
+	private MenuService menuService;
 	
-	public StoreController(StoreService storeService) {
+	public StoreController(StoreService storeService, MenuService menuService) {
 		this.storeService = storeService;
+		this.menuService = menuService;
 	}
 	
 	
-	@PostMapping("/myStoreModify")
+	@GetMapping("/myStoremanage/addMyMenu")
+	public String addMyMenu(Model model
+						   ,HttpSession session) {
+		
+		//세션아이디(로그인되어있는 아이디)
+		String bizId = (String) session.getAttribute("SID");
+		
+		//메뉴 대분류 가져오기
+		List<FoodMainCate> foodMainCateList = menuService.getFoodMainCateList();
+		
+		//메뉴카테고리 가져오기 (메인/사이드)
+		
+		model.addAttribute("bizId", bizId);
+		model.addAttribute("foodMainCateList", foodMainCateList);
+		model.addAttribute("title", "메뉴 등록");
+		model.addAttribute("location", "메뉴 등록");
+		
+		return "/store/myStoremanage/addMyMenu";
+	}
+		
+	
+	
+	@GetMapping("/myStoremanage/myMenuManage")
+	public String storeManage(Model model
+							 ,HttpSession session) {
+		
+	
+		//세션아이디(로그인되어있는 아이디)
+		String bizId = (String) session.getAttribute("SID");
+		
+		//나의 매장 메뉴 리스트 조회
+		Map<String, Object> paramMap = menuService.getMyMenuList(bizId);
+	
+		model.addAttribute("myMenuList", paramMap.get("myMenuList"));
+		model.addAttribute("title", "나의 메뉴 관리");
+		model.addAttribute("location", "나의 메뉴 관리");
+		
+		
+		return "/store/myStoremanage/myMenuManage";
+	}
+	
+	
+	
+	
+	@PostMapping("/myStoremanage/myStoreModify")
 	public String myStoreModify(Store store) {
 		
 		//나의매장정보 수정처리
@@ -36,11 +84,11 @@ public class StoreController {
 			storeService.modifyMyStore(store);
 		}
 		
-		return "redirect:myStoreManage";
+		return "redirect:/store/myStoremanage/myStoreInfo";
 	}
 	
 
-	@GetMapping("/myStoreModify")
+	@GetMapping("/myStoremanage/myStoreModify")
 	public String myStoreModify(Model model
 								,HttpSession session
 								,@RequestParam(name = "storeCode" , required = false) String storeCode) {
@@ -60,11 +108,11 @@ public class StoreController {
 		model.addAttribute("title", "나의 매장 관리");
 		model.addAttribute("location", "나의 매장 관리");
 		
-		return "/store/myStoreModify";
+		return "/store/myStoremanage/myStoreModify";
 	}
 	
 	
-	@GetMapping("/myStoreManage")
+	@GetMapping("/myStoremanage/myStoreInfo")
 	public String myStoreManage(Model model
 							   ,HttpSession session) {
 		
@@ -79,13 +127,14 @@ public class StoreController {
 		model.addAttribute("title", "나의 매장 관리");
 		model.addAttribute("location", "나의 매장 관리");
 		
-		return "/store/myStoreManage";
+		return "/store/myStoremanage/myStoreInfo";
 	}
 	
 	
 	@GetMapping("/storeManage")
 		public String storeManage(Model model) {
 		
+		//매장리스트 조회
 		List<Store> storeList = storeService.getStoreList();
 
 

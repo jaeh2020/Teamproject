@@ -4,11 +4,9 @@ import java.util.Date;
 
 public class Menu {
 	private String menuCode;
-	private String bizCode;
 	private String bizId;
 	private String storeCode;
 	private String mainCateCode;
-	private String midCateCode;
 	private String menuCateCode;
 	private String menuName;
 	private String menuPrice;
@@ -20,12 +18,6 @@ public class Menu {
 	}
 	public void setMenuCode(String menuCode) {
 		this.menuCode = menuCode;
-	}
-	public String getBizCode() {
-		return bizCode;
-	}
-	public void setBizCode(String bizCode) {
-		this.bizCode = bizCode;
 	}
 	public String getBizId() {
 		return bizId;
@@ -44,12 +36,6 @@ public class Menu {
 	}
 	public void setMainCateCode(String mainCateCode) {
 		this.mainCateCode = mainCateCode;
-	}
-	public String getMidCateCode() {
-		return midCateCode;
-	}
-	public void setMidCateCode(String midCateCode) {
-		this.midCateCode = midCateCode;
 	}
 	public String getMenuCateCode() {
 		return menuCateCode;
@@ -89,10 +75,10 @@ public class Menu {
 	}
 	@Override
 	public String toString() {
-		return "Menu [menuCode=" + menuCode + ", bizCode=" + bizCode + ", bizId=" + bizId + ", storeCode=" + storeCode
-				+ ", mainCateCode=" + mainCateCode + ", midCateCode=" + midCateCode + ", menuCateCode=" + menuCateCode
-				+ ", menuName=" + menuName + ", menuPrice=" + menuPrice + ", menuDetail=" + menuDetail
-				+ ", menuRegTime=" + menuRegTime + ", menuUsing=" + menuUsing + "]";
+		return "Menu [menuCode=" + menuCode + ", bizId=" + bizId + ", storeCode=" + storeCode + ", mainCateCode="
+				+ mainCateCode + ", menuCateCode=" + menuCateCode + ", menuName=" + menuName + ", menuPrice="
+				+ menuPrice + ", menuDetail=" + menuDetail + ", menuRegTime=" + menuRegTime + ", menuUsing=" + menuUsing
+				+ "]";
 	}
 	
 	
