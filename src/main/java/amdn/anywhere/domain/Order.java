@@ -1,19 +1,24 @@
 package amdn.anywhere.domain;
 
+import java.util.Date;
+
 public class Order {
 	private String oCode;
 	private String bookCode;
+	private String userId;
 	private String storeCode;
 	private String menuCode;
 	private int oCount;
+	private int menuTotalPrice;
 	private String oRequest;
 	private String payGroCode;
-	private String oTotalPrice;
-	private String orderSignTime;
-	private String orderCompTime;
+	private int oTotalPrice;
+	private Date orderSignTime;
+	private Date orderCompTime;
 	private String orderStateCode;
 	private String storeTableCode;
 	private String tabelStateCode;
+	private Menu menu;
 	public String getoCode() {
 		return oCode;
 	}
@@ -25,6 +30,12 @@ public class Order {
 	}
 	public void setBookCode(String bookCode) {
 		this.bookCode = bookCode;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getStoreCode() {
 		return storeCode;
@@ -44,6 +55,12 @@ public class Order {
 	public void setoCount(int oCount) {
 		this.oCount = oCount;
 	}
+	public int getMenuTotalPrice() {
+		return menuTotalPrice;
+	}
+	public void setMenuTotalPrice(int menuTotalPrice) {
+		this.menuTotalPrice = menuTotalPrice;
+	}
 	public String getoRequest() {
 		return oRequest;
 	}
@@ -56,22 +73,22 @@ public class Order {
 	public void setPayGroCode(String payGroCode) {
 		this.payGroCode = payGroCode;
 	}
-	public String getoTotalPrice() {
+	public int getoTotalPrice() {
 		return oTotalPrice;
 	}
-	public void setoTotalPrice(String oTotalPrice) {
+	public void setoTotalPrice(int oTotalPrice) {
 		this.oTotalPrice = oTotalPrice;
 	}
-	public String getOrderSignTime() {
+	public Date getOrderSignTime() {
 		return orderSignTime;
 	}
-	public void setOrderSignTime(String orderSignTime) {
+	public void setOrderSignTime(Date orderSignTime) {
 		this.orderSignTime = orderSignTime;
 	}
-	public String getOrderCompTime() {
+	public Date getOrderCompTime() {
 		return orderCompTime;
 	}
-	public void setOrderCompTime(String orderCompTime) {
+	public void setOrderCompTime(Date orderCompTime) {
 		this.orderCompTime = orderCompTime;
 	}
 	public String getOrderStateCode() {
@@ -92,14 +109,22 @@ public class Order {
 	public void setTabelStateCode(String tabelStateCode) {
 		this.tabelStateCode = tabelStateCode;
 	}
+	public Menu getMenu() {
+		return menu;
+	}
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
 	@Override
 	public String toString() {
-		return "Order [oCode=" + oCode + ", bookCode=" + bookCode + ", storeCode=" + storeCode + ", menuCode="
-				+ menuCode + ", oCount=" + oCount + ", oRequest=" + oRequest + ", payGroCode=" + payGroCode
-				+ ", oTotalPrice=" + oTotalPrice + ", orderSignTime=" + orderSignTime + ", orderCompTime="
-				+ orderCompTime + ", orderStateCode=" + orderStateCode + ", storeTableCode=" + storeTableCode
-				+ ", tabelStateCode=" + tabelStateCode + "]";
+		return "Order [oCode=" + oCode + ", bookCode=" + bookCode + ", userId=" + userId + ", storeCode=" + storeCode
+				+ ", menuCode=" + menuCode + ", oCount=" + oCount + ", menuTotalPrice=" + menuTotalPrice + ", oRequest="
+				+ oRequest + ", payGroCode=" + payGroCode + ", oTotalPrice=" + oTotalPrice + ", orderSignTime="
+				+ orderSignTime + ", orderCompTime=" + orderCompTime + ", orderStateCode=" + orderStateCode
+				+ ", storeTableCode=" + storeTableCode + ", tabelStateCode=" + tabelStateCode + ", menu=" + menu + "]";
 	}
 	
+	
+
 	
 }

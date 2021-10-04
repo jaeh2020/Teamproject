@@ -1,10 +1,9 @@
 package amdn.anywhere.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.Menu;
+import amdn.anywhere.domain.RecruitTasterByBiz;
+
 import amdn.anywhere.service.TasterService;
 
 @Controller
@@ -28,23 +29,58 @@ public class TasterController {
 	public TasterController(TasterService tasterService) {
 		this.tasterService = tasterService;
 	}
-	@PostMapping("/recruitApplyProcess")
-	public String recruitApplyProcess(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^recruitApplyProcess TasterController.java");
+
 	
-	
-		String[] ageCheckList = request.getParameterValues("ageCheck");
-		for(int i = 0; i < ageCheckList.length ; i++) {
-			System.out.println(ageCheckList[i]);
-		}
+	/* 
+	 * 메서드 : 평가단 요청 폼에서 데이터 받기
+	 * 보완사항 : 
+	 */
+	@PostMapping("/recruitApplyProcess") public String recruitApplyProcess(
+			RecruitTasterByBiz recruitByBiz
+		) {
+		System.out.println(recruitByBiz + " ----------------------------01");
+		/*
+		 * List<String> ageCodeList2 = Arrays.asList(ageCodeList); List<String>
+		 * cateList2 = Arrays.asList(cateList); List<String> specialCateList2 =
+		 * Arrays.asList(specialCateList); recruitByBiz.setAgeCodeList(ageCodeList2);
+		 * recruitByBiz.setCateList(cateList2); System.out.println(recruitByBiz +
+		 * " ----------------------------02");
+		 */
 		
 		return "redirect:/taster/recruitApply";
 	}
 	
+
+	/*
+	 * @PostMapping("/recruitApplyProcess") public String recruitApplyProcess(
+	 * 
+	 * @RequestParam(value="selectStore", required = false)String selectStore
+	 * ,@RequestParam(value="selectMenu", required = false)String selectMenu
+	 * ,@RequestParam(value="noticeTitle", required = false)String noticeTitle
+	 * ,@RequestParam(value="surveyTitle", required = false)String surveyTitle
+	 * ,@RequestParam(value="ageCheck", required = false)String[] ageCheck
+	 * ,@RequestParam(value="recruitNum", required = false)int recruitNum
+	 * ,@RequestParam(value="endDate", required = false)String endDate
+	 * ,@RequestParam(value="checkSurveyCate", required = false)String[]
+	 * checkSurveyCate ,@RequestParam(value="cateCode", required = false)String[]
+	 * specialSurveyCate) { List<String> ageCheckList = Arrays.asList(ageCheck);
+	 * List<String> cateList = Arrays.asList(checkSurveyCate); List<String>
+	 * specialCateList = Arrays.asList(specialSurveyCate);
+	 * 
+	 * System.out.println(selectStore); System.out.println(selectMenu);
+	 * System.out.println(noticeTitle); System.out.println(surveyTitle);
+	 * System.out.println(ageCheckList); System.out.println(recruitNum);
+	 * System.out.println(endDate); System.out.println(cateList);
+	 * System.out.println(specialCateList);
+	 * 
+	 * 
+	 * return "redirect:/taster/recruitApply"; }
+	 */
 	@GetMapping("/recruitApply")
 	public String recruitApply(HttpSession session, Model model) {
 		
-		String bizId = (String)session.getAttribute("SID");
+		//String bizId = (String)session.getAttribute("SID");
+		String bizId = "id004";
 		
 		Map<String, Object> paramMap =tasterService.getListForRecruit(bizId);
 		

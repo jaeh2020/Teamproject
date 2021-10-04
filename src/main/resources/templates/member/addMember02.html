@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+	
+<!-- css -->
+<style type= "text/css">
+	.card h1{
+		text-align: center;
+		padding: 10px;
+	}
+	ol{
+		display:inline-block;
+		margin: 0;
+		padding: 0;
+	}
+	ol li{
+		float:left; 
+		margin-left: 70px;
+	}
+	.col-md-4{
+		margin-top: 100px;
+		margin-bottom: 80px;
+	}
+	.list{
+		display: block;
+		margin-top: 40px;
+		text-align: center;
+	}
+	.join li p span{
+		display: block;
+   		width: 24px;
+    	margin: 0 auto 10px;
+    	padding: 30px 0 3px;
+    	border-bottom: 1px solid #999;
+    	color: #505050;
+	}
+	li .on{
+		color: #4B088A;
+		font-weight: bold;
+	}
+	.col-lg-6 a{
+		float: left;
+		display: inline-block;
+	}
+	button {
+		float: right;
+	}
+	form input{
+		width: 5px;
+	}
+	.box-radio-input input[type="radio"]{
+	  display:none;
+	  w
+	}
+	
+	.box-radio-input input[type="radio"] + span{
+	  display:inline-block;
+	  background:none;
+	  border:1px solid #dfdfdf;  
+	  padding:0px 10px;
+	  text-align:center;
+	  height:35px;
+	  line-height:33px;
+	  font-weight:500;
+	  cursor:pointer;
+	}
+	
+	.box-radio-input input[type="radio"]:checked + span{
+	  border:1px solid #610B5E;
+	  background:#610B5E;
+	  color:#fff;
+	}
+ 
+</style>
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="card card-outline-primary">
+		<h1>회원가입</h1>
+	
+		<!-- 회원가입 안내 -->
+		<div class="row list">
+			<ol class="join">
+		           <li><p><span>01</span>회원유형선택</p></li>
+		           <li><p class="on"><span>02</span>정보입력</p></li>
+		           <li><p><span>03</span>추가정보입력</p></li>
+		           <li><p><span>04</span>가입완료</p></li>
+		    </ol>
+		</div>
+		
+		<!-- 회원가입 내용 -->
+		
+			<div class="unix-login">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="login-content">
+                            <div class="login-form">
+                                <h4>회원 정보 입력</h4>
+                                <form>
+                                    <div class="form-group">
+                                    <label>회원 권한</label>
+                                    <input type="text" class="form-control" name="levelCode">
+									</div>
+                                    <div class="form-group">
+                                        <label>아이디</label>
+                                        <input type="text" class="form-control" name="memberId" placeholder="아이디">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>비밀번호</label>
+                                        <input type="password" class="form-control" name="memberPw" placeholder="비밀번호">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>이름</label>
+                                        <input type="text" class="form-control" name="memberName" placeholder="이름">
+                                    </div>
+                                    <div class="radio">
+	                                    <label>성별</label>
+								    	<label class="box-radio-input">
+								    		<input type="radio" name="memberGender" value="남" checked="checked"><span>남</span>
+								    	</label>
+										<label class="box-radio-input">
+											<input type="radio" name="memberGender" value="여"><span>여</span>
+										</label>
+								    </div>
+                                    <div class="form-group">
+                                        <label>생년월일</label>
+                                        <input type="text" class="form-control" name="memberBirth" placeholder="생년월일">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>전화번호</label>
+                                        <input type="text" class="form-control" name="memberPhone" placeholder="전화번호">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>이메일</label>
+                                        <input type="text" class="form-control" name="memberEmail" placeholder="이메일">
+                                    </div>
+                                    <div class="row">
+                                    	<div class="col-lg-3"></div>
+                                    	<div class="col-lg-6">
+		                                    <a th:href="@{/member/addMember01}" class="btn btn-primary btn-flat m-b-30 m-t-30">이전</a>
+		                                    <a th:href="@{/member/addMember03}">
+			                                    <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">다음</button>
+		                                    </a>
+                                    	</div>                                
+                                    	<div class="col-lg-3"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+	</div>               
+</th:block>
+
+
+    <th:block layout:fragment="customJsLib"></th:block>
+</body>
+</html>

@@ -2,25 +2,20 @@ package amdn.anywhere.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.Book;
 import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.Order;
-import amdn.anywhere.domain.Questionnaire;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
-import amdn.anywhere.mapper.BookMapper;
 import amdn.anywhere.service.BookService;
 
 
@@ -35,31 +30,42 @@ public class BookController {
 			this.bookService = bookService;
 		}
 		
-	//주문정보 입력 후 insert
 	@PostMapping("/addBookOrder")
 		public String addBookOrder(Order order
 								  ,Book book) {
-					
+		
+			//메뉴정보 insert하기위해 정보 넘기기
+			
+		
+			//결제예정 그룹코드 자동증가
+			order.setPayGroCode(bookService.getnewOGroupCode());
+			
+			String newBookCode = bookService.getNewBookCode();
+			String newOrderCode = bookService.getNewOrderCode();
+			
 			//예약코드 자동증가 생성 후 book테이블에 insert
-			if(book != null) {
-				book.setBookCode(bookService.getNewBookCode());
+			if(book != null && newBookCode != null) {
+				book.setBookCode(newBookCode);
 				bookService.addBookMember(book);
 			}
-			
+					
 			//주문코드 자동증가 생성 후 order테이블에 insert
-			if(order != null) {
-				order.setoCode(bookService.getNewOrderCode());
+			if(order != null && newOrderCode != null && newBookCode != null) {
+				order.setBookCode(newBookCode);
+				order.setoCode(newOrderCode);
 				bookService.addBookOrder(order);
 			}
-			
 
 		return "redirect:/";
 	}
 	
+	
+	
+	
+	
 	@GetMapping("/addBookOrder")
 		public String getaddBookOrder(Model model) {
-			
-		
+
 		return "/book/addBookOrder";
 		}
 	
@@ -68,21 +74,17 @@ public class BookController {
 	@PostMapping("/addBookMember")
 		public String addBookMember(Model model
 								   ,Book book) {
-		
-
-			//예약자정보입력 예약테이블에 insert 
-				//if(book != null) bookService.addBookMember(book);
-		
-			//주문코드 자동증가
-				//String newOrderCode = bookService.getNewOrderCode();
 				
-				//메뉴 조회
-				List<Menu> menuList = bookService.getMenuList();				
-				model.addAttribute("menuList", menuList);
-				model.addAttribute("title", "주문정보입력");
-				model.addAttribute("location", "주문정보");
-				model.addAttribute("book", book);
+			//메뉴 조회
+			List<Menu> menuList = bookService.getMenuList();
+			
+			model.addAttribute("menuList", menuList);
+			model.addAttribute("title", "주문정보입력");
+			model.addAttribute("location", "주문정보");
+			model.addAttribute("book", book);
 				
+			
+		//원래 redirect로 가야하는데 바로 insert되지않고 데이터만 가져가야해서 forward로 구현
 		return "/book/addBookOrder";
 	}
 		
