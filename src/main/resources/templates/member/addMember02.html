@@ -19,7 +19,7 @@
 	}
 	ol li{
 		float:left; 
-		margin-left: 70px;
+		margin: 0 35px 0 35px;
 	}
 	.col-md-4{
 		margin-top: 100px;
@@ -42,21 +42,12 @@
 		color: #4B088A;
 		font-weight: bold;
 	}
-	.col-lg-6 a{
-		float: left;
-		display: inline-block;
-	}
-	button {
-		float: right;
-	}
 	form input{
 		width: 5px;
 	}
 	.box-radio-input input[type="radio"]{
 	  display:none;
-	  w
 	}
-	
 	.box-radio-input input[type="radio"] + span{
 	  display:inline-block;
 	  background:none;
@@ -73,6 +64,21 @@
 	  border:1px solid #610B5E;
 	  background:#610B5E;
 	  color:#fff;
+	}
+	/* .radio label {
+    	display: block;
+	} */
+	.login-form .btn {
+		display : inline-block;
+		width : 70px;
+		text-align: center;
+		margin-left: 20px;
+	}
+	.form-button{
+		text-align: center;
+	}
+	.form-control{
+		width: 400px;
 	}
  
 </style>
@@ -94,19 +100,18 @@
 		    </ol>
 		</div>
 		
-		<!-- 회원가입 내용 -->
-		
-			<div class="unix-login">
+		<!-- 회원가입 내용 -->		
+		<div class="unix-login">
             <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <div class="col-lg-12">
+               	<div class="row justify-content-center">
+                    <div class="col-lg-5">
                         <div class="login-content">
                             <div class="login-form">
                                 <h4>회원 정보 입력</h4>
-                                <form>
+                                <form method="post">
                                     <div class="form-group">
                                     <label>회원 권한</label>
-                                    <input type="text" class="form-control" name="levelCode">
+                                    <input type="text" class="form-control" name="levelCode" value="level_user">
 									</div>
                                     <div class="form-group">
                                         <label>아이디</label>
@@ -141,15 +146,13 @@
                                         <label>이메일</label>
                                         <input type="text" class="form-control" name="memberEmail" placeholder="이메일">
                                     </div>
-                                    <div class="row">
-                                    	<div class="col-lg-3"></div>
-                                    	<div class="col-lg-6">
-		                                    <a th:href="@{/member/addMember01}" class="btn btn-primary btn-flat m-b-30 m-t-30">이전</a>
-		                                    <a th:href="@{/member/addMember03}">
-			                                    <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">다음</button>
-		                                    </a>
-                                    	</div>                                
-                                    	<div class="col-lg-3"></div>
+                                    <div class="form-button">
+	                                  	<a th:href="@{/member/addMember01}" >
+		                                    <button class="btn btn-inverse btn-flat m-b-30 m-t-30">이전</button>
+	                                    </a>
+	                                    <a th:href="@{/member/addMember03}">
+		                                    <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">다음</button>
+	                                    </a>
                                     </div>
                                 </form>
                             </div>
@@ -158,8 +161,7 @@
                 </div>
             </div>
         </div>
-	</div>
-	</div>               
+	</div>         
 </th:block>
 
 
