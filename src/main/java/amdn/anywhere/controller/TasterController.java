@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -17,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.Menu;
-import amdn.anywhere.domain.QuestionCate;
 import amdn.anywhere.domain.RecruitTasterByBiz;
-import amdn.anywhere.domain.Store;
 import amdn.anywhere.service.TasterService;
 
 @Controller
@@ -32,8 +28,22 @@ public class TasterController {
 	public TasterController(TasterService tasterService) {
 		this.tasterService = tasterService;
 	}
-	@PostMapping("/recruitApplyProcess") public String recruitApplyProcess(RecruitTasterByBiz recruitByBiz) {
-		System.out.println(recruitByBiz);
+	
+	/* 
+	 * 메서드 : 평가단 요청 폼에서 데이터 받기
+	 * 보완사항 : 
+	 */
+	@PostMapping("/recruitApplyProcess") public String recruitApplyProcess(
+			RecruitTasterByBiz recruitByBiz
+		) {
+		System.out.println(recruitByBiz + " ----------------------------01");
+		/*
+		 * List<String> ageCodeList2 = Arrays.asList(ageCodeList); List<String>
+		 * cateList2 = Arrays.asList(cateList); List<String> specialCateList2 =
+		 * Arrays.asList(specialCateList); recruitByBiz.setAgeCodeList(ageCodeList2);
+		 * recruitByBiz.setCateList(cateList2); System.out.println(recruitByBiz +
+		 * " ----------------------------02");
+		 */
 		
 		return "redirect:/taster/recruitApply";
 	}
@@ -52,6 +62,7 @@ public class TasterController {
 	 * ,@RequestParam(value="checkSurveyCate", required = false)String[]
 	 * checkSurveyCate ,@RequestParam(value="cateCode", required = false)String[]
 	 * specialSurveyCate) { List<String> ageCheckList = Arrays.asList(ageCheck);
+	 * 
 	 * List<String> cateList = Arrays.asList(checkSurveyCate); List<String>
 	 * specialCateList = Arrays.asList(specialSurveyCate);
 	 * 
