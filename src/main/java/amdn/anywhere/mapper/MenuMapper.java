@@ -15,10 +15,6 @@ public interface MenuMapper {
 	
 	//나의매장 메뉴리스트 조회
 	public List<Menu> getMyMenuList(String bizId);
-
-	//나의매장 정보 리스트 조회 - 메뉴조회
-	public List<FoodMainCate> getFoodMainList(String bizId);
-
 	
 
 }

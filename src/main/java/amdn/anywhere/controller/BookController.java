@@ -103,7 +103,7 @@ public class BookController {
 		Statement statement = bookService.getStateCode(stateCode);
 		
 		
-		//상점정보 가져오기
+		//상점명 조회
 		Store store = bookService.getStoreInfo(storeName);
 		
 		

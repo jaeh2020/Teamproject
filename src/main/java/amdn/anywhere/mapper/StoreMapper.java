@@ -9,6 +9,7 @@ import amdn.anywhere.domain.Store;
 @Mapper
 public interface StoreMapper {
 	
+	
 	//나의매장정보 수정처리
 	public int modifyMyStore(Store store);
 	
