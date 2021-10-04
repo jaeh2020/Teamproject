@@ -23,6 +23,7 @@ public class StoreService {
 		this.menuMapper = menuMapper;
 	}
 	
+	
 	//나의매장정보 수정처리
 	public int modifyMyStore(Store store) {
 		return storeMapper.modifyMyStore(store);
