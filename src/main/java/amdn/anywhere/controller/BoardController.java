@@ -41,7 +41,6 @@ public class BoardController {
 		
 		boardService.boardModify(board);
 		
-			
 		return "redirect:/board/boardList";
 	}
 	
@@ -97,13 +96,12 @@ public class BoardController {
 		
 		if(board.getMemberId().equals(memberId)) {
 			return "/board/boardMyView";
-		}else {
-			return "/board/boardView";
+			}else {
+				return "/board/boardView";
+			}
+		
+		
 		}
-		
-		
-	}
-	
 	
 	
 	  //회원 정보 보기 - ajax
@@ -118,7 +116,7 @@ public class BoardController {
 	  }
 	  
 	
-	  // 게시글 목록
+	 // 게시글 목록
 	@GetMapping("/boardList")
 	public String boardList(Model model) {
 		List<Board> boardList = boardService.getBoardList();
@@ -131,28 +129,30 @@ public class BoardController {
 		return "/board/boardList";
 	}
 	
-	 // 게시글 작성 
+	// 게시글 작성 처리
 	@PostMapping("/boardWrite")
 	public String boardWrite(Board board) {
 		System.out.println("====================");
 		System.out.println("커맨드객체 board : " + board);
 		System.out.println("====================");
 		
-	
-		if (board != null)
+		//게시글 자동증가 생성 후 insert
+		if (board != null) {
+			board.setBoardNum(boardService.getNewBoardNum());
 			boardService.boardWrite(board);
+		}
+			
 		
 		return "redirect:/board/boardList";
 	}
-	// 게시글 작성 처리
+	// 게시글 작성 
 	@GetMapping("/boardWrite")
 	public String boardWrite(Model model
 							,HttpSession session
-			,@RequestParam(name = "boardCateCode" , required = false) String boardCateCode
-			,@RequestParam(name = "boardStatementCode" , required = false) String boardStatementCode) {
+							,@RequestParam(name = "boardCateCode" , required = false) String boardCateCode
+							,@RequestParam(name = "boardStatementCode" , required = false) String boardStatementCode) {
 	
-		//게시글 번호 가져오기
-		String newBoardNum = boardService.getNewBoardNum();
+		
 		//로그인 아이디 가져오기
 		String memberId = (String) session.getAttribute("SID");
 		//게시글 카테고리 코드 가져오기
@@ -161,7 +161,6 @@ public class BoardController {
 		Statement boardStatement = boardService.getboardStatement(boardStatementCode);
 	
 		model.addAttribute("title", "게시판 등록");
-		model.addAttribute("boardNum", newBoardNum);
 		model.addAttribute("memberId", memberId);
 		model.addAttribute("boardCate", boardCate);
 		model.addAttribute("boardStatement", boardStatement);

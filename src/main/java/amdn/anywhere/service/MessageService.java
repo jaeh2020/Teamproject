@@ -1,6 +1,5 @@
 package amdn.anywhere.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -9,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import amdn.anywhere.domain.Message;
 import amdn.anywhere.domain.MessageCheck;
 import amdn.anywhere.domain.MessageCommon;
-import amdn.anywhere.domain.Questionnaire;
 import amdn.anywhere.mapper.MessageMapper;
 
 @Service

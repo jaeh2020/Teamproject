@@ -60,53 +60,32 @@
 
 <th:block layout:fragment="customJsLib">
 	<script type="text/javascript">
+		//유효성 검사
+		function mySubmit1() {
+			var form = writeForm;
 	
-
-
-	//유효성 검사
-	function mySubmit1() {
-		var form = writeForm;
-
-		if(form.title.value == ''){
-			alert('제목을 입력해주세요')
-			form.title.focus();
-			return false;
-		}
-		if (form.content.value == '') {
-			alert('내용을 입력해주세요')
-			form.content.focus();
-			return false;
-		}
-		alert('게시글 작성완료!')
-		
-		form.submit();
-	} 
-
-
-	
-	/* $(function(){
-	$('.boardSaveBtn').click(function()
-		var boardTitle = $('[name=boardTitle]');
-		var boardContents = $('[name=boardContents]');
-		
-		if(boardTitle.val().trim() == ''){
-			alert('제목을 입력해주세요');
-			boardTitle.focus();
-			return false;
-		}else if(boardContents.val().trim() == ''){
-			alert('내용을 입력해주세요');
-			boardContents.focus();
-			return false;
-		}
-		
-		alert('게시글 작성완료!')
-		$('#writeForm').submit();
+			if(form.title.value == ''){
+				alert('제목을 입력해주세요')
+				form.title.focus();
+				return false;
+			}
+			if (form.content.value == '') {
+				alert('내용을 입력해주세요')
+				form.content.focus();
+				return false;
+			}
+			alert('게시글 작성완료!')
 			
-		});
-	});  */
-
+			form.submit();
+		} 
+		
+			/* if($('[name=boardSecret]'[1] != null)){
+				$($('[name=boardSecret]')[1]).attr("checked", true);
+			}else if($('[name=boardSecret]'[0] == null)){
+				$($('[name=boardSecret]')[1]).attr("checked", false);
+			} */
+	</script>
 	
-</script>
 <!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->
 </th:block>

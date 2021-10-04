@@ -5,18 +5,20 @@
 <mapper namespace="amdn.anywhere.mapper.MainMapper">
 
 	<resultMap type="Store" id="storeResultMap">
+		<result property="storeCode"		column="store_code"/>
+		<result property="storeName"		column="store_name"/>
 		<result property="bizCode"			column="biz_code"/>
 		<result property="bizId"			column="biz_id"/>
-		<result property="mainCateCode"		column="main_cate_code"/>
-		<result property="storeCode"		column="store_code"/>
-		<result property="storeHoliday"		column="store_holiday"/>
 		<result property="storeLocation"	column="store_location"/>
-		<result property="storeName"		column="store_name"/>
-		<result property="storeOccupancy"	column="store_occupancy"/>
-		<result property="storePhone"		column="store_phone"/>
-		<result property="storeTableNum"	column="store_table_num"/>
-		<result property="storeTasteAgree"	column="store_taste_agree"/>
 		<result property="storeTime"		column="store_time"/>
+		<result property="storePhone"		column="store_phone"/>
+		<result property="mainCateCode"		column="main_cate_code"/>
+		<result property="storeHoliday"		column="store_holiday"/>
+		<result property="storeTasteAgree"	column="store_taste_agree"/>
+		<result property="storeExposAgree"	column="store_expos_agree"/>
+		<result property="storePhoto"		column="store_photo"/>
+		<result property="storeTableNum"	column="store_table_num"/>
+		<result property="storeOccupancy"	column="store_occupancy"/>
 		<association property="waiting" javaType="Waiting">
 			<id property="bizCode"			column="biz_code"/>
 			<result property="bizId"		column="biz_id"/>
@@ -45,7 +47,6 @@
 			tb_store_waiting as w
 			ON 
 			i.store_code = w.store_code;
-		
 	</select>
 	
 	

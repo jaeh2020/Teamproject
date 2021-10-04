@@ -20,11 +20,16 @@ public class BookService {
 
 	 private final BookMapper bookMapper;
 	
-	  
 	 @Autowired
 	 public BookService(BookMapper bookMapper) { 
 	  this.bookMapper = bookMapper;
 		  
+	 }
+	 
+	 
+	 //결제예정 그룹코드 자동증가
+	 public String getnewOGroupCode() {
+		 return bookMapper.getnewOGroupCode();
 	 }
 	 
 

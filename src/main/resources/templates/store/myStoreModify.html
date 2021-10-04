@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+	
+		<!-- css -->
+<style type= "text/css">
+	tbody tr td{
+		color: #505050;
+	}
+	.btn-primary{
+		display : block;
+		float : right;
+		color: #fff;
+		margin: 5px;
+	}
+</style>
+
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	
+
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card card-outline-primary">
+				<div class="card-title">
+					<div class="card-header">
+	                	<h4 class="m-b-0 text-white">나의매장 정보 수정</h4>
+	                </div>
+				</div>
+				<form id="myStoreModifyForm" th:action="@{/store/myStoreModify}" method="post">
+					<div class="card-body">
+						<div class="basic-form">
+							<th:block th:if="${#lists.size(storeList) > 0}" th:each="s : ${storeList}">
+								<div class="form-group">
+									<input type="hidden" name="storeCode" class="form-control" th:value="${s.storeCode}" readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label>매장명</label>
+									<input type="text" name="storeName" class="form-control" th:value="${s.storeName}">
+								</div>
+								<div class="form-group">
+									<label>아이디</label>
+									<input type="text" name="bizId" class="form-control" th:value="${s.bizId}" readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label>전화번호</label>
+									<input type="text" name="storePhone" class="form-control" th:value="${s.storePhone}">
+									<small class="form-control-feedback" style="color: red;"> 000-000-0000 형태로 작성.</small>
+								</div>
+								<div class="form-group">
+									<label>주소</label>
+									<input type="text" name="storeLocation" class="form-control" th:value="${s.storeLocation}">
+								</div>
+								<div class="form-group">
+									<label>영업시간</label>
+									<input type="text" name="storeTime" class="form-control" th:value="${s.storeTime}">
+									<small class="form-control-feedback" style="color: red;"> 00:00 ~ 00:00 형태로 작성. 0시~23시 기준 </small>
+								</div>
+								<div class="form-group">
+									<label>휴일</label>
+									<input type="text" name="storeHoliday" class="form-control" th:value="${s.storeHoliday}">
+									<small class="form-control-feedback" style="color: red;"> 자유형식으로 작성. </small>
+								</div>
+								<div class="form-group">
+									<label>매장평가단 동의여부</label>
+									
+									<th:block th:if="${s.storeTasteAgree == 'Y'}">
+										<select class="form-control" id="selectTasteAgree" name="storeTasteAgree">
+			                                      <option th:text="Y" th:value="Y" selected></option>
+			                                      <option th:text="N" th:value="N"></option>
+			                             </select>
+		                            </th:block>
+									<th:block th:unless="${s.storeTasteAgree == 'Y'}">
+										<select class="form-control" id="selectTasteAgree" name="storeTasteAgree">
+			                                      <!-- <option value=""> : : : 선택  : : : </option> -->
+			                                      <option th:text="Y" th:value="Y"></option>
+			                                      <option th:text="N" th:value="N" selected></option>
+			                            </select>
+		                            </th:block>
+		                            
+								</div>
+								<div class="form-group">
+									<label>매장노출여부</label>
+									
+									<th:block th:if="${s.storeExposAgree == 'Y'}">
+										<select class="form-control" id="selectExAgree" name="storeExposAgree">
+			                                      <option th:text="Y" th:value="Y" selected></option>
+			                                      <option th:text="N" th:value="N"></option>
+			                             </select>
+		                            </th:block>
+									<th:block th:unless="${s.storeExposAgree == 'Y'}">
+										<select class="form-control" id="selectExAgree" name="storeExposAgree">
+			                                      <!-- <option value=""> : : : 선택  : : : </option> -->
+			                                      <option th:text="Y" th:value="Y"></option>
+			                                      <option th:text="N" th:value="N" selected></option>
+			                            </select>
+		                            </th:block>
+		                             
+								</div>
+								<div class="form-group">
+									<button type="submit" id="modifyMyStoreBtn" class="btn btn-primary btn-flat m-b-10">수정</button>
+								</div>
+							</th:block>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	
+	
+	
+</th:block>					
+					
+<!--Custom JavaScript -->
+<th:block layout:fragment="customJsLib">
+	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+    
+    <script type="text/javascript">
+    
+   	/* 유효성검사 */ 
+	$(function(){
+			$('#modifyMyStoreBtn').click(function(){
+				
+				var storeTasteAgree = $('[name=storeTasteAgree]');
+				var storeExposAgree = $('[name=storeExposAgree]');
+				
+				if(storeTasteAgree.val().trim() == ''){
+					alert('매장평가단동의여부를 선택해주세요.');
+					return false;
+					
+				}else if(storeExposAgree.val().trim() == ''){
+					alert('매장노출여부를 선택해주세요 .');
+					return false;
+					
+				}
+				$('#myStoreModifyForm').submit();	
+			});
+		});
+	</script>
+
+</th:block>
+</body>
+</html>

@@ -30,7 +30,7 @@
 							<tr th:if="${boardList ne null and #lists.size(boardList) > 0}" th:each=" b : ${boardList}">
 								<td th:text="${b.boardNum}"></td>
 								<td>
-									<a th:href="@{/board/boardView(boardNum=${b.boardNum})}"  th:text="${b.boardTitle}"></a>
+									<a th:href="@{/board/boardView(boardNum=${b.boardNum})}"  th:text="${b.boardTitle}" id="boardSecretHref"></a>
 								</td>
 								<td>
 									<a href="javascript:void(0)" class="memberInfoSearch" th:text="${b.memberId}"></a>
@@ -47,7 +47,7 @@
 					</div>
 					<div class="pull-left">
 						<button type="button" class="btn btn-warning btn-flat testBtn"  style="margin-top: 15px; ">권한설정</button>
-						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -59,6 +59,17 @@
 
 <script type="text/javascript">
 												
+    $(function(){
+    	var boardSecret = '0';
+    	
+    	if(boardSecret == 0){
+	    	$('#boardSecretHref').removeClass();
+    		
+    	}
+    	
+    });
+    
+    
     $(function(){
     	
     	var loginLevel = 'admin';
@@ -74,7 +85,6 @@
 	    		loginLevel = 'admin';
     		}
     		
-    		console.log(' 권한 : ' + loginLevel)
     	});
     	
     	
