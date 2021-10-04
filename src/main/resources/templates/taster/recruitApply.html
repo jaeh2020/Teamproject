@@ -119,12 +119,12 @@
 									<label class="col-lg-4 col-form-label" for="val-website">분석 요청 항목 <span class="text-danger">*</span><p><code class="m-b-14 f-s-11">설문항목을 먼저 선택해주세요.</code></p></label>
 									<div class="col-lg-6">
 										<label class="css-control css-control-primary css-checkbox specialCheck">
-	                                		<input type="checkbox" class="css-control-input" name="spacialSurveyCate" id="notSelectSpecial" th:value="0">
+	                                		<input type="checkbox" class="css-control-input" name="specialSurveyCate" id="notSelectSpecial" th:value="0">
 	                                      	<span class="css-control-indicator"></span> 선택안함
 		                                </label>
 										<th:block th:each="q :${qCateList}">
 		                                	<label class="css-control css-control-primary css-checkbox specialCheck">
-		                                		<input type="checkbox" class="css-control-input" name="spacialSurveyCate" th:value="${q.cateCode}" disabled="disabled">
+		                                		<input type="checkbox" class="css-control-input" name="specialSurveyCate" th:value="${q.cateCode}" disabled="disabled">
 		                                      	<span class="css-control-indicator"></span> [[${q.cateName}]]
 		                                  	</label>
 		                              	</th:block>
@@ -157,7 +157,7 @@
 			var recruitNum = $('#recruitNum');
 			var endDate = $('#endDate');
 			var surveyCateList = $('[name=checkSurveyCate]');
-			var specialCateList = $('[name=spacialSurveyCate]');
+			var specialCateList = $('[name=cateCode]');
 			
 			
 			//연령대 선택 - 모든 연령대 이벤트
