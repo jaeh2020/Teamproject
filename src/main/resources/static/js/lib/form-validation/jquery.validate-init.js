@@ -72,19 +72,19 @@ var form_validation = function() {
                     "val-terms": {
                         required: !0
                     },
-                    "selectStore": {
+                    "storeCode": {
                     	required: !0
                     },
-                    "selectMenu" : {
+                   /* "menuCode" : {
                     	required: !0
-                    },
-                    "noticeTitle" : {
+                    },*/
+                    "recruitTitle" : {
                     	required: !0
                     },
                     "surveyTitle" : {
                     	required: !0
                     },
-                    "ageCheck" : {
+                    "ageCodeList" : {
                     	required: !0
                     },
                     "recruitNum" : {
@@ -94,10 +94,10 @@ var form_validation = function() {
                     "endDate" : {
                     	required: !0
                     },
-                    "checkSurveyCate" : {
+                    "cateList" : {
                     	required: !0
                     },
-                    "spacialSurveyCate" : {
+                    "specialCateList" : {
                     	required: !0
                     }
                 },
@@ -128,19 +128,18 @@ var form_validation = function() {
                     "val-range": "Please enter a number between 1 and 5!",
                     "val-terms": "You must agree to the service terms!",
                     
-                    "selectStore": "매장을 선택해주세요!",
-                    "selectMenu" :"메뉴를 선택해주세요!",
-                    "selectStore": "매장을 선택해주세요!",
-                    "noticeTitle": "공고명을 입력해주세요!",
+                    "storeCode": "매장을 선택해주세요!",
+                 /*   "menuCode" :"메뉴를 선택해주세요!",*/
+                    "recruitTitle": "공고명을 입력해주세요!",
                     "surveyTitle": "설문조사 제목을 입력해주세요!",
-                    "ageCheck": "설문 대상 연령대를 선택해주세요!",
+                    "ageCodeList": "설문 대상 연령대를 선택해주세요!",
                     "recruitNum": {
                     	 required: "모집 인원을 입력해주세요!",
                     	 number: "숫자만 입력해주세요!"
                     },
                     "endDate": "모집 기한을 선택해주세요!",
-                    "checkSurveyCate": "설문항목을 선택해주세요!",
-                    "spacialSurveyCate": "분석항목을 선택해주세요!",
+                    "cateList": "설문항목을 선택해주세요!",
+                    "specialCateList": "분석항목을 선택해주세요!",
                 }
             })
         }

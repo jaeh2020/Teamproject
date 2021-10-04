@@ -13,11 +13,12 @@ public class RecruitTasterByBiz {
 	private String adminId;
 	private String stateCode;
 	private String requestTime;
-	private Menu menuCode;
+	private String menuCode;
 	private List<String> ageCodeList;
-	private List<QuestionCate> specialCateList;
-	private List<QuestionCate> cateList;
-	private Store StoreInfo;
+	private List<String> specialCateList;
+	private List<String> cateList;
+	private String storeCode;
+
 	
 	public String getRecruitTBizCode() {
 		return recruitTBizCode;
@@ -79,10 +80,12 @@ public class RecruitTasterByBiz {
 	public void setRequestTime(String requestTime) {
 		this.requestTime = requestTime;
 	}
-	public Menu getMenuCode() {
+
+	public String getMenuCode() {
 		return menuCode;
 	}
-	public void setMenuCode(Menu menuCode) {
+	public void setMenuCode(String menuCode) {
+
 		this.menuCode = menuCode;
 	}
 	public List<String> getAgeCodeList() {
@@ -91,23 +94,24 @@ public class RecruitTasterByBiz {
 	public void setAgeCodeList(List<String> ageCodeList) {
 		this.ageCodeList = ageCodeList;
 	}
-	public List<QuestionCate> getSpecialCateList() {
+
+	public List<String> getSpecialCateList() {
 		return specialCateList;
 	}
-	public void setSpecialCateList(List<QuestionCate> specialCateList) {
+	public void setSpecialCateList(List<String> specialCateList) {
 		this.specialCateList = specialCateList;
 	}
-	public List<QuestionCate> getCateList() {
+	public List<String> getCateList() {
 		return cateList;
 	}
-	public void setCateList(List<QuestionCate> cateList) {
+	public void setCateList(List<String> cateList) {
 		this.cateList = cateList;
 	}
-	public Store getStoreInfo() {
-		return StoreInfo;
+	public String getStoreCode() {
+		return storeCode;
 	}
-	public void setStoreInfo(Store storeInfo) {
-		StoreInfo = storeInfo;
+	public void setStoreCode(String storeCode) {
+		this.storeCode = storeCode;
 	}
 	@Override
 	public String toString() {
@@ -116,8 +120,9 @@ public class RecruitTasterByBiz {
 				+ ", recruitNumNow=" + recruitNumNow + ", recruitFinTime=" + recruitFinTime + ", adminId=" + adminId
 				+ ", stateCode=" + stateCode + ", requestTime=" + requestTime + ", menuCode=" + menuCode
 				+ ", ageCodeList=" + ageCodeList + ", specialCateList=" + specialCateList + ", cateList=" + cateList
-				+ ", StoreInfo=" + StoreInfo + "]";
+				+ ", storeCode=" + storeCode + "]";
 	}
-	
+
+
 	
 }

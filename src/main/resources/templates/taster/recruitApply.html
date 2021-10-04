@@ -31,30 +31,30 @@
 	                  <div class="form-validation">
 	                      <form class="form-valide" id="recruitApplyForm" th:action="@{/taster/recruitApplyProcess}" method="post">
 	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label" for="selectStore">요청매장 <span class="text-danger">*</span></label>
+	                              <label class="col-lg-4 col-form-label" for="recruitTBizCode">요청매장 <span class="text-danger">*</span></label>
 	                              <div class="col-lg-6">
-	                                  <select class="form-control" id="selectStore" name="selectStore">
+	                                  <select class="form-control" id="storeCode" name="storeCode">
 	                                      <option value=""> : : : 매장 목록  : : : </option>
 	                                      <option th:each="s : ${storeList}" th:text="${s.storeName}" th:value="${s.storeCode}"></option>
 	                                  </select>
 	                              </div>
 	                          </div>
 	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label" for="selectMenu">평가 메뉴 <span class="text-danger">*</span></label>
+	                              <label class="col-lg-4 col-form-label" for="menuCode">평가 메뉴 <span class="text-danger">*</span></label>
 	                              <div class="col-lg-6">
-	                                  <select class="form-control" id="selectMenu" name="selectMenu">
+	                                  <select class="form-control" id="menuCode" name="menuCode">
 	                                      <option value=""> : : : 메뉴 목록  : : : </option>
 	                                  </select>
 	                              	<label class="css-control css-control-primary css-checkbox" for="newMenuCheck">
                                           <span class="text-muted m-b-15 f-s-12">등록되지 않은 신메뉴일 경우 체크</span>
-                                          <input type="checkbox" class="css-control-input" id="newMenuCheck" name="newMenuCheck">
+                                          <input type="checkbox" class="css-control-input" id="newMenuCheck" name="menuCode">
 	                                </label>
 								</div>
 	                          </div>
 	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label" for="noticeTitle">모집 공고 제목 <span class="text-danger">*</span></label>
+	                              <label class="col-lg-4 col-form-label" for="recruitTitle">모집 공고 제목 <span class="text-danger">*</span></label>
 	                              <div class="col-lg-6">
-	                                  <input type="text" class="form-control" id="noticeTitle" name="noticeTitle" placeholder="공고명을 입력하세요..">
+	                                  <input type="text" class="form-control" id="recruitTitle" name="recruitTitle" placeholder="공고명을 입력하세요..">
 	                              </div>
 	                          </div>
 	                          <div class="form-group row">
@@ -67,27 +67,27 @@
 	                              <label class="col-lg-4 col-form-label" for="val-checkbox">모집 연령대 <span class="text-danger">*</span></label>
 	                              <div class="col-lg-6">
 	                              	<label class="css-control css-control-primary css-checkbox" for="age10">
-	                                  	<input type="checkbox" class="css-control-input" id="age10" name="ageCheck" value="1">
+	                                  	<input type="checkbox" class="css-control-input" id="age10" name="ageCodeList" value="1">
 	                                      <span class="css-control-indicator"></span> 10대
 	                                  </label>
 	                                  <label class="css-control css-control-primary css-checkbox" for="age20">
-	                                  	<input type="checkbox" class="css-control-input" id="age20" name="ageCheck" value="2">
+	                                  	<input type="checkbox" class="css-control-input" id="age20" name="ageCodeList" value="2">
 	                                      <span class="css-control-indicator"></span> 20대
 	                                  </label>
 	                                  <label class="css-control css-control-primary css-checkbox" for="age30">
-	                                  	<input type="checkbox" class="css-control-input" id="age30" name="ageCheck" value="3">
+	                                  	<input type="checkbox" class="css-control-input" id="age30" name="ageCodeList" value="3">
 	                                      <span class="css-control-indicator"></span> 30대
 	                                  </label>
 	                                  <label class="css-control css-control-primary css-checkbox" for="age40">
-	                                  	<input type="checkbox" class="css-control-input" id="age40" name="ageCheck" value="4">
+	                                  	<input type="checkbox" class="css-control-input" id="age40" name="ageCodeList" value="4">
 	                                      <span class="css-control-indicator"></span> 40대
 	                                  </label> 
 	                                  <label class="css-control css-control-primary css-checkbox" for="age50">
-	                                  	<input type="checkbox" class="css-control-input" id="age50" name="ageCheck" value="5">
+	                                  	<input type="checkbox" class="css-control-input" id="age50" name="ageCodeList" value="5">
 	                                      <span class="css-control-indicator"></span> 50대 이상
 	                                  </label>
 	                                   <label class="css-control css-control-primary css-checkbox" for="allAge">
-	                                  	<input type="checkbox" class="css-control-input" id="allAge" name="ageCheck" value="0">
+	                                  	<input type="checkbox" class="css-control-input" id="allAge" name="ageCodeList" value="6">
 	                                      <span class="css-control-indicator"></span> 모든 연령대
 	                                  </label>
 	                              </div>
@@ -107,9 +107,11 @@
 	                          <div class="form-group row">
 	                              <label class="col-lg-4 col-form-label" >설문 항목 <span class="text-danger">*</span></label>
 	                              <div class="col-lg-6">
+	                              	<input type="checkbox" class="css-control-input"  name="cateList" id="selectAllCate">
+	                                <span class="css-control-indicator"></span> 전체선택
 	                              	<th:block th:each="q :${qCateList}">
 	                               		<label class="css-control css-control-primary css-checkbox" >
-	                                   		<input type="checkbox" class="css-control-input"  name="checkSurveyCate" th:value="${q.cateCode}">
+	                                   		<input type="checkbox" class="css-control-input"  name="cateList" th:value="${q.cateCode}">
 	                                        <span class="css-control-indicator"></span> [[${q.cateName}]]
 	                                    </label>
 	                                  </th:block>        
@@ -119,12 +121,15 @@
 									<label class="col-lg-4 col-form-label" for="val-website">분석 요청 항목 <span class="text-danger">*</span><p><code class="m-b-14 f-s-11">설문항목을 먼저 선택해주세요.</code></p></label>
 									<div class="col-lg-6">
 										<label class="css-control css-control-primary css-checkbox specialCheck">
-	                                		<input type="checkbox" class="css-control-input" name="specialSurveyCate" id="notSelectSpecial" th:value="0">
+
+	                                		<input type="checkbox" class="css-control-input" name="specialCateList" id="notSelectSpecial" th:value="noSpecial">
 	                                      	<span class="css-control-indicator"></span> 선택안함
 		                                </label>
 										<th:block th:each="q :${qCateList}">
 		                                	<label class="css-control css-control-primary css-checkbox specialCheck">
-		                                		<input type="checkbox" class="css-control-input" name="specialSurveyCate" th:value="${q.cateCode}" disabled="disabled">
+
+		                                		<input type="checkbox" class="css-control-input" name="specialCateList" th:value="${q.cateCode}" disabled="disabled">
+
 		                                      	<span class="css-control-indicator"></span> [[${q.cateName}]]
 		                                  	</label>
 		                              	</th:block>
@@ -147,19 +152,25 @@
  <!--Custom JavaScript -->
 <th:block layout:fragment="customJsLib">
 	<script type="text/javascript">
+	
+	/*
+	1. 메뉴체크/신메뉴 체크 validation 진행 필요.
+	*/
+	
 			var form = $('#recruitApplyForm');
-			var selectStore = $('#selectStore');
-			var selectMenu = $('#selectMenu');
+			var selectStore = $('#storeCode');
+			var selectMenu = $('#menuCode');
 			var newMenuCheck = $('#newMenuCheck');
-			var noticeTitle = $('#noticeTitle');
+			var recruitTitle = $('#recruitTitle');
 			var surveyTitle = $('#surveyTitle');
-			var ageCheckList = $('[name=ageCheck]');
+			var ageCodeList = $('[name=ageCodeList]');
 			var recruitNum = $('#recruitNum');
 			var endDate = $('#endDate');
-			var surveyCateList = $('[name=checkSurveyCate]');
-			var specialCateList = $('[name=cateCode]');
-			
-			
+
+			var surveyCateList = $('[name=cateList]');
+			var specialCateList = $('[name=specialCateList]');
+		
+
 			//연령대 선택 - 모든 연령대 이벤트
 			
 			$(function(){
@@ -170,11 +181,11 @@
 						if($(this).is(":checked") == true){
 							
 							if(i == 5) break;
-							ageCheckList.eq(i).attr('disabled','true');
+							ageCodeList.eq(i).attr('disabled','true');
 						
 						}else{
 							
-							ageCheckList.eq(i).removeAttr('disabled');
+							ageCodeList.eq(i).removeAttr('disabled');
 						}
 					}
 				});
@@ -183,13 +194,14 @@
 			//분석항목 '선택안함' 이벤트
 			
 			$(function(){
-				$('#notSelectSpecial').on("change", function(){
+				$('#notSelectSpecial').on("click", function(){
 					
 					var checked = $(this).is(":checked");
 					
 					if(checked == true){
 						
-						for(var i = 1; i < specialCateList.length; i++){
+						for(var i = 0; i < specialCateList.length; i++){
+							if(specialCateList.eq(i).val()=='noSpecial') continue;
 							specialCateList.eq(i).attr('disabled','true');
 							
 						}
@@ -210,11 +222,57 @@
 				});
 			});
 			
+			
+			
 			//설문항목 체크박스 이벤트
 			
 			$(function(){
 				surveyCateList.on("change", function(){
+					var checked = $(this).is(":checked");
 					
+					for(var i = 0; i < specialCateList.length; i++){
+						
+						if(specialCateList.eq(0).is(":checked")== true){
+							console.log('조건01');
+							break;
+							
+						}else{
+							if($(this).val() == specialCateList.eq(i).attr('value')){
+								console.log('조건02');
+								if(checked == true){	
+									console.log('조건02 - 1');
+									specialCateList.eq(i).removeAttr('disabled');
+									console.log('조건02 - 1 완료');
+								}else if(checked == false){
+									console.log('조건02 - 2');
+									specialCateList.eq(i).attr('disabled','true');
+								}
+							}
+						}
+					}
+
+					//설문항목 전체체크 이벤트
+					if($('#selectAllCate').is(":checked") == true){
+						for(var i = 0 ; i < surveyCateList.length; i++){
+							surveyCateList.eq(i).attr('checked', 'true');
+							for(var j = 0; j < specialCateList.length; j++){
+								specialCateList.eq(j).removeAttr('disabled');
+							}
+						}
+					}else if($('#selectAllCate').is(":checked") == false){
+						for(var i = 0 ; i < surveyCateList.length; i++){
+							surveyCateList.eq(i).removeAttr('checked');
+							for(var j = 0; j < specialCateList.length; j++){
+								specialCateList.eq(j).attr('disabled','true');
+							}
+						}
+					}
+				});	
+			});
+			/* $(function(){
+				surveyCateList.on("click", function(){
+					
+				
 					var checked = $(this).is(":checked");
 					
 					for(var i = 0; i < specialCateList.length; i++){
@@ -233,16 +291,16 @@
 							}
 						}
 					}
+					
 				});
-			});
 			
+			}); */
 			//신메뉴 체크박스 이벤트
 			
 			$(function(){
 				newMenuCheck.on("change", function(){
 					
 					if(newMenuCheck.is(":checked") == true){
-						newMenuCheck.val('newMenu');
 						selectMenu.attr('disabled', 'true');
 						
 					}else if(newMenuCheck.is(":checked") == false){
