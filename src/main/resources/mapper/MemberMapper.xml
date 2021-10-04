@@ -5,8 +5,16 @@
     
 <mapper namespace="amdn.anywhere.mapper.MemberMapper">
 
+	<select id="getFoodMainList" resultType="FoodMainCate">
+		SELECT 
+			main_cate_code		AS mainCateCode
+			, main_cate_name	AS mainCateName
+		FROM 
+			tb_food_main_cate;
+	</select>
+
 	<!-- 소비자, 소상공인 회원 등록 -->
-	<insert id="addMember02" parameterType="Member">
+	<insert id="addMember02">
 		INSERT INTO tb_member
 			(member_id
 			, member_pw
