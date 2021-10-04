@@ -37,11 +37,9 @@
 	
 	<resultMap type="Menu" id="menuResultMap">
 		<result property="menuCode"			column="menu_code"/>
-		<result property="bizCode"			column="biz_code"/>
 		<result property="bizId"			column="biz_id"/>
 		<result property="storeCode"		column="store_code"/>
 		<result property="mainCateCode"		column="main_cate_code"/>
-		<result property="mid_cate_code"	column="mid_cate_code"/>
 		<result property="menuCateCode"		column="menu_cate_code"/>
 		<result property="menuName"			column="menu_name"/>
 		<result property="menuPrice"		column="menu_price"/>
@@ -77,7 +75,7 @@
 
 	
 	
-<!-- 결제예정 그룹코드 자동증가  getnewOGroupCode-->
+<!-- 결제예정 그룹코드 자동증가 -->
 <select id="getnewOGroupCode" resultType="String">
 	SELECT
 		CASE
@@ -255,17 +253,5 @@
 		FROM
 		   tb_book;
 	</select>
-	
-	
-<!-- 매장코드 조회 -->	
-	<!-- <select id="getStoreCode" parameterType="String" resultType="Store">
-		SELECT 
-			store_code
-		FROM	
-			tb_store_info
-		WHERE 
-			store_name = #{storeName};
-	</select>
- -->
 
 </mapper>
