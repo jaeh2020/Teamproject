@@ -18,6 +18,7 @@ public class RecruitTasterByBiz {
 	private List<String> specialCateList;
 	private List<String> cateList;
 	private String storeCode;
+
 	
 	public String getRecruitTBizCode() {
 		return recruitTBizCode;
@@ -79,10 +80,12 @@ public class RecruitTasterByBiz {
 	public void setRequestTime(String requestTime) {
 		this.requestTime = requestTime;
 	}
+
 	public String getMenuCode() {
 		return menuCode;
 	}
 	public void setMenuCode(String menuCode) {
+
 		this.menuCode = menuCode;
 	}
 	public List<String> getAgeCodeList() {
@@ -91,6 +94,7 @@ public class RecruitTasterByBiz {
 	public void setAgeCodeList(List<String> ageCodeList) {
 		this.ageCodeList = ageCodeList;
 	}
+
 	public List<String> getSpecialCateList() {
 		return specialCateList;
 	}
@@ -118,6 +122,7 @@ public class RecruitTasterByBiz {
 				+ ", ageCodeList=" + ageCodeList + ", specialCateList=" + specialCateList + ", cateList=" + cateList
 				+ ", storeCode=" + storeCode + "]";
 	}
+
 
 	
 }
