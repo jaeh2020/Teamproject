@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="~{layout/default}">
 <th:block layout:fragment="customCss">
 	<style type="text/css">
 	</style>
@@ -107,7 +107,7 @@
 	                          <div class="form-group row">
 	                              <label class="col-lg-4 col-form-label" >설문 항목 <span class="text-danger">*</span></label>
 	                              <div class="col-lg-6">
-	                              	<input type="checkbox" class="css-control-input"  name="cateList" id="selectAllCate">
+	                              	<input type="checkbox" class="css-control-input"  name="cateList" id="selectAllCate" value="all">
 	                                <span class="css-control-indicator"></span> 전체선택
 	                              	<th:block th:each="q :${qCateList}">
 	                               		<label class="css-control css-control-primary css-checkbox" >
@@ -122,7 +122,7 @@
 									<div class="col-lg-6">
 										<label class="css-control css-control-primary css-checkbox specialCheck">
 
-	                                		<input type="checkbox" class="css-control-input" name="specialCateList" id="notSelectSpecial" th:value="noSpecial">
+	                                		<input type="checkbox" class="css-control-input" name="specialCateList" id="notSelectSpecial" value="noSpecial">
 	                                      	<span class="css-control-indicator"></span> 선택안함
 		                                </label>
 										<th:block th:each="q :${qCateList}">
@@ -166,7 +166,7 @@
 			var ageCodeList = $('[name=ageCodeList]');
 			var recruitNum = $('#recruitNum');
 			var endDate = $('#endDate');
-
+			var selectAllCate = $('#selectAllCate');
 			var surveyCateList = $('[name=cateList]');
 			var specialCateList = $('[name=specialCateList]');
 		
@@ -176,7 +176,7 @@
 			$(function(){
 				$('#allAge').on("change", function(){
 					
-					for(var i = 0; i < ageCheckList.length; i++){
+					for(var i = 0; i < ageCodeList.length; i++){
 						
 						if($(this).is(":checked") == true){
 							
@@ -191,26 +191,20 @@
 				});
 			});
 			
-			//분석항목 '선택안함' 이벤트
 			
 			$(function(){
 				$('#notSelectSpecial').on("click", function(){
 					
-					var checked = $(this).is(":checked");
+					var checked = $(this).prop("checked");
 					
-					if(checked == true){
-						
-						for(var i = 0; i < specialCateList.length; i++){
-							if(specialCateList.eq(i).val()=='noSpecial') continue;
+					if(checked){
+						for(var i = 1; i < specialCateList.length; i++){
 							specialCateList.eq(i).attr('disabled','true');
-							
 						}
-					}else {
+					}else{
 						
 						for(var i = 0 ; i < surveyCateList.length; i++){
-							
-							 if(surveyCateList.eq(i).is(":checked") == true){
-								 
+							 if(surveyCateList.eq(i).prop("checked")){
 								 for(var j = 0; j < specialCateList.length; j++){
 									 if(specialCateList.eq(j).val() == surveyCateList.eq(i).val()){
 										 specialCateList.eq(j).removeAttr('disabled');
@@ -228,84 +222,57 @@
 			
 			$(function(){
 				surveyCateList.on("change", function(){
-					var checked = $(this).is(":checked");
 					
-					for(var i = 0; i < specialCateList.length; i++){
-						
-						if(specialCateList.eq(0).is(":checked")== true){
-							console.log('조건01');
-							break;
-							
+					var checked = $(this).prop("checked");
+					
+					if($(this).val() == 'all'){
+						//설문항목 전체체크 이벤트
+						if(selectAllCate.prop("checked")){
+							surveyCateList.prop("checked", true);
+							specialCateList.prop("checked", false);
+							specialCateList.removeAttr('disabled');
 						}else{
-							if($(this).val() == specialCateList.eq(i).attr('value')){
-								console.log('조건02');
-								if(checked == true){	
-									console.log('조건02 - 1');
-									specialCateList.eq(i).removeAttr('disabled');
-									console.log('조건02 - 1 완료');
-								}else if(checked == false){
-									console.log('조건02 - 2');
-									specialCateList.eq(i).attr('disabled','true');
+							surveyCateList.prop("checked", false);
+							specialCateList.prop("checked", false);
+							specialCateList.attr('disabled','true');
+						}
+					}else{
+						selectAllCate.prop("checked", false);
+						for(var i = 0; i < specialCateList.length; i++){
+							if(specialCateList.eq(0).prop("checked")){
+								break;
+							}else{
+								if($(this).val() == specialCateList.eq(i).attr('value')){
+									if(checked){	
+										specialCateList.eq(i).removeAttr('disabled');
+									}else{
+										specialCateList.eq(i).attr('disabled','true');
+									}
 								}
 							}
 						}
-					}
-
-					//설문항목 전체체크 이벤트
-					if($('#selectAllCate').is(":checked") == true){
-						for(var i = 0 ; i < surveyCateList.length; i++){
-							surveyCateList.eq(i).attr('checked', 'true');
-							for(var j = 0; j < specialCateList.length; j++){
-								specialCateList.eq(j).removeAttr('disabled');
-							}
-						}
-					}else if($('#selectAllCate').is(":checked") == false){
-						for(var i = 0 ; i < surveyCateList.length; i++){
-							surveyCateList.eq(i).removeAttr('checked');
-							for(var j = 0; j < specialCateList.length; j++){
-								specialCateList.eq(j).attr('disabled','true');
-							}
-						}
+						
 					}
 				});	
 			});
-			/* $(function(){
-				surveyCateList.on("click", function(){
-					
-				
-					var checked = $(this).is(":checked");
-					
-					for(var i = 0; i < specialCateList.length; i++){
-						
-						if(specialCateList.eq(0).is(":checked")== true){
-							break;
-							
-						}else{
-							if($(this).val() == specialCateList.eq(i).attr('value')){
-								
-								if(checked == true){	
-									specialCateList.eq(i).removeAttr('disabled');
-								}else if(checked == false){
-									specialCateList.eq(i).attr('disabled','true');
-								}
-							}
-						}
-					}
-					
-				});
 			
-			}); */
+			$(function(){
+				selectMenu.on("click", function(){
+					if(selectStore.val() == null || selectStore.val() == ''){
+						alert('매장을 먼저 선택해주세요.');
+					}
+				});
+			});
+			
 			//신메뉴 체크박스 이벤트
 			
 			$(function(){
 				newMenuCheck.on("change", function(){
-					
-					if(newMenuCheck.is(":checked") == true){
-						selectMenu.attr('disabled', 'true');
-						
-					}else if(newMenuCheck.is(":checked") == false){
+					if(newMenuCheck.prop("checked")){
+						selectMenu.attr('disabled', 'true');			
+					}else {
 						selectMenu.removeAttr('disabled');
-					}
+					}						
 				});
 			});
 	

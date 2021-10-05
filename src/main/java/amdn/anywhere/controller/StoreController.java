@@ -58,7 +58,6 @@ public class StoreController {
 	public String storeManage(Model model
 							 ,HttpSession session) {
 		
-	
 		//세션아이디(로그인되어있는 아이디)
 		String bizId = (String) session.getAttribute("SID");
 		
@@ -116,7 +115,6 @@ public class StoreController {
 	public String myStoreManage(Model model
 							   ,HttpSession session) {
 		
-
 		//세션아이디(로그인되어있는 아이디)
 		String bizId = (String) session.getAttribute("SID");
 		

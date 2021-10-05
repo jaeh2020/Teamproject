@@ -5,7 +5,7 @@
     
 <mapper namespace="amdn.anywhere.mapper.StoreMapper">
 
-<resultMap type="Store" id="storeResultMap">
+	<resultMap type="Store" id="storeResultMap">
 		<result property="storeCode"		column="store_code"/>
 		<result property="storeName"		column="store_name"/>
 		<result property="bizCode"			column="biz_code"/>
@@ -20,8 +20,14 @@
 		<result property="storePhoto"		column="store_photo"/>
 		<result property="storeTableNum"	column="store_table_num"/>
 		<result property="storeOccupancy"	column="store_occupancy"/>
+		<association property="foodmaincate" javaType="FoodMainCate">
+			<id property="mainCateCode"			column="main_cate_code"/>
+			<result property="mainCateName"		column="main_cate_name"/>
+		</association>
 	</resultMap>
-	
+
+
+
 	
 <!-- 나의 매장정보 수정처리 -->
 	<update id="modifyMyStore" parameterType="Store" >
@@ -67,6 +73,34 @@
 <!-- 나의 매장정보 리스트 조회 -->
 	<select id="getMyStoreList" resultMap="storeResultMap">
 		SELECT
+			s.biz_code
+			,s.biz_id
+			,s.main_cate_code
+			,s.store_code
+			,s.store_holiday
+			,s.store_location
+			,s.store_name
+			,s.store_occupancy
+			,s.store_phone
+			,s.store_table_num
+			,s.store_taste_agree
+			,s.store_expos_agree
+			,s.store_time
+			,f.main_cate_name
+		FROM
+			tb_store_info AS s
+			INNER join
+			tb_food_main_cate AS f
+			ON
+			s.main_cate_code = f.main_cate_code
+		WHERE
+			biz_id = #{bizId};
+	</select>
+	
+	
+<!-- 나의 매장정보 리스트 조회 -->
+	<!-- <select id="getMyStoreList" resultMap="storeResultMap">
+		SELECT
 			biz_code
 			,biz_id
 			,main_cate_code
@@ -84,7 +118,7 @@
 			tb_store_info
 		WHERE
 			biz_id = #{bizId};
-	</select>
+	</select> -->
 
 <!-- 매장 리스트 조회 -->
 	<select id="getStoreList" resultMap="storeResultMap">
