@@ -41,7 +41,8 @@
 					<label for="title" style="margin-top: 30px; font-weight:bold; display: block; ">파일첨부</label>
 					<input name="boardFile" type="file" style="outline: solid 1px #D5D5D5;" readonly="readonly" />
 				</div>
-				<h3 class="box-title m-t-40"></h3>
+				<div>
+					<form method="post" action="/reply/write">
 					<hr>
 						<div class="row">
 							<div class="col-md-12 ">
@@ -53,7 +54,8 @@
 							</div>
 						</div>
 						<hr>
-						
+					</form>
+				</div>
 				<div class="box-footer" style="margin-top: 20px;">
 						<a th:href="@{/board/boardList}" class="btn btn-primary listBtn" style="display: inline;">
 								<i class="fa fa-list"></i> 목록
@@ -76,7 +78,7 @@
    <script type="text/javascript">
    	$(function(){
    		var form = deleteForm;
-      		$('#baordDel').click(function(){
+      		$('#baordDelBtn').click(function(){
 			alert('정말 삭제하시겠습니까?')
 			form.submit();
       		 });

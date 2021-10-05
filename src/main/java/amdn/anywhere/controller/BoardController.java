@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.Board;
 import amdn.anywhere.domain.BoardCate;
+import amdn.anywhere.domain.BoardReply;
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.service.BoardService;
@@ -28,6 +29,8 @@ public class BoardController {
 	public BoardController(BoardService boardService) {
 		this.boardService = boardService;
 	}
+	
+	
 	
 	
 	
@@ -87,11 +90,14 @@ public class BoardController {
 		boardCnt = boardService.updateBoardCnt(boardNum);
 		//로그인 아이디 가져오기
 		String memberId = (String) session.getAttribute("SID");
+		//게시글 댓글 목록
+		List<BoardReply> boardCommentList = boardService.getBoardCommentList();
 			
 		model.addAttribute("title", "게시판 조회");
 		model.addAttribute("board", board);
 		model.addAttribute("boardCnt", boardCnt);
 		model.addAttribute("memberId", memberId);
+		model.addAttribute("boardCommentList", boardCommentList);
 		
 		
 		if(board.getMemberId().equals(memberId)) {
@@ -133,7 +139,7 @@ public class BoardController {
 	@PostMapping("/boardWrite")
 	public String boardWrite(Board board) {
 		System.out.println("====================");
-		System.out.println("커맨드객체 board : " + board);
+		System.out.println(" 커맨드객체 board : " + board);
 		System.out.println("====================");
 		
 		//게시글 자동증가 생성 후 insert

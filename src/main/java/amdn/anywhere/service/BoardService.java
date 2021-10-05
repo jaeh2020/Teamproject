@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import amdn.anywhere.domain.Board;
 import amdn.anywhere.domain.BoardCate;
+import amdn.anywhere.domain.BoardReply;
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.mapper.BoardMapper;
@@ -24,7 +25,19 @@ public class BoardService {
 		  this.boardMapper = boardMapper;
 	 }
 	  
-	 
+	 //게시글 댓글 자동증가 코드
+	  public String getNewBoardReplyNum() {
+		  return boardMapper.getNewBoardReplyNum();
+	  }
+	  
+	  
+	  //게시판 댓글 목록
+	  public List<BoardReply> getBoardCommentList(){
+		  List<BoardReply> boardCommentList = boardMapper.getBoardCommentList();
+		  
+		  return boardCommentList;
+	  }
+	  
 	  //게시판 조회 수 증가
 	
 	  public int updateBoardCnt(String boardNum) {

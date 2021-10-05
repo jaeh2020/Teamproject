@@ -26,7 +26,41 @@
 		<result property="memberEmail"		column="member_email"></result>
 		<result property="memberRegTime"		column="member_reg_time"></result>
 	</resultMap>
+	<resultMap type="BoardReply" id="boardCommentMap">
+		<result property="boardReplyCode"		column="b_reply_code"></result>
+		<result property="boardNum"		column="board_num"></result>
+		<result property="boardReplyContents"		column="b_reply_contents"></result>
+		<result property="boardReplyTime"		column="b_reply_time"></result>
+		<result property="memberId"		column="member_id"></result>
+	</resultMap>
 		
+	
+	
+	<!-- 게시글 댓글 자동증가 코드 -->
+	<select id="getNewBoardReplyNum" resultType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN 'b_re_001'
+			ELSE
+				CONCAT('b_re_', LPAD(MAX(CAST(SUBSTRING(b_reply_code,5,6)AS DECIMAL)+3),3,0))
+			END AS boardReplyCode
+		FROM
+		tb_board_reply;
+	</select>
+	
+	<!-- 게시글 댓글 조회 -->
+	<select id="getBoardCommentList" resultMap="boardCommentMap">
+			SELECT
+				b_reply_code
+				,board_num
+				,b_reply_contents
+				,b_reply_time
+				,member_id
+			FROM
+				tb_board_reply;
+		</select>
+	
+	
 	<!-- 게시판 조회 수 증가 -->
 	<update id="updateBoardCnt" parameterType="String">
 		UPDATE 
