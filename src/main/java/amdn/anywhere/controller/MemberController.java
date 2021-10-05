@@ -22,6 +22,14 @@ public class MemberController {
 		this.memberService = memberService;
 	}
 
+	@GetMapping("/member/addMember04")
+	public String addMember04(Model model) {
+		
+		model.addAttribute("title", "회원가입  〉 가입완료");
+		model.addAttribute("location", "회원가입  〉 가입완료");
+		return "/member/addMember04";
+	}
+	
 	@GetMapping("/member/addMember03")
 	public String addMember03(Model model) {
 		
