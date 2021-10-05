@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import amdn.anywhere.domain.Board;
 import amdn.anywhere.domain.BoardCate;
+import amdn.anywhere.domain.BoardReply;
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.Statement;
 
@@ -13,7 +14,14 @@ import amdn.anywhere.domain.Statement;
 public interface BoardMapper {
 	
 	
-	 //게시물 조회 수 증가
+	 
+	//게시글 댓글 자동증가 코드
+	public String getNewBoardReplyNum();
+	
+	//게시물 댓글 목록
+	public List<BoardReply> getBoardCommentList();
+	
+	//게시물 조회 수 증가
 	 public int updateBoardCnt(String boardNum); 
 	 
 	 //게시물 삭제 처리
