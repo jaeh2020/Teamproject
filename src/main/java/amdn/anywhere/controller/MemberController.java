@@ -26,6 +26,12 @@ public class MemberController {
 	public MemberController(MemberService memberService) {
 		this.memberService = memberService;
 	}
+	//로그아웃
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
 	//로그인
 	@PostMapping("/member/login")
 	public String login( @RequestParam(name = "memberId", required = false) String memberId
