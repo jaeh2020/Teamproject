@@ -74,7 +74,7 @@
 	            <div class="card bg-pink p-20">                         
 	                <div>
 		                 <h2 class="color-white">개인 회원</h2>
-		                 <a th:href="@{/member/addMember02}" class="btn btn-primary m-b-10 m-l-5"><b>회원가입</b></a>
+		                 <a th:href="@{/member/addMember02(levelCode=level_user)}" class="btn btn-primary m-b-10 m-l-5"><b>회원가입</b></a>
 	                </div>
 	                	<p class="color-white">개인회원 가입을 원하시면 선택해주세요.</p>
 	            </div>
@@ -83,7 +83,7 @@
 	            <div class="card bg-secondary p-20">
 	            	<div>
 		                 <h2 class="color-white">소상공인 회원</h2>
-		                 <a th:href="@{/member/addMember02}" class="btn btn-dark m-b-10 m-l-5"><b>회원가입</b></a>
+		                 <a th:href="@{/member/addMember02(levelCode=level_biz)}" class="btn btn-dark m-b-10 m-l-5"><b>회원가입</b></a>
 	                </div>
 	               		<p class="color-white">소상공인 사업자만 선택해주세요.</p>
 	            </div>

@@ -10,6 +10,9 @@ import amdn.anywhere.domain.Member;
 @Mapper
 public interface MemberMapper {
 
+	//회원 정보 조회
+	public Member getMemberInfoById(String memberId);
+	
 	//선호-비선호 카테고리 불러오기
 	public List<FoodMainCate> getFoodMainList();
 	
