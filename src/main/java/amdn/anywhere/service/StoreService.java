@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.mapper.StoreMapper;
@@ -20,6 +21,13 @@ public class StoreService {
 		this.storeMapper = storeMapper;
 	}
 	
+	//메뉴 대분류 조회
+		public List<FoodMainCate> getMainCate(){
+			List<FoodMainCate> mainCate = storeMapper.getMainCate();
+			
+		return mainCate;
+	}
+
 	//나의매장 메뉴리스트 조회
 	public Map<String, Object> getMyMenuList(String bizId){
 			
@@ -61,7 +69,7 @@ public class StoreService {
 		
 		return paramMap;
 	}
-	
+
 	
 	//매장리스트조회
 	public List<Store> getStoreList(){

@@ -73,13 +73,13 @@
 							<div class="form-group">
 								<label>메뉴대분류</label>
 								
-								<input type="text" class="form-control" th:value="${s.foodmaincate.mainCateName}" readonly="readonly">
+								<input type="text" class="form-control" th:value="${s.foodMainCate.mainCateName}" readonly="readonly">
 								<small class="form-control-feedback" style="color: red;"> 메뉴 대분류 수정은 '메뉴관리'를 통해서 가능합니다. </small>
 							</div>
 							<div class="form-group">
 								<label>메뉴대분류2</label>
 								<th:block th:if="${#lists.size(storeList) > 0}" th:each="t : ${storeList2}">
-								<input type="text" class="form-control" th:value="${t.foodmaincate.mainCateName}" readonly="readonly">
+								<input type="text" class="form-control" th:value="${t.foodMainCate.mainCateName}" readonly="readonly">
 								<small class="form-control-feedback" style="color: red;"> 메뉴 대분류 수정은 '메뉴관리'를 통해서 가능합니다. </small>
 								</th:block>
 							</div>

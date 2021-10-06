@@ -49,7 +49,23 @@
 			<result property="menuCateName"			column="menu_cate_name"/>
 		</association>
 	</resultMap>
-
+	
+	<resultMap type="FoodMainCate" id="foodMainCateMap">
+		<result property="menuCode"				column="menu_code"/>
+		<result property="bizId"				column="biz_id"/>
+		<result property="storeCode"			column="store_code"/>
+	</resultMap>
+	
+	
+	
+	<!-- 메뉴 대분류 조회 getMainCate -->
+	<select id="getMainCate" resultMap="foodMainCateMap">
+		SELECT
+			main_cate_code
+			,main_cate_name
+		FROM
+	  		tb_food_main_cate;
+	</select>
 
 
 	
