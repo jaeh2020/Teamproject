@@ -16,6 +16,10 @@ public class MemberService {
 	public MemberService(MemberMapper memberMapper) {
 		this.memberMapper = memberMapper;
 	}
+	//회원 정보 조회
+	public Member getMemberInfoById(String memberId) {
+		return memberMapper.getMemberInfoById(memberId);
+	}
 	
 	//선호-비선호 카테고리 불러오기
 	public List<FoodMainCate> getFoodMainList(){
