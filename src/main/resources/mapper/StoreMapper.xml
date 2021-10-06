@@ -14,22 +14,46 @@
 		<result property="storeTime"		column="store_time"/>
 		<result property="storePhone"		column="store_phone"/>
 		<result property="mainCateCode"		column="main_cate_code"/>
+		<result property="mainCateCode2"	column="main_cate_code2"/>
 		<result property="storeHoliday"		column="store_holiday"/>
 		<result property="storeTasteAgree"	column="store_taste_agree"/>
 		<result property="storeExposAgree"	column="store_expos_agree"/>
 		<result property="storePhoto"		column="store_photo"/>
 		<result property="storeTableNum"	column="store_table_num"/>
 		<result property="storeOccupancy"	column="store_occupancy"/>
-		<association property="foodmaincate" javaType="FoodMainCate">
+		<association property="foodMainCate" javaType="FoodMainCate">
 			<id property="mainCateCode"			column="main_cate_code"/>
 			<result property="mainCateName"		column="main_cate_name"/>
+			<result property="mainCateName2"	column="main_cate_name2"/>
+		</association>
+	</resultMap>
+	
+	<resultMap type="Menu" id="menuResultMap">
+		<result property="menuCode"				column="menu_code"/>
+		<result property="bizId"				column="biz_id"/>
+		<result property="storeCode"			column="store_code"/>
+		<result property="mainCateCode"			column="main_cate_code"/>
+		<result property="menuCateCode"			column="menu_cate_code"/>
+		<result property="menuName"				column="menu_name"/>
+		<result property="menuPrice"			column="menu_price"/>
+		<result property="menuDetail"			column="menu_detail"/>
+		<result property="menuRegTime"			column="menu_reg_time"/>
+		<result property="menuUsing"			column="menu_using"/>
+			<association property="foodMainCate" javaType="FoodMainCate">
+			<id property="mainCateCode"			column="main_cate_code"/>
+			<result property="mainCateName"		column="main_cate_name"/>
+			<result property="mainCateName2"	column="main_cate_name2"/>
+			</association>
+			<association property="menuCate" 	javaType="MenuCate">
+			<id property="menuCateCode"			column="menu_cate_code"/>
+			<result property="menuCateName"			column="menu_cate_name"/>
 		</association>
 	</resultMap>
 
 
 
 	
-<!-- 나의 매장정보 수정처리 -->
+	<!-- 나의 매장정보 수정처리 -->
 	<update id="modifyMyStore" parameterType="Store" >
 		UPDATE 
 			tb_store_info
@@ -46,7 +70,7 @@
 	</update>
 	
 	
-<!-- 수정처리위한 매장코드 가져오기-->
+	<!-- 매장정보 수정처리위한 매장코드 가져오기-->
 	<select id="getStoreInfoByCode" parameterType="String" resultMap="storeResultMap">
 		SELECT
 			biz_code
@@ -70,12 +94,88 @@
 
 
 
-<!-- 나의 매장정보 리스트 조회 -->
+	<!-- 나의 매장정보 리스트 조회(그룹콘캣 이용한방법) -->
+	<!-- <select id="getMyStoreList" resultMap="storeResultMap">
+		SELECT
+			s.biz_code
+			,s.biz_id
+			,s.main_cate_code
+			,s.main_cate_code2
+			,s.store_code
+			,s.store_holiday
+			,s.store_location
+			,s.store_name
+			,s.store_occupancy
+			,s.store_phone
+			,s.store_table_num
+			,s.store_taste_agree
+			,s.store_expos_agree
+			,s.store_time
+			,GROUP_CONCAT(if(s.main_cate_code = f.main_cate_code, f.main_cate_name, NULL) ) AS mainCateName
+			,GROUP_CONCAT(if(s.main_cate_code2 = f.main_cate_code, f.main_cate_name, NULL) ) AS mainCateName2
+		FROM
+			tb_store_info AS s
+			INNER join
+			tb_food_main_cate AS f
+			ON
+			biz_id = #{bizId};
+	</select> -->
+
+
+	
+	<!-- 나의 매장메뉴 리스트 조회 -->
+	<select id="getMyMenuList" resultMap="menuResultMap">
+		SELECT 
+			s.menu_code
+			,s.biz_id
+			,s.store_code
+			,s.main_cate_code
+			,s.menu_cate_code
+			,s.menu_name
+			,s.menu_price
+			,s.menu_detail
+			,s.menu_reg_time
+			,s.menu_using
+			,f.main_cate_name
+			,c.menu_cate_name
+		FROM 
+			tb_store_menu AS s
+			INNER join
+			tb_food_main_cate AS f
+			ON
+			s.main_cate_code = f.main_cate_code
+			INNER join
+			tb_store_menu_cate AS c
+			ON
+			s.menu_cate_code = c.menu_cate_code
+		WHERE
+			biz_id = #{bizId};
+	</select>
+	
+	
+	<!-- 메뉴카테이름2 조회-->
+	<select id="getMyStoreList2" resultMap="storeResultMap">
+		SELECT
+			f.main_cate_name
+			,f.main_cate_code
+		FROM
+			tb_store_info AS s
+			INNER join
+			tb_food_main_cate AS f
+			ON
+			s.main_cate_code2 = f.main_cate_code
+		WHERE
+			biz_id = #{bizId};
+	</select>
+	
+	
+	<!-- 나의 매장정보 리스트 전체조회 (메뉴카테이름포함) -->	
 	<select id="getMyStoreList" resultMap="storeResultMap">
 		SELECT
 			s.biz_code
 			,s.biz_id
 			,s.main_cate_code
+			,s.main_cate_code2
 			,s.store_code
 			,s.store_holiday
 			,s.store_location
@@ -97,30 +197,8 @@
 			biz_id = #{bizId};
 	</select>
 	
-	
-<!-- 나의 매장정보 리스트 조회 -->
-	<!-- <select id="getMyStoreList" resultMap="storeResultMap">
-		SELECT
-			biz_code
-			,biz_id
-			,main_cate_code
-			,store_code
-			,store_holiday
-			,store_location
-			,store_name
-			,store_occupancy
-			,store_phone
-			,store_table_num
-			,store_taste_agree
-			,store_expos_agree
-			,store_time
-		FROM
-			tb_store_info
-		WHERE
-			biz_id = #{bizId};
-	</select> -->
 
-<!-- 매장 리스트 조회 -->
+	<!-- 전체매장 리스트 조회 (조건x)-->
 	<select id="getStoreList" resultMap="storeResultMap">
 		SELECT
 			biz_code

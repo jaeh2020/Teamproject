@@ -9,6 +9,7 @@ public class Store {
 	private String storeTime;
 	private String storePhone;
 	private String mainCateCode;
+	private String mainCateCode2;
 	private String storeHoliday;
 	private String storeTasteAgree;
 	private String storeExposAgree;
@@ -16,7 +17,7 @@ public class Store {
 	private String storeTableNum;
 	private String storeOccupancy;
 	private Waiting waiting;
-	private FoodMainCate foodmaincate;
+	private FoodMainCate foodMainCate;
 	public String getStoreCode() {
 		return storeCode;
 	}
@@ -65,6 +66,12 @@ public class Store {
 	public void setMainCateCode(String mainCateCode) {
 		this.mainCateCode = mainCateCode;
 	}
+	public String getMainCateCode2() {
+		return mainCateCode2;
+	}
+	public void setMainCateCode2(String mainCateCode2) {
+		this.mainCateCode2 = mainCateCode2;
+	}
 	public String getStoreHoliday() {
 		return storeHoliday;
 	}
@@ -107,20 +114,20 @@ public class Store {
 	public void setWaiting(Waiting waiting) {
 		this.waiting = waiting;
 	}
-	public FoodMainCate getFoodmaincate() {
-		return foodmaincate;
+	public FoodMainCate getFoodMainCate() {
+		return foodMainCate;
 	}
-	public void setFoodmaincate(FoodMainCate foodmaincate) {
-		this.foodmaincate = foodmaincate;
+	public void setFoodMainCate(FoodMainCate foodMainCate) {
+		this.foodMainCate = foodMainCate;
 	}
 	@Override
 	public String toString() {
 		return "Store [storeCode=" + storeCode + ", storeName=" + storeName + ", bizCode=" + bizCode + ", bizId="
 				+ bizId + ", storeLocation=" + storeLocation + ", storeTime=" + storeTime + ", storePhone=" + storePhone
-				+ ", mainCateCode=" + mainCateCode + ", storeHoliday=" + storeHoliday + ", storeTasteAgree="
-				+ storeTasteAgree + ", storeExposAgree=" + storeExposAgree + ", storePhoto=" + storePhoto
-				+ ", storeTableNum=" + storeTableNum + ", storeOccupancy=" + storeOccupancy + ", waiting=" + waiting
-				+ ", foodmaincate=" + foodmaincate + "]";
+				+ ", mainCateCode=" + mainCateCode + ", mainCateCode2=" + mainCateCode2 + ", storeHoliday="
+				+ storeHoliday + ", storeTasteAgree=" + storeTasteAgree + ", storeExposAgree=" + storeExposAgree
+				+ ", storePhoto=" + storePhoto + ", storeTableNum=" + storeTableNum + ", storeOccupancy="
+				+ storeOccupancy + ", waiting=" + waiting + ", foodMainCate=" + foodMainCate + "]";
 	}
 	
 	
