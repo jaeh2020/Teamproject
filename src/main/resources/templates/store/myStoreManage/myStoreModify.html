@@ -34,7 +34,7 @@
 	                	<h4 class="m-b-0 text-white">나의매장 정보 수정</h4>
 	                </div>
 				</div>
-				<form id="myStoreModifyForm" th:action="@{/store/myStoremanage/myStoreModify}" method="post">
+				<form id="myStoreModifyForm" th:action="@{/store/myStoreManage/myStoreModify}" method="post">
 					<div class="card-body">
 						<div class="basic-form">
 							<th:block th:if="${#lists.size(storeList) > 0}" th:each="s : ${storeList}">

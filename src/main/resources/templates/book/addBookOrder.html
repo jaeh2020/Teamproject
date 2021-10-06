@@ -26,7 +26,7 @@
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 
-			[[${book}]]
+			<!-- [[${book}]] -->
 	
             <!-- Container fluid  -->
             <div class="container-fluid">
@@ -67,7 +67,7 @@
 																			<span class="hidden-sm-up">
 																			<i class="ti-user"></i>
 																			</span> 
-																			<span class="hidden-xs-down">사이드메뉴</span>
+																			<span class="hidden-xs-down">사이드/옵션 메뉴</span>
 																		</a> 
 																	</li>
 																</ul>
@@ -229,7 +229,7 @@
 			
 			if(menuSangse.find('.'+menuCode).length == 0){				
 				html += '<tr class="'+menuCode+'">';
-				html += '<tr><td>' + $(this).val() + '</td>';
+				html += '<td>' + $(this).val() + '</td>';
 				html += '<td> <input type="number" class="prin" name="oCount" value="1" style="width:60px;" data-price="'+menuPrice+'">개 </td>';
 				html += '<td> '+menuPrice+' </td>';
 				html += '<td><button type="button" class="menu-target-remove btn btn-rink btn-sm">X</button></td>';
