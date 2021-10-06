@@ -17,7 +17,12 @@ public class RecruitTasterByBiz {
 	private List<String> ageCodeList;
 	private List<String> specialCateList;
 	private List<String> cateList;
+	private String strAgeCodeList;
+	private String strSpecialCateList;
+	private String strCateList;
 	private String storeCode;
+	private Store storeInfo;
+	private Menu menu;
 
 	
 	public String getRecruitTBizCode() {
@@ -113,6 +118,38 @@ public class RecruitTasterByBiz {
 	public void setStoreCode(String storeCode) {
 		this.storeCode = storeCode;
 	}
+	
+	
+	public String getStrAgeCodeList() {
+		return strAgeCodeList;
+	}
+	public void setStrAgeCodeList(String strAgeCodeList) {
+		this.strAgeCodeList = strAgeCodeList;
+	}
+	public String getStrSpecialCateList() {
+		return strSpecialCateList;
+	}
+	public void setStrSpecialCateList(String strSpecialCateList) {
+		this.strSpecialCateList = strSpecialCateList;
+	}
+	public String getStrCateList() {
+		return strCateList;
+	}
+	public void setStrCateList(String strCateList) {
+		this.strCateList = strCateList;
+	}
+	public Store getStoreInfo() {
+		return storeInfo;
+	}
+	public void setStoreInfo(Store storeInfo) {
+		this.storeInfo = storeInfo;
+	}
+	public Menu getMenu() {
+		return menu;
+	}
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
 	@Override
 	public String toString() {
 		return "RecruitTasterByBiz [recruitTBizCode=" + recruitTBizCode + ", bizId=" + bizId + ", recruitTitle="
@@ -120,9 +157,9 @@ public class RecruitTasterByBiz {
 				+ ", recruitNumNow=" + recruitNumNow + ", recruitFinTime=" + recruitFinTime + ", adminId=" + adminId
 				+ ", stateCode=" + stateCode + ", requestTime=" + requestTime + ", menuCode=" + menuCode
 				+ ", ageCodeList=" + ageCodeList + ", specialCateList=" + specialCateList + ", cateList=" + cateList
-				+ ", storeCode=" + storeCode + "]";
+				+ ", strAgeCodeList=" + strAgeCodeList + ", strSpecialCateList=" + strSpecialCateList + ", strCateList="
+				+ strCateList + ", storeCode=" + storeCode + ", storeInfo=" + storeInfo + ", menu=" + menu + "]";
 	}
-
-
+	
 	
 }

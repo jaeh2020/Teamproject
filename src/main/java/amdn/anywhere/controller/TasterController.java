@@ -1,6 +1,5 @@
 package amdn.anywhere.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -30,12 +29,24 @@ public class TasterController {
 		this.tasterService = tasterService;
 	}
 
-	
+	@GetMapping("/recruitList")
+	public String recruitList(Model model) {
+		
+		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList();
+		System.out.println(recruitList);
+		model.addAttribute("title", "평가단 모집 목록");
+		model.addAttribute("location", "모집 목록");
+		model.addAttribute("recruitList", recruitList);
+		
+		
+		return "/taster/recruitList";
+	}
 	/* 
 	 * 메서드 : 평가단 요청 폼에서 데이터 받기
 	 * 보완사항 : 
 	 */
-	@PostMapping("/recruitApplyProcess") public String recruitApplyProcess(
+	@PostMapping("/recruitApplyProcess") 
+	public String recruitApplyProcess(
 			RecruitTasterByBiz recruitByBiz
 		) {
 		System.out.println(recruitByBiz + " ----------------------------01");
@@ -59,7 +70,7 @@ public class TasterController {
 		model.addAttribute("qCateList", paramMap.get("qCateList"));
 		model.addAttribute("storeList", paramMap.get("storeList"));
 		model.addAttribute("title", "평가단 모집 신청");
-		model.addAttribute("location2", "모집 신청");
+		model.addAttribute("location", "모집 신청");
 		
 		return "/taster/recruitApply";
 	}
