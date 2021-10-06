@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="amdn.anywhere.mapper.RecruitTasterByBizMapper">
+	<resultMap type="RecruitTasterByBiz" id="recruitTasterBBResultMap">
+		<result property = "recruitTBizCode" column="recruit_taster_biz_code"/>
+		<result property = "bizId" column="biz_id"/>
+		<result property = "recruitTitle" column="recruit_title"/>
+		<result property = "surveyTitle" column="questions_title"/>
+		<result property = "recruitNumTotal" column="recruit_num_total"/>
+		<result property = "recruitNumNow" column="recruit_num_now"/>
+		<result property = "recruitFinTime" column="recruit_fin_time"/>
+		<result property = "adminId" column="admin_id"/>
+		<result property = "stateCode" column="state_code"/>
+		<result property = "requestTime" column="request_date"/>
+		<result property = "menuCode" column="menu_code"/>
+		<result property = "strAgeCodeList" column="age_code"/>
+		<result property = "strSpecialCateList" column="special_question_cate"/>
+		<result property = "strCateList" column="question_cate_code"/>
+		<result property = "storeCode" column="store_code"/>
+			<association property="storeInfo" javaType="Store">
+				<id property="storeCode" column="store_code"/>
+				<result property="storeName" column="store_name"/>
+			</association>
+			<association property="menu" javaType="Menu">
+				<id property="menuCode" column="menu_code"/>
+				<result property="menuName" column="menu_name"/>
+			</association>
+	</resultMap>
+	
+	<select id="selectRecruitBB" resultMap="recruitTasterBBResultMap">
+		SELECT 
+			t.recruit_taster_biz_code
+			, t.store_code
+			, t.biz_id
+			, t.recruit_title
+			, t.questions_title
+			, t.question_cate_code
+			, t.special_question_cate
+			, t.request_date
+			, t.recruit_num_total
+			, t.recruit_num_now
+			, t.menu_code
+			, t.recruit_fin_time
+			, t.state_code
+			, t.admin_id
+			, t.age_code
+			, m.menu_name
+			, s.store_name
+		FROM 
+			tb_taster_recruit_biz AS t
+			INNER JOIN 
+			tb_store_menu AS m
+			ON t.menu_code = m.menu_code
+			INNER JOIN 
+			tb_store_info AS s
+			ON t.store_code = s.store_code
+	</select>
+	
+	
+	
+</mapper>

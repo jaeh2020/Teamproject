@@ -9,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.QuestionCate;
+import amdn.anywhere.domain.RecruitTasterByBiz;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.mapper.QuestionsMapper;
+import amdn.anywhere.mapper.RecruitTasterByBizMapper;
 import amdn.anywhere.mapper.TasterMapper;
 
 @Service
@@ -18,10 +20,19 @@ import amdn.anywhere.mapper.TasterMapper;
 public class TasterService {
 	private TasterMapper tasterMapper;
 	private QuestionsMapper questionsMapper;
+	private RecruitTasterByBizMapper recruitTasterByBizMapper;
 	
-	public TasterService(TasterMapper tasterMapper, QuestionsMapper questionsMapper) {
+	public TasterService(
+				TasterMapper tasterMapper
+				, QuestionsMapper questionsMapper
+				, RecruitTasterByBizMapper recruitTasterByBizMapper) {
+		this.recruitTasterByBizMapper = recruitTasterByBizMapper;
 		this.questionsMapper = questionsMapper;
 		this.tasterMapper = tasterMapper;
+	}
+	//3. 모집 리스트
+	public List<RecruitTasterByBiz> getRecruitBBList(){
+		return recruitTasterByBizMapper.selectRecruitBB();
 	}
 	// 2. 모집신청 - 평가할 메뉴목록 조회
 	public List<Menu> getMenuList(String storeCode){	
