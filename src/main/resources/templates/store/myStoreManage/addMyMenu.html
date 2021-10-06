@@ -34,7 +34,7 @@
 	                	<h4 class="m-b-0 text-white">메뉴 등록하기</h4>
 	                </div>
 				</div>
-				<form id="addMyMenuForm" th:action="@{/menu/addMyMenu}" method="post">
+				<form id="addMyMenuForm" th:action="@{/store/myStoreManage/addMyMenu}" method="post">
 					<div class="card-body">
 						<div class="basic-form">
 								<div>
@@ -48,15 +48,21 @@
 									<label>메뉴 대분류 <span class="text-danger">*</span> </label>
 										<select class="form-control" id="selectMainCateCode" name="mainCateCode">
 				                        	<option value=""> : : : 선택  : : : </option>
-											<th:block th:each="f : ${foodMainCateList}">
-				                        	<option th:value="${f.mainCateCode}"> [[${f.mainCateName}]] </option>
+											<th:block th:each="f : ${storeList}">
+				                        	<option th:value="${f.foodMainCate.mainCateCode}"> [[${f.foodMainCate.mainCateName}]] </option>
 				                        	</th:block>
+											<th:block th:each="t : ${storeList2}">
+				                        	<option th:value="${t.foodMainCate.mainCateCode}"> [[${t.foodMainCate.mainCateName}]] </option>
+				                        	</th:block>
+				                        	<option value="main_etc_cate"> 기타 </option>
 				                        </select>
 								</div>
 								<div class="form-group">
 									<label>메뉴 카테고리 <span class="text-danger">*</span> </label>
 										<select class="form-control" id="selectMenuCateCode" name="menuCateCode">
 				                        	<option value=""> : : : 선택  : : : </option>
+				                        	<option value="m_c_main"> 메인 메뉴 </option>
+				                        	<option value="m_c_side"> 사이드/옵션 메뉴 </option>
 				                        </select>
 								</div>
 								<div class="form-group">

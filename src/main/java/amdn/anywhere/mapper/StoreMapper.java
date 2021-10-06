@@ -4,11 +4,19 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import amdn.anywhere.domain.FoodMainCate;
+import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.Store;
 
 @Mapper
 public interface StoreMapper {
 	
+	
+	//메뉴 대분류 조회
+	public List<FoodMainCate> getMainCate();
+	
+	//나의매장 메뉴리스트 조회
+	public List<Menu> getMyMenuList(String bizId);
 	
 	//나의매장정보 수정처리
 	public int modifyMyStore(Store store);
@@ -18,6 +26,7 @@ public interface StoreMapper {
 	
 	//나의매장 정보 리스트 조회
 	public List<Store> getMyStoreList(String bizId);
+	public List<Store> getMyStoreList2(String bizId);
 	
 	//매장 리스트 조회
 	public List<Store> getStoreList();

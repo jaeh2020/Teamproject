@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Store;
-import amdn.anywhere.service.MenuService;
 import amdn.anywhere.service.StoreService;
 
 
@@ -24,37 +23,50 @@ public class StoreController {
 	
 
 	private final StoreService storeService;
-	private MenuService menuService;
 	
-	public StoreController(StoreService storeService, MenuService menuService) {
+	public StoreController(StoreService storeService) {
 		this.storeService = storeService;
-		this.menuService = menuService;
 	}
 	
 	
-	@GetMapping("/myStoremanage/addMyMenu")
+	@GetMapping("/myStoreManage/modifyMainCate")
+	public String modifyMainCate(Model model) {
+		
+		//메뉴 대분류 조회
+		List<FoodMainCate> mainCate = storeService.getMainCate();
+		
+		model.addAttribute("mainCate", mainCate);
+		model.addAttribute("title", "대분류 수정");
+		model.addAttribute("location", "대분류 수정");
+		
+		return "/store/myStoreManage/modifyMainCate";
+	}
+
+
+	
+	@GetMapping("/myStoreManage/addMyMenu")
 	public String addMyMenu(Model model
 						   ,HttpSession session) {
 		
 		//세션아이디(로그인되어있는 아이디)
 		String bizId = (String) session.getAttribute("SID");
 		
-		//메뉴 대분류 가져오기
-		List<FoodMainCate> foodMainCateList = menuService.getFoodMainCateList();
-		
-		//메뉴카테고리 가져오기 (메인/사이드)
-		
+		//메뉴 대분류명 가져오기
+		Map<String, Object> paramMap = storeService.getMyStoreList(bizId);;
+
+		model.addAttribute("storeList", paramMap.get("storeList"));
+		model.addAttribute("storeList2", paramMap.get("storeList2"));
 		model.addAttribute("bizId", bizId);
-		model.addAttribute("foodMainCateList", foodMainCateList);
+		//model.addAttribute("foodMainCateList", foodMainCateList);
 		model.addAttribute("title", "메뉴 등록");
 		model.addAttribute("location", "메뉴 등록");
 		
-		return "/store/myStoremanage/addMyMenu";
+		return "/store/myStoreManage/addMyMenu";
 	}
 		
 	
 	
-	@GetMapping("/myStoremanage/myMenuManage")
+	@GetMapping("/myStoreManage/myMenuManage")
 	public String storeManage(Model model
 							 ,HttpSession session) {
 		
@@ -62,20 +74,22 @@ public class StoreController {
 		String bizId = (String) session.getAttribute("SID");
 		
 		//나의 매장 메뉴 리스트 조회
-		Map<String, Object> paramMap = menuService.getMyMenuList(bizId);
+		Map<String, Object> paramMap = storeService.getMyMenuList(bizId);
 	
+		model.addAttribute("storeList", paramMap.get("storeList"));
+		model.addAttribute("storeList2", paramMap.get("storeList2"));
 		model.addAttribute("myMenuList", paramMap.get("myMenuList"));
 		model.addAttribute("title", "나의 메뉴 관리");
 		model.addAttribute("location", "나의 메뉴 관리");
 		
 		
-		return "/store/myStoremanage/myMenuManage";
+		return "/store/myStoreManage/myMenuManage";
 	}
 	
 	
 	
 	
-	@PostMapping("/myStoremanage/myStoreModify")
+	@PostMapping("/myStoreManage/myStoreModify")
 	public String myStoreModify(Store store) {
 		
 		//나의매장정보 수정처리
@@ -83,11 +97,11 @@ public class StoreController {
 			storeService.modifyMyStore(store);
 		}
 		
-		return "redirect:/store/myStoremanage/myStoreInfo";
+		return "redirect:/store/myStoreManage/myStoreInfo";
 	}
 	
 
-	@GetMapping("/myStoremanage/myStoreModify")
+	@GetMapping("/myStoreManage/myStoreModify")
 	public String myStoreModify(Model model
 								,HttpSession session
 								,@RequestParam(name = "storeCode" , required = false) String storeCode) {
@@ -107,11 +121,11 @@ public class StoreController {
 		model.addAttribute("title", "나의 매장 관리");
 		model.addAttribute("location", "나의 매장 관리");
 		
-		return "/store/myStoremanage/myStoreModify";
+		return "/store/myStoreManage/myStoreModify";
 	}
 	
 	
-	@GetMapping("/myStoremanage/myStoreInfo")
+	@GetMapping("/myStoreManage/myStoreInfo")
 	public String myStoreManage(Model model
 							   ,HttpSession session) {
 		
@@ -122,10 +136,11 @@ public class StoreController {
 		Map<String, Object> paramMap = storeService.getMyStoreList(bizId);
 		
 		model.addAttribute("storeList", paramMap.get("storeList"));
+		model.addAttribute("storeList2", paramMap.get("storeList2"));
 		model.addAttribute("title", "나의 매장 관리");
 		model.addAttribute("location", "나의 매장 관리");
 		
-		return "/store/myStoremanage/myStoreInfo";
+		return "/store/myStoreManage/myStoreInfo";
 	}
 	
 	

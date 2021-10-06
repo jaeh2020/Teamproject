@@ -27,6 +27,7 @@
 		<result property="storeTime"		column="store_time"/>
 		<result property="storePhone"		column="store_phone"/>
 		<result property="mainCateCode"		column="main_cate_code"/>
+		<result property="mainCateCode2"	column="main_cate_code2"/>
 		<result property="storeHoliday"		column="store_holiday"/>
 		<result property="storeTasteAgree"	column="store_taste_agree"/>
 		<result property="storeExposAgree"	column="store_expos_agree"/>
