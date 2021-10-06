@@ -82,44 +82,47 @@
                       <!-- End Messages -->
                   </ul>
                   <!-- User profile and search -->
-                  <ul class="navbar-nav my-lg-0">
-
+                  <ul class="navbar-nav my-lg-0">						
+					
+					<li th:if="${session.SID != null}">
+						<label>||[[${session.SID}]] || [[${session.SNAME}]] 님이 로그인!!!!!!!</label>
+					</li>
+	
                       <!-- Search -->
                       <li class="nav-item hidden-sm-down search-box"> <a class="nav-link hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-search"></i></a>
                           <form class="app-search">
                               <input type="text" class="form-control" placeholder="Search here"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
                       </li>
-                      <!-- 회원가입 (로그인하면 안보이게 수정해야함) -->
+                      <!-- 회원가입-->
                       <li class="nav-item dropdown">
-
-                          <a class="nav-link dropdown-toggle text-muted text-muted  " th:href="@{/member/addMember01}" aria-haspopup="true" aria-expanded="false">
+                          <a th:if="${session.SID == null}" th:href="@{/member/addMember01}" class="nav-link dropdown-toggle text-muted text-muted  " aria-haspopup="true" aria-expanded="false">
                          	 회원가입
                           </a>
                       </li>
                       <!-- End 회원가입 -->
                       <!-- 로그인 -->
                       <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle text-muted text-muted  " th:href="@{/member/login}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <a th:if="${session.SID == null}" th:href="@{/member/login}" class="nav-link dropdown-toggle text-muted text-muted  " aria-haspopup="true" aria-expanded="false">
                          	 로그인
                           </a>
                       </li>
                       <!-- End 로그인 -->
 
-                      <!-- Profile -->
-                      <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle text-muted" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <!-- 프로필 -->
+                      <li th:if="${session.SID != null}" class="nav-item dropdown" >
+                          <a class="nav-link dropdown-toggle text-muted"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           	<i class="fa fa-user"></i>
                           </a>
                           <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                               <ul class="dropdown-user">
-                                  <li><a href="#"><i class="ti-user"></i> Profile</a></li>
-                                  <li><a href="#"><i class="ti-wallet"></i> Balance</a></li>
-                                  <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-                                  <li><a href="#"><i class="ti-settings"></i> Setting</a></li>
-                                  <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                                  <li><a href="#"><i class="ti-user"></i> 마이페이지</a></li>
+                                  <li><a href="#"><i class="ti-email"></i> 메세지</a></li>
+                                  <li><a href="#"><i class="ti-settings"></i> 설정</a></li>
+                                  <li><a th:href="@{/logout}"><i class="fa fa-power-off"></i> 로그아웃</a></li>
                               </ul>
                           </div>
                       </li>
+                      <!-- 프로필 끝 -->
                   </ul>
               </div>
           </nav>
