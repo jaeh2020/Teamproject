@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.service.StoreService;
 
@@ -26,6 +27,20 @@ public class StoreController {
 	public StoreController(StoreService storeService) {
 		this.storeService = storeService;
 	}
+	
+	
+	@GetMapping("/myStoreManage/modifyMainCate")
+	public String modifyMainCate(Model model) {
+		
+		//메뉴 대분류 조회
+		List<FoodMainCate> mainCate = storeService.getMainCate();
+		
+		model.addAttribute("mainCate", mainCate);
+		model.addAttribute("title", "대분류 수정");
+		model.addAttribute("location", "대분류 수정");
+		
+		return "/store/myStoreManage/modifyMainCate";
+	}
 
 
 	
@@ -38,9 +53,6 @@ public class StoreController {
 		
 		//메뉴 대분류명 가져오기
 		Map<String, Object> paramMap = storeService.getMyStoreList(bizId);;
-		
-		//메뉴 대분류코드 가져오기
-		//List<FoodMainCate> foodMainCateList = menuService.getFoodMainCateList();
 
 		model.addAttribute("storeList", paramMap.get("storeList"));
 		model.addAttribute("storeList2", paramMap.get("storeList2"));
