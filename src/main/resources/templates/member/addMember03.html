@@ -12,12 +12,12 @@
 		text-align: center;
 		padding: 10px;
 	}
-	ol{
+	.join{
 		display:inline-block;
 		margin: 0;
 		padding: 0;
 	}
-	ol li{
+	.join li{
 		float:left; 
 		margin: 0 35px 0 35px;
 	}
@@ -109,6 +109,13 @@
                                     </div>
                                     
                                     <!-- 앞에서 입력한 아이디값 hidden으로 가져오기 -->
+                                    <input type="text" name="userId" th:value="${memberId}">
+                                    <input type="text" name="msCode" th:value="@{name}">
+                                    <input type="text" class="form-control" name="userOrderTotal" th:value="@{name}">
+                                    <input type="text" class="form-control" name="userPoint" th:value="@{name}">
+                                    <input type="text" class="form-control" name="userEvaluator" th:value="@{name}">
+                                    <input type="text" class="form-control" name="reportScore" th:value="@{name}">
+                                    
                                     <div class="form-button">
 	                                  	<a th:href="@{/member/addMember02}" >
 		                                    <button class="btn btn-inverse btn-flat m-b-30 m-t-30">이전</button>
