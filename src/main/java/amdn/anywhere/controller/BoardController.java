@@ -77,6 +77,25 @@ public class BoardController {
 	
 	
 	
+	
+	
+	@PostMapping("/boardcomment")
+	public String boardcomment(BoardReply boardReply) {
+		
+		System.out.println("커맨드 객체 boardReply" + boardReply);
+		
+		//게시글 댓글 자동증가 생성 후 insert
+			if (boardReply != null) {
+				boardReply.setBoardReplyCode(boardService.getNewBoardReplyNum());
+				boardService.addComment(boardReply);
+			}
+		
+		return "redirect:/board/boardView";
+	}
+	
+	
+	
+	
 	// 게시글 보기
 	@GetMapping("/boardView")
 	public String boardView(Model model
@@ -92,12 +111,15 @@ public class BoardController {
 		String memberId = (String) session.getAttribute("SID");
 		//게시글 댓글 목록
 		List<BoardReply> boardCommentList = boardService.getBoardCommentList();
-			
+				
+				
+		
+		model.addAttribute("boardCommentList", boardCommentList);	
 		model.addAttribute("title", "게시판 조회");
 		model.addAttribute("board", board);
 		model.addAttribute("boardCnt", boardCnt);
 		model.addAttribute("memberId", memberId);
-		model.addAttribute("boardCommentList", boardCommentList);
+		
 		
 		
 		if(board.getMemberId().equals(memberId)) {

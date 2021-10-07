@@ -14,7 +14,9 @@ import amdn.anywhere.domain.Statement;
 public interface BoardMapper {
 	
 	
-	 
+	//게시글 댓글 등록 
+	public int addComment(BoardReply boardReply);
+	
 	//게시글 댓글 자동증가 코드
 	public String getNewBoardReplyNum();
 	

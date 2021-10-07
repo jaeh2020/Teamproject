@@ -25,7 +25,12 @@ public class BoardService {
 		  this.boardMapper = boardMapper;
 	 }
 	  
-	 //게시글 댓글 자동증가 코드
+	  //게시글 댓글 등록
+	  public int addComment(BoardReply boardReply) {
+		  return boardMapper.addComment(boardReply);
+	  }
+	  
+	  //게시글 댓글 자동증가 코드
 	  public String getNewBoardReplyNum() {
 		  return boardMapper.getNewBoardReplyNum();
 	  }

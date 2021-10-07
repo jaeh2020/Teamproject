@@ -42,12 +42,15 @@
 				</div>
 				
 				<h3 class="box-title m-t-40"></h3>
+					<form th:action="@{/board/boardcomment}" method="post" id="commentForm">
 						<!-- Reply List {s}-->
 						<h5 class="border-bottom pb-2 mb-0"><i class="ti-menu"></i> Reply list</h5>
 						<div class="my-3 p-3 bg-white rounded shadow-sm" th:if="${boardCommentList ne null and #lists.size(boardCommentList) > 0}" th:each=" bc : ${boardCommentList}">
 							<!-- 히든 된 데이터 -->
 							<input type="hidden" name="boardReplyCode" th:value="${bc.boardReplyCode}">
+							<input type="hidden" name="memberId" th:value="${memberId}">
 							<input type="hidden" name="boardNum" th:value="${bc.boardNum}">
+							
 							<div class="comment-date" th:text="${bc.memberId}"></div>
 							<br>
 							<div class="comment-content" th:text="${bc.boardReplyContents}"></div>
@@ -63,11 +66,12 @@
 							<div class="col-md-12 ">
 								<div class="form-group">
 									<label style="font-weight: bold;">댓글</label>
-									<input type="text" class="form-control" style="height: 100px;">
-									<button type="button" class="btn btn-inverse" style="margin-top: 10px; float: right;">등록</button>
+									<input type="text" class="form-control" style="height: 100px;" name="boardReplyContents">
+									<button type="button" class="btn btn-inverse" style="margin-top: 10px; float: right;" id="commentBtn">등록</button>
 								</div>
 							</div>
 						</div>
+					</form>
 						<hr>
 				<div class="box-footer" style="margin-top: 20px;">
 					<div class="pull-left">
@@ -78,7 +82,7 @@
 					</div>
 				</div>	
 		</div>
-	
+	</div>
 </th:block>
 
 <th:block layout:fragment="customJsLib">
