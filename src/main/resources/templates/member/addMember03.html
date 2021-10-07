@@ -95,14 +95,14 @@
 	                                    <label class="sub">선호하는 음식 </label><label>( ※ 최대 3개까지만 선택 가능합니다.)</label> 
 	                                    <div>
 	                                   		<label id="foodMainList" th:each="l : ${foodMainList}">                                  		
-	                                   			<input type="checkbox" name="fCheck" th:value="${l.mainCateCode}">
+	                                   			<input type="checkbox" name="like" th:value="${l.mainCateCode}">
 	                                   				[[${l.mainCateName}]]
 	                                   		</label>
 	                                    </div>		
 	                                    <label class="sub">비선호하는 음식</label><label>( ※ 최대 3개까지만 선택 가능합니다.)</label> 
 	                                    <div>
 	                                   		<label id="foodMainList" th:each="l : ${foodMainList}">                                  		
-	                                   			<input type="checkbox" name="fCheck" th:value="${l.mainCateCode}">
+	                                   			<input type="checkbox" name="unlike" th:value="${l.mainCateCode}">
 	                                   				[[${l.mainCateName}]]
 	                                   		</label>
 	                                    </div>		
@@ -131,23 +131,40 @@
 	<script type="text/javascript">
 		$(function(){
 			
-			/* $('input:checkbox[name=fcheck]').on("click", function(){
-				var cnt = $('input:checkbox[name=fcheck]:checked').length;
-				console.log(cnt,'cnt');
-				 if(cnt > 3){
+			//선호도
+			$('input:checkbox[name=like]').on('click', function(){
+				var likeArr = [];
+				var cnt = $('input:checkbox[name=like]:checked').length;
+				//3개 이상 선택 시 경고창
+				if(cnt > 3){
 					$(this).prop("checked", false);
 					alert("3개까지만 선택이 가능합니다.");
 				}
-			}); */
+				//체크된 값 배열에 담기
+				$('input:checkbox[name=like]').each(function() {
+		     		if(this.checked){//checked 처리된 항목의 값
+		     			likeArr.push(this.value);
+		      			console.log(likeArr,'likeArr')
+		      		}
+				});
+			});
 			
-			$('input:checkbox[name=fCheck]').on('click', function(){
-			var ckArr = [];
-			 $('input:checkbox[name=fCheck]').each(function() {
-			      if(this.checked){//checked 처리된 항목의 값
-			           ckArr.push(this.value);
-			      	console.log(ckArr,'ckArr')
-			      }
-			 });
+			//비선호도
+			$('input:checkbox[name=unlike]').on('click', function(){
+				var unlikeArr = [];
+				var cnt = $('input:checkbox[name=unlike]:checked').length;
+				//3개 이상 선택 시 경고창
+				if(cnt > 3){
+					$(this).prop("checked", false);
+					alert("3개까지만 선택이 가능합니다.");
+				}
+				//체크된 값 배열에 담기
+				$('input:checkbox[name=unlike]').each(function() {
+		     		if(this.checked){//checked 처리된 항목의 값
+		     			unlikeArr.push(this.value);
+		      			console.log(unlikeArr,'unlikeArr')
+		      		}
+				});
 			});
 			
 		});
