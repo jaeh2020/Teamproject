@@ -9,18 +9,6 @@
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
 </th:block>
-<th:block layout:fragment="customLocation">
-	<div class="row page-titles">
-	    <div class="col-md-5 align-self-center">
-	        <h3 class="text-primary" th:text="${location2}"></h3></div>
-	    <div class="col-md-7 align-self-center">
-	        <ol class="breadcrumb">
-	            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-	            <li class="breadcrumb-item active" th:text="${location2}"></li>
-	        </ol>
-	    </div>
-	</div>
-</th:block>
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
  		
@@ -316,5 +304,5 @@
 </th:block>
     
     
-</body>
+
 </html>

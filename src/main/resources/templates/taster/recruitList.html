@@ -3,291 +3,89 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/default}">
 <th:block layout:fragment="customCss">
-	<style type="text/css">
-	</style>
 </th:block>
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
 </th:block>
-<th:block layout:fragment="customLocation">
-	<div class="row page-titles">
-	    <div class="col-md-5 align-self-center">
-	        <h3 class="text-primary" th:text="${location2}"></h3></div>
-	    <div class="col-md-7 align-self-center">
-	        <ol class="breadcrumb">
-	            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-	            <li class="breadcrumb-item active" th:text="${location2}"></li>
-	        </ol>
-	    </div>
-	</div>
+<th:block layout:fragment="customJs">
+	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
 </th:block>
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
- 		
-	  <div class="row justify-content-center">
-	      <div class="col-lg-6">
-	          <div class="card">
-	              <div class="card-body">
-	                  <div class="form-validation">
-	                      <form class="form-valide" id="recruitApplyForm" th:action="@{/taster/recruitApplyProcess}" method="post">
-	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label" for="selectStore">요청매장 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
-	                                  <select class="form-control" id="selectStore" name="selectStore">
-	                                      <option value=""> : : : 매장 목록  : : : </option>
-	                                      <option th:each="s : ${storeList}" th:text="${s.storeName}" th:value="${s.storeCode}"></option>
-	                                  </select>
-	                              </div>
-	                          </div>
-	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label" for="selectMenu">평가 메뉴 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
-	                                  <select class="form-control" id="selectMenu" name="selectMenu">
-	                                      <option value=""> : : : 메뉴 목록  : : : </option>
-	                                  </select>
-	                              	<label class="css-control css-control-primary css-checkbox" for="newMenuCheck">
-                                          <span class="text-muted m-b-15 f-s-12">등록되지 않은 신메뉴일 경우 체크</span>
-                                          <input type="checkbox" class="css-control-input" id="newMenuCheck" name="newMenuCheck">
-	                                </label>
-								</div>
-	                          </div>
-	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label" for="noticeTitle">모집 공고 제목 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
-	                                  <input type="text" class="form-control" id="noticeTitle" name="noticeTitle" placeholder="공고명을 입력하세요..">
-	                              </div>
-	                          </div>
-	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label" for="surveyTitle">설문조사 제목 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
-	                                  <input type="text" class="form-control" id="surveyTitle" name="surveyTitle" placeholder="설문조사 제목을 입력하세요..">
-	                              </div>
-	                          </div>
-	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label" for="val-checkbox">모집 연령대 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
-	                              	<label class="css-control css-control-primary css-checkbox" for="age10">
-	                                  	<input type="checkbox" class="css-control-input" id="age10" name="ageCheck" value="1">
-	                                      <span class="css-control-indicator"></span> 10대
-	                                  </label>
-	                                  <label class="css-control css-control-primary css-checkbox" for="age20">
-	                                  	<input type="checkbox" class="css-control-input" id="age20" name="ageCheck" value="2">
-	                                      <span class="css-control-indicator"></span> 20대
-	                                  </label>
-	                                  <label class="css-control css-control-primary css-checkbox" for="age30">
-	                                  	<input type="checkbox" class="css-control-input" id="age30" name="ageCheck" value="3">
-	                                      <span class="css-control-indicator"></span> 30대
-	                                  </label>
-	                                  <label class="css-control css-control-primary css-checkbox" for="age40">
-	                                  	<input type="checkbox" class="css-control-input" id="age40" name="ageCheck" value="4">
-	                                      <span class="css-control-indicator"></span> 40대
-	                                  </label> 
-	                                  <label class="css-control css-control-primary css-checkbox" for="age50">
-	                                  	<input type="checkbox" class="css-control-input" id="age50" name="ageCheck" value="5">
-	                                      <span class="css-control-indicator"></span> 50대 이상
-	                                  </label>
-	                                   <label class="css-control css-control-primary css-checkbox" for="allAge">
-	                                  	<input type="checkbox" class="css-control-input" id="allAge" name="ageCheck" value="0">
-	                                      <span class="css-control-indicator"></span> 모든 연령대
-	                                  </label>
-	                              </div>
-	                          </div>
-	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label" for="recruitNum">모집 인원 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
-	                                  <input type="text" class="form-control" id="recruitNum" name="recruitNum" >
-	                              </div>
-	                          </div>
-	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label">모집 종료일<span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
-	                                  <input type="date" class="form-control" name="endDate" placeholder="dd/mm/yyyy">
-	                              </div>
-	                        		</div>
-	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label" >설문 항목 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
-	                              	<th:block th:each="q :${qCateList}">
-	                               		<label class="css-control css-control-primary css-checkbox" >
-	                                   		<input type="checkbox" class="css-control-input"  name="checkSurveyCate" th:value="${q.cateCode}">
-	                                        <span class="css-control-indicator"></span> [[${q.cateName}]]
-	                                    </label>
-	                                  </th:block>        
-	                               </div>
-	                          </div>     
-	                          <div class="form-group row">
-									<label class="col-lg-4 col-form-label" for="val-website">분석 요청 항목 <span class="text-danger">*</span><p><code class="m-b-14 f-s-11">설문항목을 먼저 선택해주세요.</code></p></label>
-									<div class="col-lg-6">
-										<label class="css-control css-control-primary css-checkbox specialCheck">
-	                                		<input type="checkbox" class="css-control-input" name="cateCode" id="notSelectSpecial" th:value="0">
-	                                      	<span class="css-control-indicator"></span> 선택안함
-		                                </label>
-										<th:block th:each="q :${qCateList}">
-		                                	<label class="css-control css-control-primary css-checkbox specialCheck">
-		                                		<input type="checkbox" class="css-control-input" name="cateCode" th:value="${q.cateCode}" disabled="disabled">
-		                                      	<span class="css-control-indicator"></span> [[${q.cateName}]]
-		                                  	</label>
-		                              	</th:block>
-	                               </div>
-	                          </div>
-	                          <div class="form-group row">
-	                              <div class="col-lg-8 ml-auto">
-	                                  <button type="submit" class="btn btn-primary" id="submitBtn" >Submit</button>
-	                              </div>
-	                          </div>
-	                      </form>
-	                  </div>
-	              </div>
-	          </div>
-	      </div>
-	  </div>
+	<div class="row">
+		<div class="col-12">
+			 <div class="card">
+	            <div class="card-body">
+	                <h4 class="card-title">평가단 모집 요청현황</h4>
+	                <h6 class="card-subtitle">...</h6>
+	                <div class="table-responsive m-t-40">
+	                    <table id="myTable" class="table table-bordered table-striped">
+	                        <thead>
+	                            <tr>
+	                                <th>모집코드</th>
+	                                <th>매장코드</th>
+	                                <th>매장명</th>
+	                                <th>요청자</th>	                               
+	                                <th>모집명</th>
+	                                <th>설문조사명</th>
+	                                <th>모집 연령대</th>
+	                                <th>요청시각</th>
+	                                <th>평가메뉴</th>
+	                                <th>설문 항목</th>
+	                                <th>분석 항목</th>
+	                                <th>모집현황</th>
+	                                <th>모집 기한</th>
+	                                <th>상태</th>
+	                                <th>담당자</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr th:each="l : ${recruitList}">
+	                                <td th:text="${l.recruitTBizCode}"></td>
+	                                <td th:text="${l.storeCode}"></td>
+	                                <td th:text="${l.storeInfo.storeName}"></td>
+	                                <td th:text="${l.bizId}"></td>
+	                                <td th:text="${l.recruitTitle}"></td>
+	                                <td th:text="${l.surveyTitle}"></td>
+	                                <td th:text="${l.strAgeCodeList}"></td>
+	                                <td th:text="${l.requestTime}"></td>
+	                                <td th:text="${l.menu.menuName}"></td>
+	                                <td th:text="${l.strCateList}"></td>
+	                                <td th:text="${l.strSpecialCateList}"></td>
+	                                <td> [[${l.recruitNumNow}]] / [[${l.recruitNumTotal}]]</td>
+	                                <td th:text="${l.recruitFinTime}"></td>
+	                                <td></td>
+	                                <td th:if="${l.adminId} neq null" th:text="${l.adminId}"></td>
+	                                <td th:unless="${l.adminId} neq null" th:text="배정전"></td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                </div>
+	            </div>
+	        </div>
+		</div>
+	</div>
+	 
+
 </th:block>
 <!-- End PAge Content -->
 			
  <!--Custom JavaScript -->
 <th:block layout:fragment="customJsLib">
-	<script type="text/javascript">
-			var form = $('#recruitApplyForm');
-			var selectStore = $('#selectStore');
-			var selectMenu = $('#selectMenu');
-			var newMenuCheck = $('#newMenuCheck');
-			var noticeTitle = $('#noticeTitle');
-			var surveyTitle = $('#surveyTitle');
-			var ageCheckList = $('[name=ageCheck]');
-			var recruitNum = $('#recruitNum');
-			var endDate = $('#endDate');
-			var surveyCateList = $('[name=checkSurveyCate]');
-			var specialCateList = $('[name=cateCode]');
-			
-			
-			//연령대 선택 - 모든 연령대 이벤트
-			
-			$(function(){
-				$('#allAge').on("change", function(){
-					
-					for(var i = 0; i < ageCheckList.length; i++){
-						
-						if($(this).is(":checked") == true){
-							
-							if(i == 5) break;
-							ageCheckList.eq(i).attr('disabled','true');
-						
-						}else{
-							
-							ageCheckList.eq(i).removeAttr('disabled');
-						}
-					}
-				});
-			});
-			
-			//분석항목 '선택안함' 이벤트
-			
-			$(function(){
-				$('#notSelectSpecial').on("change", function(){
-					
-					var checked = $(this).is(":checked");
-					
-					if(checked == true){
-						
-						for(var i = 1; i < specialCateList.length; i++){
-							specialCateList.eq(i).attr('disabled','true');
-							
-						}
-					}else {
-						
-						for(var i = 0 ; i < surveyCateList.length; i++){
-							
-							 if(surveyCateList.eq(i).is(":checked") == true){
-								 
-								 for(var j = 0; j < specialCateList.length; j++){
-									 if(specialCateList.eq(j).val() == surveyCateList.eq(i).val()){
-										 specialCateList.eq(j).removeAttr('disabled');
-									 }
-								 }
-							  }
-						 }
-					}
-				});
-			});
-			
-			//설문항목 체크박스 이벤트
-			
-			$(function(){
-				surveyCateList.on("change", function(){
-					
-					var checked = $(this).is(":checked");
-					
-					for(var i = 0; i < specialCateList.length; i++){
-						
-						if(specialCateList.eq(0).is(":checked")== true){
-							break;
-							
-						}else{
-							if($(this).val() == specialCateList.eq(i).attr('value')){
-								
-								if(checked == true){	
-									specialCateList.eq(i).removeAttr('disabled');
-								}else if(checked == false){
-									specialCateList.eq(i).attr('disabled','true');
-								}
-							}
-						}
-					}
-				});
-			});
-			
-			//신메뉴 체크박스 이벤트
-			
-			$(function(){
-				newMenuCheck.on("change", function(){
-					
-					if(newMenuCheck.is(":checked") == true){
-						newMenuCheck.val('newMenu');
-						selectMenu.attr('disabled', 'true');
-						
-					}else if(newMenuCheck.is(":checked") == false){
-						selectMenu.removeAttr('disabled');
-					}
-				});
-			});
 	
-			//메뉴 목록 가져오기
-			
-			$(function(){
-				selectStore.on("change", function(){
-					
-					var selectedStoreCode = $(this).val();
-					
-					if(selectedStoreCode != ''){
-						
-						var request = $.ajax({
-							url: "/taster/menuList", //요청 주소
-							method: "GET", //요청 방식
-							data: { storeCode : selectedStoreCode },
-							dataType: "json" //받아올 포맷방식
-						});
-						
-						request.done(function(data){
-							var option = '<option value=""> : : : 메뉴 목록  : : : </option>';
-							var length = data.length;
-							
-							if(length == 0) option += '<option> 등록된 메뉴가 없습니다. </option>';
-							else if(length > 0){
-								for(var i=0; i < length ; i++){
-									option += '<option value ="' + data[i].menuCode +'">' + data[i].menuName + '</option>';
-								}
-							}
-							selectMenu.html(option);
-						});
-						request.fail(function(jqXHR, textStatus){
-							alert( "Request failed: " + textStatus );
-						});
-					}
-				});		
-			});
+	<script type="text/javascript">
+
 	</script>
-	<script th:src="@{/js/lib/form-validation/jquery.validate.min.js}"></script>
-    <script th:src="@{/js/lib/form-validation/jquery.validate-init.js}"></script>
+
+   
 </th:block>
     
     

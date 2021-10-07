@@ -29,9 +29,8 @@
 
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
-
 	<div class="row justify-content-center">
-		<a th:href="@{/store/myStoremanage/myStoreModify}">
+		<a th:href="@{/store/myStoreManage/myStoreModify}">
 		<button type="button" class="btn btn-danger btn-flat m-b-10">나의매장 정보 수정 하기</button>
 		</a>
 	</div>
@@ -46,9 +45,9 @@
 				</div>
 				<div class="card-body">
 					<div class="basic-form">
-						<th:block th:if="${#lists.size(storeList) > 0}" th:each="f : ${foodmainList}">
+						<!-- <th:block th:if="${#lists.size(storeList) > 0}" th:each="f : ${foodmainList}">
 								<input type="text" class="form-control" th:value="${f.mainCateName}" readonly="readonly">
-						</th:block>
+						</th:block> -->
 						
 						<th:block th:if="${#lists.size(storeList) > 0}" th:each="s : ${storeList}">
 							<div class="form-group">
@@ -73,8 +72,16 @@
 							</div>
 							<div class="form-group">
 								<label>메뉴대분류</label>
-								<input type="text" class="form-control" th:value="${s.foodmaincate.mainCateName}" readonly="readonly">
+								
+								<input type="text" class="form-control" th:value="${s.foodMainCate.mainCateName}" readonly="readonly">
 								<small class="form-control-feedback" style="color: red;"> 메뉴 대분류 수정은 '메뉴관리'를 통해서 가능합니다. </small>
+							</div>
+							<div class="form-group">
+								<label>메뉴대분류2</label>
+								<th:block th:if="${#lists.size(storeList) > 0}" th:each="t : ${storeList2}">
+								<input type="text" class="form-control" th:value="${t.foodMainCate.mainCateName}" readonly="readonly">
+								<small class="form-control-feedback" style="color: red;"> 메뉴 대분류 수정은 '메뉴관리'를 통해서 가능합니다. </small>
+								</th:block>
 							</div>
 							<div class="form-group">
 								<label>휴일</label>
