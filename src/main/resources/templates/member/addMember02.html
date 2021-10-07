@@ -12,12 +12,12 @@
 		text-align: center;
 		padding: 10px;
 	}
-	ol{
+	.join{
 		display:inline-block;
 		margin: 0;
 		padding: 0;
 	}
-	ol li{
+	.join li{
 		float:left; 
 		margin: 0 35px 0 35px;
 	}
@@ -111,7 +111,7 @@
                                 <form method="post">
                                     <div class="form-group">
                                     <label>회원 권한</label>
-                                    <input type="text" class="form-control" name="levelCode" th:value="@{name}">
+                                    <input type="text" class="form-control" name="levelCode" th:value="level_user">
 									</div>
                                     <div class="form-group">
                                         <label>아이디</label>
@@ -164,7 +164,10 @@
 	</div>         
 </th:block>
 
-
-    <th:block layout:fragment="customJsLib"></th:block>
+    <th:block layout:fragment="customJsLib">
+		<script type="text/javascript">
+			
+		</script>
+    </th:block>
 </body>
 </html>
