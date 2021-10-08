@@ -87,11 +87,11 @@ var form_validation = function() {
                     "ageCodeList" : {
                     	required: !0
                     },
-                    "recruitNum" : {
+                    "recruitNumTotal" : {
                     	required: !0,
                     	number: !0
                     },
-                    "endDate" : {
+                    "recruitFinTime" : {
                     	required: !0
                     },
                     "cateList" : {
@@ -133,11 +133,11 @@ var form_validation = function() {
                     "recruitTitle": "공고명을 입력해주세요!",
                     "surveyTitle": "설문조사 제목을 입력해주세요!",
                     "ageCodeList": "설문 대상 연령대를 선택해주세요!",
-                    "recruitNum": {
+                    "recruitNumTotal": {
                     	 required: "모집 인원을 입력해주세요!",
                     	 number: "숫자만 입력해주세요!"
                     },
-                    "endDate": "모집 기한을 선택해주세요!",
+                    "recruitFinTime": "모집 기한을 선택해주세요!",
                     "cateList": "설문항목을 선택해주세요!",
                     "specialCateList": "분석항목을 선택해주세요!",
                 }
