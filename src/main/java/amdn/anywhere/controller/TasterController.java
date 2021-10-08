@@ -1,5 +1,6 @@
 package amdn.anywhere.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,26 @@ public class TasterController {
 	public TasterController(TasterService tasterService) {
 		this.tasterService = tasterService;
 	}
-
+	//상태변경시 처리
+	@GetMapping("/changeState")
+	public String changeState(
+			@RequestParam(value="recruitCode",required = false) String recruitCode
+			,@RequestParam(value="state",required = false) String state
+			,HttpSession session
+			){
+		System.out.println(recruitCode);
+		System.out.println(state);		
+		String adminId = "id001"; //세션에서 가져와야함.
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("recruitCode", recruitCode);
+		paramMap.put("state", state);
+		paramMap.put("adminId", adminId);
+		
+		tasterService.modifyState(paramMap);
+		
+		return "redirect:/taster/recruitList";
+	}
+	
 	@GetMapping("/recruitList")
 	public String recruitList(Model model) {
 		
@@ -51,12 +71,10 @@ public class TasterController {
 		) {
 		System.out.println(recruitByBiz + " ----------------------------01");
 		recruitByBiz.setBizId("id004"); // 소상공인아이디 가정
-		//1. 모집코드 자동생성 처리
-		//2. 상태코드 세팅
-		//3. 신청 일시 세팅 (자바 내장 함수 이용)
-		// insert 전에 mapper, resultMap 작성.
-		//4. insert
-		return "redirect:/taster/recruitApply";
+		
+		//모집 추가 처리
+		tasterService.addRecruit(recruitByBiz);
+		return "/taster/recruitList";
 	}
 	
 	@GetMapping("/recruitApply")

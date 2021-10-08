@@ -28,7 +28,47 @@
 				<result property="menuName" column="menu_name"/>
 			</association>
 	</resultMap>
+	<insert id="insertRecruit" parameterType="RecruitTasterByBiz">
+		INSERT INTO tb_taster_recruit_biz
+		(
+			recruit_taster_biz_code
+			, store_code
+			, biz_id
+			, recruit_title
+			, questions_title
+			, question_cate_code
+			, special_question_cate
+			, request_date
+			, recruit_num_total
+			, recruit_num_now
+			, menu_code
+			, recruit_fin_time
+			, state_code
+			, admin_id
+			, age_code
+		)
+		VALUES (#{recruitTBizCode}, #{storeCode}, #{bizId}, #{recruitTitle}, #{surveyTitle}, #{strCateList}, #{strSpecialCateList}, NOW(), #{recruitNumTotal}, 0, #{menuCode}, #{recruitFinTime}, #{stateCode}, null, #{strAgeCodeList})
+	</insert>
+	<update id="modifyState" parameterType="map">
+		UPDATE tb_taster_recruit_biz
+			SET
+				admin_id= #{adminId}
+				<if test="state == '승인' ">
+					,state_code = '승인완료'
+				</if>
+				<if test="state == '취소'">
+					,state_code = '모집취소'
+				</if>
+			WHERE 
+				recruit_taster_biz_code = #{recruitCode};
+	</update>
+	<select id="createRecruitCode" resultType="String">
+		SELECT 
+			IFNULL(CONCAT(SUBSTRING_INDEX(recruit_taster_biz_code,'_', 1),'_',LPAD(CAST(MAX(SUBSTRING_INDEX(recruit_taster_biz_code,'_',-1))AS DECIMAL)+1,4,0)), 'rtb_0001') AS newCode
+		FROM
+			tb_taster_recruit_biz
 	
+	</select>
 	<select id="selectRecruitBB" resultMap="recruitTasterBBResultMap">
 		SELECT 
 			t.recruit_taster_biz_code
