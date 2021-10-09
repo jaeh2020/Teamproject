@@ -42,7 +42,6 @@
 			<association property="foodMainCate" javaType="FoodMainCate">
 			<id property="mainCateCode"			column="main_cate_code"/>
 			<result property="mainCateName"		column="main_cate_name"/>
-			<result property="mainCateName2"	column="main_cate_name2"/>
 			</association>
 			<association property="menuCate" 	javaType="MenuCate">
 			<id property="menuCateCode"			column="menu_cate_code"/>
@@ -51,14 +50,115 @@
 	</resultMap>
 	
 	<resultMap type="FoodMainCate" id="foodMainCateMap">
-		<result property="menuCode"				column="menu_code"/>
-		<result property="bizId"				column="biz_id"/>
-		<result property="storeCode"			column="store_code"/>
+		<result property="mainCateCode"				column="main_cate_Code"/>
+		<result property="mainCateName"				column="main_cate_name"/>
 	</resultMap>
 	
 	
 	
-	<!-- 메뉴 대분류 조회 getMainCate -->
+	
+	<!-- 메뉴삭제처리 -->
+	<delete id="deleteMyMenu" parameterType="String">
+		DELETE
+		FROM
+			tb_store_menu
+		WHERE
+			menu_code = #{menuCode};
+	</delete>
+	
+	
+	<!-- 메뉴수정처리 -->
+	<update id="modifyMyMenu" parameterType="Menu">
+		UPDATE
+			tb_store_menu
+		SET
+			main_cate_code = #{mainCateCode}
+			,menu_cate_code = #{menuCateCode}
+			,menu_name = #{menuName}
+			,menu_price = #{menuPrice}
+			,menu_detail = #{menuDetail}
+			,menu_using = #{menuUsing}
+		WHERE
+			menu_code = #{menuCode};
+	</update>
+	
+	<!-- 메뉴수정 화면 -->
+	<select id="getMyMenuInfoByMenuCode" parameterType="String" resultType="Menu">
+		SELECT
+			menu_code AS menuCode
+			,biz_id AS bizId
+			,main_cate_code AS mainCateCode
+			,menu_cate_code AS menuCateCode
+			,menu_name AS menuName
+			,menu_price AS menuPrice
+			,menu_detail AS menuDetail
+			,menu_using AS menuUsing
+		FROM
+			tb_store_menu
+		WHERE
+			menu_code = #{menuCode};
+	
+	</select>
+
+
+
+
+	<!-- 메뉴코드 자동증가 -->
+	<select id="getNewMenuCode" resultType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN 'm_001'
+			ELSE
+			CONCAT('m_', LPAD(MAX(CAST(SUBSTRING(menu_code,3,3)AS DECIMAL)+1),3,0))
+			END AS menuCode
+		FROM
+			tb_store_menu;
+	</select>
+	
+	
+	<!-- 메뉴 등록 처리 -->
+	<insert id="addMyMenu" parameterType="Menu">
+	INSERT INTO tb_store_menu
+		(menu_code
+		,biz_id
+		,store_code
+		,main_cate_code
+		,menu_cate_code
+		,menu_name
+		,menu_price
+		,menu_detail
+		,menu_reg_time
+		,menu_using
+		)
+		VALUES (
+		 #{menuCode}
+		, #{bizId}
+		, #{storeCode}
+		, #{mainCateCode}
+		, #{menuCateCode}
+		, #{menuName}
+		, #{menuPrice}
+		, #{menuDetail}
+		, CURDATE()
+		, #{menuUsing}
+		);
+	</insert>
+	
+	
+	<!-- 대분류명 수정처리 -->
+	<update id="modifyMainCate" parameterType="Store" >
+		UPDATE 
+			tb_store_info
+		SET
+			main_cate_code = #{mainCateCode}
+			,main_cate_code2 = #{mainCateCode2}
+		WHERE
+			biz_id = #{bizId};
+	</update>
+	
+	
+	
+	<!-- 메뉴 대분류 조회 -->
 	<select id="getMainCate" resultMap="foodMainCateMap">
 		SELECT
 			main_cate_code

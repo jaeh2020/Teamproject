@@ -11,6 +11,23 @@ import amdn.anywhere.domain.Store;
 @Mapper
 public interface StoreMapper {
 	
+	//메뉴삭제처리
+	public int deleteMyMenu(String menuCode);
+	
+	//메뉴수정 처리
+	public int modifyMyMenu(Menu menu);
+	
+	//메뉴수정 화면
+	public Menu getMyMenuInfoByMenuCode(String menuCode);
+	
+	//메뉴코드 자동증가
+	public String getNewMenuCode();
+	
+	//메뉴 등록 처리
+	public int addMyMenu(Menu menu);
+	
+	//메뉴 대분류 수정처리
+	public int modifyMainCate(Store store);
 	
 	//메뉴 대분류 조회
 	public List<FoodMainCate> getMainCate();

@@ -21,6 +21,37 @@ public class StoreService {
 		this.storeMapper = storeMapper;
 	}
 	
+	//메뉴삭제처리
+	public int deleteMyMenu(String menuCode) {
+		return storeMapper.deleteMyMenu(menuCode);
+	}
+	
+	//메뉴수정처리
+	public int modifyMyMenu(Menu menu) {
+		return storeMapper.modifyMyMenu(menu);
+	}
+	
+	//메뉴수정화면
+	public Menu getMyMenuInfoByMenuCode(String menuCode) {
+		return storeMapper.getMyMenuInfoByMenuCode(menuCode);
+	}
+	
+	//메뉴코드 자동증가
+	public String getNewMenuCode() {
+		return storeMapper.getNewMenuCode();
+	}
+	
+	//메뉴 등록처리
+	public int addMyMenu(Menu menu) {
+		return storeMapper.addMyMenu(menu);
+	}
+	
+	
+	//메뉴 대분류 수정처리
+	public int modifyMainCate(Store store) {
+		return storeMapper.modifyMainCate(store);
+	}
+	
 	//메뉴 대분류 조회
 		public List<FoodMainCate> getMainCate(){
 			List<FoodMainCate> mainCate = storeMapper.getMainCate();
