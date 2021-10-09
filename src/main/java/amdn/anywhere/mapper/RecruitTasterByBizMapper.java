@@ -9,7 +9,8 @@ import amdn.anywhere.domain.RecruitTasterByBiz;
 
 @Mapper
 public interface RecruitTasterByBizMapper {
-	public List<RecruitTasterByBiz> selectRecruitBB(); 
+	
+	public List<RecruitTasterByBiz> selectRecruitBB(String recruitCode); 
 	
 	//모집리스트 상태 수정
 	public int modifyState(Map<String, Object> paramMap);

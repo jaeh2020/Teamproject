@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.RecruitTasterByBiz;
-
+import amdn.anywhere.service.QuestionService;
 import amdn.anywhere.service.TasterService;
 
 @Controller
@@ -24,12 +24,14 @@ import amdn.anywhere.service.TasterService;
 public class TasterController {
 	
 	private TasterService tasterService;
+	private QuestionService questionService;
 
 	
-	public TasterController(TasterService tasterService) {
+	public TasterController(TasterService tasterService, QuestionService questionService) {
 		this.tasterService = tasterService;
+		this.questionService = questionService;
 	}
-	//상태변경시 처리
+	//상태변경 처리
 	@GetMapping("/changeState")
 	public String changeState(
 			@RequestParam(value="recruitCode",required = false) String recruitCode
@@ -46,6 +48,12 @@ public class TasterController {
 		
 		tasterService.modifyState(paramMap);
 		
+		//승인처리시 공고 및 설문조사 생성.
+		if(state.equals("승인")) {
+			//1	설문조사
+			System.out.println("설문조사 생성");	
+			questionService.addSurvey(recruitCode);
+		}
 		return "redirect:/taster/recruitList";
 	}
 	

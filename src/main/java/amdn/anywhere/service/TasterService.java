@@ -79,6 +79,6 @@ public class TasterService {
 	}
 	//1. 모집 리스트
 	public List<RecruitTasterByBiz> getRecruitBBList(){
-		return recruitTasterByBizMapper.selectRecruitBB();
+		return recruitTasterByBizMapper.selectRecruitBB(null);
 	}
 }

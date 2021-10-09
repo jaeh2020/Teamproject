@@ -47,7 +47,23 @@
 			, admin_id
 			, age_code
 		)
-		VALUES (#{recruitTBizCode}, #{storeCode}, #{bizId}, #{recruitTitle}, #{surveyTitle}, #{strCateList}, #{strSpecialCateList}, NOW(), #{recruitNumTotal}, 0, #{menuCode}, #{recruitFinTime}, #{stateCode}, null, #{strAgeCodeList})
+		VALUES (
+			#{recruitTBizCode}
+			, #{storeCode}
+			, #{bizId}
+			, #{recruitTitle}
+			, #{surveyTitle}
+			, #{strCateList}
+			, #{strSpecialCateList}
+			, NOW()
+			, #{recruitNumTotal}
+			, 0
+			, #{menuCode}
+			, #{recruitFinTime}
+			, #{stateCode}
+			, null
+			, #{strAgeCodeList}
+		)
 	</insert>
 	<update id="modifyState" parameterType="map">
 		UPDATE tb_taster_recruit_biz
@@ -69,7 +85,7 @@
 			tb_taster_recruit_biz
 	
 	</select>
-	<select id="selectRecruitBB" resultMap="recruitTasterBBResultMap">
+	<select id="selectRecruitBB" resultMap="recruitTasterBBResultMap" parameterType="String">
 		SELECT 
 			t.recruit_taster_biz_code
 			, t.store_code
@@ -96,6 +112,11 @@
 			INNER JOIN 
 			tb_store_info AS s
 			ON t.store_code = s.store_code
+		<where>
+			<if test="recruitCode != null">
+				t.recruit_taster_biz_code = #{recruitCode}
+			</if>
+		</where>
 	</select>
 	
 	
