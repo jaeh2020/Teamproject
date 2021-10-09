@@ -61,12 +61,34 @@
 		)VALUES (
 			#{userId}
 			, #{msCode}
-			, 0
-			, 1000
-			, 'n'
-			, 0);
+			, #{userOrderTotal}
+			, #{userPoint}
+			, #{userEvaluator}
+			, #{reportScore});
 	</insert>
+	
 	<!-- 선호/비선호 선택한거 등록  -->
+	<insert id="addMemberUserLike">
+		INSERT INTO tb_member_user_like
+			(user_like_code
+			, member_id
+			, user_like_key_1
+			, user_like_key_2
+			, user_like_key_3
+			, user_unlike_key_1
+			, user_unlike_key_2
+			, user_unlike_key_3
+		)VALUES (
+			#{userLikeCode}
+			, #{memberId}
+			, #{userLikeKey1}
+			, #{userLikeKey2}	
+			, #{userLikeKey3}
+			, #{userUnlikeKey1}
+			, #{userUnlikeKey2}
+			, #{userUnlikeKey3});
+	</insert>
+	
 	<!-- 선호/비선호 선택 카테고리 리스트 불러오기 -->
 	<select id="getFoodMainList" resultType="FoodMainCate">
 		SELECT 

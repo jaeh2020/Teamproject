@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.MemberUser;
+import amdn.anywhere.domain.MemberUserLike;
+import amdn.anywhere.domain.Message;
+import amdn.anywhere.domain.MessageCheck;
 import amdn.anywhere.service.MemberService;
 
 
@@ -89,10 +93,28 @@ public class MemberController {
 	}
 	//추가정보입력
 	@PostMapping("/member/addMember03")
-	public String addMember03(MemberUser memberUser) {
+	public String addMember03(MemberUser memberUser
+							  ,MemberUserLike memberUserLike) {
 		System.out.println("멤버유저 : " + memberUser);
+		System.out.println("멤버유저라이크 : " + memberUserLike);
+		
 		if(memberUser != null) memberService.addMember03(memberUser);
+		if(memberUserLike != null) memberService.addMemberUserLike(memberUserLike);
+		
 		return "redirect:/member/addMember04";
+	}
+	
+	//선호도 선택 ajax
+	@GetMapping(value="/userLike", produces = "application/json")
+	@ResponseBody
+	public String userLike(	@RequestParam(value = "likeArr[]") List<String> likeArr
+							,@RequestParam(value = "unlikeArr[]") List<String> unlikeArr) {
+
+		MemberUserLike mul = new MemberUserLike();
+		System.out.println("likeArr"+likeArr);
+		System.out.println("unlikeArr"+unlikeArr);
+		System.out.println("mul"+mul);
+		return "mul";
 	}
 	
 	@GetMapping("/member/addMember03")
