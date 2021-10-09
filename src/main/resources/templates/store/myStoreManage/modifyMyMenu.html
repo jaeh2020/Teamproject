@@ -31,20 +31,17 @@
 			<div class="card card-outline-primary">
 				<div class="card-title">
 					<div class="card-header">
-	                	<h4 class="m-b-0 text-white">메뉴 등록하기</h4>
+	                	<h4 class="m-b-0 text-white">메뉴 수정하기</h4>
 	                </div>
 				</div>
-				<form id="addMyMenuForm" th:action="@{/store/myStoreManage/addMyMenu}" method="post">
+				<form id="modifyMyMenuForm" th:action="@{/store/myStoreManage/modifyMyMenu}" method="post">
 					<div class="card-body">
 						<div class="basic-form">
 								<div>
 									<label> <span class="text-danger">*</span> 는 필수 항목입니다. </label>
 								</div>
 								<div class="form-group">
-									<input type="hidden" name="bizId" th:value="${bizId}" class="form-control" readonly="readonly">
-									<th:block th:each="s : ${storeList}">
-									<input type="hidden" name="storeCode" th:value="${s.storeCode}" class="form-control" readonly="readonly">
-									</th:block>
+									<input type="text" name="menuCode" th:value="${menu.menuCode}" class="form-control" readonly="readonly">
 								</div>
 								<div class="form-group">
 									<label>메뉴 대분류 <span class="text-danger">*</span> </label>
@@ -69,27 +66,35 @@
 								</div>
 								<div class="form-group">
 									<label>메뉴명 <span class="text-danger">*</span> </label>
-									<input type="text" name="menuName" class="form-control">
+									<input type="text" name="menuName" th:value="${menu.menuName}" class="form-control">
 								</div>
 								<div class="form-group">
 									<label>가격  <span class="text-danger">*</span> </label>
-									<input type="number" name="menuPrice" class="form-control">
+									<input type="number" name="menuPrice" th:value="${menu.menuPrice}" class="form-control">
 								</div>
 								<div class="form-group">
 									<label>상세정보</label>
-									<input type="text" name="menuDetail" class="form-control">
+									<input type="text" name="menuDetail" th:value="${menu.menuDetail}" class="form-control">
 									<small class="form-control-feedback" style="color: red;"> 메뉴에 대한 정보 작성 ( 예) 떡볶이일경우 - 밀떡 ) </small>
 								</div>
 								<div class="form-group">
 									<label>사용여부 <span class="text-danger">*</span> </label>
-										<select class="form-control" id="selectMenuUsing" name="menuUsing">
-			                                      <option th:text="Y" th:value="Y"></option>
-			                                      <option th:text="N" th:value="N"></option>
-			                             </select>
+										<th:block th:if="${menu.menuUsing == 'Y'}">
+											<select class="form-control" id="menuUsing" name="menuUsing">
+				                                      <option th:text="Y" th:value="Y" selected></option>
+				                                      <option th:text="N" th:value="N"></option>
+				                             </select>
+		                          		</th:block>
+										<th:block th:unless="${menu.menuUsing == 'Y'}">
+											<select class="form-control" id="menuUsing" name="menuUsing">
+				                                      <option th:text="Y" th:value="Y"></option>
+				                                      <option th:text="N" th:value="N" selected></option>
+				                            </select>
+		                            	</th:block>
 								</div>
 								
 								<div class="form-group">
-									<button type="submit" id="addMyMenuBtn" class="btn btn-primary btn-flat m-b-10">메뉴 등록</button>
+									<button type="submit" id="modifyMyMenuBtn" class="btn btn-primary btn-flat m-b-10">메뉴 수정</button>
 								</div>
 						</div>
 					</div>
@@ -112,7 +117,7 @@
     
    	/* 유효성검사 */ 
 	$(function(){
-			$('#addMyMenuBtn').click(function(){
+			$('#modifyMyMenuBtn').click(function(){
 				
 				var mainCateCode = $('[name=mainCateCode]');
 				var menuCateCode = $('[name=menuCateCode]');
@@ -126,18 +131,8 @@
 				}else if(menuCateCode.val().trim() == ''){
 					alert('메뉴 카테고리를 선택해주세요 .');
 					return false;
-					
-				}else if(menuName.val().trim() == ''){
-					alert('메뉴명을 입력해주세요.');
-					menuName.focus();
-					return false;
-					
-				}else if(menuPrice.val().trim() == ''){
-					alert('메뉴가격을 입력해주세요.');
-					menuPrice.focus();
-					return false;
 				}
-				$('#addMyMenuForm').submit();	
+				$('#modifyMyMenuForm').submit();	
 			});
 		});
 		
