@@ -115,7 +115,7 @@
 									</div>
                                     <div class="form-group">
                                         <label>아이디</label>
-                                        <input type="text" class="form-control" name="memberId" placeholder="아이디">
+                                        <input type="text" class="form-control" id="memberId" name="memberId" placeholder="아이디">
                                     </div>
                                     <div class="form-group">
                                         <label>비밀번호</label>
@@ -151,7 +151,7 @@
 		                                    <button class="btn btn-inverse btn-flat m-b-30 m-t-30">이전</button>
 	                                    </a>
 	                                    <a th:href="@{/member/addMember03}">
-		                                    <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">다음</button>
+		                                    <button type="submit" onclick="setId()" class="btn btn-success btn-flat m-b-30 m-t-30">다음</button>
 	                                    </a>
                                     </div>
                                 </form>
@@ -166,7 +166,11 @@
 
     <th:block layout:fragment="customJsLib">
 		<script type="text/javascript">
-			
+			//memberId값 다음페이지로 넘기기
+			function setId(memberId){
+				var memberId = document.getElementById('memberId').value;
+				localStorage.setItem("inputId",memberId);
+			}
 		</script>
     </th:block>
 </body>

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.MemberUser;
+import amdn.anywhere.domain.MemberUserLike;
 
 @Mapper
 public interface MemberMapper {
@@ -21,6 +22,7 @@ public interface MemberMapper {
 	public int addMember03(MemberUser memberUser);
 	
 	//선호-비선호 선택 등록
+	public int addMemberUserLike(MemberUserLike memberUserLike);
 	
 	//선호-비선호 카테고리 불러오기
 	public List<FoodMainCate> getFoodMainList();
