@@ -31,6 +31,31 @@ public class TasterController {
 		this.tasterService = tasterService;
 		this.questionService = questionService;
 	}
+	//모집 상세페이지 이동
+	@GetMapping("/recruitDetail")
+	public String recruitDetail(
+			@RequestParam(value = "recruitCode", required = false)String recruitCode , Model model) {
+		//조회수 업데이트
+		
+		//모집코드로 공고내용 가져오기
+		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitCode).get(0);
+		model.addAttribute("title", "평가단 모집 공고");
+		model.addAttribute("location1URL", "/taster/recruitNotice");
+		model.addAttribute("location1", "평가단 모집공고");
+		model.addAttribute("location2", "상세페이지");
+		model.addAttribute("recruitInfo", recruitInfo);
+		
+		return "/taster/recruitDetail";
+	}
+	//모집공고 페이지 이동
+	@GetMapping("/recruitNotice")
+	public String recruitNotice(Model model) {
+		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null);
+		model.addAttribute("recruitList", recruitList);
+		model.addAttribute("title", "평가단 모집 공고");
+		model.addAttribute("location", "모집 공고");
+		return "/taster/recruitNotice";
+	}
 	//상태변경 처리
 	@GetMapping("/changeState")
 	public String changeState(
@@ -60,7 +85,7 @@ public class TasterController {
 	@GetMapping("/recruitList")
 	public String recruitList(Model model) {
 		
-		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList();
+		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null);
 		System.out.println(recruitList);
 		model.addAttribute("title", "평가단 모집 목록");
 		model.addAttribute("location", "모집 목록");

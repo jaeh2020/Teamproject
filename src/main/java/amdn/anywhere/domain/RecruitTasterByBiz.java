@@ -14,6 +14,7 @@ public class RecruitTasterByBiz {
 	private String stateCode;
 	private String requestTime;
 	private String menuCode;
+	private int viewCounts;
 	private List<String> ageCodeList;
 	private List<String> specialCateList;
 	private List<String> cateList;
@@ -24,6 +25,12 @@ public class RecruitTasterByBiz {
 	private Store storeInfo;
 	private Menu menu;
 
+	public int getViewCounts() {
+		return viewCounts;
+	}
+	public void setViewCounts(int viewCounts) {
+		this.viewCounts = viewCounts;
+	}
 	
 	public String getRecruitTBizCode() {
 		return recruitTBizCode;
@@ -156,9 +163,10 @@ public class RecruitTasterByBiz {
 				+ recruitTitle + ", surveyTitle=" + surveyTitle + ", recruitNumTotal=" + recruitNumTotal
 				+ ", recruitNumNow=" + recruitNumNow + ", recruitFinTime=" + recruitFinTime + ", adminId=" + adminId
 				+ ", stateCode=" + stateCode + ", requestTime=" + requestTime + ", menuCode=" + menuCode
-				+ ", ageCodeList=" + ageCodeList + ", specialCateList=" + specialCateList + ", cateList=" + cateList
-				+ ", strAgeCodeList=" + strAgeCodeList + ", strSpecialCateList=" + strSpecialCateList + ", strCateList="
-				+ strCateList + ", storeCode=" + storeCode + ", storeInfo=" + storeInfo + ", menu=" + menu + "]";
+				+ ", viewCounts=" + viewCounts + ", ageCodeList=" + ageCodeList + ", specialCateList=" + specialCateList
+				+ ", cateList=" + cateList + ", strAgeCodeList=" + strAgeCodeList + ", strSpecialCateList="
+				+ strSpecialCateList + ", strCateList=" + strCateList + ", storeCode=" + storeCode + ", storeInfo="
+				+ storeInfo + ", menu=" + menu + "]";
 	}
 	
 	

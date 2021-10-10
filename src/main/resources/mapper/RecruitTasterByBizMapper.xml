@@ -15,6 +15,7 @@
 		<result property = "stateCode" column="state_code"/>
 		<result property = "requestTime" column="request_date"/>
 		<result property = "menuCode" column="menu_code"/>
+		<result property = "viewCounts" column="count_of_view"/>
 		<result property = "strAgeCodeList" column="age_code"/>
 		<result property = "strSpecialCateList" column="special_question_cate"/>
 		<result property = "strCateList" column="question_cate_code"/>
@@ -22,6 +23,10 @@
 			<association property="storeInfo" javaType="Store">
 				<id property="storeCode" column="store_code"/>
 				<result property="storeName" column="store_name"/>
+				<result property="storeLocation" column="store_location"/>
+				<result property="storeTime" column="store_time"/>
+				<result property="storePhone" column="store_phone"/>
+				<result property="storeHoliday" column="store_holiday"/>
 			</association>
 			<association property="menu" javaType="Menu">
 				<id property="menuCode" column="menu_code"/>
@@ -98,12 +103,17 @@
 			, t.recruit_num_total
 			, t.recruit_num_now
 			, t.menu_code
+			, t.count_of_view
 			, t.recruit_fin_time
 			, t.state_code
 			, t.admin_id
 			, t.age_code
 			, m.menu_name
 			, s.store_name
+			, s.store_location
+			, s.store_time
+			, s.store_phone
+			, s.store_holiday
 		FROM 
 			tb_taster_recruit_biz AS t
 			INNER JOIN 

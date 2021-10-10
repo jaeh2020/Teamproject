@@ -159,7 +159,7 @@ public class QuestionController{
 	public String updateQuestions(Model model) {
 		
 		model.addAttribute("title", "설문조사 항목별 문항관리");
-		model.addAttribute("location1URL", "questionManage");
+		model.addAttribute("location1URL", "/survey/questionManage");
 		model.addAttribute("location1", "항목 관리");
 		model.addAttribute("location2", "문항 관리");
 		
