@@ -89,6 +89,18 @@
 			, #{userUnlikeKey3});
 	</insert>
 	
+	<!-- 선호-비선호코드 자동증가 -->
+	<select id="getUserLikeCode">
+		SELECT
+		   CASE
+		   WHEN COUNT(1) = 0 THEN 'us_like_001'
+		   ELSE
+		      CONCAT('us_like_', LPAD(MAX(CAST(SUBSTRING(user_like_code,3,3)AS DECIMAL)+1),3,0))
+		   END AS userLikeCode
+		FROM
+		   tb_member_user_like;
+	</select>
+	
 	<!-- 선호/비선호 선택 카테고리 리스트 불러오기 -->
 	<select id="getFoodMainList" resultType="FoodMainCate">
 		SELECT 

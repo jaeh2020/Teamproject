@@ -24,6 +24,9 @@ public interface MemberMapper {
 	//선호-비선호 선택 등록
 	public int addMemberUserLike(MemberUserLike memberUserLike);
 	
+	//선호-비선호 기본키 자동증가
+	public String getUserLikeCode();
+	
 	//선호-비선호 카테고리 불러오기
 	public List<FoodMainCate> getFoodMainList();
 	

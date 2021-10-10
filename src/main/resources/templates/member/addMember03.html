@@ -91,8 +91,8 @@
                             <div class="login-form">
                                 <h4>추가 정보 입력</h4>
                                 <form method="post" onload="getId()">
-                                	<input type="text" name="userLikeCode">
-                                	<input type="text" name="memberId">
+                                	<input type="text" name="userLikeCode" id="userLikeCode">
+                                	<input type="text" name="memberId" id="memberId">
                                     <div class="form-group">
 	                                    <label class="sub">선호하는 음식 </label><label>( ※ 최대 3개까지만 선택 가능합니다.)</label> 
 	                                    <div>
@@ -125,7 +125,6 @@
 	                                    <a th:href="@{/member/addMember04}">
 		                                    <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">다음</button>
 	                                    </a>
-	                                    <button type="button" class="aa">aaaa</button>
                                     </div>
                                 </form>
                             </div>
@@ -156,7 +155,10 @@
 				}							
 			});
 			//체크 된 값 ajax
-			$('.aa').on('click', function(){
+			$('.btn-success').on('click', function(){
+				var userLikeCode = $("#userLikeCode").val();
+				var memberId = $("#memberId").val();
+				console.log(userLikeCode,memberId)
 				//선호도
 				var likeArr = [];
 				$('input:checkbox[name=like]').each(function() {
@@ -172,14 +174,14 @@
 		      		}
 				});		
 				//ajax
-				var allData = {"likeArr":likeArr, "unlikeArr":unlikeArr}
+				var allData = {"userLikeCode":userLikeCode, "memberId":memberId, "likeArr":likeArr, "unlikeArr":unlikeArr}
 				console.log(allData,'allData')
 				
 				  var request = $.ajax({
 				  url: "/userLike", //요청 주소
 				  method: "GET", //요청 방식
 				  data: allData, //전달 할 파라미터
-				  dataType: "json" //받아 올 포맷방식
+				  dataType: "html" //받아 올 포맷방식
 				});
 				//응답이 완료 되었을 경우 실행
 				request.done(function( data ) {
@@ -191,11 +193,12 @@
 				
 			});
 			
-			//앞에서 입력한 아이디 가져오기
-			var inputId = localStorage.getItem("inputId");
+			//앞에서 입력한 아이디 가져와서 입력
+			var inputMemberId = localStorage.getItem("inputId");
 			$(document).ready(function(){
-				$('#userId').val(inputId);
-			});
+				$('#memberId').val(inputMemberId);
+				$('#userId').val(inputMemberId);
+			});			
 		});		
 	</script> 	
 </th:block>

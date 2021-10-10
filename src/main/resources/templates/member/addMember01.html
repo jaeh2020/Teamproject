@@ -94,7 +94,24 @@
                     
 </th:block>
 
-
-    <th:block layout:fragment="customJsLib"></th:block>
+    <th:block layout:fragment="customJsLib">
+		<script type="text/javascript">
+			$(function(){
+				//개인회원가입 클릭 시
+				$('.btn-primary').on('click', function setUser(){
+					sessionStorage.removeItem('setBiz');
+					var levelUser = 'level_user';
+					sessionStorage.setItem("setUser", levelUser)
+				});
+				//소상공인 회원가입 클릭 시
+				$('.btn-dark').on('click', function setBiz(){
+					sessionStorage.removeItem('setUser');
+					var levelBiz = 'level_biz';
+					sessionStorage.setItem("setBiz", levelBiz)
+				});
+			})
+		
+		</script>
+    </th:block>
 </body>
 </html>

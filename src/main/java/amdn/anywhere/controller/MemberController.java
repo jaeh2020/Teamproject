@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.codehaus.groovy.classgen.ReturnAdder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +17,6 @@ import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
-import amdn.anywhere.domain.Message;
-import amdn.anywhere.domain.MessageCheck;
 import amdn.anywhere.service.MemberService;
 
 
@@ -91,15 +88,13 @@ public class MemberController {
 		model.addAttribute("location", "회원가입  > 가입완료");
 		return "/member/addMember04";
 	}
+		
 	//추가정보입력
 	@PostMapping("/member/addMember03")
-	public String addMember03(MemberUser memberUser
-							  ,MemberUserLike memberUserLike) {
-		System.out.println("멤버유저 : " + memberUser);
-		System.out.println("멤버유저라이크 : " + memberUserLike);
+	public String addMember03(MemberUser memberUser) {
+		System.out.println("멤버유저 : " + memberUser);		
 		
 		if(memberUser != null) memberService.addMember03(memberUser);
-		if(memberUserLike != null) memberService.addMemberUserLike(memberUserLike);
 		
 		return "redirect:/member/addMember04";
 	}
@@ -107,13 +102,28 @@ public class MemberController {
 	//선호도 선택 ajax
 	@GetMapping(value="/userLike", produces = "application/json")
 	@ResponseBody
-	public String userLike(	@RequestParam(value = "likeArr[]") List<String> likeArr
-							,@RequestParam(value = "unlikeArr[]") List<String> unlikeArr) {
+	public String userLike(	@RequestParam(value = "userLikeCode") String userLikeCode
+							,@RequestParam(value = "memberId") String memberId
+							,@RequestParam(value = "likeArr[]") List<String> likeArr
+							,@RequestParam(value = "unlikeArr[]") List<String> unlikeArr
+							,MemberUserLike mul) {
+		/*
+		 * String ulikeCode = memberService.getUserLikeCode();
+		 * System.out.println("ulikeCodedd"+ulikeCode);
+		 */
+		
+		mul.setUserLikeCode(userLikeCode);
+		mul.setMemberId(memberId);
+		mul.setUserLikeKey1(likeArr.get(0));
+		mul.setUserLikeKey2(likeArr.get(1));
+		mul.setUserLikeKey3(likeArr.get(2));
+		mul.setUserUnlikeKey1(unlikeArr.get(0));
+		mul.setUserUnlikeKey2(unlikeArr.get(1));
+		mul.setUserUnlikeKey3(unlikeArr.get(2));
+		System.out.println(mul+"mullllllllllll");
+		
+		if(mul != null) memberService.addMemberUserLike(mul);
 
-		MemberUserLike mul = new MemberUserLike();
-		System.out.println("likeArr"+likeArr);
-		System.out.println("unlikeArr"+unlikeArr);
-		System.out.println("mul"+mul);
 		return "mul";
 	}
 	
@@ -129,12 +139,21 @@ public class MemberController {
 		
 		return "/member/addMember03";
 	}
+	
 	//회원정보입력
 	@PostMapping("/member/addMember02")
 	public String addMember02(Member member) {
 		System.out.println("커맨드 객체 : " + member);
 		
 		if(member != null) memberService.addMember02(member);
+		String memberLv = member.getLevelCode();
+		String joinLink = null;
+		if(memberLv.equals("level_user")) {
+			joinLink = "redirect:/member/addMember03";
+		}else {
+			joinLink = "redirect:/member/addMember04";
+		}
+		System.out.println(joinLink + "joinLink");
 		return "redirect:/member/addMember03";
 	}
 	
