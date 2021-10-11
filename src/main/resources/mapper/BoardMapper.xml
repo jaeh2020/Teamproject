@@ -36,6 +36,32 @@
 		
 	
 	
+	
+	<select id="getCommentCode" parameterType="String" resultMap="boardCommentMap">
+		SELECT
+			b_reply_code
+			,board_num
+			,b_reply_contents
+			,b_reply_time
+		FROM
+			tb_board_reply
+		WHERE
+			b_reply_code = #{boardReplyCode};
+	
+	</select>
+	
+	<!-- 게시글 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="String">
+		DELETE
+		FROM
+			tb_board_reply
+		WHERE 
+			b_reply_code = #{boardReplyCode};
+	</delete>
+	
+	
+	
+	
 	<!-- 게시글 댓글 등록 -->
 	<insert id="addComment" parameterType="BoardReply">
 		INSERT INTO tb_board_reply
@@ -74,7 +100,9 @@
 				,b_reply_time
 				,member_id
 			FROM
-				tb_board_reply;
+				tb_board_reply
+			where
+				board_num = #{boardNum};
 		</select>
 	
 	
@@ -228,13 +256,15 @@
 	
 	<!-- 게시판 리스트 -->
 		<select id="getBoardList" resultMap="borderMap">
-			SELECT 
+					SELECT 
 				 board_num 
 				,board_title 
 				,member_id
 				,board_time 
 				,board_views 
 			FROM 
-				tb_board_management;
+				tb_board_management
+			where
+				b_cate_code = 'u_qa';
 		</select>
 </mapper>
