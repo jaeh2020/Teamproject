@@ -24,6 +24,7 @@
 								<th style="width: 120px; font-weight: bold;">작성자 아이디</th>
 								<th style="width: 150px;  font-weight: bold;">작성시간</th>
 								<th style="width: 60px; font-weight: bold;">조회</th>
+								<th style="width: 60px; font-weight: bold;">신고</th>
 							</tr>
 						</thead>
 						<tbody id="boardListMore">
@@ -37,6 +38,9 @@
 								</td>
 								<td th:text="${b.boardRegTime}"></td>
 								<td th:text="${b.boardViews}"></td>
+								<td>
+									<a th:href="@{/board/boardReport}">신고</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>

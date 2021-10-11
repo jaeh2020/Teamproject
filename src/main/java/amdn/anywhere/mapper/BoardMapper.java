@@ -13,6 +13,11 @@ import amdn.anywhere.domain.Statement;
 @Mapper
 public interface BoardMapper {
 	
+	//댓글정보가져오기
+	public BoardReply getCommentCode(String boardReplyCode);
+	
+	//게시글 댓글 삭제
+	public int deleteComment(String boardReplyCode);
 	
 	//게시글 댓글 등록 
 	public int addComment(BoardReply boardReply);
@@ -21,7 +26,7 @@ public interface BoardMapper {
 	public String getNewBoardReplyNum();
 	
 	//게시물 댓글 목록
-	public List<BoardReply> getBoardCommentList();
+	public List<BoardReply> getBoardCommentList(String boardNum);
 	
 	//게시물 조회 수 증가
 	 public int updateBoardCnt(String boardNum); 

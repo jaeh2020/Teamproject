@@ -133,4 +133,14 @@
 			, #{memberEmail}
 			, CURDATE());
 	</insert>
+	
+	<!-- id 중복검사 -->
+	<select id="idCheck" resultMap="memberResultMap">
+		SELECT 
+			member_id 
+		FROM 
+			tb_member
+		WHERE
+			member_id = #{memberId};
+	</select>
 </mapper>
