@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+	
+<!-- css -->
+<style type= "text/css">
+	
+</style>
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="row">
+		<div class="col-lg-12 ">
+			<div class="card card-outline-primary">
+	            <div class="card-header">
+	                <h4 class="m-b-0 text-white">회원 목록</h4>
+	            </div>
+	            <div class="card-body">
+	            
+	            
+	            
+	            
+	            
+	            
+					<table class="table table-bordered">
+				            	<tbody>
+				            		<tr>
+					            		<td>아이디</td>
+					            		<td>[[${memberUser.userId}]]</td>
+				            		</tr>
+				            		<tr>
+					            		<td>멤버쉽</td>
+					            		<td>[[${memberUser.msCode}]]</td>
+				            		</tr>
+				            		<tr>
+					            		<td>주문건수</td>
+					            		<td>[[${memberUser.userOrderTotal}]]</td>
+				            		</tr>
+				            		<tr>
+					            		<td>포인트</td>
+					            		<td>[[${memberUser.userPoint}]]</td>
+				            		</tr>
+				            		<tr>
+					            		<td>평가단여부</td>
+					            		<td>[[${memberUser.userEvaluator}]]</td>
+				            		</tr>
+				            		<tr>
+					            		<td>신고횟수</td>
+					            		<td>[[${memberUser.reportScore}]]</td>
+				            		</tr>
+				            		
+				            	</tbody>
+	            			</table>   
+	            			
+	            			 
+	        	</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+
+<th:block layout:fragment="customJsLib">
+	<script type="text/javascript">
+
+	</script>
+</th:block>
+</html>

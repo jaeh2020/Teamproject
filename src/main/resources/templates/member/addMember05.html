@@ -42,16 +42,21 @@
 		color: #4B088A;
 		font-weight: bold;
 	}
-	.form-group div{
-		border: 1px solid #000;
+	.card h2, p{
+		text-align: center;
+		padding: 10px;
 	}
 	.form-button .btn {
 		display : inline-block;
 		width : 70px;
 		text-align: center;
-		margin-left: 20px;
+		margin: 10px;
 	}
 	.form-button{
+		text-align: center;
+	}
+	.form-button .btn-success{
+		width: 120px;
 		text-align: center;
 	}
 </style>
@@ -83,19 +88,13 @@
                                 <form method="post">
                                     <div class="form-group">
                                     	<div>
-	                                		<h1>🎊아무데나 회원가입을 축하드립니다.🎉</h1>
-		                                	<span>개인회원가입이 완료되었습니다.</span>
+	                                		<h2>회원가입을 축하드립니다.🎉</h2>
+		                                	<p>회원가입이 완료되었습니다.</p>
                                     	</div>
                                     </div>
-                                    
-                                    <!-- 앞에서 입력한 아이디값 hidden으로 가져오기 -->
                                     <div class="form-button">
-	                                  	<a th:href="@{/member/login}" >
-		                                    <button class="btn btn-inverse btn-flat m-b-30 m-t-30">로그인</button>
-	                                    </a>
-	                                    <a th:href="@{/}">
-		                                    <button class="btn btn-success btn-flat m-b-30 m-t-30">메인페이지로</button>
-	                                    </a>
+	                                  	<a th:href="@{/member/login}" class="btn btn-inverse btn-flat m-b-30 m-t-30">로그인</a>
+	                                    <a th:href="@{/}" class="btn btn-success btn-flat m-b-30 m-t-30">메인페이지로</a>
                                     </div>
                                 </form>
                             </div>

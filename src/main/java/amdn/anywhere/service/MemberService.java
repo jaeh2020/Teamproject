@@ -19,6 +19,22 @@ public class MemberService {
 		this.memberMapper = memberMapper;
 	}
 	
+	//소비자 회원 추가정보 개인 조회
+	public MemberUser getMemberUserInfoById(String userId) {
+		return memberMapper.getMemberUserInfoById(userId);
+	}
+	
+	//소비자 회원 추가정보 조회
+	public List<MemberUser> getMemberUserList(){
+		List<MemberUser> memberUserList = memberMapper.getMemberUserList();
+		return memberUserList;
+	}
+	
+	//마이페이지 내정보 수정
+	public int modifyMyInfo(Member member) {
+		return memberMapper.modifyMyInfo(member);
+	}
+	
 	//회원 정보 조회(로그인,)
 	public Member getMemberInfoById(String memberId) {
 		return memberMapper.getMemberInfoById(memberId);
