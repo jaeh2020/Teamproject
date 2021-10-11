@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+<th:block layout:fragment="customCss">
+	<style type="text/css">
+		.titleCss {
+			background-color: #5c4ac7;
+			color: white;   
+		}
+		.cateCss {
+			background-color: #f8f9fa;
+		}
+		#applyBtn {
+			margin: 20px 0px 0px 0px;
+		}
+		.radio-inline{
+			font-size: 20px;
+			
+		}
+		input[type=radio]{
+			width:20px;
+			height:20px;
+		}
+		.firstRadio {
+			background-color: #DEF3E9;
+		}
+		.lastRadio {
+			background-color: #FAE3DC;
+		}
+
+	</style>
+</th:block>	 
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<th:block layout:fragment="customLocation">
+	<div class="row page-titles">
+	    <div class="col-md-5 align-self-center">
+	        <h3 class="text-primary" th:text="${location2}"></h3></div>
+	    <div class="col-md-7 align-self-center">
+	        <ol class="breadcrumb">
+	            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+	            <li class="breadcrumb-item active">
+	            	<a th:text="${location1}" th:href="@{${location1URL}}"></a>
+	            </li>
+	            <li class="breadcrumb-item active" th:text="${location2}"></li>
+	        </ol>
+	    </div>
+	</div>
+</th:block>
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card ">
+		        <div class="card-body">
+		        	<form method="post">
+			            <div class="table-responsive">
+			                <table class="table">
+			                    <tbody>
+			                    	<tr>
+			                        	<td class="cateCss" colspan="10"><strong>설문 정보</strong></td>
+			                        </tr>
+			                    	<tr>
+			                    		<td class="titleCss" colspan="4">제목</td>
+			                    		<td th:text="${recruitInfo.surveyTitle}" colspan="6"></td>
+			                    	</tr>
+			                        <tr>
+										<td class="titleCss" colspan="3">매장명</td>
+			                            <td colspan="2" th:text="${recruitInfo.storeInfo.storeName}"></td>
+			                            <td colspan="2" class="titleCss">메뉴명</td>
+			                            <td colspan="3" th:text="${recruitInfo.menu.menuName}"></td>    
+			                        </tr>
+			                        <tr>
+			                        	<td colspan="2" class="cateCss">항목</td>
+			                        	<td colspan="3" class="cateCss">질문</td>
+			                        	<td class="cateCss">매우 만족 <i class="bi bi-hand-thumbs-up"></i></td>
+			                        	<td colspan="3" class="cateCss">보통</td>
+			                        	<td class="cateCss">매우 불만족 <i class="bi bi-hand-thumbs-down"></i></td>
+			                        </tr>
+			                        <th:block th:each="m : ${qList}">
+			                        	<tr>
+			                        		<td class= "cateName" colspan="2" th:text="${m.questionCate.cateName}">
+											<td colspan="3" th:text="${m.qContent}"></td>
+			                        		<td class="firstRadio">
+			                        			<label class="radio-inline">
+												  <input type="radio" th:name="${m.qCode}" value="5"> 5
+												</label>
+											</td>
+											<td>	
+												<label class="radio-inline">
+												  <input type="radio" th:name="${m.qCode}" value="4"> 4
+												</label>
+											</td>
+											<td >
+												<label class="radio-inline">
+												  <input type="radio" th:name="${m.qCode}" value="3"> 3
+												</label>
+											</td>
+											<td>
+												<label class="radio-inline">
+												  <input type="radio" th:name="${m.qCode}" value="2"> 2
+												</label>
+											</td>
+											<td class="lastRadio">
+												<label class="radio-inline">
+												  <input type="radio" th:name="${m.qCode}" value="1"> 1
+												</label>
+			                        		</td>
+			                        	</tr>
+			                        	<tr>
+			                        	</tr>
+			                        </th:block>			                      
+			                    </tbody>
+			                </table>
+			            </div>
+			        </form>
+		            <div class="row">
+		            	<div class="col-md-8"></div>
+		            	<div class="col-md-4">
+			            	<button type="button" id="submit" class="btn btn-success btn-block ">제출하기</button>		            	
+		            	</div>
+		            </div>
+		        </div>
+		    </div>
+	    </div>
+	</div>
+</th:block>
+<th:block layout:fragment="customJsLib">
+<script type="text/javascript">
+	
+	
+
+</script>
+</th:block>
+</html>

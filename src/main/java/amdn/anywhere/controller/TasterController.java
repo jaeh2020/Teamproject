@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.RecruitTasterByBiz;
+import amdn.anywhere.domain.Taster;
 import amdn.anywhere.service.QuestionService;
 import amdn.anywhere.service.TasterService;
 
@@ -31,12 +32,31 @@ public class TasterController {
 		this.tasterService = tasterService;
 		this.questionService = questionService;
 	}
+	//평가단 신청처리
+	@PostMapping("/applyTaster")
+	public String applyTaster( HttpSession session,
+			@RequestParam(value="recruitBCode", required = false) String recruitBCode) {
+		Taster taster = new Taster();
+		taster.setRecruitBCode(recruitBCode);
+		taster.setUserId("id010"); //소비자아이디 가정
+		tasterService.addTaster(taster);
+		return "redirect:/taster/tasterList";
+	}
+	//평가단 관리페이지 이동
+	@GetMapping("/tasterList")
+	public String tasterList(Model model) {
+		List<Taster> tasterList = tasterService.getTasterList(null);
+		model.addAttribute("title", "평가단 관리페이지");
+		model.addAttribute("location", "평가단 관리");
+		model.addAttribute("tasterList", tasterList);
+		return "/taster/tasterList";
+	}
 	//모집 상세페이지 이동
 	@GetMapping("/recruitDetail")
 	public String recruitDetail(
 			@RequestParam(value = "recruitCode", required = false)String recruitCode , Model model) {
 		//조회수 업데이트
-		
+		tasterService.updateViewCounts(recruitCode);
 		//모집코드로 공고내용 가져오기
 		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitCode).get(0);
 		model.addAttribute("title", "평가단 모집 공고");
