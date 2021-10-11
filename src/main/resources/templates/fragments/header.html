@@ -115,7 +115,7 @@
                           </a>
                           <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                               <ul class="dropdown-user">
-                                  <li><a href="#"><i class="ti-user"></i> 마이페이지</a></li>
+                                  <li><a th:href="@{/member/myPage(userId=${session.SID})}"><i class="ti-user"></i> 마이페이지</a></li>
                                   <li><a href="#"><i class="ti-email"></i> 메세지</a></li>
                                   <li><a href="#"><i class="ti-settings"></i> 설정</a></li>
                                   <li><a th:href="@{/logout}"><i class="fa fa-power-off"></i> 로그아웃</a></li>

@@ -91,7 +91,7 @@
                             <div class="login-form">
                                 <h4>추가 정보 입력</h4>
                                 <form method="post" onload="getId()">
-                                	<input type="text" name="userLikeCode" id="userLikeCode">
+                                	<input type="hidden" name="userLikeCode" id="userLikeCode">
                                 	<input type="text" name="memberId" id="memberId">
                                     <div class="form-group">
 	                                    <label class="sub">선호하는 음식 </label><label>( ※ 최대 3개까지만 선택 가능합니다.)</label> 
@@ -111,18 +111,18 @@
                                     </div>
                                     
                                     <!-- 앞에서 입력한 아이디값 hidden으로 가져오기 -->
-                                    <input type="text" name="userId" id="userId">
-                                    <input type="text" name="msCode" value="ms_bronze">
-                                    <input type="text" name="userOrderTotal" th:value="0">
-                                    <input type="text" name="userPoint" th:value="1000">
-                                    <input type="text" name="userEvaluator" th:value="n">
-                                    <input type="text" name="reportScore" th:value="0">
+                                    <input type="hidden" name="userId" id="userId">
+                                    <input type="hidden" name="msCode" value="ms_bronze">
+                                    <input type="hidden" name="userOrderTotal" th:value="0">
+                                    <input type="hidden" name="userPoint" th:value="1000">
+                                    <input type="hidden" name="userEvaluator" th:value="n">
+                                    <input type="hidden" name="reportScore" th:value="0">
                                     
                                     <div class="form-button">
 	                                  	<a th:href="@{/member/addMember02}" >
 		                                    <button class="btn btn-inverse btn-flat m-b-30 m-t-30">이전</button>
 	                                    </a>
-	                                    <a th:href="@{/member/addMember04}">
+	                                    <a th:href="@{/member/addMember05}">
 		                                    <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">다음</button>
 	                                    </a>
                                     </div>
