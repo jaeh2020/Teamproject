@@ -19,7 +19,7 @@ public class MemberService {
 		this.memberMapper = memberMapper;
 	}
 	
-	//회원 정보 조회
+	//회원 정보 조회(로그인,)
 	public Member getMemberInfoById(String memberId) {
 		return memberMapper.getMemberInfoById(memberId);
 	}
@@ -54,5 +54,9 @@ public class MemberService {
 	public int addMember02(Member member) {
 		return memberMapper.addMember02(member);
 	}
-
+	
+	//id중복체크
+	public Member idCheck(String memberId) {
+		return memberMapper.idCheck(memberId);
+	}
 }

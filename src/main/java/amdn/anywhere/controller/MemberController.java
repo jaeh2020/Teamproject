@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -81,14 +83,31 @@ public class MemberController {
 		return "/member/memberList";
 	}
 	//가입완료
-	@GetMapping("/member/addMember04")
-	public String addMember04(Model model) {
+	@GetMapping("/member/addMember05")
+	public String addMember05(Model model) {
 		
 		model.addAttribute("title", "회원가입  > 가입완료");
 		model.addAttribute("location", "회원가입  > 가입완료");
+		return "/member/addMember05";
+	}
+	//소상공인 가입
+	@PostMapping("/member/addMember04")
+	public String addMember04(Member member) {
+		System.out.println("커맨드 객체 : " + member);
+		
+		if(member != null) memberService.addMember02(member);
+		
+		return "redirect:/member/addMember05";
+	}
+	
+	@GetMapping("/member/addMember04")
+	public String addMember04(Model model) {
+		
+		model.addAttribute("title", "회원가입  > 정보입력");
+		model.addAttribute("location", "회원가입  > 정보입력");
 		return "/member/addMember04";
 	}
-		
+	
 	//추가정보입력
 	@PostMapping("/member/addMember03")
 	public String addMember03(MemberUser memberUser) {
@@ -146,17 +165,26 @@ public class MemberController {
 		System.out.println("커맨드 객체 : " + member);
 		
 		if(member != null) memberService.addMember02(member);
-		String memberLv = member.getLevelCode();
-		String joinLink = null;
-		if(memberLv.equals("level_user")) {
-			joinLink = "redirect:/member/addMember03";
-		}else {
-			joinLink = "redirect:/member/addMember04";
-		}
-		System.out.println(joinLink + "joinLink");
+		
 		return "redirect:/member/addMember03";
 	}
 	
+	//id중복체크
+	@RequestMapping(value = "/idCheck", method = RequestMethod.GET)
+	@ResponseBody
+	public int idCheck(@RequestParam("memberId") String memberId) {
+		
+		Member idCheck = memberService.idCheck(memberId);
+		System.out.println("memberId체크" + memberId);
+		System.out.println("id체크" + idCheck);
+		
+		int result = 0;
+		if(idCheck != null) {
+			result = 1;
+		}
+		return result;
+	}
+
 	@GetMapping("/member/addMember02")
 	public String addMember02(Model model) {
 		
@@ -164,6 +192,7 @@ public class MemberController {
 		model.addAttribute("location", "회원가입  > 정보입력");
 		return "/member/addMember02";
 	}
+	
 	//회원유형선택
 	@GetMapping("/member/addMember01")
 	public String addMember01(Model model) {

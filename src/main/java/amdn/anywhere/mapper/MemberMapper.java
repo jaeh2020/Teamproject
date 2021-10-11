@@ -32,4 +32,7 @@ public interface MemberMapper {
 	
 	//소비자, 소상공인 회원 등록
 	public int addMember02(Member member);
+	
+	//id중복체크
+	public Member idCheck(String memberId);
 }
