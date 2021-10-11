@@ -1,12 +1,12 @@
 package amdn.anywhere.domain;
 
+
 public class BoardReply {
 	private String boardReplyCode;
 	private String boardNum;
 	private String boardReplyContents;
 	private String boardReplyTime;
 	private String memberId;
-	
 	public String getBoardReplyCode() {
 		return boardReplyCode;
 	}
