@@ -42,9 +42,16 @@
 								</div>
 								<div class="form-group">
 									<input type="hidden" name="bizId" th:value="${bizId}" class="form-control" readonly="readonly">
-									<th:block th:each="s : ${storeList}">
-									<input type="hidden" name="storeCode" th:value="${s.storeCode}" class="form-control" readonly="readonly">
-									</th:block>
+									
+								</div>
+								<div class="form-group">
+									<label>매장 선택 <span class="text-danger">*</span> </label>
+										<select class="form-control" id="selectStoreCode" name="storeCode">
+				                        	<option value=""> : : : 선택  : : : </option>
+											<th:block th:each="s : ${storeList}">
+				                        	<option th:value="${s.storeCode}"> [[${s.storeName}]] </option>
+				                        	</th:block>
+				                        </select>
 								</div>
 								<div class="form-group">
 									<label>메뉴 대분류 <span class="text-danger">*</span> </label>

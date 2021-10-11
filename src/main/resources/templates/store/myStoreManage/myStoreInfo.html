@@ -6,7 +6,6 @@
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
 	
-	<!-- css -->
 <style type= "text/css">
 	tbody tr td{
 		color: #505050;
@@ -24,15 +23,31 @@
 		margin: 5px;
 	}
 </style>
+
 </th:block>
 
 
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 	<div class="row justify-content-center">
+		
+			<div class="col-md-3">
+				<select name="selectMyStore" id="selectMyStore" class="form-control">
+						<option>: : 매장을 선택하세요 : :</option>
+						<th:block th:each="s : ${storeInfo}">
+						<option th:value="${s.storeCode}"> 
+						[[${s.storeName}]] 
+						</option>
+						
+				</select>
+			</div>
 		<a th:href="@{/store/myStoreManage/myStoreModify}">
-		<button type="button" class="btn btn-danger btn-flat m-b-10">나의매장 정보 수정 하기</button>
+		<button type="button" class="btn btn-danger btn-flat m-b-10">정보 수정</button>
 		</a>
+		<a th:href="@{/store/myStoreManage/modifyMainCate}">
+		<button type="button" class="btn btn-danger btn-flat m-b-10">대분류 수정</button>
+		</a>
+		
 	</div>
 	
 	<div class="row justify-content-center">
@@ -45,57 +60,39 @@
 				</div>
 				<div class="card-body">
 					<div class="basic-form">
-						<!-- <th:block th:if="${#lists.size(storeList) > 0}" th:each="f : ${foodmainList}">
-								<input type="text" class="form-control" th:value="${f.mainCateName}" readonly="readonly">
-						</th:block> -->
-						
-						<th:block th:if="${#lists.size(storeList) > 0}" th:each="s : ${storeList}">
+					
 							<div class="form-group">
 								<label>매장명</label>
-								<input type="text" class="form-control" th:value="${s.storeName}" readonly="readonly">
+								<input type="text" id="storeName" name="storeName" class="form-control" readonly="readonly">
 							</div>
 							<div class="form-group">
 								<label>아이디</label>
-								<input type="text" class="form-control" th:value="${s.bizId}" readonly="readonly">
+								<input type="text" id="bizId" name="bizId" class="form-control" readonly="readonly">
 							</div>
 							<div class="form-group">
 								<label>전화번호</label>
-								<input type="text" class="form-control" th:value="${s.storePhone}" readonly="readonly">
+								<input type="text" id="storePhone" name="storePhone" class="form-control" readonly="readonly">
 							</div>
 							<div class="form-group">
 								<label>주소</label>
-								<input type="text" class="form-control" th:value="${s.storeLocation}" readonly="readonly">
+								<input type="text" id="storeLocation" name="storeLocation" class="form-control" readonly="readonly">
 							</div>
 							<div class="form-group">
 								<label>영업시간</label>
-								<input type="text" class="form-control" th:value="${s.storeTime}" readonly="readonly">
-							</div>
-							<div class="form-group">
-								<label>메뉴대분류</label>
-								
-								<input type="text" class="form-control" th:value="${s.foodMainCate.mainCateName}" readonly="readonly">
-								<small class="form-control-feedback" style="color: red;"> 메뉴 대분류 수정은 '메뉴관리'를 통해서 가능합니다. </small>
-							</div>
-							<div class="form-group">
-								<label>메뉴대분류2</label>
-								<th:block th:if="${#lists.size(storeList) > 0}" th:each="t : ${storeList2}">
-								<input type="text" class="form-control" th:value="${t.foodMainCate.mainCateName}" readonly="readonly">
-								<small class="form-control-feedback" style="color: red;"> 메뉴 대분류 수정은 '메뉴관리'를 통해서 가능합니다. </small>
-								</th:block>
+								<input type="text" id="storeTime" name="storeTime" class="form-control" readonly="readonly">
 							</div>
 							<div class="form-group">
 								<label>휴일</label>
-								<input type="text" class="form-control" th:value="${s.storeHoliday}" readonly="readonly">
+								<input type="text" id="storeHoliday" name="storeHoliday" class="form-control" readonly="readonly">
 							</div>
 							<div class="form-group">
 								<label>매장평가단 동의여부</label>
-								<input type="text" class="form-control" th:value="${s.storeTasteAgree}" readonly="readonly">
+								<input type="text" id="storeTasteAgree" name="storeTasteAgree" class="form-control" readonly="readonly">
 							</div>
 							<div class="form-group">
 								<label>매장노출여부</label>
-								<input type="text" class="form-control" th:value="${s.storeExposAgree}" readonly="readonly">
+								<input type="text" id="storeExposAgree" name="storeExposAgree" class="form-control" readonly="readonly">
 							</div>
-						</th:block>
 					</div>
 				</div>
 			</div>
@@ -111,6 +108,44 @@
 <th:block layout:fragment="customJsLib">
 	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
     <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+    
+	<script type="text/javascript">
+	
+	
+	/* 매장선택하여 정보 불러오기 - ajax */
+	$(function(){
+    	var selStore = document.querySelector('#selectMyStore');
+    	
+    	selStore.addEventListener('change',function(){
+    		
+    		var stCode = $(this).val();
+    		var request =  $.ajax({
+                url: "/store/myStoreManage/myStoreInfo", //요청 주소
+                method: "GET", //요청 방식
+                data: { storeCode : stCode }, // input name->cateCode,  value->stName */
+                dataType: "json" //받아올 포맷방식
+           });   
+           request.done(function(data){
+        	   console.log(data);
+        	   console.log(data.storeName);
+        	   
+        	   $('#storeName').val(data.storeName);
+        	   $('#bizId').val(data.bizId);
+        	   $('#storePhone').val(data.storePhone);
+        	   $('#storeLocation').val(data.storeLocation);
+        	   $('#storeTime').val(data.storeTime);
+        	   $('#storeHoliday').val(data.storeHoliday);
+        	   $('#storeTasteAgree').val(data.storeTasteAgree);
+        	   $('#storeExposAgree').val(data.storeExposAgree);
+        	   
+           });
+        	   
+   		});
+	});
+	
+	</script>
+    
+    
 </th:block>
 </body>
 </html>

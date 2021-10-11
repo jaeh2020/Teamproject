@@ -45,8 +45,25 @@
 			</association>
 			<association property="menuCate" 	javaType="MenuCate">
 			<id property="menuCateCode"			column="menu_cate_code"/>
-			<result property="menuCateName"			column="menu_cate_name"/>
-		</association>
+			<result property="menuCateName"		column="menu_cate_name"/>
+			</association>
+			<association property="store" 		javaType="Store">
+			<id property="storeCode"			column="store_code"/>
+			<result property="storeName"		column="store_name"/>
+			<result property="bizCode"			column="biz_code"/>
+			<result property="bizId"			column="biz_id"/>
+			<result property="storeLocation"	column="store_location"/>
+			<result property="storeTime"		column="store_time"/>
+			<result property="storePhone"		column="store_phone"/>
+			<result property="mainCateCode"		column="main_cate_code"/>
+			<result property="mainCateCode2"	column="main_cate_code2"/>
+			<result property="storeHoliday"		column="store_holiday"/>
+			<result property="storeTasteAgree"	column="store_taste_agree"/>
+			<result property="storeExposAgree"	column="store_expos_agree"/>
+			<result property="storePhoto"		column="store_photo"/>
+			<result property="storeTableNum"	column="store_table_num"/>
+			<result property="storeOccupancy"	column="store_occupancy"/>
+			</association>
 	</resultMap>
 	
 	<resultMap type="FoodMainCate" id="foodMainCateMap">
@@ -54,7 +71,103 @@
 		<result property="mainCateName"				column="main_cate_name"/>
 	</resultMap>
 	
+	<resultMap type="Table" id="tableMap">
+		<result property="storeTableCode"			column="store_table_code"/>
+		<result property="storeCode"				column="store_code"/>
+		<result property="bizId"					column="biz_id"/>
+		<result property="tableNum"					column="table_num"/>
+			<association property="store" 		javaType="Store">
+			<id property="storeCode"			column="store_code"/>
+			<result property="storeName"		column="store_name"/>
+			<result property="bizCode"			column="biz_code"/>
+			<result property="bizId"			column="biz_id"/>
+			<result property="storeLocation"	column="store_location"/>
+			<result property="storeTime"		column="store_time"/>
+			<result property="storePhone"		column="store_phone"/>
+			<result property="mainCateCode"		column="main_cate_code"/>
+			<result property="mainCateCode2"	column="main_cate_code2"/>
+			<result property="storeHoliday"		column="store_holiday"/>
+			<result property="storeTasteAgree"	column="store_taste_agree"/>
+			<result property="storeExposAgree"	column="store_expos_agree"/>
+			<result property="storePhoto"		column="store_photo"/>
+			<result property="storeTableNum"	column="store_table_num"/>
+			<result property="storeOccupancy"	column="store_occupancy"/>
+			</association>
+	</resultMap>
 	
+	<!-- 나의매장 테이블코드 자동증가 -->
+	<select id="getNewStoreTableCode" resultType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN 'tb_001'
+			ELSE
+			CONCAT('tb_', LPAD(MAX(CAST(SUBSTRING(store_table_code,4,3)AS DECIMAL)+1),3,0))
+			END AS storeTableCode
+		FROM
+			tb_store_table;
+	</select>
+	
+	
+	<!-- 나의매장 테이블번호 자동증가 -->
+	<select id="getNewTableNum" resultType="int" parameterType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN '1'
+			ELSE
+			CONCAT('', LPAD(MAX(CAST(SUBSTRING(table_num,1,3)AS DECIMAL)+1),3,0))
+			END AS tableNum
+		FROM
+			tb_store_table
+		WHERE
+			store_code = #{storeCode};
+	</select>
+	
+	
+	<!-- 나의매장 테이블등록 처리 -->
+	<insert id="addMyTable" parameterType="Table">
+		INSERT INTO tb_store_table
+			(store_table_code
+			,store_code
+			,biz_id
+			,table_num
+			)
+			VALUES(
+			#{storeTableCode}
+			,#{storeCode}
+			,#{bizId}
+			,#{tableNum}
+			);
+	</insert>
+	
+	
+	
+	<!-- 나의매장 테이블 삭제 처리 -->
+	<delete id="deleteMyTable" parameterType="String">
+		DELETE
+		FROM
+			tb_store_table
+		WHERE
+			store_table_code = #{storeTableCode};
+	</delete>
+	
+	
+	<!-- 나의매장 테이블 리스트 조회 -->
+	<select id="getMyTableList" resultMap="tableMap">
+		SELECT
+			t.store_table_code
+			,t.store_code
+			,i.store_name
+			,t.biz_id
+			,t.table_num
+		FROM
+			tb_store_table AS t
+			INNER join
+			tb_store_info AS i
+			ON
+			t.store_code = i.store_code
+		WHERE
+			t.biz_id = #{bizId};
+	</select>
 	
 	
 	<!-- 메뉴삭제처리 -->
@@ -245,6 +358,7 @@
 			s.menu_code
 			,s.biz_id
 			,s.store_code
+			,i.store_name
 			,s.main_cate_code
 			,s.menu_cate_code
 			,s.menu_name
@@ -264,12 +378,96 @@
 			tb_store_menu_cate AS c
 			ON
 			s.menu_cate_code = c.menu_cate_code
+			INNER join
+			tb_store_info AS i
+			ON
+			s.store_code = i.store_code
 		WHERE
-			biz_id = #{bizId};
+			s.biz_id = #{bizId};
 	</select>
 	
 	
-	<!-- 메뉴카테이름2 조회-->
+	
+	
+	<!-- 나의 매장정보 선택하여 조회   AJAX -->
+	<select id="getStoreRead" parameterType="String" resultMap="storeResultMap">
+		SELECT
+			biz_code
+			,biz_id
+			,main_cate_code
+			,main_cate_code2
+			,store_code
+			,store_holiday
+			,store_location
+			,store_name
+			,store_occupancy
+			,store_phone
+			,store_table_num
+			,store_taste_agree
+			,store_expos_agree
+			,store_time
+		FROM 
+			tb_store_info
+		WHERE
+			store_code = #{storeCode};
+	</select>
+	
+	
+	
+	
+	<!-- -->
+	<!-- -->
+	<!-- -->
+	<!-- 매장코드 비교하여 상점정보 OR 대분류카테고리 2개 각각 가져오기 -->
+	<select id="getMyMainCateOnly2" resultMap="storeResultMap">
+		SELECT
+			f.main_cate_name
+			,f.main_cate_code
+		FROM
+			tb_store_info AS s
+			INNER join
+			tb_food_main_cate AS f
+			ON
+			s.main_cate_code2 = f.main_cate_code
+		WHERE
+			store_code = #{storeCode};
+	</select>
+
+	<select id="getMyMainCateOnly" resultMap="storeResultMap">
+		SELECT
+			s.biz_code
+			,s.biz_id
+			,s.main_cate_code
+			,s.main_cate_code2
+			,s.store_code
+			,s.store_holiday
+			,s.store_location
+			,s.store_name
+			,s.store_occupancy
+			,s.store_phone
+			,s.store_table_num
+			,s.store_taste_agree
+			,s.store_expos_agree
+			,s.store_time
+			,f.main_cate_name
+		FROM
+			tb_store_info AS s
+			INNER join
+			tb_food_main_cate AS f
+			ON
+			s.main_cate_code = f.main_cate_code
+		WHERE
+			store_code = #{storeCode};
+	</select>
+	<!-- -->
+	<!-- -->
+	<!-- -->
+	
+	
+	<!-- -->
+	<!-- -->
+	<!-- -->
+	<!-- 세션ID비교하여 상점정보 OR 대분류카테고리 2개 각각 가져오기  지워야함!!!-->
 	<select id="getMyStoreList2" resultMap="storeResultMap">
 		SELECT
 			f.main_cate_name
@@ -283,9 +481,7 @@
 		WHERE
 			biz_id = #{bizId};
 	</select>
-	
-	
-	<!-- 나의 매장정보 리스트 전체조회 (메뉴카테이름포함) -->	
+
 	<select id="getMyStoreList" resultMap="storeResultMap">
 		SELECT
 			s.biz_code
@@ -312,6 +508,36 @@
 		WHERE
 			biz_id = #{bizId};
 	</select>
+	<!-- -->
+	<!-- -->
+	<!-- -->
+	
+	
+	
+	
+
+	<!-- 세션아이디 조건, 나의 매장 정보 리스트 조회-->
+	<select id="getMyStoreInfo" resultMap="storeResultMap">
+		SELECT
+			biz_code
+			,biz_id
+			,main_cate_code
+			,store_code
+			,store_holiday
+			,store_location
+			,store_name
+			,store_occupancy
+			,store_phone
+			,store_table_num
+			,store_taste_agree
+			,store_expos_agree
+			,store_time
+		FROM
+			tb_store_info
+		WHERE
+			biz_id = #{bizId};	
+	</select>
+	
 	
 
 	<!-- 전체매장 리스트 조회 (조건x)-->
