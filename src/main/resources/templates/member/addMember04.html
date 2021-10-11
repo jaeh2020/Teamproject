@@ -42,10 +42,43 @@
 		color: #4B088A;
 		font-weight: bold;
 	}
-	.form-group div{
-		border: 1px solid #000;
+	form input{
+		width: 5px;
 	}
-	.form-button .btn {
+	.box-radio-input{
+		display: inline;
+	}
+	.form-group span, .radio span{
+		color: #610B5E;
+		margin-left: 5px;
+	}
+	.form-group p{
+		display: inline-block;
+	}
+	.box-radio-input input[type="radio"]{
+	  display:none;
+	}
+	.box-radio-input input[type="radio"] + span{
+	  display:inline-block;
+	  background:none;
+	  border:1px solid #dfdfdf;  
+	  padding:0px 10px;
+	  text-align:center;
+	  height:35px;
+	  line-height:33px;
+	  font-weight:500;
+	  cursor:pointer;
+	}
+	
+	.box-radio-input input[type="radio"]:checked + span{
+	  border:1px solid #610B5E;
+	  background:#610B5E;
+	  color:#fff;
+	}
+	.radio{
+    	margin-bottom: 10px;
+	} 
+	.login-form .btn {
 		display : inline-block;
 		width : 70px;
 		text-align: center;
@@ -54,6 +87,10 @@
 	.form-button{
 		text-align: center;
 	}
+	.form-control{
+		width: 400px;
+	}
+ 
 </style>
 </th:block>
 
@@ -62,14 +99,14 @@
 <th:block layout:fragment="customContents">
 	<div class="card card-outline-primary">
 		<h1>회원가입</h1>
-		
+	
 		<!-- 회원가입 안내 -->
 		<div class="row list">
 			<ol class="join">
-	            <li><p><span>01</span>회원유형선택</p></li>
-	            <li><p><span>02</span>정보입력</p></li>
-	            <li><p><span>03</span>추가정보입력</p></li>
-	            <li><p class="on"><span>04</span>가입완료</p></li>
+		           <li><p><span>01</span>회원유형선택</p></li>
+		           <li><p class="on"><span>02</span>정보입력</p></li>
+		           <li><p><span>03</span>추가정보입력</p></li>
+		           <li><p><span>04</span>가입완료</p></li>
 		    </ol>
 		</div>
 		
@@ -77,24 +114,72 @@
 		<div class="unix-login">
             <div class="container-fluid">
                	<div class="row justify-content-center">
-                    <div class="col-lg-10">
+                    <div class="col-ml-5">
                         <div class="login-content">
                             <div class="login-form">
+                                <h4>회원 정보 입력</h4>
                                 <form method="post">
                                     <div class="form-group">
-                                    	<div>
-	                                		<h1>🎊아무데나 회원가입을 축하드립니다.🎉</h1>
-		                                	<span>개인회원가입이 완료되었습니다.</span>
-                                    	</div>
+                                    <label>회원 권한</label>
+                                    <input type="text" class="form-control" name="levelCode" id="levelCode" value="level_biz" readonly="readonly">
+									</div>
+                                    <div class="form-group">
+                                        <label>아이디</label><span>*</span>
+                                        <input type="text" class="form-control" id="memberId" name="memberId" placeholder="아이디">
+                                        <p>영문소문자, 숫자의 조합으로 4~12자로 입력하세요.</p>
+                                        <div id="idCheck"></div>           
                                     </div>
-                                    
-                                    <!-- 앞에서 입력한 아이디값 hidden으로 가져오기 -->
-                                    <div class="form-button">
-	                                  	<a th:href="@{/member/login}" >
-		                                    <button class="btn btn-inverse btn-flat m-b-30 m-t-30">로그인</button>
+                                    <div class="form-group">
+                                        <label>비밀번호</label><span>*</span>
+                                        <input type="password" class="form-control" id="memberPw" name="memberPw" placeholder="비밀번호">
+                                        <p>영문 대소문자, 숫자의 조합으로 4~12자로 입력하세요.</p>
+                                        <div id="pwCheck"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>비밀번호 확인</label><span>*</span>
+                                        <input type="password" class="form-control" id="memberPw2" name="memberPw2" placeholder="비밀번호">
+                                        <div id="pwCheck2"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>이름</label><span>*</span>
+                                        <input type="text" class="form-control" id="memberName" name="memberName" placeholder="이름">
+                                        <div id="nameCheck"></div>
+                                    </div>
+                                    <div class="radio">
+	                                    <label>성별</label><span>*</span>
+	                                    <div>
+									    	<label class="box-radio-input">
+									    		<input type="radio" name="memberGender" value="남" checked="checked"><span>남</span>
+									    	</label>
+											<label class="box-radio-input">
+												<input type="radio" name="memberGender" value="여"><span>여</span>
+											</label>
+	                                    </div>
+								    </div>
+                                    <div class="form-group">
+                                        <label>생년월일</label><span>*</span>
+                                        <input type="text" class="form-control" id="memberBirth" name="memberBirth" placeholder="생년월일">
+                                        <p>8자리로 숫자만 입력하세요. (예. 19990909)</p>
+                                        <div id="birthCheck"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>전화번호</label><span>*</span>
+                                        <input type="text" class="form-control" id="memberPhone" name="memberPhone" placeholder="전화번호">
+                                        <p>'-'를 포함하지 않고 숫자만 입력하세요. (예. 01012345678)</p>
+                                        <div id="phoneCheck"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>이메일</label><span>*</span>
+                                        <input type="text" class="form-control" id="memberEmail" name="memberEmail" placeholder="이메일">
+                                        <p>'@'를 포함하여 입력하세요.</p>
+                                        <div id="emailCheck"></div>
+                                    </div>
+                                    <div class="form-button" id="btn">
+	                                  	<a th:href="@{/member/addMember01}" >
+		                                    <button class="btn btn-inverse btn-flat m-b-30 m-t-30">이전</button>
 	                                    </a>
-	                                    <a th:href="@{/}">
-		                                    <button class="btn btn-success btn-flat m-b-30 m-t-30">메인페이지로</button>
+	                                    <a th:href="@{#}">
+		                                    <button type="button" onclick="setId()" id="next" class="btn btn-success btn-flat m-b-30 m-t-30">다음</button>
 	                                    </a>
                                     </div>
                                 </form>
@@ -104,11 +189,181 @@
                 </div>
             </div>
         </div>
-	</div> 
-                    
+	</div>         
 </th:block>
 
-
-    <th:block layout:fragment="customJsLib"></th:block>
+    <th:block layout:fragment="customJsLib">
+		<script th:src="@{/js/lib/owl-carousel/owl.carousel.min.js}"></script>
+	    <script th:src="@{/js/lib/owl-carousel/owl.carousel-init.js}"></script>
+		<script type="text/javascript">
+			
+			/* 유효성 검사~~~~~~~~~~~~~~~~~~ */
+			//모든 공백 체크 정규식
+			var empJ = /\s/g;
+			//아이디 정규식
+			var idJ = /^[a-z0-9]{4,12}$/;
+			//비밀번호 정규식
+			var pwJ = /^[A-Za-z0-9]{4,12}$/; 
+			//이름 정규식
+			var nameJ = /^[가-힣]{2,6}$/;
+			//생년월일 정규식
+			var birthJ = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
+			//휴대폰 번호 정규식
+			var phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
+			//이메일 검사 정규식
+			var mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			
+			//id 유효성 검사
+			$("#memberId").blur(function() {
+				var memberId = $('#memberId').val();
+				var request = $.ajax({
+					url : "/idCheck",
+					type : 'GET',
+					data : {"memberId" : memberId}
+				});
+				request.done(function( data ) {
+				console.log("1 = 중복o / 0 = 중복x : "+ data);							
+				
+				if (data == 1) {
+						// 1 : 아이디가 중복되는 문구
+						$("#idCheck").text("이미 사용중인 아이디입니다.");
+						$("#idCheck").css("color", "red");
+						$("#next").attr("disabled", true);
+					} else {						
+						if(idJ.test(memberId)){
+							// 0 : 아이디 길이 / 문자열 검사
+							$("#idCheck").text("");
+							$("#next").attr("disabled", false);				
+						} else if(memberId == ""){							
+							$('#idCheck').text('아이디를 입력해주세요.');
+							$('#idCheck').css('color', 'red');
+							$("#next").attr("disabled", true);											
+						} else {							
+							$('#idCheck').text("아이디는 소문자와 숫자 4~12자리만 가능합니다.");
+							$('#idCheck').css('color', 'red');
+							$("#next").attr("disabled", true);
+						}				
+					}
+				});
+				request.fail(function( jqXHR, textStatus ) {
+    			  alert( "실패!: " + textStatus );
+    			});
+			});
+			//비밀번호 유효성 검사		
+			$('#memberPw').blur(function(){
+				if(pwJ.test($('#memberPw').val())){
+					console.log('true');
+					$('#pwCheck').text('');
+				} else{
+					console.log('false');
+					$('#pwCheck').text('숫자 또는 문자로만 4~12자 입력하세요.');
+					$('#pwCheck').css('color','red');
+				}
+			});
+			//비밀번호 일치 확인
+			$('#memberPw2').blur(function(){
+				if($('#memberPw').val() != $(this).val()){
+					console.log('falsesssss');
+					$('#pwCheck2').text('비밀번호가 일치하지 않습니다.');
+					$('#pwCheck2').css('color','red');
+				} else{
+					console.log('truedddd');
+					$('#pwCheck2').text('');
+				}
+			});
+			//이름 유효성 검사
+			$("#memberName").blur(function() {
+				if (nameJ.test($(this).val())) {
+					console.log(nameJ.test($(this).val()),'이름');
+					$("#nameCheck").text('');
+				} else {
+					$('#nameCheck').text('이름을 정확히 입력하세요.');
+					$('#nameCheck').css('color', 'red');
+				}
+			});
+			//생년월일 유효성 검사
+			$('#memberBirth').blur(function(){
+				if(birthJ.test($(this).val())){
+					console.log(phoneJ.test($(this).val()));
+					$("#birthCheck").text('');
+				} else {
+					$('#birthCheck').text('생년월일을 정확히 입력하세요.');
+					$('#birthCheck').css('color', 'red');
+				}
+			});
+			//전화번호 유효성 검사
+			$('#memberPhone').blur(function(){
+				if(phoneJ.test($(this).val())){
+					console.log(phoneJ.test($(this).val()));
+					$("#phoneCheck").text('');
+				} else {
+					$('#phoneCheck').text('전화번호를 정확히 입력하세요.');
+					$('#phoneCheck').css('color', 'red');
+				}
+			});
+			//이메일 유효성 검사
+			$('#memberEmail').blur(function(){
+				if(mailJ.test($(this).val())){
+					console.log(mailJ.test($(this).val()));
+					$("#emailCheck").text('');
+				} else {
+					$('#emailCheck').text('이메일을 정확히 입력하세요.');
+					$('#emailCheck').css('color', 'red');
+				}
+			});
+			// 다음 버튼 유효성 검사
+			var nextArr = new Array(5).fill(false);
+			$('#next').click(function(){
+				// 비밀번호가 같은 경우 && 비밀번호 정규식
+				if (($('#memberPw').val() == ($('#memberPw2').val()))
+						&& pwJ.test($('#memberPw').val())) {
+					nextArr[0] = true;
+				} else {
+					nextArr[0] = false;
+				}
+				// 이름 정규식
+				if (nameJ.test($('#memberName').val())) {
+					nextArr[1] = true;	
+				} else {
+					nextArr[1] = false;
+				}
+				// 이메일 정규식
+				if (mailJ.test($('#memberEmail').val())){
+					console.log(mailJ.test($('#memberEmail').val()));
+					nextArr[2] = true;
+				} else {
+					nextArr[2] = false;
+				}
+				// 휴대폰번호 정규식
+				if (phoneJ.test($('#memberPhone').val())) {
+					console.log(phoneJ.test($('#memberPhone').val()));
+					nextArr[3] = true;
+				} else {
+					nextArr[3] = false;
+				}
+				// 생년월일 정규식
+				if (birthJ.test($('#memberBirth').val())) {
+					console.log(birthJ);
+					nextArr[4] = true;
+				} else {
+					nextArr[4] = false;
+				}
+				
+				var validAll = true;
+				for(var i = 0; i < nextArr.length; i++){
+					
+					if(nextArr[i] == false){
+						validAll = false;
+					}
+				}
+				if(validAll){ // 유효성 모두 통과
+					$('form').submit();
+					
+				} else{
+					alert('입력한 정보들을 다시 한번 확인해주세요.');
+				}
+			});
+		</script>
+    </th:block>
 </body>
 </html>
