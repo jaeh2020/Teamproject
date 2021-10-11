@@ -1,5 +1,6 @@
 package amdn.anywhere.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,16 +17,63 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.QuestionCate;
 import amdn.anywhere.domain.Questionnaire;
+import amdn.anywhere.domain.RecruitTasterByBiz;
 import amdn.anywhere.domain.Survey;
+import amdn.anywhere.domain.Taster;
 import amdn.anywhere.service.QuestionService;
+import amdn.anywhere.service.TasterService;
 
 @Controller
 @RequestMapping("/survey")
 public class QuestionController{
+	private TasterService tasterService;
 	private QuestionService questionService;
 	
-	public QuestionController(QuestionService questionService){
+	public QuestionController(QuestionService questionService,TasterService tasterService ){
+		this.tasterService = tasterService;
 		this.questionService = questionService;
+	}
+	//13. 설문조사 참여 화면 이동
+	@GetMapping("/doSurvey")
+	public String doSurvey(Model model
+				,@RequestParam(value="recruitCode", required = false) String recruitCode) {
+		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitCode).get(0);
+		String[] cateList = recruitInfo.getStrCateList().split(",");
+		int length = cateList.length;
+		List<Questionnaire> questionList = new ArrayList<Questionnaire>();
+	
+		for(int i=0; i < length; i++) {
+			String qCate = cateList[i];
+			if(qCate.equals("all")) continue;
+			
+			//문항가져오기
+			List<Questionnaire> newQList = questionService.getQuestionList(qCate);  
+			questionList.addAll(newQList);
+			System.out.println(newQList + " ----------------newQList");
+			
+		}
+
+		model.addAttribute("title", "설문조사 참여");
+		model.addAttribute("location1URL", "/survey/myList");
+		model.addAttribute("location1", "설문조사 목록");
+		model.addAttribute("location2", "설문조사 참여하기");
+		model.addAttribute("recruitInfo", recruitInfo);
+		model.addAttribute("qList", questionList);
+
+		return "/survey/doSurvey";
+	}
+	//12. 내 설문조사 목록
+	@GetMapping("/myList")
+	public String myList(Model model) {
+		//세션아이디로 평가단조회
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("userId", "id010");//소비자 아이디 가정
+		List<Taster> myList = tasterService.getTasterList(paramMap);
+		System.out.println("myList______" + myList);
+		model.addAttribute("title", "평가단 신청조회");
+		model.addAttribute("location", "평가단 신청조회");
+		model.addAttribute("myList", myList);
+		return "/survey/myList";
 	}
 	//11. 설문조사 삭제 처리
 	@GetMapping("/deleteSurvey")

@@ -11,7 +11,8 @@ import amdn.anywhere.domain.RecruitTasterByBiz;
 public interface RecruitTasterByBizMapper {
 	
 	public List<RecruitTasterByBiz> selectRecruitBB(String recruitCode); 
-	
+	//조회수 업데이트
+	public int updateViewCounts(String recruitCode);
 	//모집리스트 상태 수정
 	public int modifyState(Map<String, Object> paramMap);
 	//모집코드 생성
