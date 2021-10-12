@@ -30,7 +30,7 @@ public interface BookMapper {
 	public Statement getStateCode(String stateCode);
 	
 	//주문정보화면에서 메뉴리스트 조회
-	public List<Menu> getMenuList();
+	public List<Menu> getMenuList(String storeCode);
 
 	//상점명 조회
 	public Store getStoreInfo(String storeName);

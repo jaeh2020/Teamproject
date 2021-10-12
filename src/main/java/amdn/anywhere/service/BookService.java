@@ -61,8 +61,8 @@ public class BookService {
 	  
 	 
 	 //주문정보에 메뉴리스트 뿌려주기
-	 public List<Menu> getMenuList(){
-		 List<Menu> menuList = bookMapper.getMenuList();
+	 public List<Menu> getMenuList(String storeCode){
+		 List<Menu> menuList = bookMapper.getMenuList(storeCode);
 		 
 		 return menuList;
 	 }

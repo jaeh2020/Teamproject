@@ -109,7 +109,7 @@
 
 
 
-<!-- 주문정보입력 후 insert  -->
+	<!-- 주문정보입력 후 insert  -->
 	<insert id="addBookOrder" parameterType="Order">
 		INSERT INTO tb_order
 			(o_code
@@ -127,26 +127,12 @@
 			,order_state_code
 			,store_table_code
 			,table_state_code
-		)VALUES (
-			   #{oCode}
-			  ,#{bookCode}
-			  ,#{userId}
-			  ,#{storeCode}
-			  ,#{menuCode}
-			  <!-- ,(SELECT menu_code
-			  	 FROM tb_store_menu
-			  	 WHERE #{menuName} = menu_name) -->
-			  ,#{oCount}
-			  ,#{oCount} * #{oCount}
-			  ,#{oRequest}
-			  ,#{payGroCode}
-			  ,#{oTotalPrice}
-			  ,CURDATE()
-			  ,null
-			  ,#{orderStateCode}
-			  ,#{storeTableCode}
-			  ,#{tabelStateCode}
-		);
+		)VALUES
+		<foreach collection="list" item="item" separator=" , " >
+        (sf_new_order_code(), "${item.collect_time}", "${item.table_name}", "${item.target_table}", "${item.building_id}"
+        , "${item.flag}", "${item.type}", "${item.execute_time}", "${item.count}", "${item.remark}")
+    	</foreach>
+			;
 	</insert>
 	
 	
@@ -183,7 +169,7 @@
 
 
 
-<!-- 주문정보 페이지에 메뉴리스트 불러오기 -->
+	<!-- 주문정보 페이지에 메뉴리스트 불러오기 -->
 	<select id="getMenuList" resultMap="menuResultMap">
 		SELECT 
 			menu_code
@@ -195,7 +181,9 @@
 			,menu_detail
 			,menu_using
 		FROM 
-			tb_store_menu;
+			tb_store_menu
+		WHERE
+			store_code = #{storeCode};
 	</select>
 
 

@@ -194,6 +194,7 @@
 		WHERE
 			menu_code = #{menuCode};
 	</update>
+
 	
 	<!-- 메뉴수정 화면 -->
 	<select id="getMyMenuInfoByMenuCode" parameterType="String" resultType="Menu">
@@ -210,7 +211,6 @@
 			tb_store_menu
 		WHERE
 			menu_code = #{menuCode};
-	
 	</select>
 
 
@@ -262,11 +262,18 @@
 	<update id="modifyMainCate" parameterType="Store" >
 		UPDATE 
 			tb_store_info
-		SET
-			main_cate_code = #{mainCateCode}
-			,main_cate_code2 = #{mainCateCode2}
+		<set>
+			<if test="mainCateCode2 != '' ">
+				main_cate_code = #{mainCateCode}
+				,main_cate_code2 = #{mainCateCode2}
+			</if>
+			<if test="mainCateCode2 == '' ">
+				main_cate_code = #{mainCateCode}
+				,main_cate_code2 = NULL
+			</if>
+		</set>
 		WHERE
-			biz_id = #{bizId};
+			store_code = #{storeCode};
 	</update>
 	
 	
@@ -299,7 +306,7 @@
 	</update>
 	
 	
-	<!-- 매장정보 수정처리위한 매장코드 가져오기-->
+	<!-- 매장정보조회 매장코드조건비교-->
 	<select id="getStoreInfoByCode" parameterType="String" resultMap="storeResultMap">
 		SELECT
 			biz_code
@@ -322,35 +329,37 @@
 	</select>
 
 
-
-	<!-- 나의 매장정보 리스트 조회(그룹콘캣 이용한방법) -->
-	<!-- <select id="getMyStoreList" resultMap="storeResultMap">
-		SELECT
-			s.biz_code
+	<!-- 모든 매장메뉴 리스트 조회 -->
+	<select id="getMenuList" resultMap="menuResultMap">
+		SELECT 
+			s.menu_code
 			,s.biz_id
-			,s.main_cate_code
-			,s.main_cate_code2
 			,s.store_code
-			,s.store_holiday
-			,s.store_location
-			,s.store_name
-			,s.store_occupancy
-			,s.store_phone
-			,s.store_table_num
-			,s.store_taste_agree
-			,s.store_expos_agree
-			,s.store_time
-			,GROUP_CONCAT(if(s.main_cate_code = f.main_cate_code, f.main_cate_name, NULL) ) AS mainCateName
-			,GROUP_CONCAT(if(s.main_cate_code2 = f.main_cate_code, f.main_cate_name, NULL) ) AS mainCateName2
-		FROM
-			tb_store_info AS s
+			,i.store_name
+			,s.main_cate_code
+			,s.menu_cate_code
+			,s.menu_name
+			,s.menu_price
+			,s.menu_detail
+			,s.menu_reg_time
+			,s.menu_using
+			,f.main_cate_name
+			,c.menu_cate_name
+		FROM 
+			tb_store_menu AS s
 			INNER join
 			tb_food_main_cate AS f
 			ON
-			biz_id = #{bizId};
-	</select> -->
-
-
+			s.main_cate_code = f.main_cate_code
+			INNER join
+			tb_store_menu_cate AS c
+			ON
+			s.menu_cate_code = c.menu_cate_code
+			INNER join
+			tb_store_info AS i
+			ON
+			s.store_code = i.store_code;
+	</select>
 	
 	<!-- 나의 매장메뉴 리스트 조회 -->
 	<select id="getMyMenuList" resultMap="menuResultMap">
@@ -411,8 +420,6 @@
 		WHERE
 			store_code = #{storeCode};
 	</select>
-	
-	
 	
 	
 	<!-- -->

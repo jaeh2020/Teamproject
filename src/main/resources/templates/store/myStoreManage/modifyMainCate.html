@@ -40,17 +40,17 @@
 									<label> <span class="text-danger">*</span> 는 필수 항목입니다. </label>
 								</div>
 								<div>
-									<label> 1. 첫번째 대분류는 필수사항이며, 없음 으로 선택할 수 없습니다.  </label>
+									<label> 1. 첫번째 대분류는 필수선택항목입니다.  </label>
+									<br>
 									<label> 2. 만약 대분류를 한가지만 선택하고자 한다면	</label>
-									<label> 　두번째 대분류를 <span class="text-danger">없음</span> 으로 선택 해주시면 됩니다.  </label>
-								</div>
-								<div class="form-group">
-									<input type="hidden" name="bizId" th:value="${bizId}" class="form-control" readonly="readonly">
+									<br>
+									<label> 　대분류2 항목을 <span class="text-danger"> 미선택</span> 으로 선택하시면 됩니다.   </label>
 								</div>
 								<div class="form-group">
 									<label>수정할 메뉴 대분류1 <span class="text-danger">*</span> </label>
-										<th:block th:each="s : ${storeList}">
+										<th:block th:each="s : ${mainCateOnly}">
 											<select class="form-control" id="selectMainCateCode" name="mainCateCode">
+													<option>: : 미선택 : :</option>
 						                        	<th:block th:each="m : ${mainCate}">
 						                        	<option th:value="${m.mainCateCode}" 
 						                        			th:selected="${#strings.toString(m.mainCateCode) == #strings.toString(s.foodMainCate.mainCateCode)}"> 
@@ -58,16 +58,34 @@
 						                        	</option>
 						                        	</th:block>
 					                        </select>
+					                        <div class="form-group">
+					              	 <!-- 히든영역 -->
+									<input type="hidden" name="storeCode" class="form-control" th:value="${s.storeCode}" readonly="readonly">
+									 <!-- 히든영역 -->
+								</div>
 				                        </th:block>
-				                    <br>   
-									<label>수정할 메뉴 대분류2 <span class="text-danger">*</span> </label>
-				                        <th:block th:each="f : ${storeList2}">
+				                    <br>
+									<label>수정할 메뉴 대분류2 </label>
+				                        <th:block th:unless="${#lists.isEmpty(mainCateOnly2)}" th:each="f : ${mainCateOnly2}">
 											<select class="form-control" id="selectMainCateCode" name="mainCateCode2">
+													<option th:selected="${#strings.isEmpty(f.foodMainCate.mainCateCode)}"
+															value="">: : 미선택 : :</option>
 						                        	<th:block th:each="m : ${mainCate}">
 						                        	<option th:value="${m.mainCateCode}" 
 						                        			th:selected="${#strings.toString(m.mainCateCode) == #strings.toString(f.foodMainCate.mainCateCode)}"> 
 						                        			[[${m.mainCateName}]] 
 						                        	</option>
+						                        	</th:block>
+					                        </select>
+				                        </th:block>
+				                        <th:block th:if="${#lists.isEmpty(mainCateOnly2)}" th:each="s : ${mainCateOnly}">
+											<select class="form-control" id="selectMainCateCode" name="mainCateCode2">
+													<option selected="selected"
+															value="">: : 미선택 : :</option>
+						                        	<th:block th:each="m : ${mainCate}">
+							                        	<option th:value="${m.mainCateCode}"> 
+							                        			[[${m.mainCateName}]] 
+							                        	</option>
 						                        	</th:block>
 					                        </select>
 				                        </th:block>
@@ -99,9 +117,8 @@
 			$('#modifyMainCateBtn').click(function(){
 				
 				var mainCateCode = $('[name=mainCateCode]');
-				var mainCateCode2 = $('[name=mainCateCode2]');
 				
-				if(mainCateCode.val().trim() == 'main_aanull_cate'){
+				if(mainCateCode.val().trim() == 'main_zznull_cate'){
 					alert('첫번째 대분류는 없음으로 선택할 수 없으며 필수사항입니다.');
 					return false;
 				}
