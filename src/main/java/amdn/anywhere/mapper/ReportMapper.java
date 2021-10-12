@@ -9,6 +9,9 @@ import amdn.anywhere.domain.Report;
 @Mapper
 public interface ReportMapper {
 	
+	//게시판 확정 처리
+	public int reportBoardCon(Report report);
+	
 	//게시판 신고 정보 가져오기
 	public Report getReportBoardCode(String reportCode);
 	

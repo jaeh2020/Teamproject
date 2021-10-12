@@ -19,7 +19,19 @@
 
 
 
+<!-- 게시판 확정 처리 -->
+<update id="reportBoardCon" parameterType="Report">
+	UPDATE 
+		tb_report
+	SET
+		rep_cate_code = #{reportCateCode}
+		,rep_confi_time = NOW()
+		,member_id = #{memberId}
+		,state_code = 'state_report_com'
+	WHERE
+		rep_code = #{reportCode};
 
+</update>
 
 
 <!-- 게시판 신고 정보 가져오기 -->

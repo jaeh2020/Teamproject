@@ -20,6 +20,12 @@ public class ReportService {
 		  this.reportMapper = reportMapper;
 	 }
 	  
+	//게시판 확정 처리
+	  public int reportBoardCon(Report report) {
+		  return reportMapper.reportBoardCon(report);
+	  }
+	  
+	//게시판 신고 정보 가져오기
 	  public Report getReportBoardCode(String reportCode) {
 		  return reportMapper.getReportBoardCode(reportCode);
 	  }
