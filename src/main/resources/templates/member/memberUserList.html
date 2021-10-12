@@ -53,29 +53,23 @@
 						<thead>
                             <tr>
                                 <th></th>
-                                <th>회원 구분</th>
-                                <th>회원 아이디</th>
-                                <th>회원 비밀번호</th>
-                                <th>회원 이름</th>
-                                <th>회원 성별</th>
-                                <th>회원 생년월일</th>
-                                <th>회원 전화번호</th>
-                                <th>회원 이메일</th>
-                                <th>회원 가입 일시</th>
+                                <th>소비자 아이디</th>
+                                <th>멤버쉽</th>
+                                <th>주문 누적 횟수</th>
+                                <th>누적 포인트</th>
+                                <th>평가단 뱃지 부여 여부</th>
+                                <th>신고 누적 벌점</th>
                             </tr>
                         </thead>
-						<tbody th:id="memberList">
-		                    <tr th:each="l : ${memberList}">
+						<tbody th:id="memberUserList">
+		                    <tr th:each="l : ${memberUserList}">
 		                    	<td><label><input type="checkbox"></label></td>
-		                    	<td th:text="${l.levelCode}"></td>
-		                    	<td th:text="${l.memberId}"></td> 
-		                    	<td th:text="${l.memberPw}"></td> 
-		                    	<td th:text="${l.memberName}"></td> 
-		                    	<td th:text="${l.memberGender}"></td> 
-		                    	<td th:text="${l.memberBirth}"></td> 
-		                    	<td th:text="${l.memberPhone}"></td> 
-		                    	<td th:text="${l.memberEmail}"></td> 
-		                    	<td th:text="${l.memberRegTime}"></td> 
+		                    	<td th:text="${l.userId}"></td>
+		                    	<td th:text="${l.membership.msLevel}"></td> 
+		                    	<td th:text="${l.userOrderTotal}"></td> 
+		                    	<td th:text="${l.userPoint}"></td> 
+		                    	<td th:text="${l.userEvaluator}"></td> 
+		                    	<td th:text="${l.reportScore}"></td> 
 		                    </tr>
 	               		</tbody>
 	            	</table>

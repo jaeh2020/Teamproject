@@ -16,6 +16,7 @@
 		<result property="memberRegTime" column="member_reg_time"/>
 	</resultMap>
 	
+	<!-- 레벨이랑 소비자 추가정보랑 -->
 	<resultMap type="MemberUser" id="memberUserResultMap">
 		<result property="userId" column="user_id"/>
 		<result property="msCode" column="ms_code"/>
@@ -23,19 +24,123 @@
 		<result property="userPoint" column="user_point"/>
 		<result property="userEvaluator" column="user_evaluator"/>
 		<result property="reportScore" column="report_accu_score"/>
+		<association property="membership" javaType="Membership">
+			<id property="msCode" column="ms_code"/>
+			<result property="msLevel" column="ms_lev"/>
+			<result property="msDis" column="ms_dis"/>
+			<result property="msStandard" column="ms_standard"/>
+		</association>
 	</resultMap>
 	
-	<!-- 소비자 회원 추가정보 개인조회 -->
+	<resultMap type="MemberBiz" id="memberBizResultMap">
+		<result property="bizCode" column="biz_code"/>
+		<result property="memberId" column="member_id"/>
+		<result property="bizNum" column="biz_num"/>
+		<result property="bizFileAtt" column="biz_file_att"/>
+		<result property="bizStatus" column="biz_status"/>
+		<result property="confirmId" column="confirm_id"/>
+		<result property="bizReTime" column="biz_re_time"/>
+		<result property="bizCompTime" column="biz_complete_time"/>
+		<association property="statement" javaType="Statement">
+			<id property="stateCode" column="state_code"/>
+			<result property="mainState" column="main_state"/>
+			<result property="stateName" column="state_name"/>
+		</association>
+	</resultMap>
+	
+	<!-- 소상공인 승인 상태, 승인자 아이디 변경 -->
+	<update id="modifyBizConfirm">
+		UPDATE tb_member_biz
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="bizStatus != null and bizStatus != ''.toString()">
+				biz_status = #{bizStatus},
+			</if>
+			<if test="confirmId != null and confirmId != ''.toString()">
+				confirm_id = #{confirmId},
+			</if>
+			<if test="bizCompTime != null and bizCompTime != ''.toString()">
+				biz_complete_time = NOW(),
+			</if>
+		</trim>
+		WHERE
+			biz_code = #{bizCode};
+	</update>
+	
+	<!-- 소상공인 승인 신청 개인!!!조회 -->
+	<!-- 소상공인 승인 신청 관리자가!!조회 -->
+	<select id="getMemberBizList" resultMap="memberBizResultMap">
+		SELECT 
+			biz_code
+			, m.member_id
+			, m.biz_num
+			, m.biz_file_att
+			, m.biz_status
+			, m.confirm_id
+			, m.biz_re_time
+			, m.biz_complete_time
+			, s.state_code
+			, s.main_state
+			, s.state_name
+		FROM
+			tb_member_biz as m
+			INNER JOIN
+			tb_statement as s
+			on
+			m.biz_status = s.state_code;
+	</select>
+	
+	<!-- 소상공인 승인코드 자동증가 -->
+	<select id="getMemberBizCode" resultType="String">
+		SELECT
+		   CASE
+		   WHEN COUNT(1) = 0 THEN 'biz_001'
+		   ELSE
+		      CONCAT('biz_', LPAD(MAX(CAST(SUBSTRING(biz_code,5,3)AS DECIMAL)+1),3,0))
+		   END AS bizCode
+		FROM
+		   tb_member_biz;
+	</select>
+	
+	<!-- 소상공인 승인 신청 등록 -->
+	<insert id="addBizConfirm">
+		INSERT INTO tb_member_biz
+			(biz_code
+			, member_id
+			, biz_num
+			, biz_file_att
+			, biz_status
+			, confirm_id
+			, biz_re_time
+			, biz_complete_time
+		)VALUES (
+			#{bizCode}
+			, #{memberId}
+			, #{bizNum}
+			, #{bizFileAtt}
+			, #{bizStatus}
+			, #{confirmId}
+			, NOW()
+			, NOW());
+	</insert>
+	
+	<!-- 소비자 회원 추가정보 개인조회(레벨이랑 join) -->
 	<select id="getMemberUserInfoById" resultMap="memberUserResultMap">
 		SELECT 
-			user_id
-			, ms_code
-			, user_order_total
-			, user_point
-			, user_evaluator
-			, report_accu_score
+			m.user_id
+			, m.ms_code
+			, m.user_order_total
+			, m.user_point
+			, m.user_evaluator
+			, m.report_accu_score
+			, s.ms_lev
+			, s.ms_dis
+			, s.ms_standard
 		FROM 
-			tb_member_user
+			tb_member_user AS m
+			INNER JOIN
+			tb_membership_dis AS s
+			ON
+			m.ms_code = s.ms_code
 		WHERE
 			user_id = #{userId};
 	</select>
@@ -43,14 +148,21 @@
 	<!-- 소비자 회원 추가정보 조회 -->
 	<select id="getMemberUserList" parameterType="String" resultMap="memberUserResultMap">
 		SELECT 
-			user_id
-			, ms_code
-			, user_order_total
-			, user_point
-			, user_evaluator
-			, report_accu_score
+			m.user_id
+			, m.ms_code
+			, m.user_order_total
+			, m.user_point
+			, m.user_evaluator
+			, m.report_accu_score
+			, s.ms_lev
+			, s.ms_dis
+			, s.ms_standard
 		FROM 
-			tb_member_user;
+			tb_member_user AS m
+			INNER JOIN
+			tb_membership_dis AS s
+			ON
+			m.ms_code = s.ms_code;
 	</select>
 	
 	<!-- 마이페이지 내정보 수정 -->
@@ -97,7 +209,7 @@
 			member_id = #{memberId};
 	</select>
 	
-	<!-- 회원 전체 목록 조회 -->
+	<!-- 회원 전체 목록 조회 (나중에 소상공인 조회로 바뀔예정) -->
 	<select id="getMemberList" resultMap="memberResultMap">
 		SELECT 
 			member_id

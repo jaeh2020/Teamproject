@@ -28,6 +28,9 @@
 		.lastRadio {
 			background-color: #FAE3DC;
 		}
+		.bi{
+			font-size: 18px;
+		}
 
 	</style>
 </th:block>	 
@@ -56,7 +59,7 @@
 		<div class="col-md-12">
 			<div class="card ">
 		        <div class="card-body">
-		        	<form method="post">
+		        	<form method="post" th:action="@{/survey/doSurvey}">
 			            <div class="table-responsive">
 			                <table class="table">
 			                    <tbody>
@@ -74,65 +77,89 @@
 			                            <td colspan="3" th:text="${recruitInfo.menu.menuName}"></td>    
 			                        </tr>
 			                        <tr>
-			                        	<td colspan="2" class="cateCss">항목</td>
+			                        	<td colspan="2" class="cateCss">#</td>
 			                        	<td colspan="3" class="cateCss">질문</td>
-			                        	<td class="cateCss">매우 만족 <i class="bi bi-hand-thumbs-up"></i></td>
-			                        	<td colspan="3" class="cateCss">보통</td>
-			                        	<td class="cateCss">매우 불만족 <i class="bi bi-hand-thumbs-down"></i></td>
+			                        	<td class="cateCss">긍정 <i class="bi bi-emoji-smile"></i> <i class="bi bi-hand-thumbs-up"></i></td>
+			                        	<td class="cateCss"></td>
+			                        	<td class="cateCss">보통</td>
+			                        	<td class="cateCss"></td>
+			                        	<td class="cateCss">부정 <i class="bi bi-emoji-angry"></i> <i class="bi bi-hand-thumbs-down"></i></td>
 			                        </tr>
-			                        <th:block th:each="m : ${qList}">
-			                        	<tr>
-			                        		<td class= "cateName" colspan="2" th:text="${m.questionCate.cateName}">
-											<td colspan="3" th:text="${m.qContent}"></td>
+			                        <th:block th:each="q : ${questionList}">
+			                        	<tr class="trCount">
+			                        		<td class= "cateName" colspan="2" th:text="${qStat.count}"></td>
+											<td colspan="3" th:text="${q.qContent}"></td>
 			                        		<td class="firstRadio">
 			                        			<label class="radio-inline">
-												  <input type="radio" th:name="${m.qCode}" value="5"> 5
+												  <input type="radio" th:name="${q.qCode}" th:value="${q.questionChoices[4].code}"> [[${q.questionChoices[4].cntNum}]]
 												</label>
 											</td>
 											<td>	
 												<label class="radio-inline">
-												  <input type="radio" th:name="${m.qCode}" value="4"> 4
-												</label>
-											</td>
-											<td >
-												<label class="radio-inline">
-												  <input type="radio" th:name="${m.qCode}" value="3"> 3
+												  <input type="radio" th:name="${q.qCode}" th:value="${q.questionChoices[3].code}"> [[${q.questionChoices[3].cntNum}]]
 												</label>
 											</td>
 											<td>
 												<label class="radio-inline">
-												  <input type="radio" th:name="${m.qCode}" value="2"> 2
+												  <input type="radio" th:name="${q.qCode}" th:value="${q.questionChoices[2].code}"> [[${q.questionChoices[2].cntNum}]]
+												</label>
+											</td>
+											<td>
+												<label class="radio-inline">
+												  <input type="radio" th:name="${q.qCode}" th:value="${q.questionChoices[1].code}"> [[${q.questionChoices[1].cntNum}]]
 												</label>
 											</td>
 											<td class="lastRadio">
 												<label class="radio-inline">
-												  <input type="radio" th:name="${m.qCode}" value="1"> 1
+												  <input type="radio" th:name="${q.qCode}" th:value="${q.questionChoices[0].code}"> [[${q.questionChoices[0].cntNum}]]
 												</label>
 			                        		</td>
-			                        	</tr>
-			                        	<tr>
 			                        	</tr>
 			                        </th:block>			                      
 			                    </tbody>
 			                </table>
 			            </div>
+			            <div class="row">
+			            	<div class="col-md-8">
+			            		<input type="hidden" name="recruitCode" th:value="${recruitInfo.recruitTBizCode}">
+			            	</div>
+			            	<div class="col-md-4">
+				            	<button type="button" class="btn btn-success btn-block" id="submitBtn">제출하기</button>		            	
+			            	</div>
+			            </div>
 			        </form>
-		            <div class="row">
-		            	<div class="col-md-8"></div>
-		            	<div class="col-md-4">
-			            	<button type="button" id="submit" class="btn btn-success btn-block ">제출하기</button>		            	
-		            	</div>
-		            </div>
 		        </div>
 		    </div>
 	    </div>
 	</div>
 </th:block>
 <th:block layout:fragment="customJsLib">
-<script type="text/javascript">
+	<script type="text/javascript">
+		$(function(){
+			$('#submitBtn').on("click", function(){
+				console.log($('.trCount').eq(0).find('input[type=radio]:checked').length);
+				var length = $('.trCount').length
+				var result = true;
+				
+				for(var i=0; i < length; i++){
+					if($('.trCount').eq(i).find('input[type=radio]:checked').length == 0){
+						alert( (i+1) + '번 문항 답안이 체크되지 않았습니다.');
+						$('.trCount')[i].scrollIntoView({block:"center"});
+						result = false;
+						break;
+					}
+				}
+				if(result){
+					$('form').submit();
+				}else{
+					return result;
+				}
+				
+			});
+		});
+	</script>
 	
 	
 
-</script>
 </th:block>
 </html>
