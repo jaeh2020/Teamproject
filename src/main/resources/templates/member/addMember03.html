@@ -12,12 +12,12 @@
 		text-align: center;
 		padding: 10px;
 	}
-	ol{
+	.join{
 		display:inline-block;
 		margin: 0;
 		padding: 0;
 	}
-	ol li{
+	.join li{
 		float:left; 
 		margin: 0 35px 0 35px;
 	}
@@ -90,7 +90,9 @@
                         <div class="login-content">
                             <div class="login-form">
                                 <h4>추가 정보 입력</h4>
-                                <form method="post">
+                                <form method="post" onload="getId()">
+                                	<input type="text" name="userLikeCode" id="userLikeCode">
+                                	<input type="text" name="memberId" id="memberId">
                                     <div class="form-group">
 	                                    <label class="sub">선호하는 음식 </label><label>( ※ 최대 3개까지만 선택 가능합니다.)</label> 
 	                                    <div>
@@ -109,6 +111,13 @@
                                     </div>
                                     
                                     <!-- 앞에서 입력한 아이디값 hidden으로 가져오기 -->
+                                    <input type="text" name="userId" id="userId">
+                                    <input type="text" name="msCode" value="ms_bronze">
+                                    <input type="text" name="userOrderTotal" th:value="0">
+                                    <input type="text" name="userPoint" th:value="1000">
+                                    <input type="text" name="userEvaluator" th:value="n">
+                                    <input type="text" name="reportScore" th:value="0">
+                                    
                                     <div class="form-button">
 	                                  	<a th:href="@{/member/addMember02}" >
 		                                    <button class="btn btn-inverse btn-flat m-b-30 m-t-30">이전</button>
@@ -130,44 +139,67 @@
 <th:block layout:fragment="customJsLib">
 	<script type="text/javascript">
 		$(function(){
-			
-			//선호도
-			$('input:checkbox[name=like]').on('click', function(){
-				var likeArr = [];
+			//3개 이상 선택 시 경고창
+			$('input:checkbox[name=like]').on('click', function(){				
 				var cnt = $('input:checkbox[name=like]:checked').length;
-				//3개 이상 선택 시 경고창
 				if(cnt > 3){
 					$(this).prop("checked", false);
 					alert("3개까지만 선택이 가능합니다.");
-				}
-				//체크된 값 배열에 담기
+				}				
+			});
+			$('input:checkbox[name=unlike]').on('click', function(){		
+				var cnt = $('input:checkbox[name=unlike]:checked').length;
+				if(cnt > 3){
+					$(this).prop("checked", false);
+					alert("3개까지만 선택이 가능합니다.");
+				}							
+			});
+			//체크 된 값 ajax
+			$('.btn-success').on('click', function(){
+				var userLikeCode = $("#userLikeCode").val();
+				var memberId = $("#memberId").val();
+				console.log(userLikeCode,memberId)
+				//선호도
+				var likeArr = [];
 				$('input:checkbox[name=like]').each(function() {
 		     		if(this.checked){//checked 처리된 항목의 값
 		     			likeArr.push(this.value);
-		      			console.log(likeArr,'likeArr')
 		      		}
 				});
-			});
-			
-			//비선호도
-			$('input:checkbox[name=unlike]').on('click', function(){
+				//비선호도
 				var unlikeArr = [];
-				var cnt = $('input:checkbox[name=unlike]:checked').length;
-				//3개 이상 선택 시 경고창
-				if(cnt > 3){
-					$(this).prop("checked", false);
-					alert("3개까지만 선택이 가능합니다.");
-				}
-				//체크된 값 배열에 담기
 				$('input:checkbox[name=unlike]').each(function() {
 		     		if(this.checked){//checked 처리된 항목의 값
 		     			unlikeArr.push(this.value);
-		      			console.log(unlikeArr,'unlikeArr')
 		      		}
+				});		
+				//ajax
+				var allData = {"userLikeCode":userLikeCode, "memberId":memberId, "likeArr":likeArr, "unlikeArr":unlikeArr}
+				console.log(allData,'allData')
+				
+				  var request = $.ajax({
+				  url: "/userLike", //요청 주소
+				  method: "GET", //요청 방식
+				  data: allData, //전달 할 파라미터
+				  dataType: "html" //받아 올 포맷방식
 				});
+				//응답이 완료 되었을 경우 실행
+				request.done(function( data ) {
+				  console.log(data,"data");
+				});
+				request.fail(function(request,status,error){
+			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			    });
+				
 			});
 			
-		});
+			//앞에서 입력한 아이디 가져와서 입력
+			var inputMemberId = localStorage.getItem("inputId");
+			$(document).ready(function(){
+				$('#memberId').val(inputMemberId);
+				$('#userId').val(inputMemberId);
+			});			
+		});		
 	</script> 	
 </th:block>
 </body>

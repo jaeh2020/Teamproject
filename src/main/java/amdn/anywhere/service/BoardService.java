@@ -25,15 +25,30 @@ public class BoardService {
 		  this.boardMapper = boardMapper;
 	 }
 	  
-	 //게시글 댓글 자동증가 코드
+	  public BoardReply getCommentCode(String boardReplyCode) {
+		  return boardMapper.getCommentCode(boardReplyCode);
+	  }
+	  
+	  //게시글 댓글 삭제
+	  public int deleteComment(String boardReplyCode) {
+		  return boardMapper.deleteComment(boardReplyCode);
+		  
+	  }
+	  
+	  //게시글 댓글 등록
+	  public int addComment(BoardReply boardReply) {
+		  return boardMapper.addComment(boardReply);
+	  }
+	  
+	  //게시글 댓글 자동증가 코드
 	  public String getNewBoardReplyNum() {
 		  return boardMapper.getNewBoardReplyNum();
 	  }
 	  
 	  
 	  //게시판 댓글 목록
-	  public List<BoardReply> getBoardCommentList(){
-		  List<BoardReply> boardCommentList = boardMapper.getBoardCommentList();
+	  public List<BoardReply> getBoardCommentList(String boardNum){
+		  List<BoardReply> boardCommentList = boardMapper.getBoardCommentList(boardNum);
 		  
 		  return boardCommentList;
 	  }

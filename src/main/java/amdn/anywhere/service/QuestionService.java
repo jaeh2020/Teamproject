@@ -9,16 +9,47 @@ import org.springframework.transaction.annotation.Transactional;
 
 import amdn.anywhere.domain.QuestionCate;
 import amdn.anywhere.domain.Questionnaire;
+import amdn.anywhere.domain.RecruitTasterByBiz;
+import amdn.anywhere.domain.Survey;
 import amdn.anywhere.mapper.QuestionsMapper;
+import amdn.anywhere.mapper.RecruitTasterByBizMapper;
+import amdn.anywhere.mapper.SurveyMapper;
 
 
 @Service
 @Transactional
 public class QuestionService {
 	private QuestionsMapper questionMapper;
+	private SurveyMapper surveyMapper;
+	private RecruitTasterByBizMapper recruitTasterByBizMapper;
 	
-	public QuestionService(QuestionsMapper questionMapper) {
+	public QuestionService(QuestionsMapper questionMapper, SurveyMapper surveyMapper, RecruitTasterByBizMapper recruitTasterByBizMapper) {
+		this.recruitTasterByBizMapper = recruitTasterByBizMapper; 
 		this.questionMapper =  questionMapper;
+		this.surveyMapper = surveyMapper;
+	}
+	//설문조사 삭제
+	public int deleteSurvey(String surveyCode) {
+		return surveyMapper.deleteSurvey(surveyCode);
+	}
+	//설문조사 등록
+	public int addSurvey(String recruitCode) {
+		List<RecruitTasterByBiz> recruitList =recruitTasterByBizMapper.selectRecruitBB(recruitCode);
+		Survey newSurvey = new Survey();
+		if(recruitList.get(0) != null) {
+			RecruitTasterByBiz recruitInfo = recruitList.get(0);
+			// 자동 코드 생성
+			String newSurveyCode= surveyMapper.createSurveyCode();
+			//새 설문조사에 정보 세팅
+			newSurvey.setCreateCode(newSurveyCode);
+			newSurvey.setStoreCode(recruitInfo.getStoreCode());
+			newSurvey.setRecruitBBCode(recruitCode);
+		}
+		return surveyMapper.addSurvey(newSurvey);
+	}
+	//설문조사 목록 조회
+	public List<Survey> getSurveyList(String recruitCode){
+		return surveyMapper.getSurveyList(recruitCode);
 	}
 	
 	//하나의 항목 조회
@@ -45,7 +76,7 @@ public class QuestionService {
 	}
 	
 	//문항 추가
-	public int insertQuestion(Map<String, Object> paramMap) {
+	public int addQuestion(Map<String, Object> paramMap) {
 		String cateCode = (String)paramMap.get("qCateCode");
 		Questionnaire question = new Questionnaire();
 		question.setqCateCode(cateCode);

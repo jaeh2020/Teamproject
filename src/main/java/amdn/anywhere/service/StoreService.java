@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import amdn.anywhere.domain.FoodMainCate;
+import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.mapper.StoreMapper;
 
@@ -17,6 +19,60 @@ public class StoreService {
 	@Autowired
 	public StoreService(StoreMapper storeMapper) {
 		this.storeMapper = storeMapper;
+	}
+	
+	//메뉴삭제처리
+	public int deleteMyMenu(String menuCode) {
+		return storeMapper.deleteMyMenu(menuCode);
+	}
+	
+	//메뉴수정처리
+	public int modifyMyMenu(Menu menu) {
+		return storeMapper.modifyMyMenu(menu);
+	}
+	
+	//메뉴수정화면
+	public Menu getMyMenuInfoByMenuCode(String menuCode) {
+		return storeMapper.getMyMenuInfoByMenuCode(menuCode);
+	}
+	
+	//메뉴코드 자동증가
+	public String getNewMenuCode() {
+		return storeMapper.getNewMenuCode();
+	}
+	
+	//메뉴 등록처리
+	public int addMyMenu(Menu menu) {
+		return storeMapper.addMyMenu(menu);
+	}
+	
+	
+	//메뉴 대분류 수정처리
+	public int modifyMainCate(Store store) {
+		return storeMapper.modifyMainCate(store);
+	}
+	
+	//메뉴 대분류 조회
+		public List<FoodMainCate> getMainCate(){
+			List<FoodMainCate> mainCate = storeMapper.getMainCate();
+			
+		return mainCate;
+	}
+
+	//나의매장 메뉴리스트 조회
+	public Map<String, Object> getMyMenuList(String bizId){
+			
+		List<Menu> myMenuList = storeMapper.getMyMenuList(bizId);
+		List<Store> storeList = storeMapper.getMyStoreList(bizId);
+		List<Store> storeList2 = storeMapper.getMyStoreList2(bizId);
+					
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+					
+		paramMap.put("storeList", storeList);
+		paramMap.put("storeList2", storeList2);
+		paramMap.put("myMenuList", myMenuList);
+	
+		return paramMap;
 	}
 	
 	
@@ -35,14 +91,16 @@ public class StoreService {
 	public Map<String, Object> getMyStoreList(String bizId){
 		
 		List<Store> storeList = storeMapper.getMyStoreList(bizId);
+		List<Store> storeList2 = storeMapper.getMyStoreList2(bizId);
 			
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 			
 		paramMap.put("storeList", storeList);
+		paramMap.put("storeList2", storeList2);
 		
 		return paramMap;
 	}
-	
+
 	
 	//매장리스트조회
 	public List<Store> getStoreList(){

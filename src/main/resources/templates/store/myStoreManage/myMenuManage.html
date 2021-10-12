@@ -29,61 +29,93 @@
 
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
-	
 	<!-- 버튼 -->
 	<div class="row">
 		<div class="col-lg-12">
-			<a th:href="@{/store/myStoremanage/addMyMenu}">
+			<a th:href="@{/store/myStoreManage/addMyMenu}">
 			<button type="button" class="btn btn-primary btn-flat m-b-10">새로운 메뉴 등록하기</button>
 			</a>
+			
+			
 		</div>	
 		</div>
 	
 	<!-- 메뉴 리스트 뿌려주기 -->
+	<!-- <form th:action="@{/store/myStoreManage/deleteMyMenu}" role="form" id="deleteMenuForm" method="post"> -->
 	<div class="card">
 		<table class="table table-hover ">
 			<thead>
 				<tr>
 					<th colspan="9"> 
-						현재 설정된 카테고리 대분류 : <h4 style="font-weight: bold">분식</h4> 
-						<button type="button" class="btn btn-dark btn-flat m-b-10" style="padding: 5px 5px; font-size: 7px;">대분류 수정</button>
+						현재 설정된 카테고리 대분류 : 
+						<h4 style="font-weight: bold">
+							<th:block th:each="f : ${storeList}">
+								[[${f.foodMainCate.mainCateName}]] , 
+							</th:block>
+							<th:block th:each="t : ${storeList2}">
+								[[${t.foodMainCate.mainCateName}]]
+							</th:block>
+						</h4>
+						
+						<a th:href="@{/store/myStoreManage/modifyMainCate}">
+						<button type="button" class="btn btn-dark btn-flat m-b-10" style="padding: 4px 4px; font-size: 10px;">대분류 수정하기</button>
+						</a>
 					</th>
 				</tr>
 				<tr>
-					<th>매장코드</th>
-					<th>아이디</th>
-					<th>메뉴 대분류 코드</th>
-					<th>메뉴 카테고리 코드</th>
+					<th>메뉴코드</th>
+					<th>메뉴 대분류 명</th>
+					<th>메뉴 카테고리 명</th>
 					<th>메뉴명</th>
 					<th>가격</th>
 					<th>상세정보</th>
 					<th>사용여부</th>
 					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="m : ${myMenuList}">
-					<td th:text="${m.storeCode}"></td>
-					<td th:text="${m.bizId}"></td>
-					<td th:text="${m.mainCateCode}"></td>
-					<td th:text="${m.menuCateCode}"></td>
+					<td th:text="${m.menuCode}"></td>
+					<td th:text="${m.foodMainCate.mainCateName}"></td>
+					<td th:text="${m.menuCate.menuCateName}"></td>
 					<td th:text="${m.menuName}"></td>
 					<td th:text="${m.menuPrice}"></td>
 					<td th:text="${m.menuDetail}"></td>
 					<td th:text="${m.menuUsing}"></td>
-					<td><button type="button" class="btn btn-link btn-flat m-b-10">수정</button></td>
+					<td>
+						<a th:href="@{/store/myStoreManage/modifyMyMenu(menuCode=${m.menuCode})}">
+						<button type="button" class="btn btn-link btn-flat m-b-10">수정</button>
+						</a>
+					</td>
+					<td>
+						<a th:href="@{/store/myStoreManage/deleteMyMenu(menuCode=${m.menuCode})}">
+						<button type="button" id="deleteMenuBtn" class="btn btn-link btn-flat m-b-10">삭제</button>
+						</a>
+					</td>
+
 				</tr>
 			</tbody>
 		</table>
 							
 	</div>
-	
+
 </th:block>					
 					
 <!--Custom JavaScript -->
 <th:block layout:fragment="customJsLib">
 	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
     <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+    
+    
+    <script type="text/javascript">
+    $(function(){
+      		$('#deleteMenuBtn').click(function(){
+			alert('삭제 후 복구가 불가능합니다. 정말 삭제하시겠습니까?');
+      		 });
+	});
+	</script>
+   
 </th:block>
 </body>
 </html>
