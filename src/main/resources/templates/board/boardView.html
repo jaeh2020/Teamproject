@@ -56,7 +56,7 @@
 							<br>
 							<div class="comment-date" th:text="${bc.boardReplyTime}" style="display: inline;"></div> 
 							<div style="float: right;">
-								<a th:href="@{/board/deleteComment(boardReplyCode=${bc.boardReplyCode})}"  id="delComment">삭제</a>
+								<a href="#none;" th:onclick="delReply([[${bc.boardReplyCode}]],[[${bc.boardNum}]]);" id="delComment">삭제</a>
 							</div>
 							<hr>
 						</div> 
@@ -78,7 +78,7 @@
 						<a th:href="@{/board/boardList}" class="btn btn-primary listBtn" style="display: inline;">
 								<i class="fa fa-list"></i> 목록
 							</a>	
-						</div>3
+						</div>
 					</div>
 				</div>	
 		</div>
@@ -90,17 +90,23 @@
    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->
    
    <script type="text/javascript">
+   
+   //a테그시 유효성 검사
+   function delReply(boardReplyCode, boardNum){
+	   if(confirm("삭제하시겠습니까?")){
+	        location.href = '/board/deleteComment?boardReplyCode=' + boardReplyCode + '&' + 'boardNum=' + boardNum;
+	        return true;
+	    } else {
+	        return false;
+	    }
+   } 
    	$(function(){
    		var form = commentForm;
-      		$('#commentBtn').click(function(){
-			alert('정말 등록하시겠습니까?')
-			form.submit();
+      		$('#commentBtn').on('click',function(){
+				alert('정말 등록하시겠습니까?')
+				form.submit();
       		 });
       		
-      		$('#delComment').click(function(){
-    			alert('정말 삭제하시겠습니까?')
-    			form.submit();
-          	});
 	});
    </script>
 </th:block>
