@@ -35,7 +35,7 @@ public class BoardController {
 		
 	//게시글 신고 작성처리
 	@PostMapping("/boardReport")
-	public String boardReport(Report report
+	public String boardReportWrite(Report report
 							 ) {
 		
 		System.out.println("report" + report);

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="col-lg-12">
+			<div class="card card-outline-info">
+				<div class="card-header">
+					<h4 class="m-b-0 text-white">게시판 신고 처리 폼</h4>
+				</div>
+				<br>
+				<div class="card-body">
+					<form th:action="@{/report/reportBoardList}" role="form" id="reportBoardForm" method="post" class="form-horizontal">
+						<div class="form-body">
+							<h3 class="box-title">Board Report</h3>
+							<hr class="m-t-0 m-b-40">
+							<!--/row-->
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group row">
+										<label class="control-label text-right col-md-3">신고 게시글 번호</label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" readonly="readonly" name="boardNum" th:value="${report.boardNum}">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group row">
+										<label class="control-label text-right col-md-3">신고자</label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" readonly="readonly" name="userId" th:value="${report.userId}">
+										</div>
+									</div>
+								</div>
+								<!--/span-->
+								<div class="col-md-12">
+									<div class="form-group row">
+										<label class="control-label text-right col-md-3">신고내용</label>
+										<div class="col-md-9">
+											<input type="text"  class="form-control" rows="3"  name="reportContents" th:value="${report.reportContents}" readonly="readonly">
+										</div>
+									</div>
+								</div>
+								<!--/span-->
+							</div>
+							<!--/row-->
+							<hr>
+							<div class="row">
+								<!--/span-->
+								<div class="col-md-12">
+									<div class="form-group row">
+										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 신고확정자</label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" readonly="readonly" name="memberId" th:value="${memberId}">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group row">
+										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 신고유형</label>
+										<div class="col-md-9">
+											<select class="form-control custom-select" name="reportCateCode">
+												<option>욕설신고</option>
+												<option>악의적인 예약 취소 신고</option>
+												<option>주문 후 미방문 신고</option>
+												<option>기타 신고</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<!--/span-->
+							</div>
+							<!--/row-->
+						</div>
+						<hr>
+						<div class="form-actions">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="row">
+										<div class="col-md-offset-3 col-md-9">
+											<button type="submit" class="btn btn-success" >Submit</button>
+											<a  href="#" class="btn btn-inverse" id="reportBoardBtn">취소</a>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6"> </div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+</th:block>
+
+<th:block layout:fragment="customJsLib">
+	<Script type="text/javascript">
+	
+	//취소버튼 alert창
+	   function reportBoardCanCel(){
+	   		if(confirm("정말로 취소하시겠습니까?")){
+	   			location.href = 'report/reportBoardList';
+	   			return true;
+	   		}else{
+	   			return false;
+	   		}
+	   		
+	   	}
+
+
+
+
+	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+	<script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->	    
+</th:block>
+
+
+
+</html>

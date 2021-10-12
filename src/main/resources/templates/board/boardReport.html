@@ -18,7 +18,7 @@
 					<div class="basic-elements">
 						<form th:action="@{/board/boardReport}" role="form" id="reportForm" method="post">
 						<!-- 히든데이터 -->
-						<input type="text" name="stateCode" th:value="${reportStatement.stateCode}">
+						<input type="hidden" name="stateCode" th:value="${reportStatement.stateCode}">
 							<div class="row">
 								<div class="col-lg-12">
 									<div class="form-group">
