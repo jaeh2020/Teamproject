@@ -79,8 +79,14 @@
 								<i class="fa fa-list"></i> 목록
 							</a>	
 						</div>
-					</div>
-				</div>	
+				</div>
+				<form th:action="@{/board/boardDelete}" role="form" id="deleteForm" method="post">
+				<div class="pull-right">
+					<a th:href="@{/board/boardModify(boardNum=${board.boardNum})}" class="btn btn-warning modBtn" id="boardModiBtn"><i class="fa fa-edit"></i> 수정</a>
+					<a th:href="@{/board/boardDelete(boardNum=${board.boardNum})}" class="btn btn-danger delBtn" id="baordDelBtn"><i class="fa fa-trash"></i> 삭제</a>
+				</div>
+				</form>
+			</div>	
 		</div>
 	</div>
 </th:block>
@@ -102,10 +108,19 @@
    } 
    	$(function(){
    		var form = commentForm;
-      		$('#commentBtn').on('click',function(){
-				alert('정말 등록하시겠습니까?')
-				form.submit();
-      		 });
+      	$('#commentBtn').on('click',function(){
+			alert('정말 등록하시겠습니까?')
+			form.submit();
+      	});	
+	});
+   	
+   	
+   	$(function(){
+   		var form = deleteForm;
+      		$('#baordDelBtn').click(function(){
+			alert('정말 삭제하시겠습니까?')
+			form.submit();
+      	});
       		
 	});
    </script>
