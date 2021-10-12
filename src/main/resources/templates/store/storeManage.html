@@ -73,7 +73,7 @@
 					<td th:text="${s.storeTasteAgree}"></td>
 					<td th:text="${s.storeExposAgree}"></td>
 					<td>
-						<a th:href="@{/store/modifyStoreInfo}">
+						<a th:href="@{/store/modifyStoreInfo(storeCode=${s.storeCode})}">
 						<button type="button" class="modifyMenuBtn btn btn-success btn-outline fa fa-pencil text-white"></button>
 						</a>
 					</td>

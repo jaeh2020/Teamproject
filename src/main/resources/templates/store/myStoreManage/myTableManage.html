@@ -89,30 +89,16 @@
     
     <script type="text/javascript">
     
- 	/* 추가버튼, 삭제버튼 alert */
+ 	/* 삭제버튼 alert */
     $(function(){
-      		$('#deleteMyTableBtn').click(function(){
-      			
-      			alert('정말로 삭제하시겠습니까?');
-      			
-				var deleteMyTableBtn = $(this);
-				
-				var tr = deleteMyTableBtn.parent().parent().parent();
-				var td = tr.children();
-				
-				console.log(tr.text());
-				
-				var tbN = td.eq(2).text();
-				/* 
-				if(tbN > ){
-					alert('테이블은 가장 마지막 번호만 삭제 가능합니다.');
-					return false;
-				} */
-				
+      		$('.deleteMyTableBtn').on("click", function(){
+      			var result = confirm('정말 삭제하시겠습니까?');
+				if(result){
+					return true;
+					}
+					else return false;
       		});
 	});
-
-    
 	</script>
    
 </th:block>

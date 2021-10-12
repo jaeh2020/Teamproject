@@ -520,8 +520,6 @@
 	<!-- -->
 	
 	
-	
-	
 
 	<!-- 세션아이디 조건, 나의 매장 정보 리스트 조회-->
 	<select id="getMyStoreInfo" resultMap="storeResultMap">
