@@ -18,6 +18,7 @@ import amdn.anywhere.domain.Board;
 import amdn.anywhere.domain.BoardCate;
 import amdn.anywhere.domain.BoardReply;
 import amdn.anywhere.domain.Member;
+import amdn.anywhere.domain.Report;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.service.BoardService;
 
@@ -31,25 +32,68 @@ public class BoardController {
 	}
 	
 	
-	//게시글 댓글 삭제처리
-		@GetMapping("/deleteComment")
-		public String deleteComment(BoardReply boardReply
-									,@RequestParam(name = "boardReplyCode" , required = false) String boardReplyCode
-									,@RequestParam(name = "boardNum" , required = false) String boardNum
-									, HttpSession session) {
-			
 		
-		 //로그인 정보 가져오기
-		 String memberId = (String) session.getAttribute("SID");
-		 boardReply.setMemberId(memberId);
-		 
-			System.out.println("boardReply 화면 값" + boardReply);
-			
-			boardService.deleteComment(boardReplyCode);
-			
-			return "redirect:/board/boardView?boardNum="+boardNum ;
+	//게시글 신고 작성처리
+	@PostMapping("/boardReport")
+	public String boardReport(Report report
+							 ) {
+		
+		System.out.println("report" + report);
+		
+		
+		if (report != null) {
+			report.setReportCode(boardService.getNewReportNum());
+			boardService.boardReport(report);
 		}
+		
+		return "redirect:/board/boardList";
+	}
 	
+	//게시글 신고 작성
+	@GetMapping("/boardReport")
+	public String boardReport(Model model
+							  ,HttpSession session
+							  ,@RequestParam(name = "reportCateCode" , required = false) String reportCateCode
+							  ,@RequestParam(name = "reportStatementCode" , required = false) String reportStatementCode
+							  ,@RequestParam(name = "boardNum" , required = false) String boardNum) {
+		
+		//신고자 아이디 가져오기
+		String userId = (String)session.getAttribute("SID");
+		//게시글 번호 가져오기
+		Board board = boardService.getBoardInfoByCode(boardNum);
+		//신고 상태코드 가져오기
+		Statement reportStatement = boardService.getReportStatement(reportStatementCode);
+		
+		
+		model.addAttribute("title", "게시판 신고");
+		model.addAttribute("userId", userId);
+		model.addAttribute("board" , board);
+		model.addAttribute("reportStatement" , reportStatement);
+		
+		return "board/boardReport";
+	}
+
+	
+	
+	//게시글 댓글 삭제처리
+	@GetMapping("/deleteComment")
+	public String deleteComment(BoardReply boardReply
+								,@RequestParam(name = "boardReplyCode" , required = false) String boardReplyCode
+								,@RequestParam(name = "boardNum" , required = false) String boardNum
+								, HttpSession session) {
+		
+	
+			 //로그인 정보 가져오기
+			 String memberId = (String) session.getAttribute("SID");
+			 boardReply.setMemberId(memberId);
+		 
+			 System.out.println("boardReply 화면 값" + boardReply);
+			
+			 boardService.deleteComment(boardReplyCode);
+			
+			 return "redirect:/board/boardView?boardNum="+ boardNum ;
+	}
+
 	
 	
 	//게시글 수정 처리
@@ -137,17 +181,14 @@ public class BoardController {
 		String memberId = (String) session.getAttribute("SID");
 		//게시글 댓글 목록
 		List<BoardReply> boardCommentList = boardService.getBoardCommentList(boardNum);
-		//댓글 정보 가져오기
-		BoardReply boardReply = boardService.getCommentCode(boardReplyCode);
-				
-				
+
 		
 		model.addAttribute("boardCommentList", boardCommentList);	
 		model.addAttribute("title", "게시판 조회");
 		model.addAttribute("board", board);
 		model.addAttribute("boardCnt", boardCnt);
 		model.addAttribute("memberId", memberId);
-		model.addAttribute("boardReply", boardReply);
+
 		
 		
 		/*
@@ -200,6 +241,7 @@ public class BoardController {
 		
 		return "redirect:/board/boardList";
 	}
+	
 	// 게시글 작성 
 	@GetMapping("/boardWrite")
 	public String boardWrite(Model model

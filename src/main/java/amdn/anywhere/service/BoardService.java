@@ -10,6 +10,7 @@ import amdn.anywhere.domain.Board;
 import amdn.anywhere.domain.BoardCate;
 import amdn.anywhere.domain.BoardReply;
 import amdn.anywhere.domain.Member;
+import amdn.anywhere.domain.Report;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.mapper.BoardMapper;
 
@@ -25,8 +26,19 @@ public class BoardService {
 		  this.boardMapper = boardMapper;
 	 }
 	  
-	  public BoardReply getCommentCode(String boardReplyCode) {
-		  return boardMapper.getCommentCode(boardReplyCode);
+	  //신고 등록
+	  public int boardReport(Report report) {
+		  return boardMapper.boardReport(report);
+	  };
+	  
+	  //신고번호 자동증가 코드
+	  public String getNewReportNum() {
+		  return boardMapper.getNewReportNum();
+	  };
+	  
+	  //신고 상태코드 불러오기
+	  public Statement getReportStatement(String reportStatementCode) {
+		  return boardMapper.getReportStatement(reportStatementCode);
 	  }
 	  
 	  //게시글 댓글 삭제
@@ -113,7 +125,7 @@ public class BoardService {
 	  }
 	  
 	  
-	  
+	  //게시글 목록
 	  public List<Board> getBoardList(){
 		  List<Board> boardList = boardMapper.getBoardList();
 		  
