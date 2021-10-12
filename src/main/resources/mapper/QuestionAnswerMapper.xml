@@ -13,7 +13,7 @@
 		FROM
 			tb_question_answer
 	</select>
-	<insert id="addQuestionAnswer" parameterType="QuestionAnswer">
+	<insert id="addQuestionAnswer" parameterType="List">
 		
 		INSERT INTO tb_question_answer
 		(
@@ -26,14 +26,16 @@
 			, reg_time
 		)
 		VALUES 
+		<foreach collection="questionAnswerList" item="q" open="" separator="," close="">
 			(  
 				sf_new_answer_code()
 				, NULL
-				, #{recruitBCode}
-				, #{userId}
-				, #{questionCode}
-				, #{tasterChoice}
+				, #{q.recruitBCode}
+				, #{q.userId}
+				, #{q.questionCode}
+				, #{q.tasterChoice}
 				, NOW()
 			)
+		</foreach>
 	</insert>
 </mapper>

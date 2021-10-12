@@ -41,14 +41,18 @@ public class QuestionService {
 		this.questionChoiceMapper = questionChoiceMapper;
 		this.questionAnswerMapper = questionAnswerMapper;
 	}
-	//설문조사 답 등록하기
-	public int addQuestionAnswer(List<QuestionAnswer> questionAnswerList) {
-		int result = 0;
-		for(int i=0; i< questionAnswerList.size(); i++) {			
-			result += questionAnswerMapper.addQuestionAnswer(questionAnswerList.get(i));
-		}
-		return result;
+	//설문조사 참여인원 추가
+	public int updateServey (String recruitCode) {
+		return surveyMapper.updateSurvey(recruitCode);
 	}
+	//설문조사 답 등록하기
+	 public int addQuestionAnswer(List<QuestionAnswer> questionAnswerList) {
+		 int result = 0;
+		  result = questionAnswerMapper.addQuestionAnswer(questionAnswerList);
+		  
+		 return result;
+	 }
+	
 	//설문조사 삭제
 	public int deleteSurvey(String surveyCode) {
 		return surveyMapper.deleteSurvey(surveyCode);

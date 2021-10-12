@@ -31,6 +31,10 @@ public class TasterService {
 		this.questionsMapper = questionsMapper;
 		this.tasterMapper = tasterMapper;
 	}
+	//8 평가단 상태 업테이트
+	public int updateTaster(Map<String, String> paramMap) {
+		return tasterMapper.updateTaster(paramMap);
+	}
 	//7 평가단 신청 처리
 	public int addTaster(Taster taster) {
 		//코드 생성 및 세팅
@@ -53,10 +57,7 @@ public class TasterService {
 		}
 		return tasterList;
 	}
-	//5 모집 공고 조회수 증가
-	public int updateViewCounts(String recruitCode) {
-		return recruitTasterByBizMapper.updateViewCounts(recruitCode);
-	}
+
 	//4-1 모집 신청 처리 -모집코드 자동 생성
 	public String createRecruitCode() {
 		return recruitTasterByBizMapper.createRecruitCode();
@@ -67,7 +68,7 @@ public class TasterService {
 		String newRecruitCode = createRecruitCode();
 		recruitTasterByBiz.setRecruitTBizCode(newRecruitCode);
 		//2. 상태코드 세팅
-		recruitTasterByBiz.setStateCode("검토전");
+		//recruitTasterByBiz.setStateCode();
 		//3. 리스트를 String으로 
 		String cateList = String.join(",", recruitTasterByBiz.getCateList());
 		String spCateList = String.join(",", recruitTasterByBiz.getSpecialCateList());
@@ -99,9 +100,9 @@ public class TasterService {
 		
 		return paramMap;
 	}
-	//2. 모집리스트 상태 변경
-	public int modifyState(Map<String, Object> paramMap) {
-		return recruitTasterByBizMapper.modifyState(paramMap);
+	//2. 모집 (상태:state, 조회수:view, 현재모집인원:nowNum) 업데이트
+	public int updateRecruitBBiz(Map<String, String> paramMap) {
+		return recruitTasterByBizMapper.updateRecruitBBiz(paramMap);
 	}
 	//1. 모집 리스트
 	public List<RecruitTasterByBiz> getRecruitBBList(String recruitCode){

@@ -13,6 +13,8 @@ import amdn.anywhere.domain.Taster;
 
 @Mapper
 public interface TasterMapper {
+	//평가단 정보 수정
+	public int updateTaster(Map<String, String> paramMap);
 	//평가단 추가
 	public int addTaster(Taster taster);
 	//평가단코드생성

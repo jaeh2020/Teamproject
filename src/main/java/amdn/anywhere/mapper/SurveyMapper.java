@@ -16,5 +16,7 @@ public interface SurveyMapper {
 	public int addSurvey(Survey surveyInfo);
 	//4. 설문조사 삭제
 	public int deleteSurvey(String surveyCode);
+	//5. 설문조사 참여인원 업뎃
+	public int updateSurvey(String recruitCode);
 	
 }
