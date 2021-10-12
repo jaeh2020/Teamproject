@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,12 +30,66 @@ public class MemberController {
 	public MemberController(MemberService memberService) {
 		this.memberService = memberService;
 	}
+	
+	//마이페이지 myPage
+	@GetMapping("/member/myPage")
+	public String myPage(@RequestParam(name = "userId", required = false) String userId
+						,Model model) {
+		
+		//소비자회원 추가 정보
+		MemberUser memberUser = memberService.getMemberUserInfoById(userId);
+		System.out.println("memberUser"+memberUser);
+		
+		model.addAttribute("title", "회원가입  > MYPAGE");
+		model.addAttribute("location", "회원가입  > MYPAGE");
+		model.addAttribute("memberUser", memberUser);
+		
+		return "/member/myPage";
+	}
+	
+	//마이페이지 myInfo
+	@PostMapping("/member/myInfo")
+	public String modifyMyInfo( @RequestParam(name = "memberId", required = false) String memberId
+								,Member member) {
+		System.out.println("화면에서 입력 : " + member);
+		
+		memberService.modifyMyInfo(member);
+		
+		return "redirect:/member/myInfo";
+	}
+	
+	@GetMapping("/member/modifyMyInfo")
+	public String modifyMyInfo( @RequestParam(name = "memberId", required = false) String memberId
+						 ,Model model) {
+		
+		Member member = memberService.getMemberInfoById(memberId);
+		
+		model.addAttribute("title", "마이페이지  > 내정보 수정");
+		model.addAttribute("location", "마이페이지  > 내정보 수정");
+		model.addAttribute("member", member);
+		return "/member/modifyMyInfo";
+	}
+	
+	//마이페이지 myInfo
+	@GetMapping("/member/myInfo")
+	public String myInfo( @RequestParam(name = "memberId", required = false) String memberId
+						 ,Model model) {
+		
+		Member member = memberService.getMemberInfoById(memberId);
+		
+		model.addAttribute("title", "마이페이지  > 내정보");
+		model.addAttribute("location", "마이페이지  > 내정보");
+		model.addAttribute("member", member);
+		return "/member/myInfo";
+	}
+	
 	//로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
 	//로그인
 	@PostMapping("/member/login")
 	public String login( @RequestParam(name = "memberId", required = false) String memberId
@@ -69,6 +125,7 @@ public class MemberController {
 		model.addAttribute("location","로그인");
 		return "/member/login";
 	}
+	
 	//회원 전체 목록 조회
 	@GetMapping("/member/memberList")
 	public String getMemberList(Model model) {
@@ -80,15 +137,34 @@ public class MemberController {
 		
 		return "/member/memberList";
 	}
+	
 	//가입완료
-	@GetMapping("/member/addMember04")
-	public String addMember04(Model model) {
+	@GetMapping("/member/addMember05")
+	public String addMember05(Model model) {
 		
 		model.addAttribute("title", "회원가입  > 가입완료");
 		model.addAttribute("location", "회원가입  > 가입완료");
+		return "/member/addMember05";
+	}
+	
+	//소상공인 가입
+	@PostMapping("/member/addMember04")
+	public String addMember04(Member member) {
+		System.out.println("커맨드 객체 : " + member);
+		
+		if(member != null) memberService.addMember02(member);
+		
+		return "redirect:/member/addMember05";
+	}
+	
+	@GetMapping("/member/addMember04")
+	public String addMember04(Model model) {
+		
+		model.addAttribute("title", "회원가입  > 정보입력");
+		model.addAttribute("location", "회원가입  > 정보입력");
 		return "/member/addMember04";
 	}
-		
+	
 	//추가정보입력
 	@PostMapping("/member/addMember03")
 	public String addMember03(MemberUser memberUser) {
@@ -96,7 +172,7 @@ public class MemberController {
 		
 		if(memberUser != null) memberService.addMember03(memberUser);
 		
-		return "redirect:/member/addMember04";
+		return "redirect:/member/addMember05";
 	}
 	
 	//선호도 선택 ajax
@@ -107,10 +183,6 @@ public class MemberController {
 							,@RequestParam(value = "likeArr[]") List<String> likeArr
 							,@RequestParam(value = "unlikeArr[]") List<String> unlikeArr
 							,MemberUserLike mul) {
-		/*
-		 * String ulikeCode = memberService.getUserLikeCode();
-		 * System.out.println("ulikeCodedd"+ulikeCode);
-		 */
 		
 		mul.setUserLikeCode(userLikeCode);
 		mul.setMemberId(memberId);
@@ -120,9 +192,11 @@ public class MemberController {
 		mul.setUserUnlikeKey1(unlikeArr.get(0));
 		mul.setUserUnlikeKey2(unlikeArr.get(1));
 		mul.setUserUnlikeKey3(unlikeArr.get(2));
-		System.out.println(mul+"mullllllllllll");
 		
-		if(mul != null) memberService.addMemberUserLike(mul);
+		if(mul != null) {
+			mul.setUserLikeCode(memberService.getUserLikeCode());
+			memberService.addMemberUserLike(mul);
+		}
 
 		return "mul";
 	}
@@ -132,6 +206,9 @@ public class MemberController {
 		
 		//선호-비선호 메인카테 불러오기
 		List<FoodMainCate> foodMainList = memberService.getFoodMainList();
+		
+		//자동증가 코드
+		//String uLikeCode = memberService.getUserLikeCode();
 		
 		model.addAttribute("title", "회원가입  > 추가정보입력");
 		model.addAttribute("location", "회원가입  > 추가정보입력");
@@ -146,17 +223,26 @@ public class MemberController {
 		System.out.println("커맨드 객체 : " + member);
 		
 		if(member != null) memberService.addMember02(member);
-		String memberLv = member.getLevelCode();
-		String joinLink = null;
-		if(memberLv.equals("level_user")) {
-			joinLink = "redirect:/member/addMember03";
-		}else {
-			joinLink = "redirect:/member/addMember04";
-		}
-		System.out.println(joinLink + "joinLink");
+		
 		return "redirect:/member/addMember03";
 	}
 	
+	//id중복체크
+	@RequestMapping(value = "/idCheck", method = RequestMethod.GET)
+	@ResponseBody
+	public int idCheck(@RequestParam("memberId") String memberId) {
+		
+		Member idCheck = memberService.idCheck(memberId);
+		System.out.println("memberId체크" + memberId);
+		System.out.println("id체크" + idCheck);
+		
+		int result = 0;
+		if(idCheck != null) {
+			result = 1;
+		}
+		return result;
+	}
+
 	@GetMapping("/member/addMember02")
 	public String addMember02(Model model) {
 		
@@ -164,6 +250,7 @@ public class MemberController {
 		model.addAttribute("location", "회원가입  > 정보입력");
 		return "/member/addMember02";
 	}
+	
 	//회원유형선택
 	@GetMapping("/member/addMember01")
 	public String addMember01(Model model) {

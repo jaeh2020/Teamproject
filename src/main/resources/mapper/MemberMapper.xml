@@ -15,8 +15,72 @@
 		<result property="memberEmail" column="member_email"/>
 		<result property="memberRegTime" column="member_reg_time"/>
 	</resultMap>
-
-	<!-- 로그인,  -->
+	
+	<resultMap type="MemberUser" id="memberUserResultMap">
+		<result property="userId" column="user_id"/>
+		<result property="msCode" column="ms_code"/>
+		<result property="userOrderTotal" column="user_order_total"/>
+		<result property="userPoint" column="user_point"/>
+		<result property="userEvaluator" column="user_evaluator"/>
+		<result property="reportScore" column="report_accu_score"/>
+	</resultMap>
+	
+	<!-- 소비자 회원 추가정보 개인조회 -->
+	<select id="getMemberUserInfoById" resultMap="memberUserResultMap">
+		SELECT 
+			user_id
+			, ms_code
+			, user_order_total
+			, user_point
+			, user_evaluator
+			, report_accu_score
+		FROM 
+			tb_member_user
+		WHERE
+			user_id = #{userId};
+	</select>
+	
+	<!-- 소비자 회원 추가정보 조회 -->
+	<select id="getMemberUserList" parameterType="String" resultMap="memberUserResultMap">
+		SELECT 
+			user_id
+			, ms_code
+			, user_order_total
+			, user_point
+			, user_evaluator
+			, report_accu_score
+		FROM 
+			tb_member_user;
+	</select>
+	
+	<!-- 마이페이지 내정보 수정 -->
+	<update id="modifyMyInfo" parameterType="Member">
+		UPDATE tb_member
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="memberPw != null and memberPw != ''.toString()">
+				member_pw = #{memberPw},
+			</if>
+			<if test="memberName != null and memberName != ''.toString()">
+				member_name = #{memberName},
+			</if>
+			<if test="memberGender != null and memberGender != ''.toString()">
+				member_gender = #{memberGender},
+			</if>
+			<if test="memberBirth != null and memberBirth != ''.toString()">
+				member_birth = #{memberBirth},
+			</if>
+			<if test="memberPhone != null and memberPhone != ''.toString()">
+				member_phone = #{memberPhone},
+			</if>
+			<if test="memberEmail != null and memberEmail != ''.toString()">
+				member_email = #{memberEmail},
+			</if>
+		</trim>
+		WHERE
+			member_id = #{memberId};
+	</update>
+	
+	<!-- 로그인, 내정보조회 -->
 	<select id="getMemberInfoById" parameterType="String" resultMap="memberResultMap">
 		SELECT 
 			  member_id
@@ -90,12 +154,12 @@
 	</insert>
 	
 	<!-- 선호-비선호코드 자동증가 -->
-	<select id="getUserLikeCode">
+	<select id="getUserLikeCode" resultType="String">
 		SELECT
 		   CASE
 		   WHEN COUNT(1) = 0 THEN 'us_like_001'
 		   ELSE
-		      CONCAT('us_like_', LPAD(MAX(CAST(SUBSTRING(user_like_code,3,3)AS DECIMAL)+1),3,0))
+		      CONCAT('us_like_', LPAD(MAX(CAST(SUBSTRING(user_like_code,9,3)AS DECIMAL)+1),3,0))
 		   END AS userLikeCode
 		FROM
 		   tb_member_user_like;
@@ -133,4 +197,14 @@
 			, #{memberEmail}
 			, CURDATE());
 	</insert>
+	
+	<!-- id 중복검사 -->
+	<select id="idCheck" resultMap="memberResultMap">
+		SELECT 
+			member_id 
+		FROM 
+			tb_member
+		WHERE
+			member_id = #{memberId};
+	</select>
 </mapper>

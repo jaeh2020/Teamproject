@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+	
+		<!-- css -->
+<style type= "text/css">
+	tbody tr td{
+		color: #505050;
+	}
+	.btn-primary{
+		display : block;
+		float : right;
+		color: #fff;
+		margin: 5px;
+	}
+	.btn-danger{
+		display : block;
+		float : right;
+		color: #fff;
+		margin: 5px;
+	}
+</style>
+
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	
+
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card card-outline-primary">
+				<div class="card-title">
+					<div class="card-header">
+	                	<h4 class="m-b-0 text-white">테이블 등록/추가 하기</h4>
+	                </div>
+				</div>
+				<form id="addMyTableForm" th:action="@{/store/myStoreManage/addMyTable}" method="post">
+					<div class="card-body">
+						<div class="basic-form">
+								<div>
+									<label> <span class="text-danger">*</span> 는 필수 항목입니다. </label>
+								</div>
+								<div class="form-group">
+									<input type="hidden" name="bizId" th:value="${bizId}" class="form-control" readonly="readonly">
+									<th:block th:each="s : ${storeList}">
+								</div>
+								<div class="form-group">
+									<label>매장 선택 <span class="text-danger">*</span> </label>
+										<select class="form-control" id="selectStoreCode" name="storeCode">
+				                        	<option value=""> : : : 선택  : : : </option>
+											<th:block th:each="s : ${storeList}">
+				                        	<option th:value="${s.storeCode}"> [[${s.storeName}]] </option>
+				                        	</th:block>
+				                        </select>
+								</div>
+								<div class="form-group">
+									
+									
+									<small class="form-control-feedback" style="color: red;">
+										* 테이블 등록은 마지막 테이블번호에서 +1 된 테이블번호로 자동증가되어 등록됩니다.
+									</small>
+									<h6 class="form-control-feedback" style="color: blue;">
+										ex) 현재 테이블 번호 : 1,2,3  ->  추가될 테이블 번호 : 4 
+									</h6>
+								</div>
+								<div class="form-group">
+									<button type="submit" id="addMyTableBtn" class="btn btn-danger btn-flat m-b-10">등록/추가</button>
+								</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	
+	
+	
+</th:block>					
+					
+<!--Custom JavaScript -->
+<th:block layout:fragment="customJsLib">
+	<script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+    
+    <script type="text/javascript">
+    
+   	/* 유효성검사 */ 
+	$(function(){
+			$('#addMyTableBtn').click(function(){
+				
+				var storeCode = $('[name=storeCode]');
+				
+				if(storeCode.val().trim() == ''){
+					alert('매장을 선택해주세요.');
+					return false;
+				}
+				
+				$('#addMyTableForm').submit();	
+			});
+		});
+		
+	</script>
+
+</th:block>
+</body>
+</html>

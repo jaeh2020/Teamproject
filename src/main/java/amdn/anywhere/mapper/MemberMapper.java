@@ -12,7 +12,16 @@ import amdn.anywhere.domain.MemberUserLike;
 @Mapper
 public interface MemberMapper {
 
-	//회원 정보 조회(로그인,)
+	//소비자 회원 추가정보 개인조회
+	public MemberUser getMemberUserInfoById(String userId);
+	
+	//소비자 회원 추가정보 조회
+	public List<MemberUser> getMemberUserList();
+	
+	//마이페이지 내정보 수정
+	public int modifyMyInfo(Member member);
+	
+	//회원 정보 조회(로그인, 내정보)
 	public Member getMemberInfoById(String memberId);
 	
 	//회원 전체 목록 조회
@@ -32,4 +41,7 @@ public interface MemberMapper {
 	
 	//소비자, 소상공인 회원 등록
 	public int addMember02(Member member);
+	
+	//id중복체크
+	public Member idCheck(String memberId);
 }

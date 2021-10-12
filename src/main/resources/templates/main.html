@@ -5,6 +5,18 @@
 
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
+	
+	
+<!-- css -->
+<style type= "text/css">
+
+	.btn-pink{
+		background-color:transparent;
+		font-family: 'Gowun Batang', serif;
+	}
+</style>
+	
+	
 </th:block>
 
 <!-- contents layout:fragment 정의 -->
@@ -50,65 +62,16 @@
 							<div class="card-content">
 								<button type="button" class="btn btn-danger" style="font-family: 'Gowun Batang', serif;">카테고리</button>
                                 	
-                                	<ul class="list-group list-group-flush" style="font-family: Gowun Batang, serif;">
-	                                    
+                                	<ul>
+	                                    <th:block th:if="${#lists.size(mainCate) > 0}" th:each="c : ${mainCate}">
 	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 아시안
+	                                    	 <i class="ti-quote-left"></i>
+	                                    	 <button type="button" class="btn btn-pink"
+	                                    	  		 th:text="${c.mainCateName}" 
+													 th:value="${c.mainCateName}">
+											 </button>
 	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 카페,디저트
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 치킨
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 중식
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 햄버거
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 횟집
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 일식
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 한식
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 도시락
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 야식
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 보양식
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 유기농
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 피자
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 주점
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 혼밥
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 분식
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 비건
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 양식
-	                                	</li>
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i> 기타
-	                                	</li>
+	                                   	</th:block>
 	                                </ul>
 							</div>
 						
