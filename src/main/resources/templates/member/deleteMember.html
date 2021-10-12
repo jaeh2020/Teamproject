@@ -19,7 +19,7 @@
 		display : inline-block;
 		width : 70px;
 		text-align: center;
-		margin: 160px;
+		margin-left: 20px;
 	}
 	.form-button{
 		text-align: center;
@@ -42,25 +42,23 @@
                     <div class="col-mg-5">
                         <div class="login-content card">
                             <div class="login-form">
-                                <h4>로그인</h4>
-                                <form th:action="@{/member/login}" method="post">
+                                <h4>회원 탈퇴</h4>
+                                <form th:action="@{/member/deleteMember}" method="post">
                                     <div class="form-group">
                                         <label>아이디</label>
-                                        <input type="text" class="form-control" name="memberId" th:value="${memberId}" placeholder="아이디">
+                                        <input type="text" class="form-control" name="memberId" th:value="${session.SID}" placeholder="아이디">
                                     </div>
                                     <div class="form-group">
                                         <label>비밀번호</label>
                                         <input type="password" class="form-control" name="memberPw" placeholder="비밀번호">
                                     </div>
-                                    <!-- <div class="checkbox">
-                                        <label class="pull-right">
-        									<a href="#">비번 잊음?</a>
-        								</label>
-                                    </div> -->
-                                    <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">로그인</button>
-                                    <div class="register-link m-t-15 text-center">
-                                        <p>계정이 없으십니까? <a th:href="@{/member/addMember01}"> 회원가입 </a></p>
+                                    <div class="form-group">
+                                        <label>비밀번호 확인</label>
+                                        <input type="password" class="form-control" name="memberPw2" placeholder="비밀번호 확인">
                                     </div>
+                                    
+                                    <button type="submit" class="btn btn-primary btn-flat m-b-50 m-t-50">회원탈퇴</button>
+                                    
                                 </form>
                             </div>
                         </div>

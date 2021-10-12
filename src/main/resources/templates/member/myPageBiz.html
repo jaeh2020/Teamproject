@@ -61,8 +61,8 @@
 					</thead>
                     <tbody>
                         <tr><td><a th:href="@{/member/myInfo(memberId=${session.SID})}">내정보</a></td></tr>
+                        <tr><td><a th:href="@{/member/myaddBizConfirm}">소상공인 승인신청</a></td></tr>
                         <tr><td><a th:href="@{#}">??</a></td></tr>
-                        <tr><td><a th:href="@{#}">먹깨비 신청현황</a></td></tr>
                         <tr><td><a th:href="@{#}">고객센터</a></td></tr>
                         <tr><td><a th:href="@{/member/deleteMember(memberId=${session.SID})}">회원탈퇴</a></td></tr>
                     </tbody>
@@ -76,42 +76,14 @@
 	            			 <!-- 프로필 -->
 	            			 <div class="row">
 	            			 	
-	            			 	<div class="col-lg-2">
-	            			 		<div class="circle">[[${memberUser.membership.msLevel}]]</div>
-	            			 	</div>
 	            			 	<div class="col-lg-5">
 	            			 		<h3> [[${session.SNAME}]] 님 ></h3>
-	            			 		<p>구매건수 #건 달성 시 # 로 승급됩니다.</p>
 	            			 	</div>
 	            			 	<div class="col-lg-2"></div>
 	            			 </div>
 	            			 
 	            			 <!-- 프로필 하단 -->
-	            			 <div class="row">
-	            			 	<div class="col-lg-1"><hr></div>
-	            			 	<div class="col-lg-2">
-	            			 		<div class="wrap">
-		            			 		<h4>주문건수</h4>
-		            			 		<div>[[${memberUser.userOrderTotal}]]</div>
-	            			 		</div>
-	            			 	</div>
-	            			 	<div class="col-lg-1"><hr></div>
-	            			 	<div class="col-lg-2">
-	            			 		<div class="wrap">
-		            			 		<h4>POINT</h4>
-		            			 		<div>[[${memberUser.userPoint}]]</div>
-		            			 	</div>
-	            			 	</div>
-	            			 	<div class="col-lg-1"><hr></div>
-	            			 	<div class="col-lg-2">
-	            			 		<div class="wrap">
-		            			 		<h4>먹깨비</h4>
-		            			 		<div>[[${memberUser.userEvaluator}]]</div>
-		            			 	</div>
-	            			 	</div>
-	            			 	<div class="col-lg-1"><hr></div>
-	            			 	
-	            			 </div>
+	            			 
 	            			 
 	            			 
 	        	</div>

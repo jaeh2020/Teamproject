@@ -8,6 +8,8 @@ public class MemberUser {
 	private int userPoint;
 	private String userEvaluator;
 	private int reportScore;
+	private Membership membership;
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -44,11 +46,19 @@ public class MemberUser {
 	public void setReportScore(int reportScore) {
 		this.reportScore = reportScore;
 	}
+	
+	public Membership getMembership() {
+		return membership;
+	}
+	public void setMembership(Membership membership) {
+		this.membership = membership;
+	}
 	@Override
 	public String toString() {
 		return "MemberUser [userId=" + userId + ", msCode=" + msCode + ", userOrderTotal=" + userOrderTotal
 				+ ", userPoint=" + userPoint + ", userEvaluator=" + userEvaluator + ", reportScore=" + reportScore
-				+ "]";
+				+ ", membership=" + membership + "]";
 	}
+	
 	
 }

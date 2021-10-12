@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
+import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
 import amdn.anywhere.mapper.MemberMapper;
@@ -17,6 +18,27 @@ public class MemberService {
 	
 	public MemberService(MemberMapper memberMapper) {
 		this.memberMapper = memberMapper;
+	}
+	
+	//소상공인 승인 상태, 승인자 아이디 변경
+	public int modifyBizConfirm(MemberBiz memberBiz) {
+		return memberMapper.modifyBizConfirm(memberBiz);
+	}
+	
+	//소상공인 승인 목록
+	public List<MemberBiz> getMemberBizList(){
+		List<MemberBiz> memberBizList = memberMapper.getMemberBizList();
+		return memberBizList;
+	}
+	
+	//소상공인 자동증가 코드
+	public String getMemberBizCode() {
+		return memberMapper.getMemberBizCode();
+	}
+	
+	//소상공인 승인신청 등록
+	public int addBizConfirm(MemberBiz memberBiz) {
+		return memberMapper.addBizConfirm(memberBiz);
 	}
 	
 	//소비자 회원 추가정보 개인 조회
@@ -56,6 +78,7 @@ public class MemberService {
 		return memberMapper.addMemberUserLike(memberUserLike);
 	}
 	
+	//선호-비선호 자동증가 코드
 	public String getUserLikeCode() {
 		return memberMapper.getUserLikeCode();
 	}

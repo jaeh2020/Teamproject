@@ -6,12 +6,25 @@ import org.apache.ibatis.annotations.Mapper;
 
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
+import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
 
 @Mapper
 public interface MemberMapper {
 
+	//소상공인 승인 상태, 승인자 아이디 변경
+	public int modifyBizConfirm(MemberBiz memberBiz);
+	
+	//소상공인 승인 목록
+	public List<MemberBiz> getMemberBizList();
+	
+	//소상공인 신청 기본키 자동증가
+	public String getMemberBizCode();
+	
+	//소상공인 승인신청 등록
+	public int addBizConfirm(MemberBiz memberBiz);
+	
 	//소비자 회원 추가정보 개인조회
 	public MemberUser getMemberUserInfoById(String userId);
 	
