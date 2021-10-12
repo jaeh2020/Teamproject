@@ -1,5 +1,7 @@
 package amdn.anywhere.domain;
 
+import java.util.List;
+
 public class Questionnaire {
 	private String qCode;
 	private String qContent;
@@ -9,6 +11,7 @@ public class Questionnaire {
 	private String qUpdateId;
 	private String qCateCode;
 	private QuestionCate questionCate;
+	private List<QuestionChoices> questionChoices;
 	public String getqCode() {
 		return qCode;
 	}
@@ -57,13 +60,16 @@ public class Questionnaire {
 	public void setQuestionCate(QuestionCate questionCate) {
 		this.questionCate = questionCate;
 	}
+	public List<QuestionChoices> getQuestionChoices() {
+		return questionChoices;
+	}
+	public void setQuestionChoices(List<QuestionChoices> questionChoices) {
+		this.questionChoices = questionChoices;
+	}
 	@Override
 	public String toString() {
 		return "Questionnaire [qCode=" + qCode + ", qContent=" + qContent + ", qAddTime=" + qAddTime + ", qAddId="
 				+ qAddId + ", qUpdateTime=" + qUpdateTime + ", qUpdateId=" + qUpdateId + ", qCateCode=" + qCateCode
-				+ ", questionCate=" + questionCate + "]";
+				+ ", questionCate=" + questionCate + ", questionChoices=" + questionChoices + "]";
 	}
-
-	
-	
 }

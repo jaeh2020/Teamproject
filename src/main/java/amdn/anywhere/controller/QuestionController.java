@@ -1,9 +1,11 @@
 package amdn.anywhere.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import amdn.anywhere.domain.QuestionAnswer;
 import amdn.anywhere.domain.QuestionCate;
 import amdn.anywhere.domain.Questionnaire;
 import amdn.anywhere.domain.RecruitTasterByBiz;
@@ -26,6 +29,7 @@ import amdn.anywhere.service.TasterService;
 @Controller
 @RequestMapping("/survey")
 public class QuestionController{
+
 	private TasterService tasterService;
 	private QuestionService questionService;
 	
@@ -33,10 +37,46 @@ public class QuestionController{
 		this.tasterService = tasterService;
 		this.questionService = questionService;
 	}
+	//14. 설문조사 제출
+	@PostMapping("/doSurvey")
+	public String doSurvey(HttpSession session, @RequestParam Map<String, String> paramMap) {
+		String id = (String) session.getAttribute("SID");
+
+		
+		System.out.println(paramMap);
+		Set<String> questionSet = paramMap.keySet();
+		
+		System.out.println(questionSet);
+		List<QuestionAnswer> questionAnswerList = new ArrayList<QuestionAnswer>();
+		
+		//키를 담을 변수 선언: 키 셋 변수
+		for(String question : questionSet) {
+			
+			QuestionAnswer qAnswer = new QuestionAnswer();
+			
+			if(question.equals("recruitCode")) continue;	
+			else if(question.equals("userId")) continue; 
+			else {
+				
+				qAnswer.setQuestionCode(question);
+				qAnswer.setTasterChoice(paramMap.get(question));
+				qAnswer.setRecruitBCode(paramMap.get("recruitCode"));
+				qAnswer.setUserId(id);				
+			}
+			questionAnswerList.add(qAnswer);
+		}
+		//insert처리
+		int result = questionService.addQuestionAnswer(questionAnswerList);
+		System.out.println(result);
+		//미참여가 참여로 바뀌어야함.
+		return "redirect:/survey/myList";
+	}
+	
 	//13. 설문조사 참여 화면 이동
 	@GetMapping("/doSurvey")
 	public String doSurvey(Model model
 				,@RequestParam(value="recruitCode", required = false) String recruitCode) {
+		
 		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitCode).get(0);
 		String[] cateList = recruitInfo.getStrCateList().split(",");
 		int length = cateList.length;
@@ -47,9 +87,9 @@ public class QuestionController{
 			if(qCate.equals("all")) continue;
 			
 			//문항가져오기
-			List<Questionnaire> newQList = questionService.getQuestionList(qCate);  
+			List<Questionnaire> newQList = questionService.getQuestionList(qCate, 'Y'); 
+			
 			questionList.addAll(newQList);
-			System.out.println(newQList + " ----------------newQList");
 			
 		}
 
@@ -58,7 +98,7 @@ public class QuestionController{
 		model.addAttribute("location1", "설문조사 목록");
 		model.addAttribute("location2", "설문조사 참여하기");
 		model.addAttribute("recruitInfo", recruitInfo);
-		model.addAttribute("qList", questionList);
+		model.addAttribute("questionList", questionList);
 
 		return "/survey/doSurvey";
 	}
@@ -69,9 +109,8 @@ public class QuestionController{
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("userId", "id010");//소비자 아이디 가정
 		List<Taster> myList = tasterService.getTasterList(paramMap);
-		System.out.println("myList______" + myList);
-		model.addAttribute("title", "평가단 신청조회");
-		model.addAttribute("location", "평가단 신청조회");
+		model.addAttribute("title", "내 설문조사");
+		model.addAttribute("location", "내 설문조사");
 		model.addAttribute("myList", myList);
 		return "/survey/myList";
 	}
@@ -186,7 +225,7 @@ public class QuestionController{
 		
 		List<Questionnaire> questionList = null;
 		if(cateCode != null) {
-			questionList = questionService.getQuestionList(cateCode);
+			questionList = questionService.getQuestionList(cateCode, 'N');
 		}
 		return questionList;
 	}
