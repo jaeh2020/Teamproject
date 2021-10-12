@@ -181,7 +181,7 @@
 								</div>
 							</div>
 							<div class="offset-sm-3 col-sm-9">
-								<button type="submit" id="addBookOrdBtn" class="btn btn-dark">주문하기</button>
+								<button type="button" id="addBookOrdBtn" class="btn btn-dark">주문하기</button>
 								
 								<button type="button" id="addBookBfBtn" class="btn btn-pink">이전</button>
 								
@@ -244,6 +244,7 @@
 	});
 	
 	$(document).on('click','.menu-target-remove', function(){
+		
 		$(this).parent().parent().remove();
 		oTotalPrice();
 	});
@@ -272,16 +273,68 @@
 	
 	/* 예약자 정보 화면 유효성검사 */
 	$(function(){
-			$('#addBookOrdBtn').click(function(){
+			$(document).on('click','#addBookOrdBtn', function(){
 				
 				if($('.table tbody tr').length < 2){
 					alert('메뉴를 선택해주세요.');
 					return false;
+				}else{
+					// 주문내역
+					var menuArray = [];
+					var orderTbodyTrObj = $('#menuSangse').children('tr');
+					var storeCode = $('input[name="storeCode"]').val();
+					var userId = $('input[name="userId"]').val();
+					var bookUserName = $('input[name="bookUserName"]').val();
+					var bookUserPhone = $('input[name="bookUserPhone"]').val();
+					var bookPeoNum = $('input[name="bookPeoNum"]').val();
+					var stateCode = $('input[name="stateCode"]').val();
+					var bookPickup = $('input[name="bookPickup"]').val();
+					var oRequest = $('#textarea-input').text();
+					var oTotalPrice = $('#oTotalPrice').val();
+					console.log(orderTbodyTrObj);
+					
+					
+					$.each(orderTbodyTrObj, function(){
+						var orderDetail = {}; //객체선언
+						var menuCode = $(this).attr('class');
+						var menuAmount = $(this).children('td').eq(1).find('input').val();
+						var menuPrice = $(this).children('td').eq(2).text();
+						orderDetail.menuCode = menuCode;
+						orderDetail.menuAmount = menuAmount;
+						orderDetail.menuPrice = menuPrice.trim();
+						orderDetail.storeCode = storeCode;
+						orderDetail.bookUserName = bookUserName;
+						orderDetail.bookUserPhone = bookUserPhone;
+						orderDetail.bookPeoNum = bookPeoNum;
+						orderDetail.stateCode = stateCode;
+						orderDetail.bookPickup = bookPickup;
+						orderDetail.oRequest = oRequest;
+						orderDetail.oTotalPrice = oTotalPrice;
+						menuArray.push(orderDetail);
+					});
+					
+					console.table(menuArray);
 				}
+				$.post("/book/addBookOrder", JSON.stringify(menuArray),'json');
 				
+				var request= $.ajax({
+								  url: "/book/addBookOrder", //요청 주소
+								  method: "POST", //요청 방식
+								  data: JSON.stringify(menuArray), // input name->cateCode,  value->stName
+								  dataType: "text", //받아올 포맷방식
+								  contentType: 'application/json; charset=utf-8'
+							});
+				request.done(function(data){
+					console.log(data);
+					if(data == 'success'){
+						location.href='/';
+					}
+				});
+				/*
 				alert('주문이 완료되었습니다. \n결제는 현장에서 진행되며, \n상세 주문내역은 상단의 "나의 주문내역" 에서 확인 가능합니다.')
-				/* $('#addBookOrdForm').submit();	 */
+				 $('#addBookOrdForm').submit();	 
 				$('#addBookOrdForm').submit();	
+				*/
 			});
 		});
 	
@@ -292,15 +345,38 @@
 	$(function(){
 		$('.form-check-input').on('click', function(){
 
-			var tdArr = new Array(); //배열선언
+			// 주문내역
+			var orderDetail = {}; //객체선언
 
 			$('#menuSangse').children('tr').each(function(){
-				tdArr.push($(this).children('td').eq(2).text());
-				tdArr.push($(this).children('td').eq(3).text());
+				var menuPrice = $(this).children('td').eq(2).text().trim();
+				var menuCode = $(this).children('td').eq(3).text().trim();
+				orderDetail[menuCode] = menuPrice;
+				
+				$('.menu-target-remove').on('click', function(){
+					
+					var DelArr = new Array();
+					var DelBtn = $(this);
+					
+					var tr = DelBtn.parent().parent();
+					var td = tr.children();
+					
+					var menuCo = td.eq(3).text();
+					
+					console.log(menuCo);
+					
+					delete orderDetail.obj[menuCo];
+					
+					console.table(orderDetail);
+					
+				});
+				
 			});			
-			console.log(tdArr);
+			console.table(orderDetail);
+
 		});
 	});
+	
 	
 	
 	

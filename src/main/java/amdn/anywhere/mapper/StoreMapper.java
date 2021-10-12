@@ -71,6 +71,9 @@ public interface StoreMapper {
 	public List<Store> getMyStoreList(String bizCode);
 	public List<Store> getMyStoreList2(String bizCode);
 	
-	//매장 리스트 조회
+	//전체매장 메뉴리스트 조회
+	public List<Menu> getMenuList();
+	
+	//전체매장 리스트 조회
 	public List<Store> getStoreList();
 }

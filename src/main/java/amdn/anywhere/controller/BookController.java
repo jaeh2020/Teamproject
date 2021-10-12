@@ -1,6 +1,7 @@
 package amdn.anywhere.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,8 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.Book;
 import amdn.anywhere.domain.Menu;
@@ -30,12 +33,17 @@ public class BookController {
 			this.bookService = bookService;
 		}
 		
-	@PostMapping("/addBookOrder")
-		public String addBookOrder(Order order
+	@PostMapping(value="/addBookOrder", produces = "application/json")
+	@ResponseBody
+		public String addBookOrder(@RequestBody List<Map<String,Object>> paramList, Order order
 								  ,Book book) {
+			System.out.println("paramList:::"+paramList);
+			System.out.println("paramList 0번째:::"+paramList.get(0).get("bookUserName"));
+			String bookUserName = (String) paramList.get(0).get("bookUserName");
+			book.setBookUserName(bookUserName);
 		
 			//메뉴정보 insert하기위해 정보 넘기기
-			
+			/*
 		
 			//결제예정 그룹코드 자동증가
 			order.setPayGroCode(bookService.getnewOGroupCode());
@@ -55,8 +63,8 @@ public class BookController {
 				order.setoCode(newOrderCode);
 				bookService.addBookOrder(order);
 			}
-
-		return "redirect:/";
+			*/
+		return "success";
 	}
 	
 	
@@ -73,10 +81,11 @@ public class BookController {
 	
 	@PostMapping("/addBookMember")
 		public String addBookMember(Model model
-								   ,Book book) {
+								   ,Book book
+								   ,@RequestParam(name="storeCode", required = false) String storeCode) {
 				
 			//메뉴 조회
-			List<Menu> menuList = bookService.getMenuList();
+			List<Menu> menuList = bookService.getMenuList(storeCode);
 			
 			model.addAttribute("menuList", menuList);
 			model.addAttribute("title", "주문정보입력");

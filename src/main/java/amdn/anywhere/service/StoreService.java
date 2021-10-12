@@ -112,16 +112,12 @@ public class StoreService {
 	}
 
 	//나의매장 메뉴리스트 조회
-	public Map<String, Object> getMyMenuList(String storeCode){
+	public Map<String, Object> getMyMenuList(String bizId){
 			
-		List<Menu> myMenuList = storeMapper.getMyMenuList(storeCode);
-		List<Store> storeList = storeMapper.getMyStoreList(storeCode);
-		List<Store> storeList2 = storeMapper.getMyStoreList2(storeCode);
+		List<Menu> myMenuList = storeMapper.getMyMenuList(bizId);
 					
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 					
-		paramMap.put("storeList", storeList);
-		paramMap.put("storeList2", storeList2);
 		paramMap.put("myMenuList", myMenuList);
 	
 		return paramMap;
@@ -170,9 +166,16 @@ public class StoreService {
 		
 		return paramMap;
 	}
+	
+	//매장전체 메뉴리스트 조회
+	public List<Menu> getMenuList(){
+		List<Menu> menuList = storeMapper.getMenuList();
+		
+		return menuList;
+	}
 
 	
-	//매장리스트조회
+	//매장전체 매장리스트조회
 	public List<Store> getStoreList(){
 		List<Store> storeList = storeMapper.getStoreList();
 		

@@ -137,6 +137,9 @@ public class StoreController {
 		
 		//메뉴 대분류명 가져오기
 		Map<String, Object> paramMap = storeService.getMyMainCateOnly(storeCode);
+		
+		//메뉴카테 가져오기 (메인/사이드)
+		
 
 		model.addAttribute("mainCateOnly", paramMap.get("mainCateOnly"));
 		model.addAttribute("mainCateOnly2", paramMap.get("mainCateOnly2"));
@@ -157,7 +160,7 @@ public class StoreController {
 			storeService.modifyMainCate(store);
 		}
 		
-		return "redirect:/store/myStoreManage/myMenuManage";
+		return "redirect:/store/myStoreManage/myStoreInfo";
 	}
 	
 	
@@ -165,23 +168,17 @@ public class StoreController {
 	//메뉴대분류 수정화면
 	@GetMapping("/myStoreManage/modifyMainCate")
 	public String modifyMainCate(Model model
-								,HttpSession session) {
-		
-		//세션아이디(로그인되어있는 아이디)
-		String bizId = (String) session.getAttribute("SID");
+								,@RequestParam(name="storeCode", required = false) String storeCode) {
+
 		
 		//메뉴 대분류명 가져오기
-		Map<String, Object> paramMap = storeService.getMyStoreList(bizId);;
-
-		model.addAttribute("storeList", paramMap.get("storeList"));
-		model.addAttribute("storeList2", paramMap.get("storeList2"));
+		Map<String, Object> paramMap = storeService.getMyMainCateOnly(storeCode);
 		
 		//메뉴 대분류 조회
 		List<FoodMainCate> mainCate = storeService.getMainCate();
-		
-		model.addAttribute("storeList", paramMap.get("storeList"));
-		model.addAttribute("storeList2", paramMap.get("storeList2"));
-		model.addAttribute("bizId", bizId);
+				
+		model.addAttribute("mainCateOnly", paramMap.get("mainCateOnly"));
+		model.addAttribute("mainCateOnly2", paramMap.get("mainCateOnly2"));
 		model.addAttribute("mainCate", mainCate);
 		model.addAttribute("title", "대분류 수정");
 		model.addAttribute("location", "대분류 수정");
@@ -242,8 +239,6 @@ public class StoreController {
 		//나의 매장 메뉴 리스트 조회
 		Map<String, Object> paramMap = storeService.getMyMenuList(bizId);
 	
-		model.addAttribute("storeList", paramMap.get("storeList"));
-		model.addAttribute("storeList2", paramMap.get("storeList2"));
 		model.addAttribute("myMenuList", paramMap.get("myMenuList"));
 		model.addAttribute("title", "나의 메뉴 관리");
 		model.addAttribute("location", "나의 메뉴 관리");
@@ -271,20 +266,11 @@ public class StoreController {
 	//나의매장정보 수정화면
 	@GetMapping("/myStoreManage/myStoreModify")
 	public String myStoreModify(Model model
-								,HttpSession session
 								,@RequestParam(name = "storeCode" , required = false) String storeCode) {
 		
 		//수정처리위한 매장코드 가져오기
 		Store store = storeService.getStoreInfoByCode(storeCode);
 		
-		//세션아이디(로그인되어있는 아이디)
-		String bizId = (String) session.getAttribute("SID");
-		
-		//나의 매장 정보 리스트 조회
-		Map<String, Object> paramMap = storeService.getMyStoreList(bizId);
-		
-		model.addAttribute("foodmainList", paramMap.get("foodmainList"));
-		model.addAttribute("storeList", paramMap.get("storeList"));
 		model.addAttribute("store", store);
 		model.addAttribute("title", "나의 매장 관리");
 		model.addAttribute("location", "나의 매장 관리");
@@ -321,6 +307,22 @@ public class StoreController {
 		
 		return "/store/myStoreManage/myStoreInfo";
 	}
+	
+	
+	//관리자용 메뉴리스트 조회
+	@GetMapping("/storeMenuManage")
+	public String storeMenuManage(Model model) {
+		
+		//매장리스트 조회
+		List<Menu> menuList = storeService.getMenuList();
+		
+		model.addAttribute("title", "메뉴관리");
+		model.addAttribute("location", "메뉴관리");
+		model.addAttribute("menuList", menuList);
+		
+		return "/store/storeMenuManage";
+	}
+	
 	
 	
 	//관리자용 매장리스트 조회
