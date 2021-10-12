@@ -110,7 +110,8 @@ public class StoreController {
 		
 		storeService.deleteMyMenu(menuCode);
 		
-		return "redirect:/store/myStoreManage/myMenuManage";				  
+		  
+		return "redirect:/store/myStoreManage/myMenuManage";	  
 	}
 							  
 
@@ -290,6 +291,8 @@ public class StoreController {
 			return storeService.getStoreRead(storeCode);
 		}
 	
+	
+	
 	//나의매장정보리스트 조회
 	@GetMapping("/myStoreManage/myStoreInfo")
 	public String myStoreManage(Model model
@@ -309,7 +312,9 @@ public class StoreController {
 	}
 	
 	
-	//관리자용 메뉴리스트 조회
+	
+	
+	//모든매장 메뉴리스트 조회
 	@GetMapping("/storeMenuManage")
 	public String storeMenuManage(Model model) {
 		
@@ -324,8 +329,35 @@ public class StoreController {
 	}
 	
 	
+	//모든매장 매장정보수정 처리
+	@PostMapping("/modifyStoreInfo")
+		public String modifyStoreInfo(Store store) {
+		
+		//나의매장정보 수정처리
+		if(store != null) {
+			storeService.modifyMyStore(store);
+			}
+				
+		return "redirect:/store/storeManage"; 
+	}
 	
-	//관리자용 매장리스트 조회
+	
+	//모든매장 매장정보수정 화면
+	@GetMapping("/modifyStoreInfo")
+		public String modifyStoreInfo(Model model
+									 ,@RequestParam(name = "storeCode" , required = false) String storeCode) {
+
+			//수정처리위한 매장코드 가져오기
+			Store store = storeService.getStoreInfoByCode(storeCode);
+			
+			model.addAttribute("store", store);
+			model.addAttribute("title", "나의 매장 관리");
+			model.addAttribute("location", "나의 매장 관리");
+		
+		return "/store/modifyStoreInfo";
+	}
+	
+	//모든매장 매장리스트 조회
 	@GetMapping("/storeManage")
 		public String storeManage(Model model) {
 		

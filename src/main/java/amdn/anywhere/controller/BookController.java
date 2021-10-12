@@ -33,6 +33,22 @@ public class BookController {
 			this.bookService = bookService;
 		}
 		
+		
+		
+		
+	@GetMapping("/bookOrderList")
+		public String bookOrderList(Model model) {
+		
+		
+		model.addAttribute("title", "나의주문내역");
+		model.addAttribute("location", "나의주문내역");
+		
+		return "/book/bookOrderList";
+	}
+	
+		
+		
+	//주문정보입력 처리
 	@PostMapping(value="/addBookOrder", produces = "application/json")
 	@ResponseBody
 		public String addBookOrder(@RequestBody List<Map<String,Object>> paramList, Order order
@@ -70,7 +86,7 @@ public class BookController {
 	
 	
 	
-	
+	//주문정보 입력
 	@GetMapping("/addBookOrder")
 		public String getaddBookOrder(Model model) {
 
@@ -79,6 +95,8 @@ public class BookController {
 	
 	
 	
+	
+	//예약정보입력 처리
 	@PostMapping("/addBookMember")
 		public String addBookMember(Model model
 								   ,Book book
@@ -98,6 +116,8 @@ public class BookController {
 	}
 		
 	
+	
+	//예약정보입력 화면
 	@GetMapping("/addBookMember")
 		public String getaddBookMember(@RequestParam(name="storeName", required = false) String storeName
 									  ,@RequestParam(name="stateCode", required = false) String stateCode

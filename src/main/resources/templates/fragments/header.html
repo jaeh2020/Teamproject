@@ -127,11 +127,11 @@
                       <!-- 주문내역 -->
                       <li th:if="${session.SID != null}" class="nav-item dropdown" >
                           <a class="nav-link dropdown-toggle text-muted"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          	<i class="fa fa-shopping-cart"></i>
+                          	<i class="fa fa-shopping-cart f-s-25"></i>
                           </a>
                           <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                               <ul class="dropdown-user">
-                                  <li><a href="#"><i class="fa fa-truck"></i> 나의 주문/결제 내역 </a></li>
+                                  <li><a th:href="@{/book/bookOrderList}"><i class="fa fa-truck"></i> 나의 주문/결제 내역 </a></li>
                               </ul>
                           </div>
                       </li>

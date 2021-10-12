@@ -354,26 +354,18 @@
 				orderDetail[menuCode] = menuPrice;
 				
 				$('.menu-target-remove').on('click', function(){
-					
 					var DelArr = new Array();
 					var DelBtn = $(this);
-					
 					var tr = DelBtn.parent().parent();
 					var td = tr.children();
-					
 					var menuCo = td.eq(3).text();
-					
 					console.log(menuCo);
-					
 					delete orderDetail.obj[menuCo];
-					
 					console.table(orderDetail);
-					
 				});
 				
 			});			
 			console.table(orderDetail);
-
 		});
 	});
 	
