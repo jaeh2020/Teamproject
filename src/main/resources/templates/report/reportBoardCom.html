@@ -17,7 +17,11 @@
 				</div>
 				<br>
 				<div class="card-body">
-					<form th:action="@{/report/reportBoardList}" role="form" id="reportBoardForm" method="post" class="form-horizontal">
+					<form th:action="@{/report/reportBoardCom}" role="form" id="reportBoardForm" method="post" >
+						<!-- 히든 데이터 -->
+						<input type="hidden" name="stateCode" id="stateCode" th:value="${report.stateCode}">
+						<input type="hidden" name="reportCode" id="reportCode" th:value="${report.reportCode}">
+						
 						<div class="form-body">
 							<h3 class="box-title">Board Report</h3>
 							<hr class="m-t-0 m-b-40">
@@ -69,10 +73,11 @@
 										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 신고유형</label>
 										<div class="col-md-9">
 											<select class="form-control custom-select" name="reportCateCode">
-												<option>욕설신고</option>
-												<option>악의적인 예약 취소 신고</option>
-												<option>주문 후 미방문 신고</option>
-												<option>기타 신고</option>
+												<option>★★ 선택해주세요 ★★</option>
+												<option>rc_abuse</option>
+												<option>rc_cancel</option>
+												<option>rc_nowshow</option>
+												<option>rc_etc</option>
 											</select>
 										</div>
 									</div>
@@ -82,17 +87,10 @@
 							<!--/row-->
 						</div>
 						<hr>
-						<div class="form-actions">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="row">
-										<div class="col-md-offset-3 col-md-9">
-											<button type="submit" class="btn btn-success" >Submit</button>
-											<a  href="#" class="btn btn-inverse" id="reportBoardBtn">취소</a>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6"> </div>
+						<div class="box-footer">
+							<a href="#" class="btn btn-info"  th:onclick="reportBoardCan()"><span class="ti-close form-control-feedback"></span> 취소</a>
+							<div class="pull-right">
+								<button type="button" class="btn btn-danger boardSaveBtn" id="boardReportBtn"><i class="fa fa-save"></i> 신고하기</button>
 							</div>
 						</div>
 					</form>
@@ -102,24 +100,35 @@
 </th:block>
 
 <th:block layout:fragment="customJsLib">
-	<Script type="text/javascript">
+	<script type="text/javascript">
 	
 	//취소버튼 alert창
-	   function reportBoardCanCel(){
+	   function reportBoardCan(){
 	   		if(confirm("정말로 취소하시겠습니까?")){
-	   			location.href = 'report/reportBoardList';
+	   			location.href = '/report/reportBoardList';
 	   			return true;
 	   		}else{
 	   			return false;
 	   		}
 	   		
 	   	}
+	
+	   //유효성 검사
+	   $(function(){
+		   $('#boardReportBtn').click(function(){
+			  
+			  alert('신고 접수처리완료!')
+			  $('#reportBoardForm').submit();
+		   });
+	   });
 
 
-
+	</script>
 
 	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-	<script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->	    
+	<script src="js/lib/owl-carousel/owl.carousel-init.js"></script>	     -->
+
+
 </th:block>
 
 
