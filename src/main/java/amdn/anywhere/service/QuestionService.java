@@ -110,6 +110,9 @@ public class QuestionService {
 	}
 	
 	public List<Questionnaire> getQuestionList(String cateCode){
+		if(cateCode.indexOf("q_cate_") == -1) {
+			cateCode = "q_cate_" + cateCode;
+		}
 		List<Questionnaire> questionList =questionMapper.getQuestionList(cateCode);
 		
 		return questionList;

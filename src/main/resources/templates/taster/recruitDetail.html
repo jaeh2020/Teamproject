@@ -11,7 +11,7 @@
 		.cateCss {
 			background-color: #f8f9fa;
 		}
-		.applyBtn {
+		#applyBtn {
 			margin: 20px 0px 0px 0px;
 		}
 		
@@ -86,7 +86,10 @@
 		            <div class="row">
 		            	<div class="col-md-8"></div>
 		            	<div class="col-md-4">
-		            		<button type="button" class="btn btn-success btn-block applyBtn">평가단 신청하기</button>		            	
+		            		<form method="post">
+		            			<input type="hidden" name="recruitBCode" th:value="${recruitInfo.recruitTBizCode}">
+			            		<button type="button" id="applyBtn" class="btn btn-success btn-block ">평가단 신청하기</button>		            	
+		            		</form>
 		            	</div>
 		            </div>
 		        </div>
@@ -96,7 +99,38 @@
 </th:block>
 <th:block layout:fragment="customJsLib">
 <script type="text/javascript">
+	$(function(){
+		$('#applyBtn').on("click", async function(){
+			const { value: accept } = await Swal.fire({
+				  title: '신청인 동의서 ',
+				  width : 750,
+				  html: '<table class="table">'+
+							'<tbody>'+
+								'<tr><td><i class="ti-check color-success"></i></td>'+
+								'<td>개인정보의 수집제공활용 및 조회에 동의 하십니까?</td>'+
+								'</tr><tr><td><i class="ti-alert color-danger"></i></td><td>신청 후 3개월 이내 매장 미방문 또는 허위 피드백 참여 시 불이익이 있을 수 있습니다.' +
+								'</td>' +
+							'</tr>' +
+							'</tbody>' +
+						'</table>',
+				  input: 'checkbox',
+				  inputValue: 1,
+				  inputPlaceholder:
+				    '예, 동의합니다',
+				  confirmButtonText:
+				    '신청하기 <i class="fa fa-arrow-right"></i>',
+				  inputValidator: (result) => {
+				    return !result && '동의 체크를 해주셔야합니다!'
+				  }
+				})
 
+				if (accept) {
+				  Swal.fire('신청되었습니다. :)')
+					$('form').attr('action', '/taster/applyTaster');
+					$('form').submit();
+				}
+		});
+	});
 </script>
 </th:block>
 </html>

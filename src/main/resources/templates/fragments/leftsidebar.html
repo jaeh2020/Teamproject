@@ -10,15 +10,16 @@
                  <ul id="sidebarnav" >
                      <li class="nav-devider" style="margin-bottom: 40px;" ></li>
                      <li class="nav-label">회원관리</li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-group"></i><span class="hide-menu">회원관리 <span class="label label-rouded label-warning pull-right">2</span></span></a>
+                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-group"></i><span class="hide-menu">회원관리 <span class="label label-rouded label-primary pull-right">2</span></span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a href="#" class="has-arrow"> 회원 목록 <span class="label label-rouded label-primary pull-right">2</span></a>
+                             <li><a href="#" class="has-arrow"> 회원 목록</a>
                                  <ul aria-expanded="false" class="collapse">
                                      <li><a th:href="@{/member/memberList}">전체 회원 목록  / 문유미</a></li>
                                      <li><a th:href="@{/member/memberUserList}">소비자 회원 목록 / 문유미</a></li>
                                  </ul>
                              </li>
                              <li><a th:href="@{/member/memberBizList}"> 소상공인 가입 승인 목록 / 문유미 </a>
+
                          </ul>
                      </li>
                      <li class="nav-label">메세지 관리 / 문유미</li>
@@ -36,74 +37,77 @@
                          </ul>
                      </li>
 					           <li class="nav-label">신고 관리 / 김채연</li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-exclamation-triangle"></i><span class="hide-menu">신고 관리<span class="label label-rouded label-warning pull-right">4</span></span></a>
+                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-exclamation-triangle"></i><span class="hide-menu">신고 관리<span class="label label-rouded label-warning pull-right">6</span></span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a href="#">신고목록</a></li>
                              <li><a href="#">블랙리스트 목록</a></li>
-                             <li><a href="#">게시판 신고목록</a></li>
+                             <li><a th:href="@{/report/reportBoardList}">게시판 신고목록</a></li>
                               <li><a href="#">리뷰 신고목록</a></li>
                          </ul>
                      </li>
                       <li class="nav-label">입점 관리</li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-check"></i><span class="hide-menu">입점 관리<span class="label label-rouded label-warning pull-right">2</span></span></a>
+                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-check"></i><span class="hide-menu">입점 관리<span class="label label-rouded label-warning pull-right">6</span></span></a>
                          <ul aria-expanded="false" class="collapse">
 
-                             <li><a href="#">입점 등록 / 김지아</a></li>
+                             <li><a href="#">입점 등록 / 문유미</a></li>
                              <li><a href="#">입점 취소 신청 / 김지아</a></li>
                          </ul>
                      </li>
                       <li class="nav-label">매장 관리 / 김지아</li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery"></i><span class="hide-menu">매장 관리<span class="label label-rouded label-warning pull-right">2</span></span></a>
+                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery"></i><span class="hide-menu">매장 관리<span class="label label-rouded label-warning pull-right">6</span></span></a>
                          <ul aria-expanded="false" class="collapse">
                              <li><a th:href="@{/store/storeManage}">매장관리 / 김지아</a></li>
-                             <li><a href="#" class="has-arrow">내 매장 관리 / 김지아 <span class="label label-rouded label-primary pull-right">3</span></a>
+                             <li><a href="#" class="has-arrow">내 매장 관리 / 김지아 <span class="label label-rounded label-success">6</span></a>
                                  <ul aria-expanded="false" class="collapse">
+
 
                                      <li><a th:href="@{/store/myStoreManage/myStoreInfo}">매장 정보 수정 / 김지아</a></li>
                                      <li><a th:href="@{/store/myStoreManage/myMenuManage}">메뉴 관리 / 김지아</a></li>
-                                     <li><a href="#">테이블 관리 / 김지아</a></li>
+                                     <li><a th:href="@{/store/myStoreManage/myTableManage}">테이블 관리 / 김지아</a></li>
+
                                  </ul>
                              </li>
                          </ul>
                      </li>
                       <li class="nav-label">이벤트 관리 / 전세원</li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-gift"></i><span class="hide-menu">이벤트 관리<span class="label label-rouded label-warning pull-right">1</span></span></a>
+                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-gift"></i><span class="hide-menu">이벤트 관리<span class="label label-rouded label-warning pull-right">6</span></span></a>
                          <ul aria-expanded="false" class="collapse">
                              <li><a href="#">이벤트 목록 / 전세원</a></li>
                          </ul>
                      </li>
                       <li class="nav-label">QnA / 김채연</li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-question"></i><span class="hide-menu">QnA<span class="label label-rouded label-warning pull-right">2</span></span></a>
+                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-question"></i><span class="hide-menu">QnA<span class="label label-rouded label-warning pull-right">6</span></span></a>
                          <ul aria-expanded="false" class="collapse">
                              <li><a href="#">소상공인 문의</a></li>
                              <li><a href="#">소비자 문의</a></li>
                          </ul>
                      </li>
                      <li class="nav-label">평가단/설문조사 / 전세원</li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-pencil"></i><span class="hide-menu">평가단<span class="label label-rouded label-warning pull-right">4</span></span></a>
+
+                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-user"></i><span class="hide-menu">평가단<span class="label label-rouded label-warning pull-right">4</span></span></a>
+
                          <ul aria-expanded="false" class="collapse">
                              <li><a th:href="@{/taster/recruitNotice}">모집 공고 / 전세원</a></li>
                              <li><a th:href="@{/taster/recruitApply}">모집 신청 / 전세원</a></li>
                              <li><a th:href="@{/taster/recruitList}">모집 목록 / 전세원</a></li>
-                             <li><a href="#">평가단 관리 / 전세원</a></li>
+                             <li><a th:href="@{/taster/tasterList}">평가단 관리 / 전세원</a></li>
                          </ul>
                      </li>
-                      <li> <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-pencil-square-o"></i><span class="hide-menu">설문조사<span class="label label-rouded label-warning pull-right">4</span></span></a>
+                      <li> <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-pencil-square-o"></i><span class="hide-menu">설문조사</span></a>
                          <ul aria-expanded="false" class="collapse">
                              <li><a th:href="@{/survey/questionManage}">문항/항목 관리 / 전세원</a></li>
                              <li><a th:href="@{/survey/surveyList}">설문조사 현황 / 전세원</a></li>
-                             <li><a href="#">내 설문조사 / 전세원</a></li>
+                             <li><a th:href="@{/survey/myList}">내 설문조사 / 전세원</a></li>
                              <li><a href="#">설문조사 결과 / 전세원</a></li>
                          </ul>
                      </li>
                      <li class="nav-label">재무 관리 / 양재혁</li>
-                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-credit-card"></i><span class="hide-menu">재무관리<span class="label label-rouded label-warning pull-right">4</span></span></a>
+                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-credit-card"></i><span class="hide-menu">재무관리</span></a>
                          <ul aria-expanded="false" class="collapse">
 
-                             <li><a th:href="@{/account/salesList}">매출 현황 / 양재혁</a></li>
-                             <li><a th:href="@{/account/expenseList}">지출 목록 / 양재혁</a></li>
+                             <li><a th:href="@{/account/salesList}">매출 현황 / 양재혁<span class="label label-rouded label-warning pull-right">4</span></a></li>
+                             <li><a th:href="@{/account/expenseList}">지출 목록 / 양재혁<span class="label label-rouded label-warning pull-right">4</span></a></li>
                              <li><a th:href="@{/account/close}">결산 관리</a></li>
-                             <li><a href="#" class="has-arrow">My Store / 양재혁<span class="label label-rouded label-primary pull-right">3</span></a>
+                             <li><a href="#" class="has-arrow">My Store / 양재혁<span class="label label-rouded label-warning pull-right">2</span></a>
                                  <ul aria-expanded="false" class="collapse">
                                      <li><a th:href="@{/account/mystore}">내 매장 관리</a></li>
                                      <li><a href="#">통계 요약 </a></li>
@@ -119,7 +123,7 @@
                          </ul>
                      </li>
                        <li class="nav-label">환경 설정</li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-gear"></i><span class="hide-menu">환경 설정<span class="label label-rouded label-warning pull-right">4</span></span></a>
+                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-gear"></i><span class="hide-menu">환경 설정</span></a>
                          <ul aria-expanded="false" class="collapse">
                              <li><a th:href="@{/message/commonMessage}">공통메세지 / 문유미</a></li>
                              <li><a href="#">포인트 소멸기준</a></li>

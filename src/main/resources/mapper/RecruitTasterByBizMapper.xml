@@ -33,6 +33,13 @@
 				<result property="menuName" column="menu_name"/>
 			</association>
 	</resultMap>
+	<update id="updateViewCounts" parameterType="String">
+		UPDATE tb_taster_recruit_biz
+			SET
+				count_of_view = count_of_view + 1
+			WHERE 
+				recruit_taster_biz_code = #{recruitCode};
+	</update>
 	<insert id="insertRecruit" parameterType="RecruitTasterByBiz">
 		INSERT INTO tb_taster_recruit_biz
 		(

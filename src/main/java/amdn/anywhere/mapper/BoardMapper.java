@@ -8,11 +8,25 @@ import amdn.anywhere.domain.Board;
 import amdn.anywhere.domain.BoardCate;
 import amdn.anywhere.domain.BoardReply;
 import amdn.anywhere.domain.Member;
+import amdn.anywhere.domain.Report;
 import amdn.anywhere.domain.Statement;
 
 @Mapper
 public interface BoardMapper {
 	
+	
+	
+	//신고등록
+	public int boardReport(Report report);
+	
+	//신고 코드 자동증가
+	public String getNewReportNum();
+	
+	//신고상태코드 가져오기
+	public Statement getReportStatement(String reportStatementCode);
+	
+	//게시글 댓글 삭제
+	public int deleteComment(String boardReplyCode);
 	
 	//게시글 댓글 등록 
 	public int addComment(BoardReply boardReply);
@@ -21,7 +35,7 @@ public interface BoardMapper {
 	public String getNewBoardReplyNum();
 	
 	//게시물 댓글 목록
-	public List<BoardReply> getBoardCommentList();
+	public List<BoardReply> getBoardCommentList(String boardNum);
 	
 	//게시물 조회 수 증가
 	 public int updateBoardCnt(String boardNum); 

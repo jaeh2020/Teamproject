@@ -11,6 +11,7 @@ import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.QuestionCate;
 import amdn.anywhere.domain.RecruitTasterByBiz;
 import amdn.anywhere.domain.Store;
+import amdn.anywhere.domain.Taster;
 import amdn.anywhere.mapper.QuestionsMapper;
 import amdn.anywhere.mapper.RecruitTasterByBizMapper;
 import amdn.anywhere.mapper.TasterMapper;
@@ -30,7 +31,36 @@ public class TasterService {
 		this.questionsMapper = questionsMapper;
 		this.tasterMapper = tasterMapper;
 	}
+	//7 평가단 신청 처리
+	public int addTaster(Taster taster) {
+		//코드 생성 및 세팅
+		String newCode = tasterMapper.createTasterCode();
+		taster.setApplyCode(newCode);
+		
+		String storeCode = recruitTasterByBizMapper.selectRecruitBB(taster.getRecruitBCode()).get(0).getStoreCode();
+		taster.setStoreCode(storeCode);
 	
+		return tasterMapper.addTaster(taster);
+	}
+	//6 평가단 목록 가져오기
+	public List<Taster> getTasterList(Map<String, Object> paramMap){
+		//평가단 목록 가져온후 
+		List<Taster> tasterList = tasterMapper.getTasterList(paramMap);
+		// 평가단별 모집정보 세팅하기
+		for(int i=0; i < tasterList.size(); i++) {
+			RecruitTasterByBiz recruitTasterByBiz= recruitTasterByBizMapper.selectRecruitBB(tasterList.get(i).getRecruitBCode()).get(0);
+			tasterList.get(i).setRecruitTasterByBiz(recruitTasterByBiz);
+		}
+		return tasterList;
+	}
+	//5 모집 공고 조회수 증가
+	public int updateViewCounts(String recruitCode) {
+		return recruitTasterByBizMapper.updateViewCounts(recruitCode);
+	}
+	//4-1 모집 신청 처리 -모집코드 자동 생성
+	public String createRecruitCode() {
+		return recruitTasterByBizMapper.createRecruitCode();
+	}
 	//4 모집 신청 처리 
 	public int addRecruit(RecruitTasterByBiz recruitTasterByBiz) {
 		//1. 모집코드 자동생성 처리
@@ -50,10 +80,6 @@ public class TasterService {
 		//4. insert
 		recruitTasterByBizMapper.insertRecruit(recruitTasterByBiz);
 		return 0;
-	}
-	//4-1 모집 신청 처리 -모집코드 자동 생성
-	public String createRecruitCode() {
-		return recruitTasterByBizMapper.createRecruitCode();
 	}
 	// 3-2. 모집신청 폼 - 평가할 메뉴목록 조회
 	public List<Menu> getMenuList(String storeCode){	

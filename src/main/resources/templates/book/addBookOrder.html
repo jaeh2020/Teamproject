@@ -232,6 +232,7 @@
 				html += '<td>' + $(this).val() + '</td>';
 				html += '<td> <input type="number" class="prin" name="oCount" value="1" style="width:60px;" data-price="'+menuPrice+'">개 </td>';
 				html += '<td> '+menuPrice+' </td>';
+				html += '<td style="display:none;"> '+menuCode+' </td>';
 				html += '<td><button type="button" class="menu-target-remove btn btn-rink btn-sm">X</button></td>';
 				html += '</tr>';
 				
@@ -258,9 +259,7 @@
 	});
 	
 	
-	
-	
-	/* 예약자 정보 화면 유효성검사 */
+	/* 이전버튼시 뒤로가기 이벤트 */
 	$(function(){
 			$('#addBookBfBtn').click(function(){
 				
@@ -270,8 +269,8 @@
 		});
 	
 	
-	/* 이전버튼시 뒤로가기 이벤트 */
 	
+	/* 예약자 정보 화면 유효성검사 */
 	$(function(){
 			$('#addBookOrdBtn').click(function(){
 				
@@ -285,6 +284,23 @@
 				$('#addBookOrdForm').submit();	
 			});
 		});
+	
+	
+	
+	
+	/* 메뉴코드, 가격  배열에 담기 */
+	$(function(){
+		$('.form-check-input').on('click', function(){
+
+			var tdArr = new Array(); //배열선언
+
+			$('#menuSangse').children('tr').each(function(){
+				tdArr.push($(this).children('td').eq(2).text());
+				tdArr.push($(this).children('td').eq(3).text());
+			});			
+			console.log(tdArr);
+		});
+	});
 	
 	
 	
