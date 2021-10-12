@@ -14,10 +14,12 @@
                          <ul aria-expanded="false" class="collapse">
                              <li><a href="#" class="has-arrow"> 회원 목록</a>
                                  <ul aria-expanded="false" class="collapse">
-                                     <li><a href="#"> 소비자 회원 목록</a></li>
-                                     <li><a href="#">소상공인 회원 목록</a></li>
+                                     <li><a th:href="@{/member/memberList}">전체 회원 목록  / 문유미</a></li>
+                                     <li><a th:href="@{/member/memberUserList}">소비자 회원 목록 / 문유미</a></li>
                                  </ul>
                              </li>
+                             <li><a th:href="@{/member/memberBizList}"> 소상공인 가입 승인 목록 / 문유미 </a>
+
                          </ul>
                      </li>
                      <li class="nav-label">메세지 관리 / 문유미</li>

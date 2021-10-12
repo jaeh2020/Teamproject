@@ -91,7 +91,7 @@
                       <!-- Search -->
                       <li class="nav-item hidden-sm-down search-box"> <a class="nav-link hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-search"></i></a>
                           <form class="app-search">
-                              <input type="text" class="form-control" placeholder="Search here"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
+                              <input type="text" class="form-control" placeholder="Search here"> <a class="srh-btn"><i class="ti-close  f-s-25"></i></a> </form>
                       </li>
                       <!-- 회원가입-->
                       <li class="nav-item dropdown">
@@ -111,11 +111,12 @@
                       <!-- 프로필 -->
                       <li th:if="${session.SID != null}" class="nav-item dropdown" >
                           <a class="nav-link dropdown-toggle text-muted"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          	<i class="fa fa-user"></i>
+                          	<i class="fa fa-user f-s-25"></i>
                           </a>
                           <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                               <ul class="dropdown-user">
-                                  <li><a th:href="@{/member/myPage(userId=${session.SID})}"><i class="ti-user"></i> 마이페이지</a></li>
+                                  <li><a th:if="${session.SLEVEL == 'level_user'}" th:href="@{/member/myPage(userId=${session.SID})}"><i class="ti-user"></i> 마이페이지</a></li>
+                                  <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/member/myPageBiz(memberId=${session.SID})}"><i class="ti-user"></i> 마이페이지</a></li>
                                   <li><a href="#"><i class="ti-email"></i> 메세지</a></li>
                                   <li><a href="#"><i class="ti-settings"></i> 설정</a></li>
                                   <li><a th:href="@{/logout}"><i class="fa fa-power-off"></i> 로그아웃</a></li>
