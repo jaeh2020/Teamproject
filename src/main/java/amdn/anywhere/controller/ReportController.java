@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import amdn.anywhere.domain.Report;
-import amdn.anywhere.service.BoardService;
 import amdn.anywhere.service.ReportService;
 
 @Controller
