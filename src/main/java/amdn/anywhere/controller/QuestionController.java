@@ -41,7 +41,7 @@ public class QuestionController{
 	@PostMapping("/doSurvey")
 	public String doSurvey(HttpSession session, @RequestParam Map<String, String> paramMap) {
 		String id = (String) session.getAttribute("SID");
-
+		String recruitBCode = paramMap.get("recruitCode");
 		
 		System.out.println(paramMap);
 		Set<String> questionSet = paramMap.keySet();
@@ -67,8 +67,16 @@ public class QuestionController{
 		}
 		//insert처리
 		int result = questionService.addQuestionAnswer(questionAnswerList);
-		System.out.println(result);
-		//미참여가 참여로 바뀌어야함.
+		if(result > 0) {
+			//평가단 정보 -> 설문 참여완료로 상태 업뎃.
+			paramMap.clear();
+			paramMap.put("userId", id);
+			paramMap.put("recruitBCode", recruitBCode);
+			tasterService.updateTaster(paramMap);
+			
+			//설문지 정보 -> 참여인원 업뎃.
+			questionService.updateServey(recruitBCode);
+		}
 		return "redirect:/survey/myList";
 	}
 	
@@ -93,9 +101,9 @@ public class QuestionController{
 			
 		}
 
-		model.addAttribute("title", "설문조사 참여");
+		model.addAttribute("title", "설문조사 참여하기");
 		model.addAttribute("location1URL", "/survey/myList");
-		model.addAttribute("location1", "설문조사 목록");
+		model.addAttribute("location1", "내 설문조사");
 		model.addAttribute("location2", "설문조사 참여하기");
 		model.addAttribute("recruitInfo", recruitInfo);
 		model.addAttribute("questionList", questionList);
@@ -104,10 +112,11 @@ public class QuestionController{
 	}
 	//12. 내 설문조사 목록
 	@GetMapping("/myList")
-	public String myList(Model model) {
+	public String myList(HttpSession session, Model model) {
+		String id = (String) session.getAttribute("SID");
 		//세션아이디로 평가단조회
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("userId", "id010");//소비자 아이디 가정
+		paramMap.put("userId", id);//소비자 아이디 가정
 		List<Taster> myList = tasterService.getTasterList(paramMap);
 		model.addAttribute("title", "내 설문조사");
 		model.addAttribute("location", "내 설문조사");
@@ -120,14 +129,14 @@ public class QuestionController{
 		questionService.deleteSurvey(surveyCode);
 		return "redirect:/survey/surveyList";
 	}
-	//10. 설문조사 현황 페이지 이동
+	//10. 설문조사 관리 페이지 이동
 	@GetMapping("/surveyList")
 	public String surveyList(Model model) {
 		//설문지 생성 목록 가져오기
 		List<Survey> surveyList= questionService.getSurveyList(null);
 		System.out.println(surveyList);
-		model.addAttribute("title", "설문조사 현황");
-		model.addAttribute("location", "설문조사 현황");
+		model.addAttribute("title", "설문조사 관리");
+		model.addAttribute("location", "설문조사 관리");
 		model.addAttribute("surveyList", surveyList);
 		return "/survey/surveyList";
 	}

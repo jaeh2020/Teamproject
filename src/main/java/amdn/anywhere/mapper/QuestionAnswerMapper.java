@@ -9,6 +9,6 @@ import amdn.anywhere.domain.QuestionAnswer;
 @Mapper
 public interface QuestionAnswerMapper {
 
-	public int addQuestionAnswer(QuestionAnswer questionAnswerList);
+	public int addQuestionAnswer(List<QuestionAnswer> questionAnswerList);
 	
 }

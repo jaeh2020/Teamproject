@@ -46,14 +46,21 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="l : ${myList}" class="doSurvey" th:id= ${l.recruitBCode}>
-                                                <th th:text="${lStat.count}" scope="row"></th>
-                                                <td th:text="${l.storeName}" class="storeName"></td>
-                                                <td th:text="${l.recruitTasterByBiz.surveyTitle}"><span class="badge badge-primary"></span></td>
-                                                <td th:if="${l.stateName eq '피드백 작성 완료'}" class="color-success">참여완료</td>
-                                      			<td th:unless="${l.stateName eq '피드백 작성 완료'}" class="color-danger">미참여</td>
-                                                <td th:text="${l.applyTime}" class="counts"></td>
-                                            </tr>
+                                        	<th:block th:if="${myList != null}">
+	                                            <tr th:each="l : ${myList}" class="doSurvey" th:id= ${l.recruitBCode}>
+	                                                <th th:text="${lStat.count}" scope="row"></th>
+	                                                <td th:text="${l.storeName}" class="storeName"></td>
+	                                                <td th:text="${l.recruitTasterByBiz.surveyTitle}"><span class="badge badge-primary"></span></td>
+	                                                <td th:if="${l.state eq 'state_taster_com'}" class="done color-success">참여완료</td>
+	                                      			<td th:unless="${l.state eq 'state_taster_com'}" class="yet color-danger">미참여</td>
+	                                                <td th:text="${l.applyTime}" class="counts"></td>
+	                                            </tr>
+                                            </th:block>
+                                            <th:block th:unless="${myList != null}">
+	                           					<tr th:unless="${myList != null}">
+	                                        		<td colspan="5"> 등록된 설문조사가 없습니다.</td>
+	                                        	</tr>
+	                                        </th:block>
                                         </tbody>
                                     </table>
                                 </div> 
@@ -80,7 +87,12 @@
 $(function(){
 	$('.doSurvey').on("click", function(){
 		var recruitCode =$(this).attr('id');
-		window.location.href = "/survey/doSurvey?recruitCode=" + recruitCode;
+		var done = $(this).find('.done');
+		if(done.length == 1){
+			alert('이미 제출된 설문조사입니다.^^');	
+		}else if(done.length == 0){
+			window.location.href = "/survey/doSurvey?recruitCode=" + recruitCode;
+		}
 	});
 });
 </script>

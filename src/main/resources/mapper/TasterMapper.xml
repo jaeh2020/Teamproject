@@ -15,6 +15,16 @@
 		<result property="storeCode" column="store_code" />
 		<result property="userName" column="member_name" />
 	</resultMap>
+	<update id="updateTaster" parameterType="map">
+		UPDATE tb_taster_apply
+			SET 
+				visit_feedback_state = 'state_taster_com'
+		WHERE
+		       user_id = #{userId}
+		       AND
+		       recruit_taster_biz_code = #{recruitBCode}
+
+	</update>
 	<insert id="addTaster" parameterType="Taster">
 		INSERT INTO tb_taster_apply
 		(

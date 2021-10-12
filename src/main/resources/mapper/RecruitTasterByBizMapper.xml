@@ -13,12 +13,13 @@
 		<result property = "recruitFinTime" column="recruit_fin_time"/>
 		<result property = "adminId" column="admin_id"/>
 		<result property = "stateCode" column="state_code"/>
+		<result property = "stateName" column="state_name"/>
 		<result property = "requestTime" column="request_date"/>
 		<result property = "menuCode" column="menu_code"/>
 		<result property = "viewCounts" column="count_of_view"/>
-		<result property = "strAgeCodeList" column="age_code"/>
-		<result property = "strSpecialCateList" column="special_question_cate"/>
-		<result property = "strCateList" column="question_cate_code"/>
+		<result property = "strAgeCodeList" column="age_code_list"/>
+		<result property = "strSpecialCateList" column="special_question_cate_list"/>
+		<result property = "strCateList" column="question_cate_code_list"/>
 		<result property = "storeCode" column="store_code"/>
 			<association property="storeInfo" javaType="Store">
 				<id property="storeCode" column="store_code"/>
@@ -33,13 +34,7 @@
 				<result property="menuName" column="menu_name"/>
 			</association>
 	</resultMap>
-	<update id="updateViewCounts" parameterType="String">
-		UPDATE tb_taster_recruit_biz
-			SET
-				count_of_view = count_of_view + 1
-			WHERE 
-				recruit_taster_biz_code = #{recruitCode};
-	</update>
+	
 	<insert id="insertRecruit" parameterType="RecruitTasterByBiz">
 		INSERT INTO tb_taster_recruit_biz
 		(
@@ -48,8 +43,8 @@
 			, biz_id
 			, recruit_title
 			, questions_title
-			, question_cate_code
-			, special_question_cate
+			, question_cate_code_list
+			, special_question_cate_list
 			, request_date
 			, recruit_num_total
 			, recruit_num_now
@@ -57,7 +52,7 @@
 			, recruit_fin_time
 			, state_code
 			, admin_id
-			, age_code
+			, age_code_list
 		)
 		VALUES (
 			#{recruitTBizCode}
@@ -72,23 +67,30 @@
 			, 0
 			, #{menuCode}
 			, #{recruitFinTime}
-			, #{stateCode}
+			, null
 			, null
 			, #{strAgeCodeList}
 		)
 	</insert>
-	<update id="modifyState" parameterType="map">
+	<update id="updateRecruitBBiz" parameterType="map">
 		UPDATE tb_taster_recruit_biz
 			SET
-				admin_id= #{adminId}
+				<if test="nowNum != null">
+					recruit_num_now = recruit_num_now + 1
+				</if>
+				<if test="view != null">
+					count_of_view = count_of_view + 1
+				</if>
 				<if test="state == '승인' ">
-					,state_code = '승인완료'
+					admin_id= #{adminId}
+					,state_code = 'state_confirm_com'
 				</if>
 				<if test="state == '취소'">
-					,state_code = '모집취소'
+					admin_id= #{adminId}
+					,state_code = 'state_confirm_rej'
 				</if>
 			WHERE 
-				recruit_taster_biz_code = #{recruitCode};
+				recruit_taster_biz_code = #{recruitBCode};
 	</update>
 	<select id="createRecruitCode" resultType="String">
 		SELECT 
@@ -104,8 +106,8 @@
 			, t.biz_id
 			, t.recruit_title
 			, t.questions_title
-			, t.question_cate_code
-			, t.special_question_cate
+			, t.question_cate_code_list
+			, t.special_question_cate_list
 			, t.request_date
 			, t.recruit_num_total
 			, t.recruit_num_now
@@ -114,13 +116,14 @@
 			, t.recruit_fin_time
 			, t.state_code
 			, t.admin_id
-			, t.age_code
+			, t.age_code_list
 			, m.menu_name
 			, s.store_name
 			, s.store_location
 			, s.store_time
 			, s.store_phone
 			, s.store_holiday
+			, st.state_name
 		FROM 
 			tb_taster_recruit_biz AS t
 			INNER JOIN 
@@ -129,6 +132,10 @@
 			INNER JOIN 
 			tb_store_info AS s
 			ON t.store_code = s.store_code
+			INNER JOIN
+			tb_statement AS st
+			ON t.state_code = st.state_code
+			
 		<where>
 			<if test="recruitCode != null">
 				t.recruit_taster_biz_code = #{recruitCode}

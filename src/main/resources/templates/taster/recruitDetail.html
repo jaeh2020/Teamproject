@@ -14,6 +14,9 @@
 		#applyBtn {
 			margin: 20px 0px 0px 0px;
 		}
+		.alert{
+			text-align: center;
+		}
 		
 	</style>
 </th:block>	 
@@ -86,10 +89,17 @@
 		            <div class="row">
 		            	<div class="col-md-8"></div>
 		            	<div class="col-md-4">
-		            		<form method="post">
-		            			<input type="hidden" name="recruitBCode" th:value="${recruitInfo.recruitTBizCode}">
-			            		<button type="button" id="applyBtn" class="btn btn-success btn-block ">평가단 신청하기</button>		            	
-		            		</form>
+		            		<th:block th:if="${recruitInfo.recruitNumNow} < ${recruitInfo.recruitNumTotal}">
+			            		<form method="post">
+			            			<input type="hidden" name="recruitBCode" th:value="${recruitInfo.recruitTBizCode}">
+				            		<button type="button" id="applyBtn" class="btn btn-success btn-block ">평가단 신청하기</button>		            	
+		    	        		</form>
+		            		</th:block>
+		            		<th:block th:unless="${recruitInfo.recruitNumNow} < ${recruitInfo.recruitNumTotal}">
+		            			<div class="alert alert-light">
+		            				<span class="color-danger">모집이 마감되었습니다.</span>
+		            			</div>
+		            		</th:block>
 		            	</div>
 		            </div>
 		        </div>

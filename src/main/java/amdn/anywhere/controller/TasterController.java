@@ -36,10 +36,18 @@ public class TasterController {
 	@PostMapping("/applyTaster")
 	public String applyTaster( HttpSession session,
 			@RequestParam(value="recruitBCode", required = false) String recruitBCode) {
+		String id = (String) session.getAttribute("SID");
 		Taster taster = new Taster();
 		taster.setRecruitBCode(recruitBCode);
-		taster.setUserId("id010"); //소비자아이디 가정
+		taster.setUserId(id); 
 		tasterService.addTaster(taster);
+		
+		//현재 모집인원수 증가
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("nowNum", "Y");
+		paramMap.put("recruitBCode", recruitBCode);
+		tasterService.updateRecruitBBiz(paramMap);
+		
 		return "redirect:/taster/tasterList";
 	}
 	//평가단 관리페이지 이동
@@ -54,11 +62,14 @@ public class TasterController {
 	//모집 상세페이지 이동
 	@GetMapping("/recruitDetail")
 	public String recruitDetail(
-			@RequestParam(value = "recruitCode", required = false)String recruitCode , Model model) {
+			@RequestParam(value = "recruitCode", required = false)String recruitBCode , Model model) {
 		//조회수 업데이트
-		tasterService.updateViewCounts(recruitCode);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("view", "Y");
+		paramMap.put("recruitBCode", recruitBCode);		
+		tasterService.updateRecruitBBiz(paramMap);
 		//모집코드로 공고내용 가져오기
-		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitCode).get(0);
+		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitBCode).get(0);
 		model.addAttribute("title", "평가단 모집 공고");
 		model.addAttribute("location1URL", "/taster/recruitNotice");
 		model.addAttribute("location1", "평가단 모집공고");
@@ -79,25 +90,24 @@ public class TasterController {
 	//상태변경 처리
 	@GetMapping("/changeState")
 	public String changeState(
-			@RequestParam(value="recruitCode",required = false) String recruitCode
+			@RequestParam(value="recruitCode",required = false) String recruitBCode
 			,@RequestParam(value="state",required = false) String state
 			,HttpSession session
 			){
-		System.out.println(recruitCode);
-		System.out.println(state);		
-		String adminId = "id001"; //세션에서 가져와야함.
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("recruitCode", recruitCode);
-		paramMap.put("state", state);
-		paramMap.put("adminId", adminId);
+	
+		String id = (String) session.getAttribute("SID");
 		
-		tasterService.modifyState(paramMap);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("recruitBCode", recruitBCode);
+		paramMap.put("state", state);
+		paramMap.put("adminId", id);
+		
+		tasterService.updateRecruitBBiz(paramMap);
 		
 		//승인처리시 공고 및 설문조사 생성.
 		if(state.equals("승인")) {
-			//1	설문조사
-			System.out.println("설문조사 생성");	
-			questionService.addSurvey(recruitCode);
+			//1	설문조사 생성
+			questionService.addSurvey(recruitBCode);
 		}
 		return "redirect:/taster/recruitList";
 	}
@@ -107,8 +117,8 @@ public class TasterController {
 		
 		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null);
 		System.out.println(recruitList);
-		model.addAttribute("title", "평가단 모집 목록");
-		model.addAttribute("location", "모집 목록");
+		model.addAttribute("title", "평가단 모집 관리");
+		model.addAttribute("location", "모집 관리");
 		model.addAttribute("recruitList", recruitList);
 		
 		
@@ -127,21 +137,20 @@ public class TasterController {
 		
 		//모집 추가 처리
 		tasterService.addRecruit(recruitByBiz);
-		return "/taster/recruitList";
+		return "redirect:/taster/recruitList";
 	}
 	
 	@GetMapping("/recruitApply")
 	public String recruitApply(HttpSession session, Model model) {
 		
-		//String bizId = (String)session.getAttribute("SID");
-		String bizId = "id004";
+		String bizId = (String)session.getAttribute("SID");
 		
 		Map<String, Object> paramMap =tasterService.getListForRecruit(bizId);
 		
 		model.addAttribute("qCateList", paramMap.get("qCateList"));
 		model.addAttribute("storeList", paramMap.get("storeList"));
-		model.addAttribute("title", "평가단 모집 신청");
-		model.addAttribute("location", "모집 신청");
+		model.addAttribute("title", "평가단 모집하기");
+		model.addAttribute("location", "평가단 모집하기");
 		
 		return "/taster/recruitApply";
 	}
