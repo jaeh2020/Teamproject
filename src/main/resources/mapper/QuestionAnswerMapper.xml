@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="amdn.anywhere.mapper.QuestionAnswerMapper">
+	<select id="createAnswerCode" resultType="String">
+		SELECT
+			IFNULL(
+				CONCAT(SUBSTRING_INDEX(question_answer_code,'_',2)
+							,'_'
+							,CAST(MAX(SUBSTRING_INDEX(question_answer_code,'_',-1))AS DECIMAL)+1)
+				, 'q_answer_1') AS newCode
+		FROM
+			tb_question_answer
+	</select>
+	<insert id="addQuestionAnswer" parameterType="QuestionAnswer">
+		
+		INSERT INTO tb_question_answer
+		(
+			question_answer_code
+			, recruit_taster_admin_code
+			, recruit_taster_biz_code
+			, user_id
+			, question_code
+			, tasters_choice
+			, reg_time
+		)
+		VALUES 
+			(  
+				sf_new_answer_code()
+				, NULL
+				, #{recruitBCode}
+				, #{userId}
+				, #{questionCode}
+				, #{tasterChoice}
+				, NOW()
+			)
+	</insert>
+</mapper>
