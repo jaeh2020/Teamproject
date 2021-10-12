@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
+import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
 import amdn.anywhere.service.MemberService;
@@ -29,6 +30,105 @@ public class MemberController {
 	
 	public MemberController(MemberService memberService) {
 		this.memberService = memberService;
+	}
+	
+	//선호도 선택 ajax
+	@GetMapping(value="/modifyBizConfirm", produces = "application/json")
+	@ResponseBody
+	public String modifyBizConfirm(	@RequestParam(value = "bizCode") String bizCode
+									,MemberBiz memberBiz) {
+		
+		System.out.println("memberBiz : " + memberBiz);
+		System.out.println("bizCode : " + bizCode);
+		  
+		memberService.modifyBizConfirm(memberBiz);
+		
+
+		return "memberBiz";
+	}
+	
+	//회원 전체 목록 조회
+	@GetMapping("/member/memberUserList")
+	public String getMemberUserList(Model model) {
+		
+		List<MemberUser> memberUserList = memberService.getMemberUserList();
+		
+		model.addAttribute("title", "소상공인 승인 신청 목록");
+		model.addAttribute("location", "소상공인 승인 신청 목록");
+		model.addAttribute("memberUserList", memberUserList);
+
+		
+		return "/member/memberUserList";
+	}
+	
+	//회원탈퇴
+	@PostMapping("/member/deleteMember")
+	public String deleteMember( @RequestParam(name = "memberId", required = false) String memberId
+						,@RequestParam(name = "memberPw", required = false) String memberPw) {
+		
+		System.out.println("(removeMember) 화면에서 입력받은값 : memberId : " + memberId + "memberPw : " + memberPw);
+
+		return "redirect:/";
+	};
+	
+	@GetMapping("/member/deleteMember")
+	public String deleteMember( @RequestParam(name = "memberId", required = false) String memberId
+								,Model model) {
+		
+		System.out.println("(removeMember) 화면에서 입력받은값 : memberId : " + memberId);
+
+		model.addAttribute("title", "MYPAGE  > 회원탈퇴");
+		model.addAttribute("location", "MYPAGE  > 회원탈퇴");
+		return "/member/deleteMember";
+	}
+	
+	//회원 전체 목록 조회
+	@GetMapping("/member/memberBizList")
+	public String getMemberBizList(Model model) {
+		
+		List<MemberBiz> memberBizList = memberService.getMemberBizList();
+		
+		model.addAttribute("title", "소상공인 승인 신청 목록");
+		model.addAttribute("location", "소상공인 승인 신청 목록");
+		model.addAttribute("memberBizList", memberBizList);
+
+		
+		return "/member/memberBizList";
+	}
+	
+	//소상공인 가입 승인
+	@PostMapping("/member/addBizConfirm")
+	public String addBizConfirm(MemberBiz memberBiz) {
+		System.out.println("커맨드 객체 memberBiz: " + memberBiz);
+		
+		if(memberBiz != null) {
+			memberBiz.setBizCode(memberService.getMemberBizCode());
+			memberService.addBizConfirm(memberBiz);
+		}
+		
+		//승인 신청하면 소상공인마이페이지로 가도록 경로 수정 필요
+		return "redirect:/member/myPageBiz";
+	}
+	
+	@GetMapping("/member/addBizConfirm")
+	public String addBizConfirm(Model model) {
+		
+		model.addAttribute("title", "소상공인 가입 승인");
+		model.addAttribute("location", "소상공인 가입 승인");
+		return "/member/addBizConfirm";
+	}
+	
+	//마이페이지 myPage
+	@GetMapping("/member/myPageBiz")
+	public String myPageBiz(@RequestParam(name = "memberId", required = false) String memberId
+							,Model model) {
+		
+		
+		
+		model.addAttribute("title", "회원가입  > MYPAGE");
+		model.addAttribute("location", "회원가입  > MYPAGE");
+		
+		return "/member/myPageBiz";
 	}
 	
 	//마이페이지 myPage
@@ -55,7 +155,7 @@ public class MemberController {
 		
 		memberService.modifyMyInfo(member);
 		
-		return "redirect:/member/myInfo";
+		return "redirect:/member/myInfo?memberId="+member.getMemberId();
 	}
 	
 	@GetMapping("/member/modifyMyInfo")
