@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+	
+<!-- css -->
+<style type= "text/css">
+	.card h1{
+		text-align: center;
+		padding: 10px;
+	}
+	form input{
+		width: 5px;
+	}
+	.login-form .btn {
+		display : inline-block;
+		width : 70px;
+		text-align: center;
+		margin-left: 20px;
+	}
+	.form-button{
+		text-align: center;
+	}
+	.form-control{
+		width: 400px;
+	}
+ 
+</style>
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+    <!-- Main wrapper  -->
+    <div id="main-wrapper">
+        <div class="unix-login">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="login-content card">
+                            <div class="login-form">
+                                <h4>로그인</h4>
+                                <h6>(화면은 나중에 수정...)</h6>
+                                <form th:action="@{/member/login}" method="post">
+                                    <div class="form-group">
+                                        <label>아이디</label>
+                                        <input type="text" class="form-control" name="memberId" th:value="${memberId}" placeholder="아이디">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>비밀번호</label>
+                                        <input type="password" class="form-control" name="memberPw" placeholder="비밀번호">
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+        									<input type="checkbox"> 아이디 기억?
+        								</label>
+                                        <label class="pull-right">
+        									<a href="#">비번 잊음?</a>
+        								</label>
+
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">로그인</button>
+                                    <div class="register-link m-t-15 text-center">
+                                        <p>계정이 없으십니까?????? <a href="#"> 회원가입 </a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+</th:block>
+
+
+    <th:block layout:fragment="customJsLib"></th:block>
+</body>
+</html>

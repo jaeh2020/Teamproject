@@ -14,11 +14,23 @@ public class RecruitTasterByBiz {
 	private String stateCode;
 	private String requestTime;
 	private String menuCode;
+	private int viewCounts;
 	private List<String> ageCodeList;
 	private List<String> specialCateList;
 	private List<String> cateList;
+	private String strAgeCodeList;
+	private String strSpecialCateList;
+	private String strCateList;
 	private String storeCode;
+	private Store storeInfo;
+	private Menu menu;
 
+	public int getViewCounts() {
+		return viewCounts;
+	}
+	public void setViewCounts(int viewCounts) {
+		this.viewCounts = viewCounts;
+	}
 	
 	public String getRecruitTBizCode() {
 		return recruitTBizCode;
@@ -113,16 +125,49 @@ public class RecruitTasterByBiz {
 	public void setStoreCode(String storeCode) {
 		this.storeCode = storeCode;
 	}
+	
+	
+	public String getStrAgeCodeList() {
+		return strAgeCodeList;
+	}
+	public void setStrAgeCodeList(String strAgeCodeList) {
+		this.strAgeCodeList = strAgeCodeList;
+	}
+	public String getStrSpecialCateList() {
+		return strSpecialCateList;
+	}
+	public void setStrSpecialCateList(String strSpecialCateList) {
+		this.strSpecialCateList = strSpecialCateList;
+	}
+	public String getStrCateList() {
+		return strCateList;
+	}
+	public void setStrCateList(String strCateList) {
+		this.strCateList = strCateList;
+	}
+	public Store getStoreInfo() {
+		return storeInfo;
+	}
+	public void setStoreInfo(Store storeInfo) {
+		this.storeInfo = storeInfo;
+	}
+	public Menu getMenu() {
+		return menu;
+	}
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
 	@Override
 	public String toString() {
 		return "RecruitTasterByBiz [recruitTBizCode=" + recruitTBizCode + ", bizId=" + bizId + ", recruitTitle="
 				+ recruitTitle + ", surveyTitle=" + surveyTitle + ", recruitNumTotal=" + recruitNumTotal
 				+ ", recruitNumNow=" + recruitNumNow + ", recruitFinTime=" + recruitFinTime + ", adminId=" + adminId
 				+ ", stateCode=" + stateCode + ", requestTime=" + requestTime + ", menuCode=" + menuCode
-				+ ", ageCodeList=" + ageCodeList + ", specialCateList=" + specialCateList + ", cateList=" + cateList
-				+ ", storeCode=" + storeCode + "]";
+				+ ", viewCounts=" + viewCounts + ", ageCodeList=" + ageCodeList + ", specialCateList=" + specialCateList
+				+ ", cateList=" + cateList + ", strAgeCodeList=" + strAgeCodeList + ", strSpecialCateList="
+				+ strSpecialCateList + ", strCateList=" + strCateList + ", storeCode=" + storeCode + ", storeInfo="
+				+ storeInfo + ", menu=" + menu + "]";
 	}
-
-
+	
 	
 }

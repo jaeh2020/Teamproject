@@ -1,5 +1,6 @@
 package amdn.anywhere.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,18 +17,83 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.QuestionCate;
 import amdn.anywhere.domain.Questionnaire;
+import amdn.anywhere.domain.RecruitTasterByBiz;
+import amdn.anywhere.domain.Survey;
+import amdn.anywhere.domain.Taster;
 import amdn.anywhere.service.QuestionService;
+import amdn.anywhere.service.TasterService;
 
 @Controller
 @RequestMapping("/survey")
 public class QuestionController{
+	private TasterService tasterService;
 	private QuestionService questionService;
 	
-	public QuestionController(QuestionService questionService){
+	public QuestionController(QuestionService questionService,TasterService tasterService ){
+		this.tasterService = tasterService;
 		this.questionService = questionService;
 	}
+	//13. 설문조사 참여 화면 이동
+	@GetMapping("/doSurvey")
+	public String doSurvey(Model model
+				,@RequestParam(value="recruitCode", required = false) String recruitCode) {
+		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitCode).get(0);
+		String[] cateList = recruitInfo.getStrCateList().split(",");
+		int length = cateList.length;
+		List<Questionnaire> questionList = new ArrayList<Questionnaire>();
+	
+		for(int i=0; i < length; i++) {
+			String qCate = cateList[i];
+			if(qCate.equals("all")) continue;
+			
+			//문항가져오기
+			List<Questionnaire> newQList = questionService.getQuestionList(qCate);  
+			questionList.addAll(newQList);
+			System.out.println(newQList + " ----------------newQList");
+			
+		}
+
+		model.addAttribute("title", "설문조사 참여");
+		model.addAttribute("location1URL", "/survey/myList");
+		model.addAttribute("location1", "설문조사 목록");
+		model.addAttribute("location2", "설문조사 참여하기");
+		model.addAttribute("recruitInfo", recruitInfo);
+		model.addAttribute("qList", questionList);
+
+		return "/survey/doSurvey";
+	}
+	//12. 내 설문조사 목록
+	@GetMapping("/myList")
+	public String myList(Model model) {
+		//세션아이디로 평가단조회
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("userId", "id010");//소비자 아이디 가정
+		List<Taster> myList = tasterService.getTasterList(paramMap);
+		System.out.println("myList______" + myList);
+		model.addAttribute("title", "평가단 신청조회");
+		model.addAttribute("location", "평가단 신청조회");
+		model.addAttribute("myList", myList);
+		return "/survey/myList";
+	}
+	//11. 설문조사 삭제 처리
+	@GetMapping("/deleteSurvey")
+	public String deleteSurvey(String surveyCode) {
+		questionService.deleteSurvey(surveyCode);
+		return "redirect:/survey/surveyList";
+	}
+	//10. 설문조사 현황 페이지 이동
+	@GetMapping("/surveyList")
+	public String surveyList(Model model) {
+		//설문지 생성 목록 가져오기
+		List<Survey> surveyList= questionService.getSurveyList(null);
+		System.out.println(surveyList);
+		model.addAttribute("title", "설문조사 현황");
+		model.addAttribute("location", "설문조사 현황");
+		model.addAttribute("surveyList", surveyList);
+		return "/survey/surveyList";
+	}
 	//9.항목코드 중복 검사
-	@GetMapping(value="checkCateCode" , produces = "application/json")
+	@GetMapping(value="/checkCateCode" , produces = "application/json")
 	@ResponseBody
 	public boolean checkCateCode(
 			 @RequestParam(value="checkCateCode", required = false) String cateCode) {
@@ -42,7 +108,7 @@ public class QuestionController{
 		return result;
 	}
 	//8. 항목 수정버튼
-	@GetMapping(value="modifyCate", produces = "application/json")
+	@GetMapping(value="/modifyCate", produces = "application/json")
 	@ResponseBody
 	public int modifyCate(
 			 @RequestParam(value="oldCode", required = false) String oldCode
@@ -90,7 +156,7 @@ public class QuestionController{
 			paramMap.put("qCateCode", qCateCode);
 			paramMap.put("addId", (String)session.getAttribute("SID"));
 			
-			questionService.insertQuestion(paramMap);
+			questionService.addQuestion(paramMap);
 			questionService.deleteQuestion(qDeleteList);
 			
 			return "redirect:/survey/updateQuestion";
@@ -104,11 +170,10 @@ public class QuestionController{
 					, @RequestParam(name="defaultCode", required = false)String defaultCode
 					, HttpSession session) {
 			
-		//세션 아이디 가정
 		QuestionCate qCate = new QuestionCate();
 		qCate.setCateCode(defaultCode + newCateCode);
 		qCate.setCateName(newCateName);
-		qCate.setCateAddId((String)session.getAttribute("SID"));
+		qCate.setCateAddId("id001");//관리자 아이디 가정
 		questionService.addQCate(qCate); 
 		return "redirect:/survey/questionManage";
 	}
@@ -142,7 +207,7 @@ public class QuestionController{
 	public String updateQuestions(Model model) {
 		
 		model.addAttribute("title", "설문조사 항목별 문항관리");
-		model.addAttribute("location1URL", "questionManage");
+		model.addAttribute("location1URL", "/survey/questionManage");
 		model.addAttribute("location1", "항목 관리");
 		model.addAttribute("location2", "문항 관리");
 		

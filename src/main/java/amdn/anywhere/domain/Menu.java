@@ -13,6 +13,9 @@ public class Menu {
 	private String menuDetail;
 	private Date menuRegTime;
 	private String menuUsing;
+	private MenuCate menuCate;
+	private FoodMainCate foodMainCate;
+	private Store store;
 	public String getMenuCode() {
 		return menuCode;
 	}
@@ -73,12 +76,30 @@ public class Menu {
 	public void setMenuUsing(String menuUsing) {
 		this.menuUsing = menuUsing;
 	}
+	public MenuCate getMenuCate() {
+		return menuCate;
+	}
+	public void setMenuCate(MenuCate menuCate) {
+		this.menuCate = menuCate;
+	}
+	public FoodMainCate getFoodMainCate() {
+		return foodMainCate;
+	}
+	public void setFoodMainCate(FoodMainCate foodMainCate) {
+		this.foodMainCate = foodMainCate;
+	}
+	public Store getStore() {
+		return store;
+	}
+	public void setStore(Store store) {
+		this.store = store;
+	}
 	@Override
 	public String toString() {
 		return "Menu [menuCode=" + menuCode + ", bizId=" + bizId + ", storeCode=" + storeCode + ", mainCateCode="
 				+ mainCateCode + ", menuCateCode=" + menuCateCode + ", menuName=" + menuName + ", menuPrice="
 				+ menuPrice + ", menuDetail=" + menuDetail + ", menuRegTime=" + menuRegTime + ", menuUsing=" + menuUsing
-				+ "]";
+				+ ", menuCate=" + menuCate + ", foodMainCate=" + foodMainCate + ", store=" + store + "]";
 	}
 	
 	

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="amdn.anywhere.mapper.SurveyMapper">
+	<resultMap type="Survey" id="SurveyResultMap">
+		<result property="createCode" column="question_create_code"/>
+		<result property="storeCode" column="store_code"/>
+		<result property="recruitBBCode" column="recruit_taster_biz_code"/>
+		<result property="numOfParti" column="num_of_parti"/>
+		<result property="regTime" column="reg_time"/>
+		<result property="state" column="state"/>		
+		<association property="recruitTasterByBiz" javaType="RecruitTasterByBiz">
+			<id     property="recruitTBizCode" column="recruit_taster_biz_code"/>
+			<result property="strCateList" column="question_cate_code"/>
+			<result property="surveyTitle" column="questions_title"/>
+		</association>
+		<association property="store" javaType="Store">
+			<id     property="storeCode" column="store_code"/>
+			<result property="storeName" column="store_name"/>
+		</association>
+	</resultMap>
+	
+	<delete id="deleteSurvey" parameterType="String">
+		DELETE FROM tb_question_create WHERE question_create_code = #{surveyCode};	
+	</delete>
+	
+	<insert id="addSurvey" parameterType="Survey">
+		INSERT INTO tb_question_create
+			(
+			  question_create_code
+			, store_code
+			, reg_time
+			, recruit_taster_admin_code
+			, recruit_taster_biz_code
+			, num_of_parti
+			, state
+			)
+		VALUES (
+			  #{createCode}
+			, #{storeCode}
+			, NOW()
+			, null
+			, #{recruitBBCode}
+			, 0
+			, '진행중')
+	</insert>
+	
+	<select id="createSurveyCode" resultType="String">
+		SELECT 
+			IFNULL(CONCAT(SUBSTRING_INDEX(question_create_code,'_', 2),'_',LPAD(CAST(MAX(SUBSTRING_INDEX(question_create_code,'_',-1))AS DECIMAL)+1,4,0)), 'q_create_0001') AS newCode
+		FROM
+			tb_question_create
+	</select>
+	<select id="getSurveyList" parameterType="String" resultMap="SurveyResultMap">
+		SELECT
+			 c.question_create_code
+			 ,c.store_code
+			 ,c.recruit_taster_biz_code
+			 ,c.num_of_parti
+			 ,c.reg_time
+			 ,c.state
+			 ,b.question_cate_code
+			 ,b.questions_title
+			 ,s.store_name
+		FROM
+			tb_question_create AS c
+			INNER JOIN 
+			tb_taster_recruit_biz AS b
+			ON c.recruit_taster_biz_code = b.recruit_taster_biz_code
+			INNER JOIN 
+			tb_store_info AS s
+			ON c.store_code = s.store_code
+		<where>
+			<if test="recruitCode != null">
+				c.recruit_taster_biz_code = #{recruitCode}
+			</if>	
+		</where>	
+	</select>
+	
+</mapper>

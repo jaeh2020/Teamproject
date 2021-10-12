@@ -9,18 +9,6 @@
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
 </th:block>
-<th:block layout:fragment="customLocation">
-	<div class="row page-titles">
-	    <div class="col-md-5 align-self-center">
-	        <h3 class="text-primary" th:text="${location2}"></h3></div>
-	    <div class="col-md-7 align-self-center">
-	        <ol class="breadcrumb">
-	            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-	            <li class="breadcrumb-item active" th:text="${location2}"></li>
-	        </ol>
-	    </div>
-	</div>
-</th:block>
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
  		
@@ -93,15 +81,15 @@
 	                              </div>
 	                          </div>
 	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label" for="recruitNum">모집 인원 <span class="text-danger">*</span></label>
+	                              <label class="col-lg-4 col-form-label" for="recruitNumTotal">모집 인원 <span class="text-danger">*</span></label>
 	                              <div class="col-lg-6">
-	                                  <input type="text" class="form-control" id="recruitNum" name="recruitNum" >
+	                                  <input type="text" class="form-control" id="recruitNumTotal" name="recruitNumTotal" >
 	                              </div>
 	                          </div>
 	                          <div class="form-group row">
 	                              <label class="col-lg-4 col-form-label">모집 종료일<span class="text-danger">*</span></label>
 	                              <div class="col-lg-6">
-	                                  <input type="date" class="form-control" name="endDate" placeholder="dd/mm/yyyy">
+	                                  <input type="date" class="form-control" name="recruitFinTime" placeholder="dd/mm/yyyy">
 	                              </div>
 	                        		</div>
 	                          <div class="form-group row">
@@ -164,8 +152,6 @@
 			var recruitTitle = $('#recruitTitle');
 			var surveyTitle = $('#surveyTitle');
 			var ageCodeList = $('[name=ageCodeList]');
-			var recruitNum = $('#recruitNum');
-			var endDate = $('#endDate');
 			var selectAllCate = $('#selectAllCate');
 			var surveyCateList = $('[name=cateList]');
 			var specialCateList = $('[name=specialCateList]');
@@ -316,5 +302,5 @@
 </th:block>
     
     
-</body>
+
 </html>

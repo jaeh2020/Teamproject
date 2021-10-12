@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+<th:block layout:fragment="customCss">
+	<style type="text/css">
+		p {
+			line-height: 3.5285em;
+		}
+		thead{
+			background-color: #5c4ac7;
+		}
+		thead tr th{
+			color: white;
+		}
+		
+		tbody tr:hover {
+			cursor: pointer;
+		}
+		.storeName{
+			font-weight: bold;
+		}
+		
+	</style>
+</th:block>	 
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="row">
+		<div class="col-12">
+			 <div class="card">
+	         	<div class="card-body">
+                	<div class="card-content">
+	                     <div class="table-responsive">
+                                    <table class="table table-hover ">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>매장</th>
+                                                <th>설문조사</th>
+                                                <th>참여여부</th>
+                                                <th>등록일시</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="l : ${myList}" class="doSurvey" th:id= ${l.recruitBCode}>
+                                                <th th:text="${lStat.count}" scope="row"></th>
+                                                <td th:text="${l.storeName}" class="storeName"></td>
+                                                <td th:text="${l.recruitTasterByBiz.surveyTitle}"><span class="badge badge-primary"></span></td>
+                                                <td th:if="${l.stateName eq '피드백 작성 완료'}" class="color-success">참여완료</td>
+                                      			<td th:unless="${l.stateName eq '피드백 작성 완료'}" class="color-danger">미참여</td>
+                                                <td th:text="${l.applyTime}" class="counts"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div> 
+	                     <div class="row">
+	                         <div class="col-7">
+
+	                         </div>
+	                         <div class="col-5">
+	                             <div class="btn-group float-right">
+	                                 <button class="btn btn-gradient waves-effect" type="button"><i class="fa fa-chevron-left"></i></button>
+	                                 <button class="btn btn-gradient waves-effect" type="button"><i class="fa fa-chevron-right"></i></button>
+	                             </div>
+	                         </div>
+	                     </div>
+	                 </div>
+	                 <div class="clearfix"></div>
+                  	</div>
+                </div>
+	        </div>
+		</div>
+</th:block>
+<th:block layout:fragment="customJsLib">
+<script type="text/javascript">
+$(function(){
+	$('.doSurvey').on("click", function(){
+		var recruitCode =$(this).attr('id');
+		window.location.href = "/survey/doSurvey?recruitCode=" + recruitCode;
+	});
+});
+</script>
+</th:block>
+</html>

@@ -21,6 +21,7 @@ public class BadWordsController {
 	}
 	
 	
+	//금지어 목록 리스트
 	@GetMapping("/commonBadWords")
 	public String commonBadWords(Model model) {
 		

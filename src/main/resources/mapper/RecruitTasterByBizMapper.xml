@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="amdn.anywhere.mapper.RecruitTasterByBizMapper">
+	<resultMap type="RecruitTasterByBiz" id="recruitTasterBBResultMap">
+		<result property = "recruitTBizCode" column="recruit_taster_biz_code"/>
+		<result property = "bizId" column="biz_id"/>
+		<result property = "recruitTitle" column="recruit_title"/>
+		<result property = "surveyTitle" column="questions_title"/>
+		<result property = "recruitNumTotal" column="recruit_num_total"/>
+		<result property = "recruitNumNow" column="recruit_num_now"/>
+		<result property = "recruitFinTime" column="recruit_fin_time"/>
+		<result property = "adminId" column="admin_id"/>
+		<result property = "stateCode" column="state_code"/>
+		<result property = "requestTime" column="request_date"/>
+		<result property = "menuCode" column="menu_code"/>
+		<result property = "viewCounts" column="count_of_view"/>
+		<result property = "strAgeCodeList" column="age_code"/>
+		<result property = "strSpecialCateList" column="special_question_cate"/>
+		<result property = "strCateList" column="question_cate_code"/>
+		<result property = "storeCode" column="store_code"/>
+			<association property="storeInfo" javaType="Store">
+				<id property="storeCode" column="store_code"/>
+				<result property="storeName" column="store_name"/>
+				<result property="storeLocation" column="store_location"/>
+				<result property="storeTime" column="store_time"/>
+				<result property="storePhone" column="store_phone"/>
+				<result property="storeHoliday" column="store_holiday"/>
+			</association>
+			<association property="menu" javaType="Menu">
+				<id property="menuCode" column="menu_code"/>
+				<result property="menuName" column="menu_name"/>
+			</association>
+	</resultMap>
+	<update id="updateViewCounts" parameterType="String">
+		UPDATE tb_taster_recruit_biz
+			SET
+				count_of_view = count_of_view + 1
+			WHERE 
+				recruit_taster_biz_code = #{recruitCode};
+	</update>
+	<insert id="insertRecruit" parameterType="RecruitTasterByBiz">
+		INSERT INTO tb_taster_recruit_biz
+		(
+			recruit_taster_biz_code
+			, store_code
+			, biz_id
+			, recruit_title
+			, questions_title
+			, question_cate_code
+			, special_question_cate
+			, request_date
+			, recruit_num_total
+			, recruit_num_now
+			, menu_code
+			, recruit_fin_time
+			, state_code
+			, admin_id
+			, age_code
+		)
+		VALUES (
+			#{recruitTBizCode}
+			, #{storeCode}
+			, #{bizId}
+			, #{recruitTitle}
+			, #{surveyTitle}
+			, #{strCateList}
+			, #{strSpecialCateList}
+			, NOW()
+			, #{recruitNumTotal}
+			, 0
+			, #{menuCode}
+			, #{recruitFinTime}
+			, #{stateCode}
+			, null
+			, #{strAgeCodeList}
+		)
+	</insert>
+	<update id="modifyState" parameterType="map">
+		UPDATE tb_taster_recruit_biz
+			SET
+				admin_id= #{adminId}
+				<if test="state == '승인' ">
+					,state_code = '승인완료'
+				</if>
+				<if test="state == '취소'">
+					,state_code = '모집취소'
+				</if>
+			WHERE 
+				recruit_taster_biz_code = #{recruitCode};
+	</update>
+	<select id="createRecruitCode" resultType="String">
+		SELECT 
+			IFNULL(CONCAT(SUBSTRING_INDEX(recruit_taster_biz_code,'_', 1),'_',LPAD(CAST(MAX(SUBSTRING_INDEX(recruit_taster_biz_code,'_',-1))AS DECIMAL)+1,4,0)), 'rtb_0001') AS newCode
+		FROM
+			tb_taster_recruit_biz
+	
+	</select>
+	<select id="selectRecruitBB" resultMap="recruitTasterBBResultMap" parameterType="String">
+		SELECT 
+			t.recruit_taster_biz_code
+			, t.store_code
+			, t.biz_id
+			, t.recruit_title
+			, t.questions_title
+			, t.question_cate_code
+			, t.special_question_cate
+			, t.request_date
+			, t.recruit_num_total
+			, t.recruit_num_now
+			, t.menu_code
+			, t.count_of_view
+			, t.recruit_fin_time
+			, t.state_code
+			, t.admin_id
+			, t.age_code
+			, m.menu_name
+			, s.store_name
+			, s.store_location
+			, s.store_time
+			, s.store_phone
+			, s.store_holiday
+		FROM 
+			tb_taster_recruit_biz AS t
+			INNER JOIN 
+			tb_store_menu AS m
+			ON t.menu_code = m.menu_code
+			INNER JOIN 
+			tb_store_info AS s
+			ON t.store_code = s.store_code
+		<where>
+			<if test="recruitCode != null">
+				t.recruit_taster_biz_code = #{recruitCode}
+			</if>
+		</where>
+	</select>
+	
+	
+	
+</mapper>

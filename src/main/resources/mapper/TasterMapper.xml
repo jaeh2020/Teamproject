@@ -3,7 +3,70 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="amdn.anywhere.mapper.TasterMapper">
-
+	<resultMap type="Taster" id="TasterResultMAp">
+		<result property="applyCode" column="taster_apply_code" />
+		<result property="userId" column="user_id" />
+		<result property="recruitBCode" column="recruit_taster_biz_code" />
+		<result property="applyTime" column="apply_time" />
+		<result property="cancelReason" column="cancle_reason" />
+		<result property="state" column="visit_feedback_state" />
+		<result property="stateName" column="state_name" />
+		<result property="storeName" column="store_name" />
+		<result property="storeCode" column="store_code" />
+		<result property="userName" column="member_name" />
+	</resultMap>
+	<insert id="addTaster" parameterType="Taster">
+		INSERT INTO tb_taster_apply
+		(
+			taster_apply_code
+			, user_id
+			, store_code
+			, apply_time
+			, cancle_reason
+			, visit_feedback_state
+			, recruit_taster_biz_code
+			, recruit_taster_admin_code
+		)
+		VALUES (#{applyCode}, #{userId}, #{storeCode}, NOW(), null , 'state_taster_bef', #{recruitBCode}, null)
+	</insert>
+	<select id="createTasterCode" resultType="String">
+		SELECT 
+			IFNULL(CONCAT(SUBSTRING_INDEX(taster_apply_code,'_', 2),'_',LPAD(CAST(MAX(SUBSTRING_INDEX(taster_apply_code,'_',-1))AS DECIMAL)+1,4,0)), 't_apl_0001') AS newCode
+		FROM
+			tb_taster_apply
+	</select>
+	<select id="getTasterList" parameterType="Map" resultMap="TasterResultMAp">
+		SELECT 
+			t.taster_apply_code
+			, t.user_id
+			, t.store_code
+			, t.apply_time
+			, t.cancle_reason
+			, t.visit_feedback_state
+			, t.recruit_taster_biz_code
+			, t.recruit_taster_admin_code
+			, s.state_name
+			, i.store_name
+			, m.member_name
+		FROM tb_taster_apply AS t
+			INNER JOIN 
+			tb_statement AS s
+		ON t.visit_feedback_state = s.state_code
+			INNER JOIN 
+			tb_store_info AS i
+		ON t.store_code = i.store_code
+			INNER JOIN 
+			tb_member AS m
+		ON t.user_id = m.member_id
+		<where>
+			<if test="recruitBCode != null">
+				t.recruit_taster_biz_code = #{recruitBCode}
+			</if>
+			<if test="userId != null">
+				t.user_id = #{userId}
+			</if>
+		</where>
+	</select>
 	<select id="getStoreList" parameterType="String" resultType="Store">
 		SELECT
 			 store_code		AS storeCode
