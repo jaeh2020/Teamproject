@@ -13,7 +13,7 @@
 	<div class="col-lg-12">
 			<div class="card card-outline-info">
 				<div class="card-header">
-					<h4 class="m-b-0 text-white">게시판 신고 처리 폼</h4>
+					<h4 class="m-b-0 text-white">게시판 신고 처리</h4>
 				</div>
 				<br>
 				<div class="card-body">
@@ -72,12 +72,12 @@
 									<div class="form-group row">
 										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 신고유형</label>
 										<div class="col-md-9">
-											<select class="form-control custom-select" name="reportCateCode">
-												<option>★★ 선택해주세요 ★★</option>
-												<option>rc_abuse</option>
-												<option>rc_cancel</option>
-												<option>rc_nowshow</option>
-												<option>rc_etc</option>
+											<select class="form-control custom-select" name="reportCateCode" id="reportCateCode">
+												<option value="">★★ 선택해주세요 ★★</option>
+												<option value="rc_abuse">욕설신고</option>
+												<option value="rc_cancel">악의적인 예약 취소 신고</option>
+												<option value="rc_nowshow">주문 후 미방문 신고 </option>
+												<option value="rc_etc">기타신고</option>
 											</select>
 										</div>
 									</div>
@@ -116,7 +116,14 @@
 	   //유효성 검사
 	   $(function(){
 		   $('#boardReportBtn').click(function(){
+			  var reportCateCode = $('[name=reportCateCode]');
 			  
+			  if(reportCateCode.val() == ''){
+				  alert('신고유형을 선택해주세요.');
+				  reportCateCode.focus();
+				  return false;
+			  } 
+			   
 			  alert('신고 접수처리완료!')
 			  $('#reportBoardForm').submit();
 		   });
