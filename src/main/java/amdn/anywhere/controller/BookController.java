@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.Book;
+import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Statement;
@@ -35,11 +36,17 @@ public class BookController {
 		
 		
 		
-		
+	//주문내역리스트 조회	
 	@GetMapping("/bookOrderList")
-		public String bookOrderList(Model model) {
+		public String bookOrderList(Model model
+								   ,@RequestParam(name = "userId", required = false) String userId) {
 		
 		
+		//주문내역리스트 조회
+		/* Map<String, Object> paramMap = bookService.getOrderUserInfoById(userId); */
+		Order userOrderList = bookService.getOrderUserInfoById(userId);
+		
+		model.addAttribute("userOrderList", userOrderList);
 		model.addAttribute("title", "나의주문내역");
 		model.addAttribute("location", "나의주문내역");
 		
@@ -51,21 +58,41 @@ public class BookController {
 	//주문정보입력 처리
 	@PostMapping(value="/addBookOrder", produces = "application/json")
 	@ResponseBody
-		public String addBookOrder(@RequestBody List<Map<String,Object>> paramList, Order order
+		public String addBookOrder(@RequestBody List<Map<String,Object>> paramList
+								  ,Order order
 								  ,Book book) {
 			System.out.println("paramList:::"+paramList);
+			System.out.println("paramList 0번째:::"+paramList.get(0).get("storeCode"));
+			System.out.println("paramList 0번째:::"+paramList.get(0).get("userId"));
 			System.out.println("paramList 0번째:::"+paramList.get(0).get("bookUserName"));
+			System.out.println("paramList 0번째:::"+paramList.get(0).get("bookUserPhone"));
+			System.out.println("paramList 0번째:::"+paramList.get(0).get("bookPeoNum"));
+			System.out.println("paramList 0번째:::"+paramList.get(0).get("stateCode"));
+			System.out.println("paramList 0번째:::"+paramList.get(0).get("bookPickup"));
+			
+			//paramList에서 예약정보 불러오기
+			String storeCode = (String) paramList.get(0).get("storeCode");
+			String userId = (String) paramList.get(0).get("userId");
 			String bookUserName = (String) paramList.get(0).get("bookUserName");
+			String bookUserPhone = (String) paramList.get(0).get("bookUserPhone");
+			int bookPeoNum = (int) paramList.get(0).get("bookPeoNum");
+			String stateCode = (String) paramList.get(0).get("stateCode");
+			String bookPickup = (String) paramList.get(0).get("bookPickup");
+			
+			//불러온 예약정보 DTO에 setter
+			book.setStoreCode(storeCode);
+			book.setUserId(userId);
 			book.setBookUserName(bookUserName);
+			book.setBookUserPhone(bookUserPhone);
+			book.setBookPeoNum(bookPeoNum);
+			book.setStateCode(stateCode);
+			book.setBookPickup(bookPickup);
 		
-			//메뉴정보 insert하기위해 정보 넘기기
-			/*
 		
 			//결제예정 그룹코드 자동증가
 			order.setPayGroCode(bookService.getnewOGroupCode());
 			
 			String newBookCode = bookService.getNewBookCode();
-			String newOrderCode = bookService.getNewOrderCode();
 			
 			//예약코드 자동증가 생성 후 book테이블에 insert
 			if(book != null && newBookCode != null) {
@@ -74,12 +101,11 @@ public class BookController {
 			}
 					
 			//주문코드 자동증가 생성 후 order테이블에 insert
-			if(order != null && newOrderCode != null && newBookCode != null) {
+			if(order != null && newBookCode != null) {
 				order.setBookCode(newBookCode);
-				order.setoCode(newOrderCode);
 				bookService.addBookOrder(order);
 			}
-			*/
+			
 		return "success";
 	}
 	
@@ -126,20 +152,16 @@ public class BookController {
 				
 		//예약리스트 조회
 		List<Book> bookList = bookService.getBookList();
-		
-		
+			
 		//상태코드 가져오기
 		Statement statement = bookService.getStateCode(stateCode);
-		
-		
+			
 		//상점명 조회
 		Store store = bookService.getStoreInfo(storeName);
-		
-		
+			
 		//예약코드 자동증가
 		//String newBookCode = bookService.getNewBookCode();
-		
-			
+				
 		//세션아이디(로그인되어있는 아이디)
 		String memberId = (String) session.getAttribute("SID");
 

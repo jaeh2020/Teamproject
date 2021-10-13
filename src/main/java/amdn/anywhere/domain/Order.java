@@ -1,6 +1,5 @@
 package amdn.anywhere.domain;
 
-import java.util.Date;
 
 public class Order {
 	private String oCode;
@@ -13,12 +12,15 @@ public class Order {
 	private String oRequest;
 	private String payGroCode;
 	private int oTotalPrice;
-	private Date orderSignTime;
-	private Date orderCompTime;
+	private String orderSignTime;
+	private String orderCompTime;
 	private String orderStateCode;
 	private String storeTableCode;
 	private String tabelStateCode;
 	private Menu menu;
+	private Store store;
+	private Book book;
+	private Statement statement;
 	public String getoCode() {
 		return oCode;
 	}
@@ -79,16 +81,16 @@ public class Order {
 	public void setoTotalPrice(int oTotalPrice) {
 		this.oTotalPrice = oTotalPrice;
 	}
-	public Date getOrderSignTime() {
+	public String getOrderSignTime() {
 		return orderSignTime;
 	}
-	public void setOrderSignTime(Date orderSignTime) {
+	public void setOrderSignTime(String orderSignTime) {
 		this.orderSignTime = orderSignTime;
 	}
-	public Date getOrderCompTime() {
+	public String getOrderCompTime() {
 		return orderCompTime;
 	}
-	public void setOrderCompTime(Date orderCompTime) {
+	public void setOrderCompTime(String orderCompTime) {
 		this.orderCompTime = orderCompTime;
 	}
 	public String getOrderStateCode() {
@@ -115,16 +117,34 @@ public class Order {
 	public void setMenu(Menu menu) {
 		this.menu = menu;
 	}
+	public Store getStore() {
+		return store;
+	}
+	public void setStore(Store store) {
+		this.store = store;
+	}
+	public Book getBook() {
+		return book;
+	}
+	public void setBook(Book book) {
+		this.book = book;
+	}
+	public Statement getStatement() {
+		return statement;
+	}
+	public void setStatement(Statement statement) {
+		this.statement = statement;
+	}
 	@Override
 	public String toString() {
 		return "Order [oCode=" + oCode + ", bookCode=" + bookCode + ", userId=" + userId + ", storeCode=" + storeCode
 				+ ", menuCode=" + menuCode + ", oCount=" + oCount + ", menuTotalPrice=" + menuTotalPrice + ", oRequest="
 				+ oRequest + ", payGroCode=" + payGroCode + ", oTotalPrice=" + oTotalPrice + ", orderSignTime="
 				+ orderSignTime + ", orderCompTime=" + orderCompTime + ", orderStateCode=" + orderStateCode
-				+ ", storeTableCode=" + storeTableCode + ", tabelStateCode=" + tabelStateCode + ", menu=" + menu + "]";
+				+ ", storeTableCode=" + storeTableCode + ", tabelStateCode=" + tabelStateCode + ", menu=" + menu
+				+ ", store=" + store + ", book=" + book + ", statement=" + statement + "]";
 	}
 	
 	
-
 	
 }

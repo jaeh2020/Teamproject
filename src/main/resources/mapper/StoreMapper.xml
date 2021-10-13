@@ -40,29 +40,29 @@
 		<result property="menuRegTime"			column="menu_reg_time"/>
 		<result property="menuUsing"			column="menu_using"/>
 			<association property="foodMainCate" javaType="FoodMainCate">
-			<id property="mainCateCode"			column="main_cate_code"/>
-			<result property="mainCateName"		column="main_cate_name"/>
+				<id property="mainCateCode"			column="main_cate_code"/>
+				<result property="mainCateName"		column="main_cate_name"/>
 			</association>
 			<association property="menuCate" 	javaType="MenuCate">
-			<id property="menuCateCode"			column="menu_cate_code"/>
-			<result property="menuCateName"		column="menu_cate_name"/>
+				<id property="menuCateCode"			column="menu_cate_code"/>
+				<result property="menuCateName"		column="menu_cate_name"/>
 			</association>
 			<association property="store" 		javaType="Store">
-			<id property="storeCode"			column="store_code"/>
-			<result property="storeName"		column="store_name"/>
-			<result property="bizCode"			column="biz_code"/>
-			<result property="bizId"			column="biz_id"/>
-			<result property="storeLocation"	column="store_location"/>
-			<result property="storeTime"		column="store_time"/>
-			<result property="storePhone"		column="store_phone"/>
-			<result property="mainCateCode"		column="main_cate_code"/>
-			<result property="mainCateCode2"	column="main_cate_code2"/>
-			<result property="storeHoliday"		column="store_holiday"/>
-			<result property="storeTasteAgree"	column="store_taste_agree"/>
-			<result property="storeExposAgree"	column="store_expos_agree"/>
-			<result property="storePhoto"		column="store_photo"/>
-			<result property="storeTableNum"	column="store_table_num"/>
-			<result property="storeOccupancy"	column="store_occupancy"/>
+				<id property="storeCode"			column="store_code"/>
+				<result property="storeName"		column="store_name"/>
+				<result property="bizCode"			column="biz_code"/>
+				<result property="bizId"			column="biz_id"/>
+				<result property="storeLocation"	column="store_location"/>
+				<result property="storeTime"		column="store_time"/>
+				<result property="storePhone"		column="store_phone"/>
+				<result property="mainCateCode"		column="main_cate_code"/>
+				<result property="mainCateCode2"	column="main_cate_code2"/>
+				<result property="storeHoliday"		column="store_holiday"/>
+				<result property="storeTasteAgree"	column="store_taste_agree"/>
+				<result property="storeExposAgree"	column="store_expos_agree"/>
+				<result property="storePhoto"		column="store_photo"/>
+				<result property="storeTableNum"	column="store_table_num"/>
+				<result property="storeOccupancy"	column="store_occupancy"/>
 			</association>
 	</resultMap>
 	
