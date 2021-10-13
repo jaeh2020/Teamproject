@@ -131,7 +131,7 @@
                           </a>
                           <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                               <ul class="dropdown-user">
-                                  <li><a th:href="@{/book/bookOrderList}"><i class="fa fa-truck"></i> 나의 주문/결제 내역 </a></li>
+                                  <li><a th:href="@{/book/bookOrderList(userId=${session.SID})}"><i class="fa fa-truck"></i> 나의 주문/결제 내역 </a></li>
                               </ul>
                           </div>
                       </li>

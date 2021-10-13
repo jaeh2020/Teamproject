@@ -1,6 +1,8 @@
 package amdn.anywhere.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
+import amdn.anywhere.domain.Table;
 import amdn.anywhere.mapper.BookMapper;
 
 
@@ -26,6 +29,17 @@ public class BookService {
 		  
 	 }
 	 
+	 //주문리스트 조회
+	/*
+	 * public Map<String, Object> getOrderUserInfoById(String bizId){ List<Order>
+	 * userOrderList = bookMapper.getOrderUserInfoById(bizId); Map<String, Object>
+	 * paramMap = new HashMap<String, Object>(); paramMap.put("userOrderList",
+	 * userOrderList); return paramMap;}
+	 */
+	 
+	 public Order getOrderUserInfoById(String bizId){ 
+		 return bookMapper.getOrderUserInfoById(bizId); 
+	 }
 	 
 	 //결제예정 그룹코드 자동증가
 	 public String getnewOGroupCode() {

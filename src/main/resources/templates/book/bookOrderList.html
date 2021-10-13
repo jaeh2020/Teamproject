@@ -5,17 +5,10 @@
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
 	
-	<!-- css -->
 <style type= "text/css">
-	/* tbody tr td{
-		color: #505050;
-	} */
-	.btn-primary{
-		display : block;
+/* 	.date-input{
 		float : right;
-		color: #fff;
-		margin: 5px;
-	}
+	*/
 	
 </style>
 </th:block>
@@ -37,15 +30,25 @@
 
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
-	<!-- 버튼 -->
+	<!-- 검색기능 -->
 	<div class="row">
-		<div class="col-lg-12">
-			<a th:href="@{/store/myStoreManage/addMyMenu}">
-			<button type="button" class="btn btn-primary btn-flat m-b-10">새로운 메뉴 등록하기</button>
-			</a>
+		<div class="col-lg-12 date-input">
+			<form>
+			<input type="date" id="nowDate" name="date" class="form-control" style="width:200px; display:inline">
+			~
+			<input type="date" id="nowDate2" name="date" class="form-control" style="width:200px; display:inline">
+			<button type="button" class="btn btn-danger btn-flat m-b-10">
+				<i class="fa fa-search"></i>
+			</button>
+			</form>
 		</div>	
 	</div>
-
+	
+	
+	<!-- 히든영역 -->
+	<input type="hidden" name="userId" th:value="${session.SID}">
+	
+	
 	<!-- 메뉴 리스트 뿌려주기 -->
 	<!-- <form th:action="@{/store/myStoreManage/deleteMyMenu}" role="form" id="deleteMenuForm" method="post"> -->
 	<div class="card">
@@ -55,37 +58,31 @@
 		<table id="myTable" class="table table-bordered table-striped">
 			<thead>
                 <tr>
-                	<th>매장명</th>
-                	<th>예약정보상세</th>
-					<th>주문메뉴상세</th>
+                	<th>주문 매장명</th>
+                	<th data-orderable="false">예약정보상세</th>
+					<th data-orderable="false">주문메뉴상세</th>
 					<th>총 결제금액</th>
 					<th data-orderable="false">영수증 출력</th>
-					<th>주문등록일자</th>
-					<th>결제완료일자</th>
+					<th>주문등록일시</th>
 					<th>주문상태</th>
 				</tr>
             </thead>
             <tbody>
-				<!-- <tr th:each="m : ${menuList}">
-					<td th:text="${m.store.storeName}"></td>
-					<td th:text="${m.menuCode}"></td>
-					<td th:text="${m.foodMainCate.mainCateName}"></td>
-					<td th:text="${m.menuCate.menuCateName}"></td>
-					<td th:text="${m.menuName}"></td>
-					<td th:text="${m.menuPrice}"></td>
-					<td th:text="${m.menuDetail}"></td>
-					<td th:text="${m.menuUsing}"></td>
+				<tr th:each="o : ${userOrderList}">
+					<td th:text="${o.store.storeName}"></td>
 					<td>
-						<a th:href="@{/store/myStoreManage/modifyMyMenu(menuCode=${m.menuCode}, storeCode=${m.storeCode})}">
-						<button type="button" class="modifyMenuBtn btn btn-success btn-outline fa fa-pencil text-white"></button>
-						</a>
+						<button type="button" class="btn btn-dark btn-outline ti-search"></button>
 					</td>
 					<td>
-						<a th:href="@{/store/myStoreManage/deleteMyMenu(menuCode=${m.menuCode})}">
-						<button type="button" id="deleteMenuBtn" class="deleteMenuBtn btn btn-danger btn-outline ti-trash text-white"></button>
-						</a>
+						<button type="button" class="btn btn-dark btn-outline ti-search"></button>
 					</td>
-				</tr> -->
+					<td th:text="${o.oTotalPrice}"></td>
+					<td>
+						<button type="button" id="printBtn" class="btn btn-dark btn-outline fa fa-print"></button>
+					</td>
+					<td th:text="${o.orderCompTime}" id="orderCompTime"></td>
+					<td th:name="stateName" th:text="${o.statement.StateName}"></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
@@ -101,6 +98,23 @@
 
     <script type="text/javascript">
 
+	document.getElementById('nowDate').valueAsDate = new Date();
+	document.getElementById('nowDate2').valueAsDate = new Date();
+	
+	
+	/* 영수증 출력 유효성검사 */
+	$(function(){
+		$('#printBtn').on("click", function(){
+			
+			var stateName = $('[name=stateName]');
+			
+			if(stateName != '결제완료'){
+				alert('결제완료시에만 영수증출력이 가능합니다.');
+				return false;
+			}
+		});
+	});
+    
 	</script>
 
 </th:block>

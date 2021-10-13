@@ -133,7 +133,7 @@
 	                                                <div class="form-group row">
 	                                                    <label class="control-label text-right col-md-3">요청사항</label>
 	                                                    <div class="col-md-6">
-	                                                        <textarea name="oRequest" id="textarea-input" rows="20" class="form-control"></textarea>
+	                                                        <textarea name="oRequest" id="oRequest" rows="20" class="form-control"></textarea>
 	                                                    </div>
 	                                                </div>
 	                                            </div>
@@ -289,7 +289,7 @@
 					var bookPeoNum = $('input[name="bookPeoNum"]').val();
 					var stateCode = $('input[name="stateCode"]').val();
 					var bookPickup = $('input[name="bookPickup"]').val();
-					var oRequest = $('#textarea-input').text();
+					var oRequest = $('#oRequest').val();
 					var oTotalPrice = $('#oTotalPrice').val();
 					console.log(orderTbodyTrObj);
 					
@@ -303,6 +303,7 @@
 						orderDetail.menuAmount = menuAmount;
 						orderDetail.menuPrice = menuPrice.trim();
 						orderDetail.storeCode = storeCode;
+						orderDetail.userId = userId;
 						orderDetail.bookUserName = bookUserName;
 						orderDetail.bookUserPhone = bookUserPhone;
 						orderDetail.bookPeoNum = bookPeoNum;
@@ -322,7 +323,7 @@
 								  method: "POST", //요청 방식
 								  data: JSON.stringify(menuArray), // input name->cateCode,  value->stName
 								  dataType: "text", //받아올 포맷방식
-								  contentType: 'application/json; charset=utf-8'
+								  contentType: 'application/json; charset=UTF-8'
 							});
 				request.done(function(data){
 					console.log(data);
@@ -330,11 +331,10 @@
 						location.href='/';
 					}
 				});
-				/*
+				
 				alert('주문이 완료되었습니다. \n결제는 현장에서 진행되며, \n상세 주문내역은 상단의 "나의 주문내역" 에서 확인 가능합니다.')
-				 $('#addBookOrdForm').submit();	 
-				$('#addBookOrdForm').submit();	
-				*/
+					$('#addBookOrdForm').submit();	 
+					$('#addBookOrdForm').submit();	
 			});
 		});
 	
