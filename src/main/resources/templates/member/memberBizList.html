@@ -75,12 +75,23 @@
 		                    </tr>
 	               		</tbody>
 	            	</table>
-					<table class="table table-hover " id="msgTb">
-						<tbody th:id="messageList">
-		                    <tr>
-		                    </tr>
-	               		</tbody>
-	            	</table>
+					/////////////
+					<form th:action="@{member/memberBizList}" method="post">
+ 							
+						<div class="form-group">
+		                    <label>승인자</label><span>*</span>
+		                    <input type="text" class="form-control" id="confirmId" name="confirmId" th:value="${session.SID}">           
+						</div>
+	                        <div class="form-group">
+	                             <label>승인상태</label><span>*</span>
+	                             <input type="text" class="form-control" id="bizStatus" name="bizStatus" >
+	                        </div>
+	                           <div class="form-button" id="btn">
+	                          	<a th:href="@{member/memberBizList(bizCode=${memberBiz.bizCode})}" class="btn btn-inverse btn-flat m-b-30 m-t-30">취소</a>
+	                            <button type="submit" id="modi" class="btn btn-success btn-flat m-b-30 m-t-30">수정하기</button>
+	                           </div>
+                       </form>
+					
 	        	</div>
 			</div>
 		</div>
@@ -98,7 +109,7 @@
     <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
 	<script type="text/javascript">
 		$(function(){
-			$('.modi').on('click',function(){
+			/* $('.modi').on('click',function(){
 				var bizCode = $(this).attr("id");
 	            console.log(bizCode,'bizCode');
 	            
@@ -112,23 +123,37 @@
 				request.done(function( data ) {
 				  console.log(data,"data");
 				  
-				  var tbody= '';
-					for(var i= 0; i<data.length; i++){
-						tbody += '<tr><td>' ;
-						tbody += '<input type="checkbox">' ;
-						tbody += '</td><td>' ;
-						tbody += 'ddddd' ;
-						tbody += '</td><td>' ;
-						tbody += 'sfsdf' ;
-						tbody += '</td></tr>';  
-					}
+				  var htmml= '';
 					
-					$('#messageList').html(tbody);	
+					htmml += '<br><span class="ti-comments-smiley"></span> ' + '<text style="font-family: Jua, sans-serif; font-size:40px">' + '되나' + '</text>';
+					htmml += '<br><br> <text class="text-info" style="font-family: Jua, sans-serif;"> 주소 : </text>' + '<text style="font-family: Jua, sans-serif;">' + '되나' + '</text>';
+					htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 전화번호 : </text>' + '<text style="font-family: Jua, sans-serif;">' + '되나' + '</text>';
+					htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 영업시간 : </text>' + '<text style="font-family: Jua, sans-serif;">' + '되나' + '</text>';
+					htmml += '<br> <text class="text-danger" style="font-family: Jua, sans-serif;"> 휴일 : </text>' + '<text style="font-family: Jua, sans-serif;">' + '되나' + '</text>';
+					htmml += '<br> <text class="text-warning" style="font-family: Jua, sans-serif;"> 현재 예약 가능 상태 : </text>' + '<text style="font-family: Jua, sans-serif;"> 가능  </text>';
+									
+					Swal.fire(htmml);
 				});
 				request.fail(function(request,status,error){
 			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			    });
-			});
+			}); */
+			
+			$('.modi').on('click',function(){
+				var bizCode = $(this).attr("id");
+	            console.log(bizCode,'bizCode');
+	            
+				  var htmml= '';
+					
+					htmml += '<br><span class="ti-comments-smiley"></span> ' + '<text style="font-family: Jua, sans-serif; font-size:40px">' + '되나' + '</text>';
+					htmml += '<br><br> <text class="text-info" style="font-family: Jua, sans-serif;"> 주소 : </text>' + '<text style="font-family: Jua, sans-serif;">' + '되나' + '</text>';
+					htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 전화번호 : </text>' + '<text style="font-family: Jua, sans-serif;">' + '되나' + '</text>';
+					htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 영업시간 : </text>' + '<text style="font-family: Jua, sans-serif;">' + '되나' + '</text>';
+					htmml += '<br> <text class="text-danger" style="font-family: Jua, sans-serif;"> 휴일 : </text>' + '<text style="font-family: Jua, sans-serif;">' + '되나' + '</text>';
+					htmml += '<br> <text class="text-warning" style="font-family: Jua, sans-serif;"> 현재 예약 가능 상태 : </text>' + '<text style="font-family: Jua, sans-serif;"> 가능  </text>';
+									
+					Swal.fire(htmml);
+				});
 		})
 	</script>
 </th:block>
