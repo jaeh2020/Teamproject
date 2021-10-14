@@ -32,17 +32,17 @@ public class MemberController {
 		this.memberService = memberService;
 	}
 	
-	//선호도 선택 ajax
+	//소상공인 승인 ajax
 	@GetMapping(value="/modifyBizConfirm", produces = "application/json")
 	@ResponseBody
 	public String modifyBizConfirm(	@RequestParam(value = "bizCode") String bizCode
-									,MemberBiz memberBiz) {
+									) {
+		
+		System.out.println("bizCode : " + bizCode);
+		 
+		MemberBiz memberBiz = memberService.getMemberBizInfoByCode(bizCode);
 		
 		System.out.println("memberBiz : " + memberBiz);
-		System.out.println("bizCode : " + bizCode);
-		  
-		memberService.modifyBizConfirm(memberBiz);
-		
 
 		return "memberBiz";
 	}
@@ -93,7 +93,7 @@ public class MemberController {
 		model.addAttribute("memberBizList", memberBizList);
 
 		
-		return "/member/memberBizList";
+		return "member/memberBizList";
 	}
 	
 	//소상공인 가입 승인
@@ -163,6 +163,8 @@ public class MemberController {
 						 ,Model model) {
 		
 		Member member = memberService.getMemberInfoById(memberId);
+		
+		System.out.println("member 수정"+ member);
 		
 		model.addAttribute("title", "마이페이지  > 내정보 수정");
 		model.addAttribute("location", "마이페이지  > 내정보 수정");
