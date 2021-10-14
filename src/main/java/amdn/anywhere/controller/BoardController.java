@@ -126,7 +126,7 @@ public class BoardController {
 	
 	//게시글 삭제처리
 	@GetMapping("/boardDelete")
-	public String boardView(Board board
+	public String boardDelete(Board board
 			,@RequestParam(name = "boardNum" , required = false) String boardNum ) {
 		
 		System.out.println("board 화면 값" + board);
