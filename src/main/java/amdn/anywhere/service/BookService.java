@@ -28,17 +28,31 @@ public class BookService {
 	  this.bookMapper = bookMapper;
 		  
 	 }
+
 	 
-	 //주문리스트 조회
-	/*
-	 * public Map<String, Object> getOrderUserInfoById(String bizId){ List<Order>
-	 * userOrderList = bookMapper.getOrderUserInfoById(bizId); Map<String, Object>
-	 * paramMap = new HashMap<String, Object>(); paramMap.put("userOrderList",
-	 * userOrderList); return paramMap;}
-	 */
+	//나의 주문내역 상세 조회
+	public Map<String, Object> getOrderList(String bookCode){ 
+		
+		List<Order> orderDetail = bookMapper.getOrderList(bookCode); 
+		
+		Map<String, Object>paramMap = new HashMap<String, Object>(); 
+		
+		paramMap.put("orderDetail",orderDetail); 
+		
+		return paramMap;
+	}
+	
 	 
-	 public Order getOrderUserInfoById(String bizId){ 
-		 return bookMapper.getOrderUserInfoById(bizId); 
+	 //나의 주문내역 리스트
+	public Map<String, Object> getOrderUserInfoById(String bizId){ 
+		
+		List<Order> userOrderList = bookMapper.getOrderUserInfoById(bizId); 
+		
+		Map<String, Object>paramMap = new HashMap<String, Object>(); 
+		
+		paramMap.put("userOrderList",userOrderList); 
+		
+		return paramMap;
 	 }
 	 
 	 //결제예정 그룹코드 자동증가

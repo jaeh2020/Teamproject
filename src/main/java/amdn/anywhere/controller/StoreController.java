@@ -123,6 +123,7 @@ public class StoreController {
 		if(menu != null) {
 			storeService.modifyMyMenu(menu);
 		}
+		
 		return "redirect:/store/myStoreManage/myMenuManage";
 	}
 	
