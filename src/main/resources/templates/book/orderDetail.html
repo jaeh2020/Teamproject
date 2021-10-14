@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+	
+<!-- css -->
+<style type= "text/css">
+	tbody tr td{
+		color: #505050;
+
+	}
+	.btn-primary{
+		display : block;
+		float : right;
+		color: #fff;
+	}
+</style>
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+					<div class="row">
+						<div class="col-lg-8"></div>
+						<div class="col-lg-4">
+							
+						</div>
+					</div>
+					<div class="card">
+						<table class="table table-hover" style="border: 0px;">
+							<thead>
+								<tr>
+									<th>예약자명</th>
+									<th>전화번호</th>
+									<th>인원수</th>
+									<th>방문포장여부</th>
+									<th>요청사항</th>
+									<th>메뉴</th>
+									<th>메뉴수량</th>
+									<th>메뉴총가격</th>
+									<th>총결제금액</th>
+								</tr>
+							</thead>
+							<tbody>
+							<tr th:if="${#lists.size(orderDetail) > 0}" th:each="o, status : ${orderDetail}">
+									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}"
+										th:text="${o.book.bookUserName}" ></td>
+									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}"
+										th:text="${o.book.bookUserPhone}"></td>
+									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}"
+										th:text="${o.book.bookPeoNum} + 명"></td>
+									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}"
+										th:text="${o.book.bookPickup}"></td>
+									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}"
+										th:text="${o.oRequest}"></td>
+									<td th:text="${o.menu.menuName}"></td>
+									<td th:text="${o.oCount}"></td>
+									<td th:text="${o.menuTotalPrice}"></td>
+									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}"
+										th:text="${o.oTotalPrice}"></td>
+								</tr>
+							</tbody>
+							
+						</table>						
+					</div>
+					
+					
+</th:block>
+
+
+    <th:block layout:fragment="customJsLib"></th:block>
+</body>
+</html>

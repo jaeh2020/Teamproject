@@ -14,9 +14,11 @@ import amdn.anywhere.domain.Table;
 @Mapper
 public interface BookMapper {
 	
+	//나의주문내역 상세조회
+	public List<Order> getOrderList(String bookCode);
+	
 	//주문내역 리스트 조회
-	/* public List<Order> getOrderUserInfoById(String bizId); */
-	public Order getOrderUserInfoById(String bizId);
+	public List<Order> getOrderUserInfoById(String bizId);
 	
 	//결제예정 그룹코드 자동증가
 	public String getnewOGroupCode();

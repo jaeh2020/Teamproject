@@ -30,10 +30,52 @@ public class BookController {
 	
 	private final BookService bookService;
 	
-		public BookController(BookService bookService) { 
-			this.bookService = bookService;
-		}
+	public BookController(BookService bookService) { 
+		this.bookService = bookService;
+	}
+	
+	
+	//영수증 출력 페이지
+	@GetMapping("/orderReceipt")
+	public String orderReceipt(@RequestParam(name = "bookCode", required = false) String bookCode
+			,Model model){
 		
+		Map<String, Object> paramMap = bookService.getOrderList(bookCode);
+		
+		model.addAttribute("orderDetail", paramMap.get("orderDetail"));
+		model.addAttribute("title", "영수증출력");
+		model.addAttribute("location", "영수증출력");
+		
+		return "/book/orderReceipt";
+	}
+	
+	
+	@GetMapping("/orderDetail")
+		public String orderDetail(@RequestParam(name = "bookCode", required = false) String bookCode
+								 ,Model model){
+		
+		//예약주문내역리스트 상세조회
+		Map<String, Object> paramMap = bookService.getOrderList(bookCode);
+		
+		model.addAttribute("orderDetail", paramMap.get("orderDetail"));
+		model.addAttribute("title", "나의주문예약정보 상세내역");
+		model.addAttribute("location", "나의주문예약정보 상세내역");
+		
+		return "/book/orderDetail";
+	}
+		
+		
+	//주문내역리스트에서 날짜필터 조회
+	@PostMapping("/bookOrderList")
+		public String bookOrderList(@RequestParam(name = "dateBefore", required = false) String dateBefore
+									,@RequestParam(name = "dateAfter", required = false) String dateAfter
+									,Model model) {
+									
+		
+		
+		return "redirect:/";
+	}
+	
 		
 		
 	//주문내역리스트 조회	
@@ -41,12 +83,9 @@ public class BookController {
 		public String bookOrderList(Model model
 								   ,@RequestParam(name = "userId", required = false) String userId) {
 		
+		Map<String, Object> paramMap = bookService.getOrderUserInfoById(userId);
 		
-		//주문내역리스트 조회
-		/* Map<String, Object> paramMap = bookService.getOrderUserInfoById(userId); */
-		Order userOrderList = bookService.getOrderUserInfoById(userId);
-		
-		model.addAttribute("userOrderList", userOrderList);
+		model.addAttribute("userOrderList", paramMap.get("userOrderList"));
 		model.addAttribute("title", "나의주문내역");
 		model.addAttribute("location", "나의주문내역");
 		
