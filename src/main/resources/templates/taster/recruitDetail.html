@@ -53,13 +53,18 @@
 		                        </tr>
 		                    	<tr>
 		                    		<td class="titleCss">모집명</td>
-		                    		<td colspan="3">[[${recruitInfo.recruitTitle}]]</td>
+		                    		<td >[[${recruitInfo.recruitTitle}]]</td>
+		                            <td class="titleCss">모집기한</td>
+		                            <td class="color-primary">[[${recruitInfo.recruitFinTime}]]</td>
 		                    	</tr>
 		                        <tr>
 		                         	<td class="titleCss">모집인원</td>
 		                            <td class="color-success"> [[${recruitInfo.recruitNumNow}]] / [[${recruitInfo.recruitNumTotal}]]</td>
-		                            <td class="titleCss">모집기한</td>
-		                            <td class="color-primary">[[${recruitInfo.recruitFinTime}]]</td>
+		                            <td class="titleCss">모집연령대</td>
+		                            <td th:if="${recruitInfo.ageList.size == 1}" class="color-primary" th:text="${recruitInfo.ageList[0].ageGroup}"></td>
+		                            <td th:unless="${recruitInfo.ageList.size == 1}" class="color-primary">
+		                            	<span th:each="l : ${recruitInfo.ageList}"> [[${l.ageGroup}]] </span>
+		                            </td>
 		                        </tr>
 		                        <tr>
 		                        	<td class="cateCss" colspan="4"><strong>매장정보</strong></td>
