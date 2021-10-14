@@ -18,6 +18,17 @@
 	</resultMap>
 
 
+<!-- 게시판 삭제 처리 -->
+<delete id="reportDelete" parameterType="String">
+	DELETE
+	FROM
+		tb_report
+	WHERE 
+		rep_code = #{reportCode};
+</delete>
+
+
+
 
 <!-- 게시판 확정 처리 -->
 <update id="reportBoardCon" parameterType="Report">

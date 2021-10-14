@@ -27,10 +27,23 @@ public class ReportController {
 		 }
 	 
 	
+	 //게시판 삭제 처리
+	 @GetMapping("/reportDelete")
+	 public String reportDelete(Report report
+			 					, @RequestParam(name = "reportCode" , required = false) String reportCode) {
+		 
+		 System.out.println("report" + report);
+		 
+		 reportService.reportDelete(reportCode);
+		 
+		 return "redirect:/report/reportBoardList";
+	 }
+	
 	 
-	//게시판 확정 처리
-	@PostMapping("/reportBoardCom")
-	public String reportBoardCom(Report report) {
+	 
+	 //게시판 확정 처리
+	 @PostMapping("/reportBoardCom")
+	 public String reportBoardCom(Report report) {
 		
 		System.out.println("report +" + report);
 		

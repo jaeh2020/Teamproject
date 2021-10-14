@@ -20,7 +20,14 @@ public class ReportService {
 		  this.reportMapper = reportMapper;
 	 }
 	  
-	//게시판 확정 처리
+	
+	  //게시판 신고 삭제처리
+	  public int reportDelete(String reportCode) {
+		  return reportMapper.reportDelete(reportCode);
+	  }
+	  
+	  
+	  //게시판 확정 처리
 	  public int reportBoardCon(Report report) {
 		  return reportMapper.reportBoardCon(report);
 	  }
