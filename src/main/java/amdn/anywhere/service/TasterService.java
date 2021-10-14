@@ -1,5 +1,6 @@
 package amdn.anywhere.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,11 +8,13 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import amdn.anywhere.domain.Age;
 import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.QuestionCate;
 import amdn.anywhere.domain.RecruitTasterByBiz;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.domain.Taster;
+import amdn.anywhere.mapper.AgeMapper;
 import amdn.anywhere.mapper.QuestionsMapper;
 import amdn.anywhere.mapper.RecruitTasterByBizMapper;
 import amdn.anywhere.mapper.TasterMapper;
@@ -22,14 +25,17 @@ public class TasterService {
 	private TasterMapper tasterMapper;
 	private QuestionsMapper questionsMapper;
 	private RecruitTasterByBizMapper recruitTasterByBizMapper;
+	private AgeMapper ageMapper;
 	
 	public TasterService(
 				TasterMapper tasterMapper
 				, QuestionsMapper questionsMapper
-				, RecruitTasterByBizMapper recruitTasterByBizMapper) {
+				, RecruitTasterByBizMapper recruitTasterByBizMapper
+				, AgeMapper ageMapper) {
 		this.recruitTasterByBizMapper = recruitTasterByBizMapper;
 		this.questionsMapper = questionsMapper;
 		this.tasterMapper = tasterMapper;
+		this.ageMapper = ageMapper;
 	}
 	//8 평가단 상태 업테이트
 	public int updateTaster(Map<String, String> paramMap) {
@@ -106,6 +112,18 @@ public class TasterService {
 	}
 	//1. 모집 리스트
 	public List<RecruitTasterByBiz> getRecruitBBList(String recruitCode){
-		return recruitTasterByBizMapper.selectRecruitBB(recruitCode);
+		//연령코드 String 을 분할한 다음 연령대명 조회 후 세팅하기
+		List<RecruitTasterByBiz> recruitBBList= recruitTasterByBizMapper.selectRecruitBB(recruitCode);
+		if(recruitBBList != null) {
+			for(int i=0; i < recruitBBList.size(); i++) {
+				String[] ageCodeList = recruitBBList.get(i).getStrAgeCodeList().split(",");
+				List<Age> ageList = new ArrayList<Age>();
+				for(String ageCode : ageCodeList) {
+					ageList.add(ageMapper.getAgeList(ageCode).get(0));					
+				}
+				recruitBBList.get(i).setAgeList(ageList);
+			}
+		}
+		return recruitBBList;
 	}
 }

@@ -67,7 +67,7 @@
 			, 0
 			, #{menuCode}
 			, #{recruitFinTime}
-			, null
+			, 'state_confirm_ing'
 			, null
 			, #{strAgeCodeList}
 		)

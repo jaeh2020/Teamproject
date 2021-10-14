@@ -51,13 +51,15 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="detail" th:each="l : ${recruitList}" th:id="${l.recruitTBizCode}">
-                                                <th scope="row" th:text="${lStat.count}"></th>
-                                                <td class="storeName" th:text="${l.storeInfo.storeName}"></td>
-                                                <td th:text="${l.recruitTitle}"><span class="badge badge-primary"></span></td>
-                                                <td class="color-primary"> ~[[${l.recruitFinTime}]]</td>
-                                                <td class="counts" th:text="${l.viewCounts}"></td>
-                                            </tr>
+                                        	<th:block th:each="l : ${recruitList}">
+	                                            <tr th:if="${l.stateCode == 'state_confirm_com'}" class="detail" th:id="${l.recruitTBizCode}">
+	                                                <th scope="row" th:text="${lStat.count}"></th>
+	                                                <td class="storeName" th:text="${l.storeInfo.storeName}"></td>
+	                                                <td th:text="${l.recruitTitle}"><span class="badge badge-primary"></span></td>
+	                                                <td class="color-primary"> ~[[${l.recruitFinTime}]]</td>
+	                                                <td class="counts" th:text="${l.viewCounts}"></td>
+	                                            </tr>
+                                        	</th:block>
                                         </tbody>
                                     </table>
                                 </div> 
