@@ -16,6 +16,9 @@ public interface MemberMapper {
 	//소상공인 승인 상태, 승인자 아이디 변경
 	public int modifyBizConfirm(MemberBiz memberBiz);
 	
+	//소상공인 승인신청 개인 조회
+	public MemberBiz getMemberBizInfoByCode(String bizCode);
+	
 	//소상공인 승인 목록
 	public List<MemberBiz> getMemberBizList();
 	
