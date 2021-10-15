@@ -11,7 +11,7 @@ public class MemberBiz {
 	private String bizReTime;
 	private String bizCompTime;
 	private Statement statement;
-	
+	private Member member;
 	public String getBizCode() {
 		return bizCode;
 	}
@@ -60,19 +60,26 @@ public class MemberBiz {
 	public void setBizCompTime(String bizCompTime) {
 		this.bizCompTime = bizCompTime;
 	}
-	
 	public Statement getStatement() {
 		return statement;
 	}
 	public void setStatement(Statement statement) {
 		this.statement = statement;
 	}
+	public Member getMember() {
+		return member;
+	}
+	public void setMember(Member member) {
+		this.member = member;
+	}
 	@Override
 	public String toString() {
 		return "MemberBiz [bizCode=" + bizCode + ", memberId=" + memberId + ", bizNum=" + bizNum + ", bizFileAtt="
 				+ bizFileAtt + ", bizStatus=" + bizStatus + ", confirmId=" + confirmId + ", bizReTime=" + bizReTime
-				+ ", bizCompTime=" + bizCompTime + ", statement=" + statement + "]";
+				+ ", bizCompTime=" + bizCompTime + ", statement=" + statement + ", member=" + member + "]";
 	}
+	
+	
 	
 	
 }
