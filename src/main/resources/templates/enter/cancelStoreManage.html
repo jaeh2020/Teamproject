@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+<th:block layout:fragment="customCss">
+</th:block>
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customJs">
+
+	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
+    
+</th:block>
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="row">
+		<div class="col-12">
+			 <div class="card">
+	            <div class="card-body">
+	                <h4 class="card-title">입점취소 관리</h4>
+	                <div class="table-responsive m-t-40">
+	                    <table id="myTable" class="table table-bordered table-striped">
+	                        <thead>
+	                            <tr>
+	                                <th>취소코드</th>
+	                                <th>매장명</th>
+	                                <th>요청아이디</th>	                       
+	                                <th>취소사유</th>	                       
+	                                <th>요청등록일시</th>
+	                                <th>요청완료일시</th>
+	                                <th>요청승인아이디</th>
+	                                <th>취소상태</th>
+	                                <th data-orderable="false">승인/취소</th>
+	                            </tr>
+	                        </thead>
+	                         <tbody>
+								<tr th:each="s : ${storeCancelList}">
+									<td th:text="${s.storeCancelCode}"></td>
+									<td th:text="${s.store.storeName}"></td>
+									<td th:text="${s.bizId}"></td>
+									<td th:text="${s.storeCancelAsk}"></td>
+									<td th:text="${s.cancelTime}"></td>
+									<td th:text="${s.cancelComTime}"></td>
+									<td th:text="${s.cancelConfirmId}"></td>
+									<td th:text="${s.statement.stateName}"></td>
+									<td>
+										<a class="confirmBtn btn btn-success text-white">승인</a>
+	                                	<a class="cancelBtn btn btn-danger text-white" >거절</a>
+									</td>
+								</tr>
+							</tbody>
+	                    </table>
+	                </div>
+	            </div>
+	        </div>
+		</div>
+	</div>
+	 
+
+</th:block>
+<!-- End PAge Content -->
+			
+ <!--Custom JavaScript -->
+<th:block layout:fragment="customJsLib">
+	
+	<script type="text/javascript">
+	
+	
+	/* function confirmAlert(callback){
+		 swal.fire({
+			  title: '승인처리하시겠습니까?',
+			  showDenyButton: true,
+			  confirmButtonText: '예',
+			  denyButtonText:'취소',
+			  denyButtonColor: '#d33'
+		}).then((result) => {
+
+			  if (result.isConfirmed) {
+			    Swal.fire({
+			    	title: '승인되었습니다.',
+			    	icon: 'success',	
+			    	showConfirmButton : false
+			    });	
+
+			  }else if (result.isDenied) {
+				    Swal.fire('취소되었습니다.', '', 'info');
+			 }
+			  callback(result.isConfirmed);
+			});
+	}
+	$(function(){
+		$('.confirmBtn').on("click", function(){
+			var recruitBCode = $(this).parent().parent().find('.recruitCode').text();
+			var stateName = $(this).parent().parent().find('.stateName').text();
+			if(stateName == '승인완료'){
+				 Swal.fire({
+				    	title: '이미 승인처리된 항목입니다!',
+				    	icon: 'info',	
+				    	showConfirmButton : false
+				    });	
+			}else{
+				confirmAlert(function(checked){
+					if (checked) {
+			            window.location.href = "/taster/changeState?recruitCode="+ recruitBCode + "&state=승인";
+			        }
+				});				
+			}
+		});
+	});
+	function cancleAlert(callback){
+		swal.fire({
+			  title: '승인 거절 하시겠습니까?',
+			  showDenyButton: true,
+			  confirmButtonText: '예',
+			  denyButtonText: '아니오',
+			  denyButtonColor: '#d33'
+		}).then((result) => {
+			  if (result.isConfirmed) {
+			    Swal.fire('거절 되었습니다.', '', 'success');
+
+			  }else if (result.isDenied) {
+				    Swal.fire('취소되었습니다.', '', 'info');
+				 }
+			  callback(result.isConfirmed);
+			});
+	}
+	$(function(){
+		$('.cancelBtn').on("click", function(){
+			var recruitBCode = $(this).parent().parent().find('.recruitCode').text();
+			cancleAlert(function(checked){
+				if (checked) {
+		            window.location.href = "/taster/changeState?recruitCode="+ recruitBCode + "&state=취소";
+		        }
+			});
+		});
+	});
+	 */
+	</script>
+	
+
+
+   
+</th:block>
+    
+    
+</body>
+</html>

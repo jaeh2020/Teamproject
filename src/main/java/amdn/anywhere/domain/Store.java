@@ -13,9 +13,8 @@ public class Store {
 	private String storeHoliday;
 	private String storeTasteAgree;
 	private String storeExposAgree;
-	private String storePhoto;
-	private String storeTableNum;
-	private String storeOccupancy;
+	private int storeTableNum;
+	private int storeOccupancy;
 	private Waiting waiting;
 	private FoodMainCate foodMainCate;
 	public String getStoreCode() {
@@ -90,22 +89,16 @@ public class Store {
 	public void setStoreExposAgree(String storeExposAgree) {
 		this.storeExposAgree = storeExposAgree;
 	}
-	public String getStorePhoto() {
-		return storePhoto;
-	}
-	public void setStorePhoto(String storePhoto) {
-		this.storePhoto = storePhoto;
-	}
-	public String getStoreTableNum() {
+	public int getStoreTableNum() {
 		return storeTableNum;
 	}
-	public void setStoreTableNum(String storeTableNum) {
+	public void setStoreTableNum(int storeTableNum) {
 		this.storeTableNum = storeTableNum;
 	}
-	public String getStoreOccupancy() {
+	public int getStoreOccupancy() {
 		return storeOccupancy;
 	}
-	public void setStoreOccupancy(String storeOccupancy) {
+	public void setStoreOccupancy(int storeOccupancy) {
 		this.storeOccupancy = storeOccupancy;
 	}
 	public Waiting getWaiting() {
@@ -126,8 +119,8 @@ public class Store {
 				+ bizId + ", storeLocation=" + storeLocation + ", storeTime=" + storeTime + ", storePhone=" + storePhone
 				+ ", mainCateCode=" + mainCateCode + ", mainCateCode2=" + mainCateCode2 + ", storeHoliday="
 				+ storeHoliday + ", storeTasteAgree=" + storeTasteAgree + ", storeExposAgree=" + storeExposAgree
-				+ ", storePhoto=" + storePhoto + ", storeTableNum=" + storeTableNum + ", storeOccupancy="
-				+ storeOccupancy + ", waiting=" + waiting + ", foodMainCate=" + foodMainCate + "]";
+				+ ", storeTableNum=" + storeTableNum + ", storeOccupancy=" + storeOccupancy + ", waiting=" + waiting
+				+ ", foodMainCate=" + foodMainCate + "]";
 	}
 	
 	

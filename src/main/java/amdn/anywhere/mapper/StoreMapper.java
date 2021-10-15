@@ -5,12 +5,42 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import amdn.anywhere.domain.FoodMainCate;
+import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.Menu;
+import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
+import amdn.anywhere.domain.StoreCancel;
 import amdn.anywhere.domain.Table;
 
 @Mapper
 public interface StoreMapper {
+	
+	//승인버튼시 상태.완료일시.승인완료아이디 update
+	public int modifyStoreCancel(StoreCancel storeCancel);
+	
+	//입점취소신청 리스트 조회
+	public List<StoreCancel> getStoreCancelList();
+	
+	//나의 입점취소현황 조회
+	public List<StoreCancel> getmyCancelStoreList(String bizId);
+	
+	//취소요청 상태코드 가져오기
+	public Statement getCancelStatement();
+	
+	//입점취소신청 전송
+	public int cancelStore(StoreCancel storeCancel);
+	
+	//취소코드 자동증가
+	public String getNewCancelCode();
+	
+	//입점등록처리
+	public int addMyStore(Store store);
+	
+	//매장코드 자동증가
+	public String getNewStoreCode();
+	
+	//소상공인코드 조회 
+	public MemberBiz getBizCode(String bizId);
 	
 	//나의매장 테이블코드 자동증가
 	public String getNewStoreTableCode();
