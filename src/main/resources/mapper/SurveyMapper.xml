@@ -23,7 +23,7 @@
 	<update id="updateSurvey" parameterType="String">
 		UPDATE tb_question_create
 			SET
-				numOfParti = numOfParti + 1
+				num_of_parti = num_of_parti + 1
 		WHERE recruit_taster_biz_code = #{recruitCode}
 	</update>
 	<delete id="deleteSurvey" parameterType="String">

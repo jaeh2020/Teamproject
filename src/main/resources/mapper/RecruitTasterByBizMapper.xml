@@ -99,7 +99,7 @@
 			tb_taster_recruit_biz
 	
 	</select>
-	<select id="selectRecruitBB" resultMap="recruitTasterBBResultMap" parameterType="String">
+	<select id="selectRecruitBB" resultMap="recruitTasterBBResultMap" parameterType="Map">
 		SELECT 
 			t.recruit_taster_biz_code
 			, t.store_code
@@ -139,6 +139,9 @@
 		<where>
 			<if test="recruitCode != null">
 				t.recruit_taster_biz_code = #{recruitCode}
+			</if>
+			<if test="bizId != null">
+				t.biz_id = #{bizId}
 			</if>
 		</where>
 	</select>

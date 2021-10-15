@@ -1,6 +1,7 @@
 package amdn.anywhere.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,13 @@ public class TasterService {
 		this.tasterMapper = tasterMapper;
 		this.ageMapper = ageMapper;
 	}
+	//9 평가단 생년월일로 나이 추출하기
+	public int getAgeFromBirth(String memberBirth) {
+		int birthYear = Integer.parseInt(memberBirth.substring(0, 4));
+		int nowYear = Calendar.getInstance().get(Calendar.YEAR);
+		int age = nowYear - birthYear +1;
+		return age;
+	}
 	//8 평가단 상태 업테이트
 	public int updateTaster(Map<String, String> paramMap) {
 		return tasterMapper.updateTaster(paramMap);
@@ -46,8 +54,10 @@ public class TasterService {
 		//코드 생성 및 세팅
 		String newCode = tasterMapper.createTasterCode();
 		taster.setApplyCode(newCode);
-		
-		String storeCode = recruitTasterByBizMapper.selectRecruitBB(taster.getRecruitBCode()).get(0).getStoreCode();
+		String recruitCode = taster.getRecruitBCode();
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("recruitCode", recruitCode);
+		String storeCode = recruitTasterByBizMapper.selectRecruitBB(paramMap).get(0).getStoreCode();
 		taster.setStoreCode(storeCode);
 	
 		return tasterMapper.addTaster(taster);
@@ -57,9 +67,13 @@ public class TasterService {
 		//평가단 목록 가져온후 
 		List<Taster> tasterList = tasterMapper.getTasterList(paramMap);
 		// 평가단별 모집정보 세팅하기
+		Map<String, String> map = new HashMap<String, String>();
 		for(int i=0; i < tasterList.size(); i++) {
-			RecruitTasterByBiz recruitTasterByBiz= recruitTasterByBizMapper.selectRecruitBB(tasterList.get(i).getRecruitBCode()).get(0);
+			String recruitCode = tasterList.get(i).getRecruitBCode();
+			map.put("recruitCode", recruitCode);
+			RecruitTasterByBiz recruitTasterByBiz= recruitTasterByBizMapper.selectRecruitBB(map).get(0);
 			tasterList.get(i).setRecruitTasterByBiz(recruitTasterByBiz);
+			map.clear();
 		}
 		return tasterList;
 	}
@@ -110,10 +124,19 @@ public class TasterService {
 	public int updateRecruitBBiz(Map<String, String> paramMap) {
 		return recruitTasterByBizMapper.updateRecruitBBiz(paramMap);
 	}
+	
 	//1. 모집 리스트
-	public List<RecruitTasterByBiz> getRecruitBBList(String recruitCode){
+	public List<RecruitTasterByBiz> getRecruitBBList(String recruitCode, String bizId){
+		Map<String, String> paramMap = new HashMap<String, String>();
+		if(recruitCode != null) {
+			paramMap.put("recruitCode", recruitCode);
+		}
+		if(bizId != null) {
+			paramMap.put("bizId", bizId);		
+		}
+		
 		//연령코드 String 을 분할한 다음 연령대명 조회 후 세팅하기
-		List<RecruitTasterByBiz> recruitBBList= recruitTasterByBizMapper.selectRecruitBB(recruitCode);
+		List<RecruitTasterByBiz> recruitBBList= recruitTasterByBizMapper.selectRecruitBB(paramMap);
 		if(recruitBBList != null) {
 			for(int i=0; i < recruitBBList.size(); i++) {
 				String[] ageCodeList = recruitBBList.get(i).getStrAgeCodeList().split(",");

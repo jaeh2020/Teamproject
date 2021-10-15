@@ -21,9 +21,11 @@ import amdn.anywhere.domain.QuestionAnswer;
 import amdn.anywhere.domain.QuestionCate;
 import amdn.anywhere.domain.Questionnaire;
 import amdn.anywhere.domain.RecruitTasterByBiz;
+import amdn.anywhere.domain.Store;
 import amdn.anywhere.domain.Survey;
 import amdn.anywhere.domain.Taster;
 import amdn.anywhere.service.QuestionService;
+import amdn.anywhere.service.StoreService;
 import amdn.anywhere.service.TasterService;
 
 @Controller
@@ -32,10 +34,33 @@ public class QuestionController{
 
 	private TasterService tasterService;
 	private QuestionService questionService;
+	private StoreService storeService;
 	
-	public QuestionController(QuestionService questionService,TasterService tasterService ){
+	public QuestionController(
+			QuestionService questionService
+			,TasterService tasterService
+			, StoreService storeService){
+
 		this.tasterService = tasterService;
 		this.questionService = questionService;
+		this.storeService = storeService;
+		
+	}
+	//15. 내설문조사 결과 페이지 이동
+	@GetMapping("/surveyResult")
+	public String surveyResult(HttpSession session, Model model) {
+		String bizId = (String) session.getAttribute("SID");
+		Map<String, Object> paramMap = storeService.getMyStoreList(bizId);
+		if(paramMap != null) {
+			@SuppressWarnings("unchecked")//?
+			List<Store> storeList = (List<Store>) paramMap.get("storeList");
+			if(storeList != null) {
+				model.addAttribute("storeList", storeList);				
+			}
+		}
+		model.addAttribute("title", "설문조사 결과 확인");
+		model.addAttribute("location", "설문조사 결과 확인");
+		return "/survey/surveyResult";
 	}
 	//14. 설문조사 제출
 	@PostMapping("/doSurvey")
@@ -77,7 +102,7 @@ public class QuestionController{
 			//설문지 정보 -> 참여인원 업뎃.
 			questionService.updateServey(recruitBCode);
 		}
-		return "redirect:/survey/myList";
+		return "redirect:/survey/mySurveyList";
 	}
 	
 	//13. 설문조사 참여 화면 이동
@@ -85,7 +110,7 @@ public class QuestionController{
 	public String doSurvey(Model model
 				,@RequestParam(value="recruitCode", required = false) String recruitCode) {
 		
-		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitCode).get(0);
+		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitCode, null).get(0);
 		String[] cateList = recruitInfo.getStrCateList().split(",");
 		int length = cateList.length;
 		List<Questionnaire> questionList = new ArrayList<Questionnaire>();
@@ -102,7 +127,7 @@ public class QuestionController{
 		}
 
 		model.addAttribute("title", "설문조사 참여하기");
-		model.addAttribute("location1URL", "/survey/myList");
+		model.addAttribute("location1URL", "/survey/mySurveyList");
 		model.addAttribute("location1", "내 설문조사");
 		model.addAttribute("location2", "설문조사 참여하기");
 		model.addAttribute("recruitInfo", recruitInfo);
@@ -111,17 +136,19 @@ public class QuestionController{
 		return "/survey/doSurvey";
 	}
 	//12. 내 설문조사 목록
-	@GetMapping("/myList")
-	public String myList(HttpSession session, Model model) {
+	@GetMapping("/mySurveyList")
+	public String mySurveyList(HttpSession session, Model model) {
 		String id = (String) session.getAttribute("SID");
 		//세션아이디로 평가단조회
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("userId", id);//소비자 아이디 가정
 		List<Taster> myList = tasterService.getTasterList(paramMap);
-		model.addAttribute("title", "내 설문조사");
-		model.addAttribute("location", "내 설문조사");
-		model.addAttribute("myList", myList);
-		return "/survey/myList";
+
+			model.addAttribute("title", "내 설문조사");
+			model.addAttribute("location", "내 설문조사");
+			model.addAttribute("myList", myList);
+			
+		return "/survey/mySurveyList";
 	}
 	//11. 설문조사 삭제 처리
 	@GetMapping("/deleteSurvey")
@@ -219,9 +246,10 @@ public class QuestionController{
 					, HttpSession session) {
 			
 		QuestionCate qCate = new QuestionCate();
+		String id = (String) session.getAttribute("SID");
 		qCate.setCateCode(defaultCode + newCateCode);
 		qCate.setCateName(newCateName);
-		qCate.setCateAddId("id001");//관리자 아이디 가정
+		qCate.setCateAddId(id);//관리자 아이디 가정
 		questionService.addQCate(qCate); 
 		return "redirect:/survey/questionManage";
 	}
