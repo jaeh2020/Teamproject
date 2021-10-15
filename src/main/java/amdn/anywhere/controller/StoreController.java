@@ -68,6 +68,8 @@ public class StoreController {
 		Map<String, Object> paramMap = storeService.getMyStoreList(bizId);
 
 		model.addAttribute("storeList", paramMap.get("storeList"));
+		model.addAttribute("title", "나의 매장 테이블 등록");
+		model.addAttribute("location", "나의 매장 테이블 등록");
 
 		
 		return "/store/myStoreManage/addMyTable";
@@ -139,9 +141,6 @@ public class StoreController {
 		
 		//메뉴 대분류명 가져오기
 		Map<String, Object> paramMap = storeService.getMyMainCateOnly(storeCode);
-		
-		//메뉴카테 가져오기 (메인/사이드)
-		
 
 		model.addAttribute("mainCateOnly", paramMap.get("mainCateOnly"));
 		model.addAttribute("mainCateOnly2", paramMap.get("mainCateOnly2"));
@@ -176,7 +175,7 @@ public class StoreController {
 		//메뉴 대분류명 가져오기
 		Map<String, Object> paramMap = storeService.getMyMainCateOnly(storeCode);
 		
-		//메뉴 대분류 조회
+		//메뉴 대분류 전체 조회
 		List<FoodMainCate> mainCate = storeService.getMainCate();
 				
 		model.addAttribute("mainCateOnly", paramMap.get("mainCateOnly"));
