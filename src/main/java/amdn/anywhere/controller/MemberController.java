@@ -20,6 +20,7 @@ import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
+import amdn.anywhere.domain.Statement;
 import amdn.anywhere.service.MemberService;
 
 
@@ -36,13 +37,21 @@ public class MemberController {
 	@GetMapping(value="/modifyBizConfirm", produces = "application/json")
 	@ResponseBody
 	public String modifyBizConfirm(	@RequestParam(value = "bizCode") String bizCode
-									) {
+									,@RequestParam(value = "memberId") String memberId
+									,@RequestParam(value = "state") String state) {
 		
 		System.out.println("bizCode : " + bizCode);
-		 
+		System.out.println("memberId : " + memberId);
+		System.out.println("state : " + state);
+		
 		MemberBiz memberBiz = memberService.getMemberBizInfoByCode(bizCode);
 		
-		System.out.println("memberBiz : " + memberBiz);
+		memberBiz.setConfirmId(memberId);
+		memberBiz.setBizStatus(state);
+		
+		memberService.modifyBizConfirm(memberBiz);
+		
+		System.out.println("memberBiz 수정완료? : " + memberBiz);
 
 		return "memberBiz";
 	}
@@ -107,7 +116,7 @@ public class MemberController {
 		}
 		
 		//승인 신청하면 소상공인마이페이지로 가도록 경로 수정 필요
-		return "redirect:/member/myPageBiz";
+		return "redirect:/member/myPageBiz?memberId="+memberBiz.getMemberId();
 	}
 	
 	@GetMapping("/member/addBizConfirm")
@@ -118,15 +127,21 @@ public class MemberController {
 		return "/member/addBizConfirm";
 	}
 	
-	//마이페이지 myPage
+	//마이페이지 myPageBiz
 	@GetMapping("/member/myPageBiz")
 	public String myPageBiz(@RequestParam(name = "memberId", required = false) String memberId
+							,Member member
 							,Model model) {
 		
+		MemberBiz memberBiz = memberService.getMemberBizInfoByCode(memberId);
+		System.out.println("memberBiz"+memberBiz);
+		if(memberBiz == null) {
+			return "redirect:/member/addBizConfirm";
+		}
 		
-		
-		model.addAttribute("title", "회원가입  > MYPAGE");
-		model.addAttribute("location", "회원가입  > MYPAGE");
+		model.addAttribute("title", "MYPAGE");
+		model.addAttribute("location", "MYPAGE");
+		model.addAttribute("memberBiz", memberBiz);
 		
 		return "/member/myPageBiz";
 	}
@@ -140,8 +155,8 @@ public class MemberController {
 		MemberUser memberUser = memberService.getMemberUserInfoById(userId);
 		System.out.println("memberUser"+memberUser);
 		
-		model.addAttribute("title", "회원가입  > MYPAGE");
-		model.addAttribute("location", "회원가입  > MYPAGE");
+		model.addAttribute("title", "MYPAGE");
+		model.addAttribute("location", "MYPAGE");
 		model.addAttribute("memberUser", memberUser);
 		
 		return "/member/myPage";
@@ -197,16 +212,28 @@ public class MemberController {
 	public String login( @RequestParam(name = "memberId", required = false) String memberId
 						,@RequestParam(name = "memberPw", required = false) String memberPw
 						, HttpSession session
-						, RedirectAttributes redirecAttr) {
+						, RedirectAttributes redirecAttr
+						, MemberBiz memberBiz) {
 		//1 회원이 있다
 		if(memberId != null && !"".equals(memberId) &&
 			memberPw != null && !"".equals(memberPw)) {
 			Member member = memberService.getMemberInfoById(memberId);
-			if(member != null) {
+
+			//비즈 로그인 시
+			if(member != null && member.getLevelCode().equals("level_biz")) {
 				if(memberPw.equals(member.getMemberPw())) {
 					session.setAttribute("SID", memberId);
 					session.setAttribute("SLEVEL", member.getLevelCode());
 					session.setAttribute("SNAME", member.getMemberName());
+
+					return "redirect:/member/myPageBiz?memberId="+memberBiz.getMemberId();
+				}
+			}else {
+				if(memberPw.equals(member.getMemberPw())) {
+					session.setAttribute("SID", memberId);
+					session.setAttribute("SLEVEL", member.getLevelCode());
+					session.setAttribute("SNAME", member.getMemberName());
+					
 					return "redirect:/";
 				}
 			}

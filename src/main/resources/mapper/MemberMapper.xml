@@ -88,6 +88,9 @@
 			m.biz_status = s.state_code
 		WHERE
 			biz_code = #{bizCode};
+		<!-- 마이페이지에서는 이거 써야함 where에 조건을 줘서 수정 필요!
+		WHERE
+			member_id = #{memberId}; -->
 	</select>
 	
 	<!-- 소상공인 승인 신청 관리자가!!조회 -->

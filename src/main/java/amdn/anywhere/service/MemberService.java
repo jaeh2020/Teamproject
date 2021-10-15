@@ -26,8 +26,8 @@ public class MemberService {
 	}
 	
 	//소상공인 승인 신청 개인!!!조회
-	public MemberBiz getMemberBizInfoByCode(String bizCode) {
-		return memberMapper.getMemberBizInfoByCode(bizCode);
+	public MemberBiz getMemberBizInfoByCode(String memberId) {
+		return memberMapper.getMemberBizInfoByCode(memberId);
 	}
 	
 	//소상공인 승인 목록

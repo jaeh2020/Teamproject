@@ -8,20 +8,8 @@
 	
 <!-- css -->
 <style type= "text/css">
-	.circle{
-		width: 80px;
-		height: 80px;
-		border-radius: 50%;
-		border: 3px #483D8B solid;
-		background: #fff;
-		font-size: 20px;
-		font-weight : bold;
-		text-align: center;
-		line-height: 80px;
-		margin: 0px 0 10px 20px;
-	}
-	.col-lg-5{
-		padding: 10px;
+	.col-lg-9{
+		margin: 0;
 	}
 	.col-lg-1{
 		padding: 0;
@@ -29,8 +17,8 @@
 	hr{
 		height: 70px;
 		width: 0px;
-		border : 1px solid #1E3269;
-		background-color: #1E3269;
+		border : 1px solid #d2d2d2	;
+		background-color: #d2d2d2	;
 	}
 	.wrap {
 		text-align: center;
@@ -42,8 +30,18 @@
 	.btn{
 		width: 80px;
 	}
-	a{
-		display: block;
+	.listWrap{
+		text-align: center;
+	}
+	.list{
+		display: inline-block;
+		width: 200px;
+		height: 200px;
+		margin: 20px;
+	}
+	.state{
+		color: #A0AFFF;
+		font-weight: bold;
 	}
 </style>
 </th:block>
@@ -51,99 +49,31 @@
 
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
-	<div class="row">
 		<!-- 왼쪽부분 -->
-		<div class="col-lg-3">
-			<div class="card sidebar">
-				<table class="table table-hover ">
-					<thead>
-						<tr><th>마이페이지</th></tr>
-					</thead>
-                    <tbody>
-                        <tr><td><a th:href="@{/member/myInfo(memberId=${session.SID})}">내정보</a></td></tr>
-                        <tr><td><a th:href="@{/member/myaddBizConfirm}">소상공인 승인신청</a></td></tr>
-                        <tr><td><a th:href="@{#}">??</a></td></tr>
-                        <tr><td><a th:href="@{#}">고객센터</a></td></tr>
-                        <tr><td><a th:href="@{/member/deleteMember(memberId=${session.SID})}">회원탈퇴</a></td></tr>
-                    </tbody>
-		        </table>
-			</div>
-		</div>
-		
-		<div class="col-lg-9 ">
-			<div class="card card-outline-primary">
-	            			<!-- ----------------------------------------------------------- -->
-	            			 <!-- 프로필 -->
-	            			 <div class="row">
-	            			 	
-	            			 	<div class="col-lg-5">
-	            			 		<h3> [[${session.SNAME}]] 님 ></h3>
-	            			 	</div>
-	            			 	<div class="col-lg-2"></div>
-	            			 </div>
-	            			 
-	            			 <!-- 프로필 하단 -->
-	            			 
-	            			 
-	            			 
-	        	</div>
+	<div class="card">
+	
+		        <h4>[[${session.SNAME}]] 사장님은 </h4>
+		        <h3>소상공인 승인이 <span class="state">[[${memberBiz.statement.stateName}]]</span> 상태 입니다.</h3>
 
-					<table class="table">
-				            	<tbody>
-				            		<tr>
-					            		<td>아이디</td>
-					            		<td>[[${memberUser.userId}]]</td>
-				            		</tr>
-				            		<tr>
-					            		<td>멤버쉽</td>
-					            		<td>[[${memberUser.membership.msLevel}]]</td>
-				            		</tr>
-				            		<tr>
-					            		<td>주문건수</td>
-					            		<td>[[${memberUser.userOrderTotal}]]</td>
-				            		</tr>
-				            		<tr>
-					            		<td>포인트</td>
-					            		<td>[[${memberUser.userPoint}]]</td>
-				            		</tr>
-				            		<tr>
-					            		<td>평가단여부</td>
-					            		<td>[[${memberUser.userEvaluator}]]</td>
-				            		</tr>
-				            		<tr>
-					            		<td>신고횟수</td>
-					            		<td>[[${memberUser.reportScore}]]</td>
-				            		</tr>
-				            		<tr>
-					            		<td>할인율</td>
-					            		<td>[[${memberUser.membership.msDis}]]</td>
-				            		</tr>
-				            		
-				            	</tbody>
-	            			</table>   
-
-		</div>
 	</div>
-</th:block>
+		
+		<div class="card card-outline-primary" >
+    		<!-- 프로필 하단 -->
+   			 <div class="listWrap">
+   			 	<div class="list"><a th:href="@{/member/myInfo(memberId=${session.SID})}"><i class="bi bi-emoji-sunglasses f-s-60"></i><h4>내정보</h4></a></div>
+   			 	<div class="list"><a th:href="@{#}"><i class="bi bi-file-text f-s-60"></i></i><h4>???</h4></a></div>
+   			 	<div class="list"><a th:href="@{#}"><i class="bi bi-question-octagon f-s-60"></i><h4>고객센터</h4></a></div>
+   			 	<div class="list"><a th:href="@{#}"><i class="bi bi-person-x f-s-60"></i><h4>회원탈퇴</h4></a></div>   			 	
+   			 </div>
+        </div>
 
+</th:block>
 
 <th:block layout:fragment="customJsLib">
 	<script th:src="@{/js/lib/owl-carousel/owl.carousel.min.js}"></script>
     <script th:src="@{/js/lib/owl-carousel/owl.carousel-init.js}"></script>
 	<script type="text/javascript">
-		$(function(){
-    	
-			$('.circle').click(function(){
-			
-				var level= '';
-				
-				level += ;
-				
-				Swal.fire(level);
-			
-			});
-			
-		});
+		
 	</script>
 </th:block>
 </html>

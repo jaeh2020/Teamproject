@@ -75,7 +75,6 @@
 		                    </tr>
 	               		</tbody>
 	            	</table>
-	            	<button type="button" class="test sweet-prompt">test</button>
 	        	</div>
 			</div>
 		</div>
@@ -86,36 +85,57 @@
 
 <th:block layout:fragment="customJsLib">
 	<script th:src="@{/js/lib/sweetalert/sweetalert.min.js}"></script>
-    <script th:src="@{/js/lib/sweetalert/sweetalert.init.js}"></script>
 	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
     <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
     <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
     <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
 	<script type="text/javascript">
 		$(function(){
-		 $('.modiSelect').on('click',function(){
+		 	$('.modiSelect').on('click',function(){
 				var bizCode = $(this).attr("id");
-	            console.log(bizCode,'bizCode');
+				var memberId = "id002";
+				var state = "state_store_cancle_com";
+	            console.log(memberId,'memberId');
 	            
 	            var request = $.ajax({
 	    			  url: "/modifyBizConfirm", //요청 주소
 	    			  method: "GET", //요청 방식
-	    			  data: {"bizCode" : bizCode}, //전달 할 파라미터
+	    			  data: {"memberId" : memberId, "bizCode" : bizCode, "state":state}, //전달 할 파라미터
 	    			  dataType: "html" //받아 올 포맷방식
   				});
 	          	//응답이 완료 되었을 경우 실행
 				request.done(function( data ) {
 				  console.log(data,"data");
-				  
-				 	/* var cform= '';
-					
-				  	cform += '<form th:action="@{#}">';
-				  	cform += '<div class="form-group"><label>승인자</label><input type="text" class="form-control" id="confirmId" name="confirmId" th:value="${session.SID}"></div>';
-				  	cform += '<div class="form-group"><label>승인상태</label><input type="text" class="form-control" id="bizStatus" name="bizStatus" value="state_store_cancle_com"></div>	';
-				  	cform += '</form>';
+				  console.log(data)
+				  //승인하시겠습니까? 네/아니오/취소
+				//1. swal의 위치 바꾸기
+				//2. 승인 거절할때 입력값다르게 하려면?
+						//3. 버튼을 누를 수 있게? 효과 줄 필요있음
+								//4.바뀐 결과 색을 바꿀필요있음
+
 				
-					Swal.fire(cform);
-					 */
+				swal({
+			            title: "승인 하시겠습니까?",
+			            text: "승인 후에는 수정이 불가합니다.",
+			            type: "info",
+			            showCancelButton: true,
+			            confirmButtonColor: "#CB7776",
+			            confirmButtonText: "승인완료",
+			            cancelButtonText: "승인거절",
+			            closeOnConfirm: true,
+			            closeOnCancel: true
+			        },
+			        function(isConfirm){
+			            if (isConfirm) {
+			            	console.log('성공?');
+			            	location.reload();
+			            	
+			            }
+			            else {
+			            	console.log('거절?');
+			            	
+			            }
+			        }); 
 					
 				});
 	          	//응답 실패
