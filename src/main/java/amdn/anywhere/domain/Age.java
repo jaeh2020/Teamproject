@@ -3,8 +3,8 @@ package amdn.anywhere.domain;
 public class Age {
 	private String ageCode;
 	private String ageGroup;
-	private String ageFrom;
-	private String ageTo;
+	private int ageFrom;
+	private int ageTo;
 	public String getAgeCode() {
 		return ageCode;
 	}
@@ -17,16 +17,16 @@ public class Age {
 	public void setAgeGroup(String ageGroup) {
 		this.ageGroup = ageGroup;
 	}
-	public String getAgeFrom() {
+	public int getAgeFrom() {
 		return ageFrom;
 	}
-	public void setAgeFrom(String ageFrom) {
+	public void setAgeFrom(int ageFrom) {
 		this.ageFrom = ageFrom;
 	}
-	public String getAgeTo() {
+	public int getAgeTo() {
 		return ageTo;
 	}
-	public void setAgeTo(String ageTo) {
+	public void setAgeTo(int ageTo) {
 		this.ageTo = ageTo;
 	}
 	@Override

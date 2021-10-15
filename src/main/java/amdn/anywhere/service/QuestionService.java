@@ -1,6 +1,7 @@
 package amdn.anywhere.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +60,9 @@ public class QuestionService {
 	}
 	//설문조사 등록
 	public int addSurvey(String recruitCode) {
-		List<RecruitTasterByBiz> recruitList =recruitTasterByBizMapper.selectRecruitBB(recruitCode);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("recruitCode", recruitCode);
+		List<RecruitTasterByBiz> recruitList =recruitTasterByBizMapper.selectRecruitBB(paramMap);
 		Survey newSurvey = new Survey();
 		if(recruitList.get(0) != null) {
 			RecruitTasterByBiz recruitInfo = recruitList.get(0);

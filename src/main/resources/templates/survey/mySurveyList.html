@@ -46,7 +46,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        	<th:block th:if="${myList != null}">
+                                        	<th:block th:if="${#lists.size(myList) != 0}">
 	                                            <tr th:each="l : ${myList}" class="doSurvey" th:id= ${l.recruitBCode}>
 	                                                <th th:text="${lStat.count}" scope="row"></th>
 	                                                <td th:text="${l.storeName}" class="storeName"></td>
@@ -56,11 +56,9 @@
 	                                                <td th:text="${l.applyTime}" class="counts"></td>
 	                                            </tr>
                                             </th:block>
-                                            <th:block th:unless="${myList != null}">
-	                           					<tr th:unless="${myList != null}">
+	                           					<tr th:unless="${#lists.size(myList) != 0}">
 	                                        		<td colspan="5"> 등록된 설문조사가 없습니다.</td>
 	                                        	</tr>
-	                                        </th:block>
                                         </tbody>
                                     </table>
                                 </div> 

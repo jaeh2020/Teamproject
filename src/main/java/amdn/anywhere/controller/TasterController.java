@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.RecruitTasterByBiz;
 import amdn.anywhere.domain.Taster;
+import amdn.anywhere.service.MemberService;
 import amdn.anywhere.service.QuestionService;
+import amdn.anywhere.service.StoreService;
 import amdn.anywhere.service.TasterService;
 
 @Controller
@@ -26,12 +29,46 @@ public class TasterController {
 	
 	private TasterService tasterService;
 	private QuestionService questionService;
+	private MemberService memberService;
+	
 
 	
-	public TasterController(TasterService tasterService, QuestionService questionService) {
+	public TasterController(
+			TasterService tasterService
+			, QuestionService questionService
+			, MemberService memberService ) {
+
 		this.tasterService = tasterService;
 		this.questionService = questionService;
+		this.memberService = memberService;
 	}
+	//평가단 모집 현황(소상공인)
+	@GetMapping("/myRecruitList")
+	public String myRecruitList(Model model, HttpSession session) {
+		String id = (String)session.getAttribute("SID");
+		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null, id);
+
+		model.addAttribute("title", "모집 신청 현황");
+		model.addAttribute("location", "모집 신청 현황");
+		model.addAttribute("recruitList", recruitList);
+		
+		return "/taster/myRecruitList";
+	}
+	
+	//평가단 신청 버튼 클릭시 ajax 로 나이체크하기
+	@GetMapping(value="/ageCheck", produces = "application/json")
+	@ResponseBody
+	public int ageCheck(HttpSession session) {
+		int age = 0;
+		if(session != null) {
+			String id = (String)session.getAttribute("SID");
+			Member member = memberService.getMemberInfoById(id);
+			String memberBirth= member.getMemberBirth();
+		 age = tasterService.getAgeFromBirth(memberBirth);				
+		}
+		return age;
+	}
+	
 	//평가단 신청처리
 	@PostMapping("/applyTaster")
 	public String applyTaster( HttpSession session,
@@ -47,8 +84,18 @@ public class TasterController {
 		paramMap.put("nowNum", "Y");
 		paramMap.put("recruitBCode", recruitBCode);
 		tasterService.updateRecruitBBiz(paramMap);
+
 		
-		return "redirect:/taster/tasterList";
+		String redirect = "";
+		if(session.getAttribute("SLEVEL").equals("level_admin")) {
+			//관리자
+			redirect = "redirect:/taster/tasterList";
+
+		}else if(session.getAttribute("SLEVEL").equals("level_user")) {
+			//소비자
+			redirect = "redirect:/survey/myList";
+		}
+		return redirect;
 	}
 	//평가단 관리페이지 이동
 	@GetMapping("/tasterList")
@@ -69,7 +116,7 @@ public class TasterController {
 		paramMap.put("recruitBCode", recruitBCode);		
 		tasterService.updateRecruitBBiz(paramMap);
 		//모집코드로 공고내용 가져오기
-		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitBCode).get(0);
+		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitBCode, null).get(0);
 		model.addAttribute("title", "평가단 모집 공고");
 		model.addAttribute("location1URL", "/taster/recruitNotice");
 		model.addAttribute("location1", "평가단 모집공고");
@@ -81,7 +128,7 @@ public class TasterController {
 	//모집공고 페이지 이동
 	@GetMapping("/recruitNotice")
 	public String recruitNotice(Model model) {
-		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null);
+		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null, null);
 		model.addAttribute("recruitList", recruitList);
 		model.addAttribute("title", "평가단 모집 공고");
 		model.addAttribute("location", "모집 공고");
@@ -115,8 +162,8 @@ public class TasterController {
 	@GetMapping("/recruitList")
 	public String recruitList(Model model) {
 		
-		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null);
-		System.out.println(recruitList);
+		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null, null);
+
 		model.addAttribute("title", "평가단 모집 관리");
 		model.addAttribute("location", "모집 관리");
 		model.addAttribute("recruitList", recruitList);
@@ -130,18 +177,19 @@ public class TasterController {
 	 */
 	@PostMapping("/recruitApplyProcess") 
 	public String recruitApplyProcess(
-			RecruitTasterByBiz recruitByBiz
+			HttpSession session
+			,RecruitTasterByBiz recruitByBiz
 		) {
-		System.out.println(recruitByBiz + " ----------------------------01");
-		recruitByBiz.setBizId("id004"); // 소상공인아이디 가정
+		String id = (String) session.getAttribute("SID");
+		recruitByBiz.setBizId(id); 
 		
 		//모집 추가 처리
 		tasterService.addRecruit(recruitByBiz);
 		return "redirect:/taster/recruitList";
 	}
 	
-	@GetMapping("/recruitApply")
-	public String recruitApply(HttpSession session, Model model) {
+	@GetMapping("/applyRecruit")
+	public String applyRecruit(HttpSession session, Model model) {
 		
 		String bizId = (String)session.getAttribute("SID");
 		
@@ -152,7 +200,7 @@ public class TasterController {
 		model.addAttribute("title", "평가단 모집하기");
 		model.addAttribute("location", "평가단 모집하기");
 		
-		return "/taster/recruitApply";
+		return "/taster/applyRecruit";
 	}
 	
 	//ajax
