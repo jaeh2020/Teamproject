@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import amdn.anywhere.domain.Board;
 import amdn.anywhere.domain.Report;
+import amdn.anywhere.domain.Statement;
 import amdn.anywhere.service.ReportService;
 
 @Controller
@@ -27,6 +29,17 @@ public class ReportController {
 		 }
 	 
 	
+	 	//벌점 부과 폼 작성
+		@GetMapping("/penaltyAdd")
+		public String penaltyAdd(Model model
+								 ) {
+			model.addAttribute("title", "벌점 부과");
+			
+			
+			return "report/penaltyAdd";
+		}
+	
+	 
 	 //게시판 삭제 처리
 	 @GetMapping("/reportDelete")
 	 public String reportDelete(Report report
@@ -79,10 +92,12 @@ public class ReportController {
 	public String reportBoardList(Model model) {
 		
 		List<Report> reportBoardList = reportService.getReportBoardList();
+		
 
 		model.addAttribute("title", "게시판 신고 목록");
 		model.addAttribute("location", "게시판 신고 목록");
 		model.addAttribute("reportBoardList", reportBoardList);
+		
 
 		return "/report/reportBoardList";
 	}

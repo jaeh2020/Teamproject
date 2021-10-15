@@ -16,7 +16,7 @@
 				</div>
 				<div class="card-body">
 					<div class="basic-elements">
-						<form th:action="@{/board/boardReport}" role="form" id="reportForm" method="post">
+						<form th:action="@{/board/boardBizReport}" role="form" id="reportForm" method="post">
 						<!-- 히든데이터 -->
 						<input type="hidden" name="stateCode" th:value="${reportStatement.stateCode}">
 							<div class="row">
@@ -55,7 +55,7 @@
 	   //취소버튼 alert창
 	   function reportCancel(){
 	   		if(confirm("작성을 그만 두시겠습니까?")){
-	   			location.href = '/board/boardList';
+	   			location.href = '/board/boardBizList';
 	   			return true;
 	   		}else{
 	   			return false;

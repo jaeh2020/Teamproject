@@ -13,25 +13,22 @@
 	<div class="col-lg-12">
 			<div class="card card-outline-info">
 				<div class="card-header">
-					<h4 class="m-b-0 text-white">게시판 신고 처리</h4>
+					<h4 class="m-b-0 text-white">게시판 벌점 처리</h4>
 				</div>
 				<br>
 				<div class="card-body">
-					<form th:action="@{/report/reportBoardCom}" role="form" id="reportBoardForm" method="post" >
-						<!-- 히든 데이터 -->
-						<input type="hidden" name="stateCode" id="stateCode" th:value="${report.stateCode}">
-						<input type="hidden" name="reportCode" id="reportCode" th:value="${report.reportCode}">
+					<form th:action="@{/report/penaltyAdd}" role="form" id="penaltyAddForm" method="post" >
 						
 						<div class="form-body">
-							<h3 class="box-title">Board Report</h3>
+							<h3 class="box-title">Board Penalty</h3>
 							<hr class="m-t-0 m-b-40">
 							<!--/row-->
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group row">
-										<label class="control-label text-right col-md-3">신고 게시글 번호</label>
+										<label class="control-label text-right col-md-3">신고 번호</label>
 										<div class="col-md-9">
-											<input type="text" class="form-control" readonly="readonly" name="boardNum" th:value="${report.boardNum}">
+											<input type="text" class="form-control" readonly="readonly" name="reportCode" >
 										</div>
 									</div>
 								</div>
@@ -39,22 +36,12 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group row">
-										<label class="control-label text-right col-md-3">신고자</label>
+										<label class="control-label text-right col-md-3">신고자 아이디</label>
 										<div class="col-md-9">
-											<input type="text" class="form-control" readonly="readonly" name="userId" th:value="${report.reportId}">
+											<input type="text" class="form-control" readonly="readonly" name="userId" >
 										</div>
 									</div>
-								</div>
-								<!--/span-->
-								<div class="col-md-12">
-									<div class="form-group row">
-										<label class="control-label text-right col-md-3">신고내용</label>
-										<div class="col-md-9">
-											<input type="text"  class="form-control" rows="3"  name="reportContents" th:value="${report.reportContents}" readonly="readonly">
-										</div>
-									</div>
-								</div>
-								<!--/span-->
+								</div>	
 							</div>
 							<!--/row-->
 							<hr>
@@ -62,22 +49,32 @@
 								<!--/span-->
 								<div class="col-md-12">
 									<div class="form-group row">
-										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 신고확정자</label>
+										<label class="control-label text-right col-md-3"><span class="text-danger">*</span>벌점 대상자</label>
 										<div class="col-md-9">
-											<input type="text" class="form-control" readonly="readonly" name="memberId" th:value="${memberId}">
+											<input type="text" class="form-control" readonly="readonly" name="userId" >
 										</div>
 									</div>
 								</div>
 								<div class="col-md-12">
 									<div class="form-group row">
-										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 신고유형</label>
+										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 벌점 부과자</label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" readonly="readonly" name="memberId" >
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group row">
+										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 벌점유형</label>
 										<div class="col-md-9">
 											<select class="form-control custom-select" name="reportCateCode" id="reportCateCode">
 												<option value="">★★ 선택해주세요 ★★</option>
-												<option value="rc_abuse">욕설신고</option>
-												<option value="rc_cancel">악의적인 예약 취소 신고</option>
-												<option value="rc_nowshow">주문 후 미방문 신고 </option>
-												<option value="rc_etc">기타신고</option>
+												<option value="panalty_appliance">평가단 신청 후 미참가 (1/2)</option>
+												<option value="panalty_appliance_noreport">평가단 진행 후 리포트 수행 안함</option>
+												<option value="panalty_appliance_re">평가단 신청 후 미참가 (2/2) </option>
+												<option value="penalty_badword">욕 1회</option>
+												<option value="penalty_cancle">악의적인 예약취소</option>
+												<option value="penalty_noshow">주문 후 미방문</option>
 											</select>
 										</div>
 									</div>

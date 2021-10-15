@@ -49,12 +49,11 @@
 		<result property="reportContents"		column="rep_contents"></result>
 		<result property="reportRegTime"		column="rep_time"></result>
 		<result property="reportConfirmTime"		column="rep_confi_time"></result>
-		<result property="userId"		column="user_id"></result>
+		<result property="reportId"		column="report_id"></result>
 		<result property="memberId"		column="member_id"></result>
 		<result property="stateCode"		column="state_code"></result>
 	</resultMap>
 		
-	
 	
 	
 	
@@ -68,7 +67,7 @@
 			, rep_contents
 			, rep_time
 			, rep_confi_time
-			, user_id
+			, report_id
 			, member_id
 			, state_code)
 			VALUES(
@@ -79,7 +78,7 @@
 			, #{reportContents}
 			, NOW()
 			, NULL
-			, #{userId}
+			, #{reportId}
 			, NULL
 			, #{stateCode});
 	</insert>
@@ -229,16 +228,7 @@
 			state_code = 'state_board_com';
 	</select>
 	
-	
-	<!-- 게시판 카테고리 코드 가져오기 -->
-	<select id="getBoardCateCode" resultType="BoardCate"  parameterType="String" >
-		SELECT
-			b_cate_code AS boardCateCode
-		FROM
-			tb_board_cate 
-		WHERE
-			b_cate_code = 'u_qa';
-	</select>
+
 	
 	
 	<!-- ajax 회원정보 보여주기-->
@@ -269,10 +259,10 @@
 			member_id = #{memberId};
 	</select>
 	
-	<!-- 게시판 등록 -->
-	<insert id="boardWrite" parameterType="Board" >
+	<!-- 공지사항 등록 -->
+	<insert id="boardNoticeWrite" parameterType="Board" >
 		INSERT INTO tb_board_management
-		(board_num    
+		( board_num    
 		, b_cate_code 
 		, board_title  
 		, board_contents  
@@ -285,7 +275,61 @@
 		)
 		VALUES (
 		  #{boardNum}
-		, #{boardCateCode}
+		, 'a_notic'
+		, #{boardTitle}
+		, #{boardContents}
+		, #{boardFile}
+		, NULL
+		, NOW()
+		, #{boardViews}
+		, #{memberId}
+		, #{stateCode});
+	</insert>
+	
+	<!-- 소상공인 게시판 등록 -->
+	<insert id="boardBizWrite" parameterType="Board" >
+		INSERT INTO tb_board_management
+		( board_num    
+		, b_cate_code 
+		, board_title  
+		, board_contents  
+		, board_file_attach  
+		, board_secret  
+		, board_time    
+		, board_views   
+		, member_id    
+		, state_code   
+		)
+		VALUES (
+		  #{boardNum}
+		, 'b_board'
+		, #{boardTitle}
+		, #{boardContents}
+		, #{boardFile}
+		, #{boardSecret}
+		, NOW()
+		, #{boardViews}
+		, #{memberId}
+		, #{stateCode});
+	</insert>
+	
+	<!-- 소비자 게시판 등록 -->
+	<insert id="boardWrite" parameterType="Board" >
+		INSERT INTO tb_board_management
+		( board_num    
+		, b_cate_code 
+		, board_title  
+		, board_contents  
+		, board_file_attach  
+		, board_secret  
+		, board_time    
+		, board_views   
+		, member_id    
+		, state_code   
+		)
+		VALUES (
+		  #{boardNum}
+		, 'u_board'
 		, #{boardTitle}
 		, #{boardContents}
 		, #{boardFile}
@@ -309,9 +353,9 @@
 	</select>
 	
 	
-	<!-- 게시판 리스트 -->
-		<select id="getBoardList" resultMap="borderMap">
-					SELECT 
+	<!-- 공지사항 리스트 -->
+		<select id="getBoardNoticeList" resultMap="borderMap">
+			SELECT 
 				 board_num 
 				,board_title 
 				,member_id
@@ -320,6 +364,34 @@
 			FROM 
 				tb_board_management
 			where
-				b_cate_code = 'u_qa';
+				b_cate_code = 'a_notic';
+		</select>
+	
+	<!-- 소상공인 게시판 리스트 -->
+		<select id="getBoardBizList" resultMap="borderMap">
+			SELECT 
+				 board_num 
+				,board_title 
+				,member_id
+				,board_time 
+				,board_views 
+			FROM 
+				tb_board_management
+			where
+				b_cate_code = 'b_board';
+		</select>
+		
+	<!-- 게시판 리스트 -->
+		<select id="getBoardList" resultMap="borderMap">
+			SELECT 
+				 board_num 
+				,board_title 
+				,member_id
+				,board_time 
+				,board_views 
+			FROM 
+				tb_board_management
+			where
+				b_cate_code = 'u_board';
 		</select>
 </mapper>

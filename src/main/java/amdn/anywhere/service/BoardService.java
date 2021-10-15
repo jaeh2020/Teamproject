@@ -27,6 +27,10 @@ public class BoardService {
 	 }
 	  
 	  //신고 등록
+	  public int boardBizReport(Report report) {
+		  return boardMapper.boardReport(report);
+	  };
+	  //신고 등록
 	  public int boardReport(Report report) {
 		  return boardMapper.boardReport(report);
 	  };
@@ -97,11 +101,6 @@ public class BoardService {
 		  return boardMapper.getboardStatement(boardStatementCode);
 	  }
 	  
-	  //게시판 카테고리 코드 가져오기
-	  public BoardCate getBoardCateCode(String boardCateCode) {
-		  return boardMapper.getBoardCateCode(boardCateCode);
-	  }
-	 
 	  
 	  //회원보기 - ajax처리
 	  public List<Member> getMemberList(){ 
@@ -119,11 +118,35 @@ public class BoardService {
 	  }
 	  
 	  
+	  //공지사항 등록
+	  public int boardNoticeWrite(Board board) {
+		  return boardMapper.boardNoticeWrite(board);
+	  }
 	  
+	  //소상공인 게시물 등록
+	  public int boardBizWrite(Board board) {
+		  return boardMapper.boardBizWrite(board);
+	  }
+	  
+	  //소비자 게시물 등록
 	  public int boardWrite(Board board) {
 		  return boardMapper.boardWrite(board);
 	  }
 	  
+	  
+	  //소상공인 게시글 목록
+	  public List<Board> getBoardNoticeList(){
+		  List<Board> boardNoticeList = boardMapper.getBoardNoticeList();
+		  
+		  return boardNoticeList;
+	  }
+	  
+	  //소상공인 게시글 목록
+	  public List<Board> getBoardBizList(){
+		  List<Board> BoardBizList = boardMapper.getBoardBizList();
+		  
+		  return BoardBizList;
+	  }
 	  
 	  //게시글 목록
 	  public List<Board> getBoardList(){

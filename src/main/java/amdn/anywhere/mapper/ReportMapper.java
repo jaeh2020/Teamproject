@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.Report;
 
 @Mapper
 public interface ReportMapper {
+	
+	
 	
 	//게시판 신고
 	 public int reportDelete(String reportCode);
