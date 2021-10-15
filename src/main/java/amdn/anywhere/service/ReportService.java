@@ -21,6 +21,8 @@ public class ReportService {
 	 }
 	  
 	
+	  
+	  
 	  //게시판 신고 삭제처리
 	  public int reportDelete(String reportCode) {
 		  return reportMapper.reportDelete(reportCode);

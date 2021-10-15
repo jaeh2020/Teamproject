@@ -12,10 +12,38 @@
 		<result property="reportContents"		column="rep_contents"></result>
 		<result property="reportRegTime"		column="rep_time"></result>
 		<result property="reportConfirmTime"		column="rep_confi_time"></result>
-		<result property="userId"		column="user_id"></result>
+		<result property="reportId"		column="report_id"></result>
 		<result property="memberId"		column="member_id"></result>
 		<result property="stateCode"		column="state_code"></result>
 	</resultMap>
+
+
+<!-- 벌점 부과 아이디 가져오기 -->
+<!-- <select id="getpenaltyMemberId" parameterType="String" resultType="">
+	SELECT
+		m.member_id
+	FROM
+		tb_board_management AS m
+		INNER JOIN 
+		tb_report AS r
+		on
+		m.board_num = r.board_num
+	WHERE
+		r.board_num = #{boardNum}
+	GROUP BY
+		m.member_Id;
+</select> -->
+
+
+<!-- 게시판 작성 아이디 가져오기 -->
+<select id="getboardNum" parameterType="String" resultType="Board">
+	SELECT
+		member_id
+	FROM
+		tb_board_management 
+	WHERE
+		board_num = #{baordNum};
+</select>
 
 
 <!-- 게시판 삭제 처리 -->
@@ -26,8 +54,6 @@
 	WHERE 
 		rep_code = #{reportCode};
 </delete>
-
-
 
 
 <!-- 게시판 확정 처리 -->
@@ -55,7 +81,7 @@
 		,rep_contents
 		,rep_time					
 		,rep_confi_time	
-		,user_id
+		,report_id
 		,member_id	
 		,state_code	 
 	FROM
@@ -74,7 +100,7 @@
 		, rep_contents	
 		, rep_time		
 		, rep_confi_time 
-		, user_id		
+		, report_id		
 		, member_id		
 		, state_code	
 	FROM 

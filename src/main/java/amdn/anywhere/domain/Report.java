@@ -8,7 +8,7 @@ public class Report {
 	private String reportContents;
 	private String reportRegTime;
 	private String reportConfirmTime;
-	private String userId;
+	private String reportId;
 	private String memberId;
 	private String stateCode;
 	
@@ -54,11 +54,11 @@ public class Report {
 	public void setReportConfirmTime(String reportConfirmTime) {
 		this.reportConfirmTime = reportConfirmTime;
 	}
-	public String getUserId() {
-		return userId;
+	public String getReportId() {
+		return reportId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setReportId(String reportId) {
+		this.reportId = reportId;
 	}
 	public String getMemberId() {
 		return memberId;
@@ -76,9 +76,10 @@ public class Report {
 	public String toString() {
 		return "Report [reportCode=" + reportCode + ", reportCateCode=" + reportCateCode + ", boardNum=" + boardNum
 				+ ", reviewNum=" + reviewNum + ", reportContents=" + reportContents + ", reportRegTime=" + reportRegTime
-				+ ", reportConfirmTime=" + reportConfirmTime + ", userId=" + userId + ", memberId=" + memberId
+				+ ", reportConfirmTime=" + reportConfirmTime + ", reportId=" + reportId + ", memberId=" + memberId
 				+ ", stateCode=" + stateCode + "]";
 	}
+	
 	
 	
 	
