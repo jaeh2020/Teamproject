@@ -5,6 +5,7 @@ public class StoreCancel {
 	private String storeCancelCode;
 	private String bizId;
 	private String storeCode;
+	private String storeName;
 	private String storeCancelAsk;
 	private String cancelTime;
 	private String cancelComTime;
@@ -29,6 +30,12 @@ public class StoreCancel {
 	}
 	public void setStoreCode(String storeCode) {
 		this.storeCode = storeCode;
+	}
+	public String getStoreName() {
+		return storeName;
+	}
+	public void setStoreName(String storeName) {
+		this.storeName = storeName;
 	}
 	public String getStoreCancelAsk() {
 		return storeCancelAsk;
@@ -75,9 +82,9 @@ public class StoreCancel {
 	@Override
 	public String toString() {
 		return "StoreCancel [storeCancelCode=" + storeCancelCode + ", bizId=" + bizId + ", storeCode=" + storeCode
-				+ ", storeCancelAsk=" + storeCancelAsk + ", cancelTime=" + cancelTime + ", cancelComTime="
-				+ cancelComTime + ", cancelConfirmId=" + cancelConfirmId + ", stateCode=" + stateCode + ", store="
-				+ store + ", statement=" + statement + "]";
+				+ ", storeName=" + storeName + ", storeCancelAsk=" + storeCancelAsk + ", cancelTime=" + cancelTime
+				+ ", cancelComTime=" + cancelComTime + ", cancelConfirmId=" + cancelConfirmId + ", stateCode="
+				+ stateCode + ", store=" + store + ", statement=" + statement + "]";
 	}
 	
 	

@@ -1,6 +1,7 @@
 package amdn.anywhere.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.MemberBiz;
@@ -31,28 +34,47 @@ public class EnterController {
 	
 	
 	
-	//취소신형환에서 승인버튼 누를시 update와 delete
-	@PostMapping("/cancelStoreManage")
-	public String cancelStoreManage(StoreCancel storeCancel) {
+	//취소신청 현황 리스트 에서 승인거절 버튼 누를시 update와 delete
+	@GetMapping("/cancelStoreChangeState")
+	public String cancelStoreChangeState(@RequestParam(value="storeCancelCode", required = false) String storeCancelCode
+										,@RequestParam(value="state",required = false) String state
+										,@RequestParam(value="storeCode",required = false) String storeCode
+										,HttpSession session) {
 		
-		//승인버튼시 상태.완료일시.승인완료아이디 update
-			if(storeCancel != null) {
-			storeService.modifyStoreCancel(storeCancel);
+		
+		String id = (String) session.getAttribute("SID");
+		
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("storeCode", storeCode);
+		paramMap.put("storeCancelCode", storeCancelCode);
+		paramMap.put("state", state);
+		paramMap.put("cancelConfirmId", id);
+		
+		storeService.modifyStoreCancel(paramMap);
+		
+		//승인 완료 후 delete
+		if(state.equals("승인")) {
+			storeService.deleteStore(storeCode);
 		}
-		
 		return "redirect:/enter/cancelStoreManage";
 	}
 	
 	
 	//취소신청 현황리스트 조회
 	@GetMapping("/cancelStoreManage")
-	public String cancelStoreManage(Model model) {
+	public String cancelStoreManage(Model model
+									,HttpSession session) {
+		
+		//세션아이디(로그인되어있는 아이디) 
+		String memberId = (String) session.getAttribute("SID");
 		
 		
 		//취소신청 현황리스트 조회
 		List<StoreCancel> storeCancelList = storeService.getStoreCancelList();
 		
 		
+		model.addAttribute("memberId", memberId);
 		model.addAttribute("storeCancelList", storeCancelList);
 		model.addAttribute("title", "입점취소 관리");
 		model.addAttribute("location", "입점취소 관리");		
@@ -60,8 +82,7 @@ public class EnterController {
 		return "/enter/cancelStoreManage";
 	}
 	
-	
-	
+
 	//입점취소신청 전송
 	@PostMapping("/cancelStore")
 	public String cancelStore(StoreCancel storeCancel) {
@@ -76,6 +97,7 @@ public class EnterController {
 		}
 		return "redirect:/enter/cancelMyStore";
 	}
+	
 	
 	//입점취소신청 등록 화면
 	@GetMapping("/cancelStore")
@@ -110,11 +132,10 @@ public class EnterController {
 		//세션아이디(로그인되어있는 아이디) 
 		String bizId = (String) session.getAttribute("SID");
 		
-		//나의입점취소현황 조회
+		//나의입점취소현황  조회
 		Map<String, Object> paramMap = storeService.getmyCancelStoreList(bizId);
 
 		model.addAttribute("myCancelStoreList", paramMap.get("myCancelStoreList"));
-
 		model.addAttribute("title", "입점등록취소현황");
 		model.addAttribute("location", "입점등록취소현황");
 		
@@ -137,6 +158,14 @@ public class EnterController {
 			
 		return "redirect:/store/myStoreManage/myStoreInfo";
 	}
+
+	//나의매장 리스트 선택하여 조회 ajax
+		@GetMapping(value="/cancelStoreDetail", produces = "application/json")
+		@ResponseBody 
+		public StoreCancel getStoreCancleDetail(@RequestParam(name="storeCode", required = false) String storeCode) {
+			
+			return storeService.getMyCancelList(storeCode);
+		}
 	
 	 
 	//입점등록신청 화면

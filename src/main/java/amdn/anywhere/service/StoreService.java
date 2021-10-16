@@ -25,9 +25,14 @@ public class StoreService {
 		this.storeMapper = storeMapper;
 	}
 	
+	//승인버튼시 매장delete
+	public int deleteStore(String storeCode) {
+		return storeMapper.deleteStore(storeCode);
+	}
+	
 	//승인버튼시 상태.완료일시.승인완료아이디 update
-	public int modifyStoreCancel(StoreCancel storeCancel) {
-		return storeMapper.modifyStoreCancel(storeCancel);
+	public int modifyStoreCancel(Map<String, String> paramMap) {
+		return storeMapper.modifyStoreCancel(paramMap);
 	}
 	
 	//취소현황 리스트 조회
@@ -183,8 +188,13 @@ public class StoreService {
 		return storeMapper.getStoreInfoByCode(storeCode);
 	}
 	
+	//나의매장정보 선택하여 취소요청 상태코드 조회 - ajax
+	public StoreCancel getMyCancelList(String stCode) {
+		return storeMapper.getMyCancelList(stCode);
+	}
 	
-	//내의매장정보 선택하여 조회 - ajax
+	
+	//나의매장정보 선택하여 조회 - ajax
 	public Store getStoreRead(String stCode){ 
 		return storeMapper.getStoreRead(stCode); 
 	}
@@ -214,6 +224,13 @@ public class StoreService {
 		paramMap.put("storeInfo", storeInfo);
 		
 		return paramMap;
+	}
+	
+	//매장전체 테이블리스트 조회
+	public List<Table> getTableList(){
+		List<Table> tableList = storeMapper.getTableList();
+		
+		return tableList;
 	}
 	
 	//매장전체 메뉴리스트 조회
