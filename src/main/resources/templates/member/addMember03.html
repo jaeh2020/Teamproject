@@ -92,7 +92,7 @@
                                 <h4>추가 정보 입력</h4>
                                 <form method="post" onload="getId()">
                                 	<input type="hidden" name="userLikeCode" id="userLikeCode">
-                                	<input type="text" name="memberId" id="memberId">
+                                	<input type="hidden" name="likeId" id="likeId">
                                     <div class="form-group">
 	                                    <label class="sub">선호하는 음식 </label><label>( ※ 최대 3개까지만 선택 가능합니다.)</label> 
 	                                    <div>
@@ -157,8 +157,8 @@
 			//체크 된 값 ajax
 			$('.btn-success').on('click', function(){
 				var userLikeCode = $("#userLikeCode").val();
-				var memberId = $("#memberId").val();
-				console.log(userLikeCode,memberId)
+				var likeId = $("#likeId").val();
+				console.log(userLikeCode,likeId)
 				//선호도
 				var likeArr = [];
 				$('input:checkbox[name=like]').each(function() {
@@ -174,7 +174,7 @@
 		      		}
 				});		
 				//ajax
-				var allData = {"userLikeCode":userLikeCode, "memberId":memberId, "likeArr":likeArr, "unlikeArr":unlikeArr}
+				var allData = {"userLikeCode":userLikeCode, "likeId":likeId, "likeArr":likeArr, "unlikeArr":unlikeArr}
 				console.log(allData,'allData')
 				
 				  var request = $.ajax({
@@ -196,7 +196,7 @@
 			//앞에서 입력한 아이디 가져와서 입력
 			var inputMemberId = localStorage.getItem("inputId");
 			$(document).ready(function(){
-				$('#memberId').val(inputMemberId);
+				$('#likeId').val(inputMemberId);
 				$('#userId').val(inputMemberId);
 			});			
 		});		

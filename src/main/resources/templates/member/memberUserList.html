@@ -31,7 +31,7 @@
 	}
 	.clicked {
         color: gold;
-      }
+    }
 </style>
 </th:block>
 
@@ -41,13 +41,12 @@
 
 	
 	<div class="row">
-
 		<div class="col-lg-12 ">
 			<div class="card card-outline-primary">
 	            <div class="card-header">
-	                <h4 class="m-b-0 text-white">회원 목록</h4>
+	                <h4 class="m-b-0 text-white">소비자 회원 목록</h4>
 	            </div>
-	            <div class="card-body"  id="list">
+	            <div class="card-body">
 	            	<div class="table-responsive m-t-40">
                    	<table id="myTable" class="table table-bordered table-striped">
 						<thead>
@@ -64,7 +63,7 @@
 						<tbody th:id="memberUserList">
 		                    <tr th:each="l : ${memberUserList}">
 		                    	<td><label><input type="checkbox"></label></td>
-		                    	<td th:text="${l.userId}"></td>
+		                    	<td th:text="${l.userId}" th:id="${l.userId}"></td>
 		                    	<td th:text="${l.membership.msLevel}"></td> 
 		                    	<td th:text="${l.userOrderTotal}"></td> 
 		                    	<td th:text="${l.userPoint}"></td> 
@@ -87,7 +86,7 @@
     <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
     <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
 	<script type="text/javascript">
-
+		
 	
 
 	</script>
