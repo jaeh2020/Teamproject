@@ -66,7 +66,31 @@
 			biz_code = #{bizCode};
 	</update>
 	
-	<!-- 소상공인 승인 신청 개인!!!조회 -->
+	<!-- 소상공인 승인 신청 개인!조회(code) -->
+	<select id="getMemberBizInfoById" resultMap="memberBizResultMap">
+		SELECT 
+			m.biz_code
+			, m.member_id
+			, m.biz_num
+			, m.biz_file_att
+			, m.biz_status
+			, m.confirm_id
+			, m.biz_re_time
+			, m.biz_complete_time
+			, s.state_code
+			, s.main_state
+			, s.state_name
+		FROM
+			tb_member_biz as m
+			INNER JOIN
+			tb_statement as s
+			on
+			m.biz_status = s.state_code
+		WHERE
+			member_id = #{memberId};
+	</select>
+	
+	<!-- 소상공인 승인 신청 개인!조회(code) -->
 	<select id="getMemberBizInfoByCode" resultMap="memberBizResultMap">
 		SELECT 
 			m.biz_code
@@ -88,9 +112,6 @@
 			m.biz_status = s.state_code
 		WHERE
 			biz_code = #{bizCode};
-		<!-- 마이페이지에서는 이거 써야함 where에 조건을 줘서 수정 필요!
-		WHERE
-			member_id = #{memberId}; -->
 	</select>
 	
 	<!-- 소상공인 승인 신청 관리자가!!조회 -->
@@ -273,7 +294,7 @@
 	<insert id="addMemberUserLike">
 		INSERT INTO tb_member_user_like
 			(user_like_code
-			, member_id
+			, like_id
 			, user_like_key_1
 			, user_like_key_2
 			, user_like_key_3
@@ -282,7 +303,7 @@
 			, user_unlike_key_3
 		)VALUES (
 			#{userLikeCode}
-			, #{memberId}
+			, #{likeId}
 			, #{userLikeKey1}
 			, #{userLikeKey2}	
 			, #{userLikeKey3}

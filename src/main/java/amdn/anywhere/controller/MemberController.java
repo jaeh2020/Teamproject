@@ -133,7 +133,7 @@ public class MemberController {
 							,Member member
 							,Model model) {
 		
-		MemberBiz memberBiz = memberService.getMemberBizInfoByCode(memberId);
+		MemberBiz memberBiz = memberService.getMemberBizInfoById(memberId);
 		System.out.println("memberBiz"+memberBiz);
 		if(memberBiz == null) {
 			return "redirect:/member/addBizConfirm";
@@ -225,7 +225,7 @@ public class MemberController {
 					session.setAttribute("SID", memberId);
 					session.setAttribute("SLEVEL", member.getLevelCode());
 					session.setAttribute("SNAME", member.getMemberName());
-
+									
 					return "redirect:/member/myPageBiz?memberId="+memberBiz.getMemberId();
 				}
 			}else {
@@ -308,13 +308,13 @@ public class MemberController {
 	@GetMapping(value="/userLike", produces = "application/json")
 	@ResponseBody
 	public String userLike(	@RequestParam(value = "userLikeCode") String userLikeCode
-							,@RequestParam(value = "memberId") String memberId
+							,@RequestParam(value = "likeId") String likeId
 							,@RequestParam(value = "likeArr[]") List<String> likeArr
 							,@RequestParam(value = "unlikeArr[]") List<String> unlikeArr
 							,MemberUserLike mul) {
 		
 		mul.setUserLikeCode(userLikeCode);
-		mul.setMemberId(memberId);
+		mul.setLikeId(likeId);
 		mul.setUserLikeKey1(likeArr.get(0));
 		mul.setUserLikeKey2(likeArr.get(1));
 		mul.setUserLikeKey3(likeArr.get(2));
