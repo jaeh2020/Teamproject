@@ -132,18 +132,34 @@
 	
 	
 	
+	<!-- 입점취소 승인버튼시  delete -->
+	<delete id="deleteStore" parameterType="String">
+		DELETE 
+		FROM 
+			tb_store_info
+		WHERE 
+			store_code=#{storeCode};
+	</delete>
+	
+	
+	
 	<!-- 입점취소 승인버튼시 update -->
-	<!-- <update id="modifyMyMenu" parameterType="Menu">
-		UPDATE
-			tb_store_cancel
-		SET
-			cancel_com_time = CURDATE()
-			,state_code = 'state_confirm_com'
-			,cancel_confirm_id = #{memberId}
-		WHERE
-			store_cancel_code = #{storeCancelCode};
+	<update id="modifyStoreCancel" parameterType="map">
+		UPDATE tb_store_cancel
+			SET
+				<if test="state == '승인' ">
+					cancel_confirm_id= #{cancelConfirmId}
+					,state_code = 'state_store_cancle_com'
+					,cancel_com_time = CURTIME()
+				</if>
+				<if test="state == '거절'">
+					cancel_confirm_id= #{cancelConfirmId}
+					,state_code = 'state_store_cancle_rej'
+					,cancel_com_time = CURTIME()
+				</if>
+			WHERE 
+				store_cancel_code = #{storeCancelCode};
 	</update>
-	 -->
 	
 	
 	
@@ -153,19 +169,15 @@
 			c.store_cancel_code
 			,c.biz_id
 			,c.store_code
+			,c.store_name
 			,c.store_cancel_ask
 			,c.cancel_time
 			,c.cancel_com_time
 			,c.cancel_confirm_id
 			,c.state_code
-			,i.store_name
 			,s.state_name
 		FROM
 			tb_store_cancel AS c
-			INNER join
-			tb_store_info AS i
-			ON
-			c.store_code = i.store_code
 			INNER join
 			tb_statement AS s
 			ON
@@ -173,26 +185,41 @@
 	</select>
 	
 	
-	<!-- 나의입점취소현황 조회 -->
+	<!-- 나의입점취소현황 조회 (매장코드 비교) - ajax -->
+	<select id="getMyCancelList" parameterType="String" resultMap="storeCancelResultMap">
+		SELECT
+			store_cancel_code
+			,biz_id
+			,store_code
+			,store_name
+			,store_cancel_ask
+			,cancel_time
+			,cancel_com_time
+			,cancel_confirm_id
+			,state_code
+		FROM
+			tb_store_cancel
+		WHERE
+			store_code = #{storeCode};
+	</select>
+	
+	
+	<!-- 나의입점취소현황 조회 (세션아이디 비교) -->
 	<select id="getmyCancelStoreList" resultMap="storeCancelResultMap">
 		SELECT
 			c.store_cancel_code
 			,c.biz_id
 			,c.store_code
+			,c.store_name
 			,c.store_cancel_ask
 			,c.cancel_time
 			,c.cancel_com_time
 			,c.cancel_confirm_id
 			,c.state_code
-			,i.store_name
 			,s.state_name
 		FROM
 			tb_store_cancel AS c
-			INNER join
-			tb_store_info AS i
-			ON
-			c.store_code = i.store_code
-			INNER join
+			INNER JOIN
 			tb_statement AS s
 			ON
 			c.state_code = s.state_code
@@ -223,6 +250,7 @@
 			(store_cancel_code
 			,biz_id
 			,store_code
+			,store_name
 			,store_cancel_ask
 			,cancel_time
 			,cancel_com_time
@@ -233,8 +261,9 @@
 			 #{storeCancelCode}
 			, #{bizId}
 			, #{storeCode}
+			, #{storeName}
 			, #{storeCancelAsk}
-			, CURDATE()
+			, CURTIME()
 			, NULL
 			, NULL
 			, #{stateCode}
@@ -478,7 +507,7 @@
 		, #{menuName}
 		, #{menuPrice}
 		, #{menuDetail}
-		, CURDATE()
+		, CURTIME()
 		, #{menuUsing}
 		);
 	</insert>
@@ -552,6 +581,25 @@
 	  		tb_store_info
 	  	WHERE
 			store_code = #{storeCode};
+	</select>
+	
+	
+	
+	
+	<!-- 모든매장 테이블리스트 조회 -->
+	<select id="getTableList" resultMap="tableMap">
+		SELECT
+			t.store_table_code
+			,t.store_code
+			,i.store_name
+			,t.biz_id
+			,t.table_num
+		FROM
+			tb_store_table AS t
+			INNER join
+			tb_store_info AS i
+			ON
+			t.store_code = i.store_code
 	</select>
 
 
@@ -714,6 +762,8 @@
 		WHERE
 			biz_id = #{bizId};
 	</select>
+
+
 
 	<select id="getMyStoreList" resultMap="storeResultMap">
 		SELECT

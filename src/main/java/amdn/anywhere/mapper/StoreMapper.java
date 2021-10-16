@@ -1,6 +1,7 @@
 package amdn.anywhere.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,8 +16,11 @@ import amdn.anywhere.domain.Table;
 @Mapper
 public interface StoreMapper {
 	
+	//승인버튼시 매장 delete
+	public int deleteStore(String storeCode);
+	
 	//승인버튼시 상태.완료일시.승인완료아이디 update
-	public int modifyStoreCancel(StoreCancel storeCancel);
+	public int modifyStoreCancel(Map<String, String> paramMap);
 	
 	//입점취소신청 리스트 조회
 	public List<StoreCancel> getStoreCancelList();
@@ -91,6 +95,9 @@ public interface StoreMapper {
 	//수정처리 위한 매장코드 조회
 	public Store getStoreInfoByCode(String storeCode);
 	
+	//나의매장정보 선택하여 입점취소 상태코드 조회 - ajax
+	public StoreCancel getMyCancelList(String stCode);
+	
 	//나의매장정보 선택하여 조회 - ajax
 	public Store getStoreRead(String stCode);
 	
@@ -100,6 +107,9 @@ public interface StoreMapper {
 	//나의매장 정보 리스트 조회(카테까지 나옴 지워야함)
 	public List<Store> getMyStoreList(String bizCode);
 	public List<Store> getMyStoreList2(String bizCode);
+	
+	//전체매장 테이블리스트조회
+	public List<Table> getTableList();
 	
 	//전체매장 메뉴리스트 조회
 	public List<Menu> getMenuList();

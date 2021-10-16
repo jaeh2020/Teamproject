@@ -32,6 +32,7 @@
 	                        <thead>
 	                            <tr>
 	                                <th>취소코드</th>
+	                                <th>매장코드</th>
 	                                <th>매장명</th>
 	                                <th>요청아이디</th>	                       
 	                                <th>취소사유</th>	                       
@@ -44,15 +45,17 @@
 	                        </thead>
 	                         <tbody>
 								<tr th:each="s : ${storeCancelList}">
-									<td th:text="${s.storeCancelCode}"></td>
+									<td th:text="${s.storeCancelCode}" class="storeCancelCode"></td>
+									<td th:text="${s.storeCode}" class="storeCode"></td>
 									<td th:text="${s.store.storeName}"></td>
 									<td th:text="${s.bizId}"></td>
 									<td th:text="${s.storeCancelAsk}"></td>
 									<td th:text="${s.cancelTime}"></td>
 									<td th:text="${s.cancelComTime}"></td>
 									<td th:text="${s.cancelConfirmId}"></td>
-									<td th:text="${s.statement.stateName}"></td>
+									<td th:text="${s.statement.stateName}" class="stateName"></td>
 									<td>
+										<input type="hidden" th:value="${memberId}">
 										<a class="confirmBtn btn btn-success text-white">승인</a>
 	                                	<a class="cancelBtn btn btn-danger text-white" >거절</a>
 									</td>
@@ -74,76 +77,41 @@
 	
 	<script type="text/javascript">
 	
-	
-	/* function confirmAlert(callback){
-		 swal.fire({
-			  title: '승인처리하시겠습니까?',
-			  showDenyButton: true,
-			  confirmButtonText: '예',
-			  denyButtonText:'취소',
-			  denyButtonColor: '#d33'
-		}).then((result) => {
-
-			  if (result.isConfirmed) {
-			    Swal.fire({
-			    	title: '승인되었습니다.',
-			    	icon: 'success',	
-			    	showConfirmButton : false
-			    });	
-
-			  }else if (result.isDenied) {
-				    Swal.fire('취소되었습니다.', '', 'info');
-			 }
-			  callback(result.isConfirmed);
-			});
-	}
+	//승인버튼 클릭시
 	$(function(){
 		$('.confirmBtn').on("click", function(){
-			var recruitBCode = $(this).parent().parent().find('.recruitCode').text();
+			var storeCancelCode = $(this).parent().parent().find('.storeCancelCode').text();
+			var storeCode = $(this).parent().parent().find('.storeCode').text();
 			var stateName = $(this).parent().parent().find('.stateName').text();
+			
 			if(stateName == '승인완료'){
-				 Swal.fire({
-				    	title: '이미 승인처리된 항목입니다!',
-				    	icon: 'info',	
-				    	showConfirmButton : false
-				    });	
+				alert('이미 승인이 완료된 신청건 입니다.');
+				return false
 			}else{
-				confirmAlert(function(checked){
-					if (checked) {
-			            window.location.href = "/taster/changeState?recruitCode="+ recruitBCode + "&state=승인";
-			        }
-				});				
+				if (confirm('승인처리하시겠습니까? 승인처리시 해당 매장의 정보는 삭제됩니다.')) {
+					location.href = "/enter/cancelStoreChangeState?storeCancelCode="+ storeCancelCode + "&state=승인" + "&storeCode=" + storeCode;
+			    }
 			}
 		});
 	});
-	function cancleAlert(callback){
-		swal.fire({
-			  title: '승인 거절 하시겠습니까?',
-			  showDenyButton: true,
-			  confirmButtonText: '예',
-			  denyButtonText: '아니오',
-			  denyButtonColor: '#d33'
-		}).then((result) => {
-			  if (result.isConfirmed) {
-			    Swal.fire('거절 되었습니다.', '', 'success');
-
-			  }else if (result.isDenied) {
-				    Swal.fire('취소되었습니다.', '', 'info');
-				 }
-			  callback(result.isConfirmed);
-			});
-	}
+	
+	//거절버튼 클릭시
 	$(function(){
 		$('.cancelBtn').on("click", function(){
-			var recruitBCode = $(this).parent().parent().find('.recruitCode').text();
-			cancleAlert(function(checked){
-				if (checked) {
-		            window.location.href = "/taster/changeState?recruitCode="+ recruitBCode + "&state=취소";
-		        }
-			});
+			var storeCancelCode = $(this).parent().parent().find('.storeCancelCode').text();
+			var stateName = $(this).parent().parent().find('.stateName').text();
+			
+			if(stateName == '승인거절'){
+				alert('이미 거절이 완료된 신청건 입니다.');
+				return false
+			}else{
+				if (confirm('거철처리하시겠습니까?')) {
+					location.href = "/enter/cancelStoreChangeState?storeCancelCode="+ storeCancelCode + "&state=거절";
+			    }
+			}
 		});
 	});
-	 */
+	
 	</script>
 	
 
