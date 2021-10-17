@@ -30,6 +30,16 @@
 			<result property="msDis" column="ms_dis"/>
 			<result property="msStandard" column="ms_standard"/>
 		</association>
+		<association property="memberUserLike" javaType="MemberUserLike">
+			<id property="likeId" column="like_id"/>
+			<result property="userLikeCode" column="user_like_code"/>
+			<result property="userLikeKey1" column="user_like_key_1"/>
+			<result property="userLikeKey2" column="user_like_key_2"/>
+			<result property="userLikeKey3" column="user_like_key_3"/>
+			<result property="userUnlikeKey1" column="user_unlike_key_1"/>
+			<result property="userUnlikeKey2" column="user_unlike_key_2"/>
+			<result property="userUnlikeKey3" column="user_unlike_key_3"/>
+		</association>
 	</resultMap>
 	
 	<resultMap type="MemberBiz" id="memberBizResultMap">
@@ -66,7 +76,7 @@
 			biz_code = #{bizCode};
 	</update>
 	
-	<!-- 소상공인 승인 신청 개인!조회(code) -->
+	<!-- 소상공인 승인 신청 개인!조회(id) -->
 	<select id="getMemberBizInfoById" resultMap="memberBizResultMap">
 		SELECT 
 			m.biz_code
@@ -182,12 +192,24 @@
 			, s.ms_lev
 			, s.ms_dis
 			, s.ms_standard
+			, l.user_like_code
+			, l.like_id
+			, l.user_like_key_1
+			, l.user_like_key_2
+			, l.user_like_key_3
+			, l.user_unlike_key_1
+			, l.user_unlike_key_2
+			, l.user_unlike_key_3
 		FROM 
 			tb_member_user AS m
 			INNER JOIN
 			tb_membership_dis AS s
 			ON
 			m.ms_code = s.ms_code
+			INNER JOIN
+			tb_member_user_like AS l
+			ON
+			m.user_id = l.like_id
 		WHERE
 			user_id = #{userId};
 	</select>
@@ -204,12 +226,24 @@
 			, s.ms_lev
 			, s.ms_dis
 			, s.ms_standard
+			, l.user_like_code
+			, l.like_id
+			, l.user_like_key_1
+			, l.user_like_key_2
+			, l.user_like_key_3
+			, l.user_unlike_key_1
+			, l.user_unlike_key_2
+			, l.user_unlike_key_3
 		FROM 
 			tb_member_user AS m
 			INNER JOIN
 			tb_membership_dis AS s
 			ON
-			m.ms_code = s.ms_code;
+			m.ms_code = s.ms_code
+			INNER JOIN
+			tb_member_user_like AS l
+			ON
+			m.user_id = l.like_id;
 	</select>
 	
 	<!-- 마이페이지 내정보 수정 -->
