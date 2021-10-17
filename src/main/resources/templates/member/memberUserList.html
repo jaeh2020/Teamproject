@@ -32,6 +32,10 @@
 	.clicked {
         color: gold;
     }
+    p{
+    	margin: 0;
+    	text-align: end;
+    }
 </style>
 </th:block>
 
@@ -48,6 +52,7 @@
 	            </div>
 	            <div class="card-body">
 	            	<div class="table-responsive m-t-40">
+	            	<p>소비자 아이디를 클릭 시 추천/비추천 항목이 보여집니다.</p>
                    	<table id="myTable" class="table table-bordered table-striped">
 						<thead>
                             <tr>
@@ -63,12 +68,12 @@
 						<tbody th:id="memberUserList">
 		                    <tr th:each="l : ${memberUserList}">
 		                    	<td><label><input type="checkbox"></label></td>
-		                    	<td th:text="${l.userId}" th:id="${l.userId}"></td>
+		                    	<td th:text="${l.userId}" th:id="${l.userId}" class="like"></td>
 		                    	<td th:text="${l.membership.msLevel}"></td> 
 		                    	<td th:text="${l.userOrderTotal}"></td> 
 		                    	<td th:text="${l.userPoint}"></td> 
 		                    	<td th:text="${l.userEvaluator}"></td> 
-		                    	<td th:text="${l.reportScore}"></td> 
+		                    	<td th:text="${l.reportScore}"></td>	                    	
 		                    </tr>
 	               		</tbody>
 	            	</table>
@@ -76,7 +81,7 @@
 			</div>
 		</div>
 	</div>
-	</div>
+</div>		
 </th:block>
 
 
@@ -86,7 +91,39 @@
     <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
     <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
 	<script type="text/javascript">
-		
+	$(function(){
+    	
+		$('.like').click(function(){
+			
+			var userId = $(this).attr("id");
+			console.log(userId)
+			
+			var request =  $.ajax({
+				  url: "/likeList", //요청 주소
+				  method: "GET", //요청 방식
+				  data: { userId : userId },
+				  dataType: "json" //받아올 포맷방식
+			});	
+			request.done(function(data){
+				
+				console.log(data);
+
+				var info= '';
+				
+				info += '<span style="display : block; text-align: center; font-size:25px;">' + data.userId + ' 님의 추천/비추천</span>';
+				info += '<br>';
+				info += '<span style="display : block; text-align: center;"> 추천받을 카테고리 </span>' + '<span style="font-size:18px; color: #5F61C5;">' + data.memberUserLike.userLikeKey1 + ' | '+ data.memberUserLike.userLikeKey2 + ' | '+ data.memberUserLike.userLikeKey3 + '</span>';
+				info += '<br><br>';
+				info += '<span style="display : block; text-align: center;"> 추천받지 않을 카테고리 </span>' + '<span style="font-size:18px; color: #5F61C5;">' + data.memberUserLike.userUnlikeKey1 + ' | '+ data.memberUserLike.userUnlikeKey2 + ' | '+ data.memberUserLike.userUnlikeKey3 + '</span>';
+								
+				Swal.fire(info);
+			});
+			//응답 실패
+			request.fail(function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    });
+		});
+	});
 	
 
 	</script>

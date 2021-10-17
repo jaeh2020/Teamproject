@@ -67,7 +67,6 @@
 	.form-control{
 		width: 400px;
 	}
- 
 </style>
 </th:block>
 
@@ -75,26 +74,9 @@
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 	<div class="row">
-		<!-- 왼쪽부분 -->
-		<div class="col-lg-3">
-			<div class="card sidebar">
-				<table class="table table-hover ">
-					<thead>
-						<tr><th>마이페이지</th></tr>
-					</thead>
-                    <tbody>
-                        <tr><td><a th:href="@{/member/myInfo(memberId=${session.SID})}">내정보</a></td></tr>
-                        <tr><td><a th:href="@{#}">??</a></td></tr>
-                        <tr><td><a th:href="@{#}">??</a></td></tr>
-                        <tr><td><a th:href="@{#}">고객센터</a></td></tr>
-                        <tr><td><a th:href="@{/member/deleteMember(memberId=${session.SID})}">회원탈퇴</a></td></tr>
-                    </tbody>
-		        </table>
-			</div>
-		</div>
-		
+		<div class="col-lg-2"></div>
 		<!-- 내 정보 폼 -->
-		<div class="col-lg-9 ">
+		<div class="col-lg-8">
 			<div class="card card-outline-primary">
 	            <div class="card-header">
 	                <h4 class="m-b-0 text-white">내정보</h4>
@@ -149,6 +131,7 @@
 				</div>
 	        </div>
 		</div>
+		<div class="col-lg-2"></div>
 	</div>
 </th:block>
 

@@ -69,38 +69,21 @@
 
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
-	<div class="card card-outline-primary">
-		<h1>회원가입</h1>
-	
-		<!-- 회원가입 안내 -->
-		<div class="row list">
-			<ol class="join">
-		           <li><p><span>01</span>회원유형선택</p></li>
-		           <li><p><span>02</span>정보입력</p></li>
-		           <li><p class="on"><span>03</span>추가정보입력</p></li>
-		           <li><p><span>04</span>가입완료</p></li>
-		    </ol>
-		</div>
-		
-		<!-- 회원가입 내용 -->		
-		<div class="unix-login">
-            <div class="container-fluid">
-               	<div class="row justify-content-center">
-                    <div class="col-lg-10">
-                        <div class="login-content">
-                            <div class="login-form">
-                                <h4>추가 정보 입력</h4>
-                                <form method="post" onload="getId()">
+	<div class="row justify-content-center">
+		<div class="col-lg-3"></div>
+		<!-- 추/비 수정 -->		
+		<div class="col-lg-6 ">
+			<div class="card card-outline-primary">
+	            <div class="card-header">
+	                <h4 class="m-b-0 text-white">추천 / 비추천 카테고리 수정</h4>
+	            </div>
+	            <div class="card-body">	            
+					<div class="login-form justify-content-center">
+                                <form th:action="@{/member/myPage}" method="post">
                                 	<!-- 앞에서 입력한 아이디값 hidden으로 가져오기 -->
-                                    <input type="hidden" name="userId" id="userId">
-                                    <input type="hidden" name="msCode" value="ms_bronze">
-                                    <input type="hidden" name="userOrderTotal" th:value="0">
-                                    <input type="hidden" name="userPoint" th:value="1000">
-                                    <input type="hidden" name="userEvaluator" th:value="n">
-                                    <input type="hidden" name="reportScore" th:value="0">
-                                    
-                                	<input type="hidden" name="userLikeCode" id="userLikeCode">
-                                	<input type="hidden" name="likeId" id="likeId">
+                                   
+                                	<input type="text" name="userLikeCode" id="userLikeCode">
+                                	<input type="text" name="likeId" id="likeId">
                                     <div class="form-group">
 	                                    <label class="sub">선호하는 음식 </label><label>( ※ 최대 3개까지만 선택 가능합니다.)</label> 
 	                                    <div>
@@ -130,9 +113,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-	</div>                  
+                <div class="col-lg-3"></div>
+            </div>                 
 </th:block>
 
 <th:block layout:fragment="customJsLib">

@@ -33,6 +33,62 @@ public class MemberController {
 		this.memberService = memberService;
 	}
 	
+	//선호도 수정 ajax
+	@GetMapping(value="/modifyUserLike", produces = "application/json")
+	@ResponseBody
+	public String modifyUserLike(	@RequestParam(value = "userLikeCode") String userLikeCode
+							,@RequestParam(value = "likeId") String likeId
+							,@RequestParam(value = "likeArr[]") List<String> likeArr
+							,@RequestParam(value = "unlikeArr[]") List<String> unlikeArr
+							,MemberUserLike mul) {
+		
+		mul.setUserLikeCode(userLikeCode);
+		mul.setLikeId(likeId);
+		mul.setUserLikeKey1(likeArr.get(0));
+		mul.setUserLikeKey2(likeArr.get(1));
+		mul.setUserLikeKey3(likeArr.get(2));
+		mul.setUserUnlikeKey1(unlikeArr.get(0));
+		mul.setUserUnlikeKey2(unlikeArr.get(1));
+		mul.setUserUnlikeKey3(unlikeArr.get(2));
+		
+		if(mul != null) {
+			mul.setUserLikeCode(memberService.getUserLikeCode());
+			memberService.addMemberUserLike(mul);
+		}
+
+		return "mul";
+	}
+	
+	@GetMapping("/member/modifyUserLike")
+	public String modifyUserLike(@RequestParam(name = "userId", required = false) String userId
+								,Model model) {
+		
+		//선호-비선호 메인카테 불러오기
+		List<FoodMainCate> foodMainList = memberService.getFoodMainList();
+		
+		MemberUser mul = memberService.getMemberUserInfoById(userId);
+		
+		model.addAttribute("title", "MYPAGE  > 추천/비추천 카테고리 수정");
+		model.addAttribute("location", "MYPAGE  > 추천/비추천 카테고리 수정");
+		model.addAttribute("foodMainList", foodMainList);
+		model.addAttribute("mul", mul);
+		
+		return "/member/modifyUserLike";
+	}
+	
+	//소비자 회원아이디 클릭시 추천/비추천 보여주는 ajax
+	@GetMapping(value = "/likeList", produces = "application/json")
+	@ResponseBody
+	public MemberUser likList( @RequestParam(value = "userId") String userId){
+		System.out.println("userId : " + userId);
+		
+		MemberUser memberUser = memberService.getMemberUserInfoById(userId);
+		memberUser.setUserId(userId);
+		System.out.println("memberUser??? : " + memberUser);
+		
+		return memberUser;
+	}
+	
 	//소상공인 승인 ajax
 	@GetMapping(value="/modifyBizConfirm", produces = "application/json")
 	@ResponseBody
@@ -62,8 +118,8 @@ public class MemberController {
 		
 		List<MemberUser> memberUserList = memberService.getMemberUserList();
 		
-		model.addAttribute("title", "소상공인 승인 신청 목록");
-		model.addAttribute("location", "소상공인 승인 신청 목록");
+		model.addAttribute("title", "소비자 회원 목록");
+		model.addAttribute("location", "소비자 회원 목록");
 		model.addAttribute("memberUserList", memberUserList);
 
 		
