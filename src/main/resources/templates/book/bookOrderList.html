@@ -71,8 +71,8 @@
 				</tr>
             </thead>
             <tbody>
-				<tr th:each="o : ${userOrderList}">
-					<td th:text="${o.bookCode}" id="bookCode"></td>
+				<tr th:each="o : ${orderList}">
+					<td th:text="${o.bookCode}" id="bookCode" class="bookCode"></td>
 					<td th:text="${o.store.storeName}"></td>
 					<td>
 						<a th:href="@{/book/orderDetail(bookCode=${o.bookCode})}">
@@ -83,28 +83,17 @@
 					<td th:text="${o.oCount}"></td>
 					<td th:text="${o.oTotalPrice}"></td>
 					<td>
-						<a th:href="@{/book/orderReceipt(bookCode=${o.bookCode})}">
-						<button type="button" id="printBtn" class="btn btn-dark btn-outline fa fa-print"></button>
-						</a>
+						<!-- <a th:href="@{/book/orderReceipt(bookCode=${o.bookCode})}"> -->
+						<button type="button" class="printBtn btn btn-dark btn-outline fa fa-print"></button>
+						<!-- </a> -->
 					</td>
 					<td th:text="${o.orderSignTime}" id="orderSignTime"></td>
-					<td th:name="stateName" th:text="${o.statement.StateName}"></td>
+					<td th:text="${o.statement.StateName}" class="stateName"></td>
 					<td th:text="${o.orderCompTime}" id="orderCompTime"></td>
 				</tr>
 			</tbody>
 		</table>
-		
 	</div>
-	
-	<table class="table">
-			<thead>
-				<tr>
-					<th>한국반점</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-	</table>
 	
 
 </th:block>					
@@ -123,19 +112,24 @@
 	
 	/* 영수증 출력 유효성검사 */
 	$(function(){
-		$('#printBtn').on("click", function(){
-			var tr = $(this).parent().parent();
-				console.log(tr);
-			var stateName = tr.children('td').eq(9).text().trim();
-				console.log(stateName);
+		$('.printBtn').click(function(){
 			
-			if(stateName = ''){
-				alert('결제완료시에만 영수증출력이 가능합니다.');
+			var stateName = $(this).parent().parent().find('.stateName').text().trim();
+			var bookCode = $(this).parent().parent().find('.bookCode').text().trim();
+			
+			console.log(stateName);
+			console.log(bookCode);
+			
+			if(stateName == '결제완료'){
+				alert('영수증 출력 화면으로 이동됩니다.');
+				location.href = "/book/orderReceipt?bookCode=" + bookCode;
+			}else{
+				alert('결제완료시에만 영수증 출력이 가능합니다.');
 				return false;
 			}
 		});
 	});
-	
+
 	</script>
 
 </th:block>

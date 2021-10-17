@@ -188,6 +188,7 @@ public class EnterController {
 		model.addAttribute("title", "입점등록신청");
 		model.addAttribute("location", "입점등록신청");
 		
+		
 		return "/enter/addStore";
 	}
 	

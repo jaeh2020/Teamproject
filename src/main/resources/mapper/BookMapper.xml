@@ -123,6 +123,48 @@
 	
 	
 	
+<!-- 주문내역 리스트 -->
+	<select id="getOrderAllList" resultMap="orderResultMap">
+		SELECT
+			o.o_code
+			,o.b_o_code
+			,o.user_id
+			,o.store_code
+			,o.menu_code
+			,o.o_count
+			,o.menu_total_price
+			,o.o_request
+			,o.pay_gro_code
+			,o.o_total_price
+			,o.order_sign_time
+			,o.order_comp_time
+			,o.order_state_code
+			,o.store_table_code
+			,o.table_state_code
+			,i.store_name
+			,s.state_name
+			,m.menu_name
+		FROM
+			tb_order AS o
+			INNER join
+			tb_book AS b
+			ON
+			o.user_id = b.user_id
+			INNER join
+			tb_store_info AS i
+			on
+			o.store_code = i.store_code
+			INNER join
+			tb_statement AS s
+			on
+			o.order_state_code = s.state_code
+			INNER join
+			tb_store_menu AS m
+			on
+			o.menu_code = m.menu_code;
+		</select>
+	
+	
 	
 <!-- 나의주문내역 상세조회 -->
 	<select id="getOrderList" resultMap="orderResultMap">
