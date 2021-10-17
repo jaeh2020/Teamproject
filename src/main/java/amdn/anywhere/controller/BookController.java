@@ -67,10 +67,10 @@ public class BookController {
 		
 	//주문내역리스트에서 날짜필터 조회
 	@PostMapping("/bookOrderList")
-		public String bookOrderList(@RequestParam(name = "dateBefore", required = false) String dateBefore
-									,@RequestParam(name = "dateAfter", required = false) String dateAfter
-									,Model model) {
-									
+	public String bookOrderList(@RequestParam(name = "dateBefore", required = false) String dateBefore
+								,@RequestParam(name = "dateAfter", required = false) String dateAfter
+								,Model model) {
+								
 		
 		
 		return "redirect:/";
@@ -78,9 +78,25 @@ public class BookController {
 	
 		
 		
-	//주문내역리스트 조회	
+	//전체 주문내역리스트 조회	
 	@GetMapping("/bookOrderList")
-		public String bookOrderList(Model model
+	public String bookOrderList(Model model) {
+		
+		
+		//주문리스트 조회
+		List<Order> orderList = bookService.getOrderAllList();
+	
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("title", "주문내역");
+		model.addAttribute("location", "주문내역");
+		
+		return "/book/bookOrderList";
+	}
+	
+	
+	//나의 주문내역리스트 조회	
+	@GetMapping("/bookMyOrderList")
+		public String bookMyOrderList(Model model
 								   ,@RequestParam(name = "userId", required = false) String userId) {
 		
 		Map<String, Object> paramMap = bookService.getOrderUserInfoById(userId);
@@ -89,7 +105,7 @@ public class BookController {
 		model.addAttribute("title", "나의주문내역");
 		model.addAttribute("location", "나의주문내역");
 		
-		return "/book/bookOrderList";
+		return "/book/bookMyOrderList";
 	}
 	
 		

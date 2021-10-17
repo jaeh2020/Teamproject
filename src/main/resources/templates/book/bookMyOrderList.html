@@ -64,15 +64,14 @@
 					<th>주문 메뉴</th>
 					<th>주문 수량</th>
 					<th>총 결제금액</th>
+					<th data-orderable="false">영수증 출력</th>
 					<th>주문등록일시</th>
-					<th>주문승인일시</th>
 					<th>주문상태</th>
-					<th>주문확인</th>
 					<th>결제완료일시</th>
 				</tr>
             </thead>
-            <!-- <tbody>
-				<tr th:each="o : ${orderList}">
+            <tbody>
+				<tr th:each="o : ${userOrderList}">
 					<td th:text="${o.bookCode}" id="bookCode" class="bookCode"></td>
 					<td th:text="${o.store.storeName}"></td>
 					<td>
@@ -83,11 +82,14 @@
 					<td th:text="${o.menu.menuName}"></td>
 					<td th:text="${o.oCount}"></td>
 					<td th:text="${o.oTotalPrice}"></td>
+					<td>
+						<button type="button" class="printBtn btn btn-dark btn-outline fa fa-print"></button>
+					</td>
 					<td th:text="${o.orderSignTime}" id="orderSignTime"></td>
 					<td th:text="${o.statement.StateName}" class="stateName"></td>
 					<td th:text="${o.orderCompTime}" id="orderCompTime"></td>
 				</tr>
-			</tbody> -->
+			</tbody>
 		</table>
 	</div>
 	
@@ -102,9 +104,30 @@
 
     <script type="text/javascript">
 
-    
-    
-    
+	document.getElementById('dateBefore').valueAsDate = new Date();
+	document.getElementById('dateAfter').valueAsDate = new Date();
+	
+	
+	/* 영수증 출력 유효성검사 */
+	$(function(){
+		$('.printBtn').click(function(){
+			
+			var stateName = $(this).parent().parent().find('.stateName').text().trim();
+			var bookCode = $(this).parent().parent().find('.bookCode').text().trim();
+			
+			console.log(stateName);
+			console.log(bookCode);
+			
+			if(stateName == '결제완료'){
+				alert('영수증 출력 화면으로 이동됩니다.');
+				location.href = "/book/orderReceipt?bookCode=" + bookCode;
+			}else{
+				alert('결제완료시에만 영수증 출력이 가능합니다.');
+				return false;
+			}
+		});
+	});
+	
 	</script>
 
 </th:block>

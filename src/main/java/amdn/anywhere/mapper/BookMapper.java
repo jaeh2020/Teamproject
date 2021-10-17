@@ -14,6 +14,9 @@ import amdn.anywhere.domain.Table;
 @Mapper
 public interface BookMapper {
 	
+	//주문내역 리스트 getOrderList
+	public List<Order> getOrderAllList();
+	
 	//나의주문내역 상세조회
 	public List<Order> getOrderList(String bookCode);
 	
