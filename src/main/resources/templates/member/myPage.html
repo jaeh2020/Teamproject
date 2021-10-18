@@ -90,7 +90,7 @@
     		<!-- 프로필 하단 -->
    			 <div class="listWrap">
    			 	<div class="list"><a th:href="@{/member/myInfo(memberId=${session.SID})}"><i class="bi bi-emoji-sunglasses f-s-60"></i><h4>내정보</h4></a></div>
-   			 	<div class="list"><a th:href="@{/member/modifyUserLike(memberId=${session.SID})}"><i class="bi bi-hand-thumbs-up f-s-60"></i><h4>추천 / 비추천</h4></a></div>
+   			 	<div class="list"><a th:href="@{/member/modifyUserLike(userId=${session.SID})}"><i class="bi bi-hand-thumbs-up f-s-60"></i><h4>추천 / 비추천</h4></a></div>
    			 	<div class="list"><a th:href="@{#}"><i class="bi bi-heart-fill f-s-60"></i><h4>좋아요</h4></a></div>
    			 	<div class="list"><a th:href="@{/member/deleteMember(memberId=${session.SID})}"><i class="bi bi-person-x f-s-60"></i><h4>회원탈퇴</h4></a></div>   			 	
    			 </div>

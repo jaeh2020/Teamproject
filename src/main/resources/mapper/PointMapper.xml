@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="amdn.anywhere.mapper.PointMapper">
+	<resultMap type="Point" id="pointResultMap">
+		<result property="pointNum" column="point_num"/>
+		<result property="userId" column="user_id"/>
+		<result property="oTotal" column="o_total"/>
+		<result property="pointSave" column="point_save"/>
+		<result property="pointContents" column="point_contents"/>
+		<result property="poStaCode" column="po_sta_code"/>
+		<result property="pointSaveTime" column="point_save_time"/>
+		<result property="pointAdd" column="point_add"/>
+		<result property="beforePointHistory" column="before_point_history"/>
+		<result property="afterPointHistory" column="after_point_history"/>
+		<result property="predDelTime" column="pred_del_time"/>
+		<association property="pointDelStandard" javaType="PointDelStandard">
+			<id property="poStaCode" column="po_sta_code"/>
+			<result property="poDelStaDate" column="po_del_sta_date"/>
+		</association>
+		<association property="pointDel" javaType="PointDel">
+			<id property="pointDelNum" column="point_del_num"/>
+			<result property="userId" column="user_id"/>
+			<result property="pointNum" column="point_num"/>
+			<result property="poStaCode" column="po_sta_code"/>
+			<result property="pointDelTime" column="po_del_sta_date"/>
+			<result property="delPoint" column="del_point"/>
+			<result property="remainPoint" column="remain_point"/>
+		</association>
+	</resultMap>
+
+	<select id="getPointList" resultMap="pointResultMap">
+		SELECT 
+			  p.point_num
+			, p.user_id
+			, p.o_total
+			, p.point_save
+			, p.point_contents
+			, p.po_sta_code
+			, p.point_save_time
+			, p.point_add
+			, p.before_point_history
+			, p.after_point_history
+			, p.pred_del_time
+			, s.po_sta_code
+			, s.po_del_sta_date
+			, d.point_del_num
+			, d.user_id
+			, d.point_num
+			, d.po_sta_code
+			, d.point_del_time
+			, d.del_point
+			, d.remain_point
+		FROM 
+			tb_point as p
+			INNER JOIN
+			tb_point_del_standard as s
+			ON
+			p.po_sta_code = s.po_sta_code
+			INNER JOIN
+			tb_point_del as d
+			ON
+			p.point_num = d.point_num;
+	</select>
+</mapper>

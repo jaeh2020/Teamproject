@@ -13,6 +13,9 @@ import amdn.anywhere.domain.MemberUserLike;
 @Mapper
 public interface MemberMapper {
 
+	//선호-비선호 선택 등록
+	public int modifyUserLike(MemberUserLike memberUserLike);
+	
 	//소상공인 승인 상태, 승인자 아이디 변경
 	public int modifyBizConfirm(MemberBiz memberBiz);
 	

@@ -43,18 +43,14 @@ public class MemberController {
 							,MemberUserLike mul) {
 		
 		mul.setUserLikeCode(userLikeCode);
-		mul.setLikeId(likeId);
 		mul.setUserLikeKey1(likeArr.get(0));
 		mul.setUserLikeKey2(likeArr.get(1));
 		mul.setUserLikeKey3(likeArr.get(2));
 		mul.setUserUnlikeKey1(unlikeArr.get(0));
 		mul.setUserUnlikeKey2(unlikeArr.get(1));
 		mul.setUserUnlikeKey3(unlikeArr.get(2));
-		
-		if(mul != null) {
-			mul.setUserLikeCode(memberService.getUserLikeCode());
-			memberService.addMemberUserLike(mul);
-		}
+		System.out.println(mul.getLikeId() + "dfdfsdfff");
+		memberService.modifyUserLike(mul);
 
 		return "mul";
 	}
@@ -62,16 +58,18 @@ public class MemberController {
 	@GetMapping("/member/modifyUserLike")
 	public String modifyUserLike(@RequestParam(name = "userId", required = false) String userId
 								,Model model) {
+		System.out.println("userId::::::" + userId);
 		
 		//선호-비선호 메인카테 불러오기
 		List<FoodMainCate> foodMainList = memberService.getFoodMainList();
 		
-		MemberUser mul = memberService.getMemberUserInfoById(userId);
+		MemberUser memberUser = memberService.getMemberUserInfoById(userId);
+		memberUser.setUserId(userId);
 		
 		model.addAttribute("title", "MYPAGE  > 추천/비추천 카테고리 수정");
 		model.addAttribute("location", "MYPAGE  > 추천/비추천 카테고리 수정");
 		model.addAttribute("foodMainList", foodMainList);
-		model.addAttribute("mul", mul);
+		model.addAttribute("memberUser", memberUser);
 		
 		return "/member/modifyUserLike";
 	}
