@@ -13,38 +13,18 @@
 	<div class="col-lg-12">
 			<div class="card card-outline-info">
 				<div class="card-header">
-					<h4 class="m-b-0 text-white">게시판 벌점 등록</h4>
+					<h4 class="m-b-0 text-white">벌점 등록</h4>
 				</div>
 				<br>
 				<div class="card-body">
-					<form th:action="@{/report/penaltyAdd}" role="form" id="penaltyAddForm" method="post" >
-						<input type="hidden" name="reportRegTime" th:value="${getReportCode.reportConfirmTime}">
-						<input type="hidden" name="reportAccuScore" value=3>
+					<form th:action="@{/report/penaltyInsert}" role="form" id="penaltyInsertForm" method="post" >
+						
 						<div class="form-body">
-							<h3 class="box-title">Board Penalty</h3>
+							<h3 class="box-title">Penalty</h3>
 							<hr class="m-t-0 m-b-40">
 							<!--/row-->
 							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group row">
-										<label class="control-label text-right col-md-3">신고 코드</label>
-										<div class="col-md-9">
-											<input type="text" class="form-control" readonly="readonly" name="reportCode" th:value="${getReportCode.reportCode}">
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="row">
 								<!--/span-->
-								<div class="col-md-12">
-									<div class="form-group row">
-										<label class="control-label text-right col-md-3"><span class="text-danger">*</span>벌점 대상자</label>
-										<div class="col-md-9">
-											<input type="text" class="form-control" readonly="readonly" name="penaltyId" th:value="${getReportCode.reportApplyId}" >
-										</div>
-									</div>
-								</div>
 								<div class="col-md-12">
 									<div class="form-group row">
 										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 벌점 부과자</label>
@@ -55,11 +35,24 @@
 								</div>
 								<div class="col-md-12">
 									<div class="form-group row">
+										<label class="control-label text-right col-md-3"><span class="text-danger">*</span>벌점 대상자</label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" name="penaltyId" />
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group row">
 										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 벌점유형</label>
 										<div class="col-md-9">
 											<select class="form-control custom-select" name="penaltyStandard" id="penaltyStandard">
 												<option value="">★★ 선택해주세요 ★★</option>
+												<option value="panalty_appliance">평가단 신청 후 미참가 (1/2)</option>
+												<option value="panalty_appliance_re">평가단 신청 후 미참가 (2/2)</option>
+												<option value="panalty_appliance_noreport">평가단 진행 후 리포트 수행 안함</option>
 												<option value="penalty_badword">욕 1회</option>
+												<option value="penalty_cancle">악의적인 예약취소</option>
+												<option value="penalty_noshow">주문 후 미방문</option>
 											</select>
 										</div>
 									</div>

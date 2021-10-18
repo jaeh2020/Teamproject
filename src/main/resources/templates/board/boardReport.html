@@ -26,6 +26,10 @@
 										<input type="text" class="form-control" th:value="${board.boardNum}" name="boardNum" readonly/>
 									</div>
 									<div class="form-group">
+										<label>＊신고대상자</label>
+										<input type="text" class="form-control" th:value="${board.memberId}" name="reportApplyId" readonly/>
+									</div>
+									<div class="form-group">
 										<label>＊신고자</label>
 										<input type="text" class="form-control" th:value="${reportId}" name="reportId" readonly/>
 									</div>

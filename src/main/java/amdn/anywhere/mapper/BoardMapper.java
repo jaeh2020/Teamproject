@@ -20,7 +20,7 @@ public interface BoardMapper {
 	
 	//신고등록
 	public int boardReport(Report report);
-	
+	 
 	//신고 코드 자동증가
 	public String getNewReportNum();
 	
