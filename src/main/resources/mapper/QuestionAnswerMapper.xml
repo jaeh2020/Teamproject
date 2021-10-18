@@ -5,7 +5,6 @@
 <mapper namespace="amdn.anywhere.mapper.QuestionAnswerMapper">
 	<resultMap type="SurveyResult" id="surveyRResultMap">
 		<result property="createCode" column="question_create_code"/>
-		<result property="recruitBBCode" column="recruit_taster_biz_code"/>
 		<result property="numOfParti" column="totalNum"/>
 		<result property="qCateCode" column="question_cate_code"/>
 		<result property="qCateName" column="cate_name"/>
@@ -16,6 +15,7 @@
 		<result property="choice3" column="choice3"/>
 		<result property="choice4" column="choice4"/>
 		<result property="choice5" column="choice5"/>
+		<result property="recruitBBCode" column="recruit_taster_biz_code"/>
 	</resultMap>
 	<select id="getResultForSurvey" parameterType="Map" resultMap="surveyRResultMap">
 		SELECT
@@ -43,8 +43,8 @@
 			tb_question_create AS r
 			ON r.recruit_taster_biz_code = a.recruit_taster_biz_code
 		<where>
-			<if test="createCode != null">
-				r.question_create_code = #{createCode}
+			<if test="surveyCode != null">
+				r.question_create_code = #{surveyCode}
 			</if>
 		</where>	
 		GROUP BY a.question_code

@@ -41,24 +41,14 @@
 							</select>
 						</div>
 					</div>
+					<div id="default"></div>
 					 <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist" id="tabList">
                         <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Home</span></a> </li>
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content tabcontent-border" id="tabCont">
-                        <div class="tab-pane active" id="home" role="tabpanel">
-                             <div class="p-20">
-                             	<div class="card-title">
-                                	<h4>Echart</h4>
-                            	</div>
-                            	<div class="card-content">
-                                	<div id="basic-Pie" style="height: 370px"></div>
-                            	</div>
-                            </div>	
-                        </div>
-                        <div class="tab-pane  p-20" id="profile" role="tabpanel">2</div>
-                        <div class="tab-pane p-20" id="messages" role="tabpanel">3</div>
+                        
                     </div>
 		        </div>
 		    </div>
@@ -108,9 +98,9 @@
 			
 			 request.done(function(data){
 				 console.log(data);
+				 
 				 var qCate = '';
 				 for(var i=0; i < data.surveyResult.length ; i++){
-					console.log('반복문');
 					 if(qCate != data.surveyResult[i].qCateCode){
 						 tabHtml += '<li class="nav-item">';
 						 tabHtml +='	<a class="nav-link" data-toggle="tab" href="#'+ i +'" role="tab">';
@@ -121,27 +111,43 @@
 						 tabHtml +='	</a>';
 						 tabHtml +='</li>';
 						
-						  
-						  
-						 tabCtnt += '<div class="tab-pane active" id="'+ i + '" role="tabpanel">';
+						 tabCtnt += '<div class="tab-pane" id="'+ i + '" role="tabpanel">';
 						 tabCtnt +='	<div class="p-20">';
 						 tabCtnt +='		<div class="card-title">';
-						 tabCtnt +='			<h4>Echart</h4>';
+						 tabCtnt +='			<h4> ' + data.surveyResult[i].qCateName+ ' </h4>';
 						 tabCtnt +='		</div>';
 						 tabCtnt +='		<div class="card-content">';
-						 tabCtnt +='			<div id="age-Pie" style="height: 370px"></div>';
+						 tabCtnt +='			<div  style="height: 370px"></div>';
 						 tabCtnt +='		</div>';
 						 tabCtnt +='  	</div>';	
-						 tabCtnt +='</div>'; 
-						 
+						 tabCtnt +='</div>';
+						  
+						 $('#tabList').html(tabHtml);
+						 $('#tabCont').html(tabCtnt);
 					 }
 						qCate = data.surveyResult[i].qCateCode;
 						console.log(qCate);
 				 }
+				 var defaultInfo ='';
+				 defaultInfo += '<div class="tab-pane active" id="'+ i + '" role="tabpanel">';
+				 defaultInfo +='	<div class="p-20">';
+				 defaultInfo +='		<div class="card-title">';
+				 defaultInfo +='			<h4>참여인원: ' + data.surveyResult[0].numOfParti+ '명</h4>';
+				 defaultInfo +='		</div>';
+				 defaultInfo +='		<div class="card-content">';
+				 defaultInfo +='			<div id="age-Pie" style="height: 370px"></div>';
+				 defaultInfo +='		</div>';
+				 defaultInfo +='  	</div>';	
+				 defaultInfo +='</div>'; 
 				 
-				 $('#tabList').html(tabHtml);
-				 $('#tabCont').html(tabCtnt);
-				  	
+				 $('#default').html(defaultInfo);
+				 
+				 var age10 = data.age10; 	
+				 var age20 = data.age20; 	
+				 var age30 = data.age30; 	
+				 var age40 = data.age40; 	
+				 var age50 = data.age50;
+		
 				 	var dom = document.getElementById("age-Pie");
 				    var bpChart = echarts.init(dom);
 
@@ -166,11 +172,11 @@
 				                radius : '55%',
 				                center: ['50%', '60%'],
 				                data:[
-				                    {value:1, name:'10대'},
-				                    {value:2, name:'20대'},
-				                    {value:1, name:'30대'},
-				                    {value:0, name:'40대'},
-				                    {value:0, name:'50대 이상'}
+				                    {value: age10, name:'10대'},
+				                    {value: age20, name:'20대'},
+				                    {value: age30, name:'30대'},
+				                    {value: age40, name:'40대'},
+				                    {value: age50, name:'50대 이상'}
 				                ]
 				            }
 				        ]
@@ -189,51 +195,7 @@
 		});
 		
 	});
-		
-
 	
-	 <!--pie chart 세팅-->
-	$(function(){
-		
-	    var dom = document.getElementById("basic-Pie");
-	    var bpChart = echarts.init(dom);
-
-	    var app = {};
-	    option = null;
-	    option = {
-	        color: ['#62549a','#4aa9e9', '#ff6c60','#eac459', '#25c3b2' ],
-	        tooltip : {
-	            trigger: 'item',
-	            formatter: '{a} <br/>{b} : {c} ({d}%)'
-	        },
-	        legend: {
-	            orient : 'vertical',
-	            x : 'left',
-	            data:['Direct','Mail','Affiliate','AD','Search']
-	        },
-	        calculable : true,
-	        series : [
-	            {
-	                name:'Source',
-	                type:'pie',
-	                radius : '55%',
-	                center: ['50%', '60%'],
-	                data:[
-	                    {value:335, name:'Direct'},
-	                    {value:310, name:'Mail'},
-	                    {value:234, name:'Affiliate'},
-	                    {value:135, name:'AD'},
-	                    {value:1548, name:'Search'}
-	                ]
-	            }
-	        ]
-	    };
-
-	    if (option && typeof option === "object") {
-	        bpChart.setOption(option, false);
-	    }
-	});
-	 <!-- chart 세팅  -->   
 
 	</script>
 </th:block>

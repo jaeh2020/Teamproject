@@ -27,6 +27,7 @@ import amdn.anywhere.domain.SurveyResult;
 import amdn.anywhere.domain.Taster;
 import amdn.anywhere.service.QuestionService;
 import amdn.anywhere.service.StoreService;
+import amdn.anywhere.service.SurveyResultService;
 import amdn.anywhere.service.TasterService;
 
 @Controller
@@ -36,15 +37,18 @@ public class QuestionController{
 	private TasterService tasterService;
 	private QuestionService questionService;
 	private StoreService storeService;
+	private SurveyResultService surveyResultService;
 	
 	public QuestionController(
 			QuestionService questionService
 			,TasterService tasterService
-			, StoreService storeService){
+			, StoreService storeService
+			, SurveyResultService surveyResultService){
 
 		this.tasterService = tasterService;
 		this.questionService = questionService;
 		this.storeService = storeService;
+		this.surveyResultService = surveyResultService;
 		
 	}
 	//17. ajax - 설문코드로 설문결과 가져오기
@@ -54,7 +58,9 @@ public class QuestionController{
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("surveyCode", surveyCode);
 		List<SurveyResult> surveyResultList= questionService.getSurveyResult(paramMap);
+		//연령대그룹 가져오기
 		paramMap.clear();
+		paramMap = surveyResultService.getTastersAge(surveyCode);
 		paramMap.put("surveyResult", surveyResultList);
 		return paramMap;
 	}
