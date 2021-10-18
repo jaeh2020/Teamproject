@@ -36,7 +36,29 @@
 	</resultMap>
 
 
+<!-- 기타 벌점 등록하기 -->
+<insert id="penaltyInsert" parameterType="Penalty">
+	INSERT INTO tb_penalty
+	(penalty_code
+	, penalty_standard_code
+	, report_accu_score
+	, rep_code
+	, report_time
+	, penalty_check_date
+	, penalty_id
+	, member_id)
+	VALUES 
+	(#{penaltyCode}
+	,#{penaltyStandard}
+	, #{reportAccuScore}
+	, NULL
+	, NULL
+	, NOW()
+	, #{penaltyId}
+	, #{memberId});
+</insert>
 
+<!-- 벌점 점수 가져오기 -->
 <select id="getPenaltyScore" parameterType="String" resultType="ReportCate">
 	SELECT
 		penalty_score
