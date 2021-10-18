@@ -33,14 +33,20 @@
 							</select>
 						</div>
 					</div>
+					<div class="form-group row">
+						<label class="col-lg-4 col-form-label" for="storeCode">진행된 설문조사 <span class="text-danger">*</span></label>
+						<div class="col-lg-7">
+							<select class="form-control" id="surveyCode" name="surveyCode">
+								<option value=""> : : : 설문 목록  : : : </option>
+							</select>
+						</div>
+					</div>
 					 <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
+                    <ul class="nav nav-tabs" role="tablist" id="tabList">
                         <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Home</span></a> </li>
-                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Profile</span></a> </li>
-                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Messages</span></a> </li>
                     </ul>
                     <!-- Tab panes -->
-                    <div class="tab-content tabcontent-border">
+                    <div class="tab-content tabcontent-border" id="tabCont">
                         <div class="tab-pane active" id="home" role="tabpanel">
                              <div class="p-20">
                              	<div class="card-title">
@@ -64,14 +70,127 @@
 	//pie 차트에 필요한 데이터 가져오는 ajax
 	$(function(){
 		$('#storeCode').on("change", function(){
-				var storeCode = $('#storeCode option:selected').val();
+				var storeCode = $('#storeCode option:selected');
 				console.log(storeCode);
 			
-			/* var request = $.ajax({
-			}); */
-		})
+			 var request = $.ajax({
+					url: "/survey/getSurveyList", //요청 주소
+					method: "GET", //요청 방식
+					data: { storeCode : storeCode.val() },
+					dataType: "json" //받아올 포맷방식
+					});	 
+				 request.done(function(data){
+					 console.log(data);
+					var option = '<option value=""> : : :  설문 목록   : : : </option>';
+					 for(var i=0; i<data.length; i++){
+						 option += '<option value= ' + data[i].createCode + '>' + data[i].recruitTasterByBiz.surveyTitle + '</option>';
+					 }
+						$('#surveyCode').html(option);					 
+				 });
+				 request.fail(function( jqXHR, textStatus){
+						alert( "Request failed: " + textStatus );
+					}); 
+			});
+		});
+	$(function(){
+		$('#surveyCode').on("change", function(){
+			var surveyCode = $('#surveyCode option:selected');
+			console.log(surveyCode.val());
+			
+			var request = $.ajax({
+					url: "/survey/getSurveyResult", //요청 주소
+					method: "GET", //요청 방식
+					data: { surveyCode : surveyCode.val() },
+					dataType: "json" //받아올 포맷방식
+					});
+			var tabHtml = '';
+			var tabCtnt = '';
+			
+			 request.done(function(data){
+				 console.log(data);
+				 var qCate = '';
+				 for(var i=0; i < data.surveyResult.length ; i++){
+					console.log('반복문');
+					 if(qCate != data.surveyResult[i].qCateCode){
+						 tabHtml += '<li class="nav-item">';
+						 tabHtml +='	<a class="nav-link" data-toggle="tab" href="#'+ i +'" role="tab">';
+						 tabHtml +='		<span class="hidden-sm-up">';
+						 tabHtml +='			<i class="ti-home"></i>';
+						 tabHtml +='		</span>';
+						 tabHtml +='		<span class="hidden-xs-down">'+ data.surveyResult[i].qCateName +'</span>';
+						 tabHtml +='	</a>';
+						 tabHtml +='</li>';
+						
+						  
+						  
+						 tabCtnt += '<div class="tab-pane active" id="'+ i + '" role="tabpanel">';
+						 tabCtnt +='	<div class="p-20">';
+						 tabCtnt +='		<div class="card-title">';
+						 tabCtnt +='			<h4>Echart</h4>';
+						 tabCtnt +='		</div>';
+						 tabCtnt +='		<div class="card-content">';
+						 tabCtnt +='			<div id="age-Pie" style="height: 370px"></div>';
+						 tabCtnt +='		</div>';
+						 tabCtnt +='  	</div>';	
+						 tabCtnt +='</div>'; 
+						 
+					 }
+						qCate = data.surveyResult[i].qCateCode;
+						console.log(qCate);
+				 }
+				 
+				 $('#tabList').html(tabHtml);
+				 $('#tabCont').html(tabCtnt);
+				  	
+				 	var dom = document.getElementById("age-Pie");
+				    var bpChart = echarts.init(dom);
+
+				    var app = {};
+				    option = null;
+				    option = {
+				        color: ['#62549a','#4aa9e9', '#ff6c60','#eac459', '#25c3b2' ],
+				        tooltip : {
+				            trigger: 'item',
+				            formatter: '{a} <br/>{b} : {c} ({d}%)'
+				        },
+				        legend: {
+				            orient : 'vertical',
+				            x : 'left',
+				            data:['10대','20대','30대','40대','50대 이상']
+				        },
+				        calculable : true,
+				        series : [
+				            {
+				                name:'Source',
+				                type:'pie',
+				                radius : '55%',
+				                center: ['50%', '60%'],
+				                data:[
+				                    {value:1, name:'10대'},
+				                    {value:2, name:'20대'},
+				                    {value:1, name:'30대'},
+				                    {value:0, name:'40대'},
+				                    {value:0, name:'50대 이상'}
+				                ]
+				            }
+				        ]
+				    };
+
+				    if (option && typeof option === "object") {
+				        bpChart.setOption(option, false);
+				    }
+				 
+			});
+			 
+				
+			 request.fail(function( jqXHR, textStatus){
+					alert( "Request failed: " + textStatus );
+				}); 
+		});
 		
 	});
+		
+
 	
 	 <!--pie chart 세팅-->
 	$(function(){

@@ -57,7 +57,7 @@
 		FROM
 			tb_question_create
 	</select>
-	<select id="getSurveyList" parameterType="String" resultMap="SurveyResultMap">
+	<select id="getSurveyList" parameterType="Map" resultMap="SurveyResultMap">
 		SELECT
 			 c.question_create_code
 			 ,c.store_code
@@ -79,6 +79,9 @@
 		<where>
 			<if test="recruitCode != null">
 				c.recruit_taster_biz_code = #{recruitCode}
+			</if>
+			<if test="storeCode != null">
+				c.store_code = #{storeCode}
 			</if>	
 		</where>	
 	</select>
