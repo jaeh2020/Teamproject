@@ -37,7 +37,26 @@
 				<form id="addStoreForm" th:action="@{/enter/addStore}" method="post">
 					<div class="card-body">
 						<div class="basic-form">
+						
+						<!-- 권한별 접근 제어-->
+					    <script type="text/javascript">
+						window.onload = function() {
+							
+							var bizLevel = document.getElementById('bizLevel').value;
+							console.log(bizLevel);
+							
+							if(bizLevel == 'level_admin'){
+								alert('접근권한이 없습니다');
+								window.history.back();
+							}else if(bizLevel == 'level_user'){
+								alert('접근권한이 없습니다');
+								window.history.back();
+							}
+						};
+					    </script>
+					    
 								<div class="form-group">
+									<input type="hidden" id="bizLevel" th:value="${bizLevel}">
 									<label>소상공인 코드</label>
 									<div class="col-md-6" style="display: inline;">
 									<input type="text" name="bizCode" id="bizCode" class="form-control" readonly="readonly">
@@ -140,6 +159,7 @@
     
     
     
+    
   	/*  카카오 주소검색 api */
   	
     window.onload = function(){
@@ -163,6 +183,8 @@
             }).open();
         });
     };
+    
+    
     
    	/* 유효성검사 */ 
 	$(function(){
