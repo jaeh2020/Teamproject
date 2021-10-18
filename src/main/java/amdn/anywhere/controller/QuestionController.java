@@ -23,6 +23,7 @@ import amdn.anywhere.domain.Questionnaire;
 import amdn.anywhere.domain.RecruitTasterByBiz;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.domain.Survey;
+import amdn.anywhere.domain.SurveyResult;
 import amdn.anywhere.domain.Taster;
 import amdn.anywhere.service.QuestionService;
 import amdn.anywhere.service.StoreService;
@@ -46,6 +47,29 @@ public class QuestionController{
 		this.storeService = storeService;
 		
 	}
+	//17. ajax - 설문코드로 설문결과 가져오기
+	@GetMapping(value="/getSurveyResult", produces = "application/json")
+	@ResponseBody
+	public Map<String, Object> getSurveyResult(@RequestParam(name="surveyCode", required = false) String surveyCode){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("surveyCode", surveyCode);
+		List<SurveyResult> surveyResultList= questionService.getSurveyResult(paramMap);
+		paramMap.clear();
+		paramMap.put("surveyResult", surveyResultList);
+		return paramMap;
+	}
+	
+	//16 ajax - 매장코드로 설문목록 가져오기
+	@GetMapping(value="/getSurveyList", produces = "application/json")
+	@ResponseBody
+	public List<Survey> getSurveyList(@RequestParam(name="storeCode", required = false) String storeCode){
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("storeCode", storeCode);
+		List<Survey> surveyList= questionService.getSurveyList(paramMap);
+		
+		return surveyList;
+	}
+	
 	//15. 내설문조사 결과 페이지 이동
 	@GetMapping("/surveyResult")
 	public String surveyResult(HttpSession session, Model model) {

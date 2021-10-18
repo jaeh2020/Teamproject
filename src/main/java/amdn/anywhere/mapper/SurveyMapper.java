@@ -1,6 +1,7 @@
 package amdn.anywhere.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,7 +10,7 @@ import amdn.anywhere.domain.Survey;
 @Mapper
 public interface SurveyMapper {
 	//1. 설문조사 목록 조회
-	public List<Survey> getSurveyList(String recruitCode);
+	public List<Survey> getSurveyList(Map<String, String> paramMap);
 	//2.설문조사 코드 자동생성
 	public String createSurveyCode();
 	//3. 설문조사 등록
