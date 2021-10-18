@@ -1,6 +1,7 @@
 package amdn.anywhere.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,14 @@ public class MainService {
 
 	
 	//상점리스트 조회
-	public List<Store> getMainList(){ 
-		 List<Store> storeList = mainMapper.getMainList();
+	public List<Store> getMainList(Map<String,Object> paramMap){
+		String placeInput = (String) paramMap.get("placeInput");
+		String mainCateCode = (String) paramMap.get("mainCateCode");
+		
+		paramMap.put("placeInput", placeInput);
+		paramMap.put("mainCateCode", mainCateCode);
+
+		List<Store> storeList = mainMapper.getMainList(paramMap);
 		 
 		return storeList; 
 	}

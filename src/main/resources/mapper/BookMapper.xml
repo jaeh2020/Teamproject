@@ -124,7 +124,7 @@
 	
 	
 <!-- 주문내역 리스트 -->
-	<select id="getOrderAllList" resultMap="orderResultMap">
+	<select id="getOrderAllList" resultMap="orderResultMap" parameterType="map">
 		SELECT
 			o.o_code
 			,o.b_o_code
@@ -161,7 +161,12 @@
 			INNER join
 			tb_store_menu AS m
 			on
-			o.menu_code = m.menu_code;
+			o.menu_code = m.menu_code
+			<where>
+				<if test="dateBefore != null and dateAfter != null">
+				date(o.order_sign_time) BETWEEN #{dateBefore} and #{dateAfter}
+				</if>
+			</where>
 		</select>
 	
 	
@@ -212,7 +217,7 @@
 	
 
 <!-- 주문내역리스트 조회 -->
-	<select id="getOrderUserInfoById" resultMap="orderResultMap">
+	<select id="getOrderUserInfoById" resultMap="orderResultMap" parameterType="map">
 		SELECT
 			o.o_code
 			,o.b_o_code
@@ -250,8 +255,17 @@
 			tb_store_menu AS m
 			on
 			o.menu_code = m.menu_code
-		WHERE
-			o.user_id = #{userId}
+		<where>
+			<if test="userId != null and dateBefore == null and dateAfter == null">
+				o.user_id = #{userId}
+			</if>
+			<if test="userId != null and dateBefore != null and dateAfter != null">
+				o.user_id = #{userId}
+				AND
+				date(o.order_sign_time) BETWEEN #{dateBefore} and #{dateAfter}
+			</if>
+		</where>
+			
 		GROUP BY o.o_code;
 		</select>
 	

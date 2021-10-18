@@ -30,8 +30,16 @@ public class BookService {
 	 }
 	 
 	 //주문리스트조회
-	 public List<Order> getOrderAllList(){
-		 List<Order> orderList = bookMapper.getOrderAllList();
+	 public List<Order> getOrderAllList(Map<String,Object> paramMap){
+		 
+		 String dateBefore = (String) paramMap.get("dateBefore");
+		 String dateAfter = (String) paramMap.get("dateAfter");
+		 
+		 paramMap.put("dateBefore", dateBefore);
+		 paramMap.put("dateAfter", dateAfter);
+		 
+		 List<Order> orderList = bookMapper.getOrderAllList(paramMap);
+		 
 		 return orderList;
 	 }
 
@@ -50,16 +58,20 @@ public class BookService {
 	
 	 
 	 //나의 주문내역 리스트
-	 public Map<String, Object> getOrderUserInfoById(String bizId){ 
-		
-		List<Order> userOrderList = bookMapper.getOrderUserInfoById(bizId); 
-		
-		Map<String, Object>paramMap = new HashMap<String, Object>(); 
-		
-		paramMap.put("userOrderList",userOrderList); 
-		
-		return paramMap;
-	 }
+	 public List<Order> getOrderUserInfoById(Map<String,Object> paramMap){
+		 
+			String dateBefore = (String) paramMap.get("dateBefore");
+			String dateAfter = (String) paramMap.get("dateAfter");
+			String userId = (String) paramMap.get("userId");
+			
+			paramMap.put("dateBefore", dateBefore);
+			paramMap.put("dateAfter", dateAfter);
+			paramMap.put("userId", userId);
+
+			List<Order> userOrderList = bookMapper.getOrderUserInfoById(paramMap);
+			 
+			return userOrderList; 
+		}
 	 
 	 //결제예정 그룹코드 자동증가
 	 public String getnewOGroupCode() {

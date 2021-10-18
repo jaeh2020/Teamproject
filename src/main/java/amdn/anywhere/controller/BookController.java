@@ -1,5 +1,6 @@
 package amdn.anywhere.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,26 +66,21 @@ public class BookController {
 	}
 		
 		
-	//주문내역리스트에서 날짜필터 조회
-	@PostMapping("/bookOrderList")
-	public String bookOrderList(@RequestParam(name = "dateBefore", required = false) String dateBefore
-								,@RequestParam(name = "dateAfter", required = false) String dateAfter
-								,Model model) {
-								
-		
-		
-		return "redirect:/";
-	}
-	
-		
-		
 	//전체 주문내역리스트 조회	
 	@GetMapping("/bookOrderList")
-	public String bookOrderList(Model model) {
+	public String bookOrderList(Model model
+								,@RequestParam(name = "dateBefore", required = false) String dateBefore
+							  	,@RequestParam(name = "dateAfter", required = false) String dateAfter) {
 		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("dateBefore", dateBefore);
+		paramMap.put("dateAfter", dateAfter);
+		
+		System.out.println(dateBefore + ": dateBefore");
+		System.out.println(dateAfter + ": dateAfter");
 		
 		//주문리스트 조회
-		List<Order> orderList = bookService.getOrderAllList();
+		List<Order> orderList = bookService.getOrderAllList(paramMap);
 	
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("title", "주문내역");
@@ -97,11 +93,23 @@ public class BookController {
 	//나의 주문내역리스트 조회	
 	@GetMapping("/bookMyOrderList")
 		public String bookMyOrderList(Model model
-								   ,@RequestParam(name = "userId", required = false) String userId) {
+								  	,@RequestParam(name = "userId", required = false) String userId
+								  	,@RequestParam(name = "dateBefore", required = false) String dateBefore
+								  	,@RequestParam(name = "dateAfter", required = false) String dateAfter) {
 		
-		Map<String, Object> paramMap = bookService.getOrderUserInfoById(userId);
 		
-		model.addAttribute("userOrderList", paramMap.get("userOrderList"));
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("dateBefore", dateBefore);
+		paramMap.put("dateAfter", dateAfter);
+		paramMap.put("userId", userId);
+		
+		System.out.println(dateBefore + ": dateBefore");
+		System.out.println(dateAfter + ": dateAfter");
+		System.out.println(userId + ": userId");
+		
+		List<Order> userOrderList = bookService.getOrderUserInfoById(paramMap);
+		
+		model.addAttribute("userOrderList", userOrderList);
 		model.addAttribute("title", "나의주문내역");
 		model.addAttribute("location", "나의주문내역");
 		

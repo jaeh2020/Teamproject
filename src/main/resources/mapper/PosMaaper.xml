@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="amdn.anywhere.mapper.PosMapper">
+
+	<resultMap type="Order" id="orderResultMap">
+		<result property="oCode"				column="o_code"/>
+		<result property="bookCode"				column="b_o_code"/>
+		<result property="userId"				column="user_id"/>
+		<result property="storeCode"			column="store_code"/>
+		<result property="menuCode"				column="menu_code"/>
+		<result property="oCount"				column="o_count"/>
+		<result property="menuTotalPrice"		column="menu_total_price"/>
+		<result property="oRequest"				column="o_request"/>
+		<result property="payGroCode"			column="pay_gro_code"/>
+		<result property="oTotalPrice"			column="o_total_price"/>
+		<result property="orderSignTime"		column="order_sign_time"/>
+		<result property="orderCompTime"		column="order_comp_time"/>
+		<result property="orderStateCode"		column="order_state_code"/>
+		<result property="storeTableCode"		column="store_table_code"/>
+		<result property="tabelStateCode"		column="table_state_code"/>
+		<association property="book" javaType="Book">
+			<id property="bookCode" 			column="b_o_code"/>
+			<result property="storeCode"		column="store_code"/>
+			<result property="userId"			column="user_id"/>
+			<result property="bookUserName"		column="book_user_name"/>
+			<result property="bookUserPhone"	column="book_user_phone"/>
+			<result property="bookPeoNum"		column="book_peo_num"/>
+			<result property="bookSignTime"		column="book_sign_time"/>
+			<result property="bookCompTime"		column="book_comp_time"/>
+			<result property="bookCallAgree"	column="book_call_agree"/>
+			<result property="stateCode"		column="state_code"/>
+			<result property="bookPickup"		column="book_pickup"/>
+		</association>
+		<association property="store" javaType="Store">
+			<id property="storeCode" 			column="store_code"/>
+			<result property="storeCode"		column="store_code"/>
+			<result property="storeName"		column="store_name"/>
+			<result property="bizCode"			column="biz_code"/>
+			<result property="bizId"			column="biz_id"/>
+			<result property="storeLocation"	column="store_location"/>
+			<result property="storeTime"		column="store_time"/>
+			<result property="storePhone"		column="store_phone"/>
+			<result property="mainCateCode"		column="main_cate_code"/>
+			<result property="mainCateCode2"	column="main_cate_code2"/>
+			<result property="storeHoliday"		column="store_holiday"/>
+			<result property="storeTasteAgree"	column="store_taste_agree"/>
+			<result property="storeExposAgree"	column="store_expos_agree"/>
+			<result property="storePhoto"		column="store_photo"/>
+			<result property="storeTableNum"	column="store_table_num"/>
+			<result property="storeOccupancy"	column="store_occupancy"/>
+		</association>
+		<association property="statement" javaType="Statement">
+			<id property="stateCode" 			column="state_code"/>
+			<result property="mainState"		column="main_state"/>
+			<result property="stateName"		column="state_name"/>
+		</association>
+		<association property="menu" 	javaType="Menu">
+			<id property="menuCode" 			column="menu_code"/>
+			<result property="bizId"			column="biz_id"/>
+			<result property="storeCode"		column="store_code"/>
+			<result property="mainCateCode"		column="main_cate_code"/>
+			<result property="menuCateCode"		column="menu_cate_code"/>
+			<result property="menuName"			column="menu_name"/>
+			<result property="menuPrice"		column="menu_price"/>
+			<result property="menuDetail"		column="menu_detail"/>
+			<result property="menuRegTime"		column="menu_reg_time"/>
+			<result property="menuUsing"		column="menu_using"/>
+		</association>
+	</resultMap>
+	
+	
+	
+	
+	
+	<!-- 나의매장 주문pos list조회 -->
+	<select id="getPosOrderList" resultMap="orderResultMap">
+		SELECT
+			o.o_code
+			,o.b_o_code
+			,o.user_id
+			,o.store_code
+			,o.menu_code
+			,o.o_count
+			,o.menu_total_price
+			,o.o_request
+			,o.pay_gro_code
+			,o.o_total_price
+			,o.order_sign_time
+			,o.order_comp_time
+			,o.order_state_code
+			,o.store_table_code
+			,o.table_state_code
+			,i.store_name
+			,s.state_name
+			,m.menu_name
+		FROM
+			tb_order AS o
+			INNER join
+			tb_book AS b
+			ON
+			o.user_id = b.user_id
+			INNER join
+			tb_store_info AS i
+			on
+			o.store_code = i.store_code
+			INNER join
+			tb_statement AS s
+			on
+			o.order_state_code = s.state_code
+			INNER join
+			tb_store_menu AS m
+			on
+			o.menu_code = m.menu_code
+		where
+			o.store_code = #{storeCode}
+		GROUP BY o.o_code;
+	</select>
+	
+	
+	
+</mapper>

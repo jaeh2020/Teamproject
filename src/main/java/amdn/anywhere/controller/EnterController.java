@@ -175,6 +175,8 @@ public class EnterController {
 		
 		//세션아이디(로그인되어있는 아이디) 
 		String bizId = (String) session.getAttribute("SID");
+		//세션권한(로그인되어있는 권한)
+		String bizLevel = (String) session.getAttribute("SLEVEL");
 		
 		//소상공인 코드 조회 
 		MemberBiz memberBiz = storeService.getBizCode(bizId);
@@ -182,6 +184,7 @@ public class EnterController {
 		//메뉴 대분류 전체 조회
 		List<FoodMainCate> mainCate = storeService.getMainCate();
 		 
+		model.addAttribute("bizLevel", bizLevel);
 		model.addAttribute("mainCate", mainCate);
 		model.addAttribute("memberBiz", memberBiz);
 		model.addAttribute("bizId", bizId);

@@ -23,129 +23,126 @@
 <th:block layout:fragment="customContents">
 
 
-
-	<!-- 주소검색 start -->
-	<div class="row justify-content-center">
-		<div class="col-lg-12">
-			<div class="card">
-				<div class="form-group" style="margin-bottom: 0px;">
-					<div class="input-group input-group-flat">
-						<span class="input-group-btn">
-							<button id="nowAdress" class="btn btn-warning" type="submit" onclick="getLocation()">
-								<i class="ti-map"></i>
-							</button>
-						</span>
-						<input type="text" id="address_kakao" class="form-control" name="placeInput" placeholder="건물명, 도로명 또는 지번으로 검색">
-						<!-- <span class="input-group-btn">
-							<button class="btn btn-info" name="place" type="submit" id="placeBtn">
-								<i class="ti-search"></i>
-							</button>
-						</span> -->
+	<form th:action = "@{/}" method="get">
+		<!-- 주소검색 start -->
+		<div class="row justify-content-center">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="form-group" style="margin-bottom: 0px;">
+							<span class="badge badge-dark">
+							<i class="ti-info-alt"> 아래 주소검색 입력란을 클릭하여 주소를 검색 후, 카테고리를 클릭하면 해당 매장 리스트가 검색됩니다.</i>
+							</span>
+							<div class="input-group input-group-flat">
+								<input type="text" id="address_kakao" class="form-control" name="placeInput" placeholder="건물명, 도로명 또는 지번으로 검색">
+							</div>
+						
 					</div>
-				</div>
-				<div class="card" style="background-image: url('images/addresswhere.png'); width: 100%; height: 0; padding-top: calc(320 / 1382 * 100%); background-repeat:no-repeat; background-size: cover; background-position: center;">
+					<div class="card" style="background-image: url('images/addresswhere.png'); width: 100%; height: 0; padding-top: calc(320 / 1382 * 100%); background-repeat:no-repeat; background-size: cover; background-position: center;">
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- 주소검색 end -->
+		<!-- 주소검색 end -->
+		
 	
-
-	<!-- start menu cate -->
-	
-	<div class="row">
-		<div class="col-3">
-			<div class="card">
-				<div class="card-body">
-					<div class="row justify-content-between">
-						<div class="col-lg-12">
-							<div class="card-content">
-								<button type="button" class="btn btn-danger" style="font-family: 'Gowun Batang', serif;">카테고리</button>
-                                	
-                                	<ul>
-	                                    <th:block th:if="${#lists.size(mainCate) > 0}" th:each="c : ${mainCate}">
-	                                    <li class="list-group-item">
-	                                    	 <i class="ti-quote-left"></i>
-	                                    	 <button type="button" class="btn btn-pink"
-	                                    	  		 th:text="${c.mainCateName}" 
-													 th:value="${c.mainCateName}">
-											 </button>
-	                                	</li>
-	                                   	</th:block>
-	                                </ul>
+		<!-- start menu cate -->
+		
+		<div class="row">
+			<div class="col-3">
+				<div class="card">
+					<div class="card-body">
+						<div class="row justify-content-between">
+							<div class="col-lg-12">
+								<div class="card-content">
+									<span class="badge badge-danger" style="height: 25px; padding-top: 8px;">
+									<i class="ti-angle-down"> 카테고리 </i>
+									</span>
+	                                	
+	                                	<ul>
+		                                    <th:block th:if="${#lists.size(mainCate) > 0}" th:each="c : ${mainCate}">
+		                                    <li class="list-group-item">
+		                                    	 <i class="ti-quote-left"></i>
+		                                    	 <button name="mainCateCode" type="submit" class="mainCateBtn btn btn-pink" id="mainCateBtn"
+		                                    	  		 th:text="${c.mainCateName}" 
+														 th:value="${c.mainCateCode}">
+												 </button>
+		                                	</li>
+		                                   	</th:block>
+		                                </ul>
+								</div>
+							
 							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+	 	<!-- end menu cate -->
+		
+		
+		
+		<!-- start store info -->
+			<div class="col-9">
+				<div class="card">
+					<div class="card-body">
+						<div class="row justify-content-between">
 						
+							<!-- start 상점목록 -->
+							<th:block th:if="${#lists.size(mainList) > 0}" th:each="l : ${mainList}">
+									<div class="col-lg-4">
+										<div class="card-content">
+												<div class="card">
+													<div class="card-header text-sm-center">
+															
+													<!-- start ajax -->
+													<button type="button" class="btn btn-danger btn sweet-wrong storeInfo" 
+													th:text="${l.storeName}" 
+													th:value="${l.storeName}"
+													>
+													</button>
+																									
+													</div>
+													<div class="card-body">
+														<div class="mx-auto d-block">
+															<!-- <img class="rounded-circle mx-auto d-block" src="images/admin.jpg" alt="상점이미지"> -->
+															<h5 class="text-sm-center mt-2 mb-1" th:text="${l.storePhone}">전화번호</h5>
+															
+															
+																<div class="location text-sm-center">
+																	<i class="fa fa-star"></i> 
+																	4.5
+																</div>
+														<hr>		
+																<div class="card-text text-sm-center">
+																	<i class="ti-user" style="color: pink;"></i><p>
+																	<h6> 현재 대기인원은 </h6>
+																	<h6 class="text-sm-center mt-2 mb-1" th:text="${l.waiting.waitNum + ' 명입니다'}">대기인원</h6>
+																	
+																</div>
+														</div>
+														<hr>
+														<div class="card-text text-sm-center">
+															<a th:href="@{/book/addBookMember(storeName=${l.storeName})}">
+															<button type="button" class="btn btn-outline-danger btn-sm bookBtn">예약/주문하기</button>
+															</a>
+														</div>
+														
+													</div>
+												</div>
+											</div>
+										</div>
+									
+							</th:block>
+							<!-- start 상점목록 -->
+							
+							
+								
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	
- 	<!-- end menu cate -->
-	
-	
-	
-	<!-- start store info -->
-		<div class="col-9">
-			<div class="card">
-				<div class="card-body">
-					<div class="row justify-content-between">
-					
-						<!-- start 상점목록 -->
-						<th:block th:if="${#lists.size(mainList) > 0}" th:each="l : ${mainList}">
-								<div class="col-lg-4">
-									<div class="card-content">
-											<div class="card">
-												<div class="card-header text-sm-center">
-														
-												<!-- start ajax -->
-												<button type="button" class="btn btn-danger btn sweet-wrong storeInfo" 
-												th:text="${l.storeName}" 
-												th:value="${l.storeName}"
-												>
-												</button>
-																								
-												</div>
-												<div class="card-body">
-													<div class="mx-auto d-block">
-														<!-- <img class="rounded-circle mx-auto d-block" src="images/admin.jpg" alt="상점이미지"> -->
-														<h5 class="text-sm-center mt-2 mb-1" th:text="${l.storePhone}">전화번호</h5>
-														
-														
-															<div class="location text-sm-center">
-																<i class="fa fa-star"></i> 
-																4.5
-															</div>
-													<hr>		
-															<div class="card-text text-sm-center">
-																<i class="ti-user" style="color: pink;"></i><p>
-																<h6> 현재 대기인원은 </h6>
-																<h6 class="text-sm-center mt-2 mb-1" th:text="${l.waiting.waitNum + ' 명입니다'}">대기인원</h6>
-																
-															</div>
-													</div>
-													<hr>
-													<div class="card-text text-sm-center">
-														<a th:href="@{/book/addBookMember(storeName=${l.storeName})}">
-														<button type="button" class="btn btn-outline-danger btn-sm bookBtn">예약/주문하기</button>
-														</a>
-													</div>
-													
-												</div>
-											</div>
-										</div>
-									</div>
-								
-						</th:block>
-						<!-- start 상점목록 -->
-						
-						
-							
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	</form>
 	<!-- end store info -->
 
 
@@ -167,63 +164,42 @@
     
     
     <script type="text/javascript">
-    
-    /* 좌표를 주소로 변환 */
-	
-    
-    
-   /* 현재위치 좌표 얻기  */
-	   var options = {
-		enableHighAccuracy : true,
-		timeout : 5000,
-		maximumAge : 0
-		};
-		function success(pos) {
-			var crd = pos.coords;
-			console.log('위도 : ' + crd.latitude);
-			console.log('경도: ' + crd.longitude);
-			lat = crd.latitude;
-			lon = crd.longitude;
-		};
-		
-		function error(err) {
-			console.warn('ERROR(' + err.code + '): ' + err.message);
-		};
-		
-		$("#nowAdress").click(function() {
-			navigator.geolocation.getCurrentPosition(success, error, options);
-		})
-    
-    
-    
-
-    <!-- 카카오 주소검색 api -->
-    
    
+	
+	/* 카테고리 버튼 유효성검사 */
+	$(function(){
+		$('.mainCateBtn').click(function(){
+			var plaInp = $('[name=placeInput]');
+			
+			//유효성검사
+			if(plaInp.val().trim() == ''){
+				alert('주소를 먼저 입력 후 카테고리를 선택해주세요.');
+				plaInp.focus();
+				return false;
+			}
+		$('.mainCateBtn').submit();
+		});
+	});
+
+    
+	/* 카카오 주소검색 api */
+	
     window.onload = function(){
         document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
             //카카오 지도 발생
             new daum.Postcode({
                 oncomplete: function(data) { //선택시 입력값 세팅
                 	
-                	/* var addr = ''; //주소변수
-                	
-                	if(data.userSelectedType === 'R'){
-                		addr = data.roadAddress;
-                	}else{
-                		addr = data.jibunAddress;
-                	} */
-                	
-                	
-                    document.getElementById("address_kakao").value = data.jibunAddress; // 주소 넣기
-                    /* document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱 */
+                    document.getElementById("address_kakao").value = data.bname; // 주소 넣기
                 }
             }).open();
         });
     }
     
-    <!-- 스윗얼랏 ajax 자바스크립트 -->
-												
+	
+	
+	/* 스윗얼랏 ajax */				
+	
 	    $(function(){
 	    	
 			$('.storeInfo').click(function(){
@@ -258,24 +234,7 @@
 			});
 		});
 
-	
-	
-	<!-- 주소검색버튼 유효성검사 -->
 
-	$(function(){
-		$('#placeBtn').click(function(){
-			var plaIn = $('[name=placeInput]');
-			s
-			//유효성검사
-			if(plaIn.val().trim() == ''){
-				alert('주소를 입력해주세요.');
-				plaIn.focus();
-				return;
-			}
-		$('#').submit();	
-		});
-	});
-	
     </script>
 	
     
