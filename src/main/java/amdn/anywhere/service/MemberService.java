@@ -20,6 +20,11 @@ public class MemberService {
 		this.memberMapper = memberMapper;
 	}
 	
+	//소비자 추천/비추천 수정
+	public int modifyUserLike(MemberUserLike memberUserLike) {
+		return memberMapper.modifyUserLike(memberUserLike);
+	}
+	
 	//소상공인 승인 상태, 승인자 아이디 변경
 	public int modifyBizConfirm(MemberBiz memberBiz) {
 		return memberMapper.modifyBizConfirm(memberBiz);

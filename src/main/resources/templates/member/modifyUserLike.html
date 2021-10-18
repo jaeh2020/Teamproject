@@ -74,21 +74,23 @@
 		<!-- 추/비 수정 -->		
 		<div class="col-lg-6 ">
 			<div class="card card-outline-primary">
+			<input type="hidden" id="SID" th:value="${session.SID}">
 	            <div class="card-header">
 	                <h4 class="m-b-0 text-white">추천 / 비추천 카테고리 수정</h4>
 	            </div>
 	            <div class="card-body">	            
 					<div class="login-form justify-content-center">
                                 <form th:action="@{/member/myPage}" method="post">
-                                	<!-- 앞에서 입력한 아이디값 hidden으로 가져오기 -->
-                                   
-                                	<input type="text" name="userLikeCode" id="userLikeCode">
-                                	<input type="text" name="likeId" id="likeId">
+                                	<!-- hidden -->   
+                                	<input type="hidden" name="userLikeCode" id="userLikeCode" th:value="${memberUser.memberUserLike.userLikeCode}">
+                                	<input type="hidden" name="likeId" id="likeId" th:value="${memberUser.userId}">
+                                	
+									
                                     <div class="form-group">
 	                                    <label class="sub">선호하는 음식 </label><label>( ※ 최대 3개까지만 선택 가능합니다.)</label> 
 	                                    <div>
 	                                   		<label id="foodMainList" th:each="l : ${foodMainList}">                                  		
-	                                   			<input type="checkbox" name="like" th:value="${l.mainCateName}">
+	                                   			<input type="checkbox" name="like" th:id="${l.mainCateName}" th:value="${l.mainCateName}">
 	                                   				[[${l.mainCateName}]]
 	                                   		</label>
 	                                    </div>		
@@ -101,12 +103,12 @@
 	                                    </div>		
                                     </div>
                                     <div class="form-button">
-	                                  	<a th:href="@{/member/addMember02}" >
+	                                  	<a th:href="@{/member/myPage(userId=${memberUser.userId})}">
 		                                    <button class="btn btn-inverse btn-flat m-b-30 m-t-30">이전</button>
 	                                    </a>
-	                                    <a th:href="@{/member/addMember05}">
-		                                    <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">다음</button>
-	                                    </a>
+	                                    <a th:href="@{/member/myPage(userId=${memberUser.userId})}">
+		                                 	<button type="button" class="btn btn-success btn-flat m-b-30 m-t-30">수정하기</button>
+		                                </a>
                                     </div>
                                 </form>
                             </div>
@@ -159,7 +161,7 @@
 				console.log(allData,'allData')
 				
 				  var request = $.ajax({
-				  url: "/userLike", //요청 주소
+				  url: "/modifyUserLike", //요청 주소
 				  method: "GET", //요청 방식
 				  data: allData, //전달 할 파라미터
 				  dataType: "html" //받아 올 포맷방식
@@ -174,12 +176,50 @@
 				
 			});
 			
-			//앞에서 입력한 아이디 가져와서 입력
-			var inputMemberId = localStorage.getItem("inputId");
-			$(document).ready(function(){
-				$('#userId').val(inputMemberId);
-				$('#likeId').val(inputMemberId);
-			});			
+		/* 
+			var userId = $('#SID').val();
+			console.log(userId)
+			
+			var request =  $.ajax({
+				  url: "/likeList", //요청 주소
+				  method: "GET", //요청 방식
+				  data: { userId : userId },
+				  dataType: "json" //받아올 포맷방식
+			});	
+			request.done(function(data){
+				
+				console.log(data);
+				var like1 = data.memberUserLike.userLikeKey1;
+				var like2 = data.memberUserLike.userLikeKey2;
+				var like3 = data.memberUserLike.userLikeKey3;
+				var unlike1 = data.memberUserLike.userUnlikeKey1;
+				var unlike2 = data.memberUserLike.userUnlikeKey2;
+				var unlike3 = data.memberUserLike.userUnlikeKey3;
+
+				var dbLikeArr = [];
+				dbLikeArr.push(like1);
+				dbLikeArr.push(like2);
+				dbLikeArr.push(like3);
+				dbLikeArr.push(unlike1);
+				dbLikeArr.push(unlike2);
+				dbLikeArr.push(unlike3);
+				console.log(like1,like2,like3,unlike1,unlike2,unlike3);
+				console.log(dbLikeArr);
+				console.log(document.getElementById("분식").getAttribute('name'))
+				for(var i = 0; i < dbLikeArr.length; i++){
+					console.log(dbLikeArr[i],'sdsfsf');
+					
+				}
+				if ( like1 == "분식"){					
+					$('input:checkbox[id="분식"]').attr("checked", true)
+				}				
+				
+			});
+			//응답 실패
+			request.fail(function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    });
+			 */
 		});		
 	</script> 	
 </th:block>
