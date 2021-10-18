@@ -162,12 +162,13 @@ public class MessageController {
 	//알림 메세지 조회 ajax
 	@GetMapping(value="/messageL", produces = "application/json")
 	@ResponseBody
-	public List<Message> getMessageL(
-			@RequestParam(name="messageCate1", required = false) String messageCate1){
+	public List<Message> getMessageL( @RequestParam(name="messageCate1", required = false) String messageCate1
+									 ,@RequestParam(name = "memberId", required = false) String memberId){
 		
-		List<Message> messageL = messageService.getMessageL(messageCate1);
-		
+		List<Message> messageL = messageService.getMessageL(messageCate1, memberId);
+
 		System.out.println(messageL + "messageL");
+		System.out.println(memberId + " : memberIdmemberIdmemberIdmemberIdmemberId");
 		
 		return messageL;
 	}

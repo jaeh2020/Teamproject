@@ -91,26 +91,7 @@
                             <div class="login-form">
                                 <h4>추가 정보 입력</h4>
                                 <form method="post" onload="getId()">
-                                	<input type="hidden" name="userLikeCode" id="userLikeCode">
-                                	<input type="text" name="memberId" id="memberId">
-                                    <div class="form-group">
-	                                    <label class="sub">선호하는 음식 </label><label>( ※ 최대 3개까지만 선택 가능합니다.)</label> 
-	                                    <div>
-	                                   		<label id="foodMainList" th:each="l : ${foodMainList}">                                  		
-	                                   			<input type="checkbox" name="like" th:value="${l.mainCateCode}">
-	                                   				[[${l.mainCateName}]]
-	                                   		</label>
-	                                    </div>		
-	                                    <label class="sub">비선호하는 음식</label><label>( ※ 최대 3개까지만 선택 가능합니다.)</label> 
-	                                    <div>
-	                                   		<label id="foodMainList" th:each="l : ${foodMainList}">                                  		
-	                                   			<input type="checkbox" name="unlike" th:value="${l.mainCateCode}">
-	                                   				[[${l.mainCateName}]]
-	                                   		</label>
-	                                    </div>		
-                                    </div>
-                                    
-                                    <!-- 앞에서 입력한 아이디값 hidden으로 가져오기 -->
+                                	<!-- 앞에서 입력한 아이디값 hidden으로 가져오기 -->
                                     <input type="hidden" name="userId" id="userId">
                                     <input type="hidden" name="msCode" value="ms_bronze">
                                     <input type="hidden" name="userOrderTotal" th:value="0">
@@ -118,6 +99,24 @@
                                     <input type="hidden" name="userEvaluator" th:value="n">
                                     <input type="hidden" name="reportScore" th:value="0">
                                     
+                                	<input type="hidden" name="userLikeCode" id="userLikeCode">
+                                	<input type="hidden" name="likeId" id="likeId">
+                                    <div class="form-group">
+	                                    <label class="sub">선호하는 음식 </label><label>( ※ 최대 3개까지만 선택 가능합니다.)</label> 
+	                                    <div>
+	                                   		<label id="foodMainList" th:each="l : ${foodMainList}">                                  		
+	                                   			<input type="checkbox" name="like" th:value="${l.mainCateName}">
+	                                   				[[${l.mainCateName}]]
+	                                   		</label>
+	                                    </div>		
+	                                    <label class="sub">비선호하는 음식</label><label>( ※ 최대 3개까지만 선택 가능합니다.)</label> 
+	                                    <div>
+	                                   		<label id="foodMainList" th:each="l : ${foodMainList}">                                  		
+	                                   			<input type="checkbox" name="unlike" th:value="${l.mainCateName}">
+	                                   				[[${l.mainCateName}]]
+	                                   		</label>
+	                                    </div>		
+                                    </div>
                                     <div class="form-button">
 	                                  	<a th:href="@{/member/addMember02}" >
 		                                    <button class="btn btn-inverse btn-flat m-b-30 m-t-30">이전</button>
@@ -157,8 +156,8 @@
 			//체크 된 값 ajax
 			$('.btn-success').on('click', function(){
 				var userLikeCode = $("#userLikeCode").val();
-				var memberId = $("#memberId").val();
-				console.log(userLikeCode,memberId)
+				var likeId = $("#likeId").val();
+				console.log(userLikeCode,likeId)
 				//선호도
 				var likeArr = [];
 				$('input:checkbox[name=like]').each(function() {
@@ -174,7 +173,7 @@
 		      		}
 				});		
 				//ajax
-				var allData = {"userLikeCode":userLikeCode, "memberId":memberId, "likeArr":likeArr, "unlikeArr":unlikeArr}
+				var allData = {"userLikeCode":userLikeCode, "likeId":likeId, "likeArr":likeArr, "unlikeArr":unlikeArr}
 				console.log(allData,'allData')
 				
 				  var request = $.ajax({
@@ -196,8 +195,8 @@
 			//앞에서 입력한 아이디 가져와서 입력
 			var inputMemberId = localStorage.getItem("inputId");
 			$(document).ready(function(){
-				$('#memberId').val(inputMemberId);
 				$('#userId').val(inputMemberId);
+				$('#likeId').val(inputMemberId);
 			});			
 		});		
 	</script> 	

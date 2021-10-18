@@ -10,6 +10,7 @@ import amdn.anywhere.domain.Board;
 import amdn.anywhere.domain.BoardCate;
 import amdn.anywhere.domain.BoardReply;
 import amdn.anywhere.domain.Member;
+import amdn.anywhere.domain.Report;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.mapper.BoardMapper;
 
@@ -25,8 +26,23 @@ public class BoardService {
 		  this.boardMapper = boardMapper;
 	 }
 	  
-	  public BoardReply getCommentCode(String boardReplyCode) {
-		  return boardMapper.getCommentCode(boardReplyCode);
+	  //신고 등록
+	  public int boardBizReport(Report report) {
+		  return boardMapper.boardReport(report);
+	  };
+	  //신고 등록
+	  public int boardReport(Report report) {
+		  return boardMapper.boardReport(report);
+	  };
+	  
+	  //신고번호 자동증가 코드
+	  public String getNewReportNum() {
+		  return boardMapper.getNewReportNum();
+	  };
+	  
+	  //신고 상태코드 불러오기
+	  public Statement getReportStatement(String reportStatementCode) {
+		  return boardMapper.getReportStatement(reportStatementCode);
 	  }
 	  
 	  //게시글 댓글 삭제
@@ -85,11 +101,6 @@ public class BoardService {
 		  return boardMapper.getboardStatement(boardStatementCode);
 	  }
 	  
-	  //게시판 카테고리 코드 가져오기
-	  public BoardCate getBoardCateCode(String boardCateCode) {
-		  return boardMapper.getBoardCateCode(boardCateCode);
-	  }
-	 
 	  
 	  //회원보기 - ajax처리
 	  public List<Member> getMemberList(){ 
@@ -107,13 +118,37 @@ public class BoardService {
 	  }
 	  
 	  
+	  //공지사항 등록
+	  public int boardNoticeWrite(Board board) {
+		  return boardMapper.boardNoticeWrite(board);
+	  }
 	  
+	  //소상공인 게시물 등록
+	  public int boardBizWrite(Board board) {
+		  return boardMapper.boardBizWrite(board);
+	  }
+	  
+	  //소비자 게시물 등록
 	  public int boardWrite(Board board) {
 		  return boardMapper.boardWrite(board);
 	  }
 	  
 	  
+	  //소상공인 게시글 목록
+	  public List<Board> getBoardNoticeList(){
+		  List<Board> boardNoticeList = boardMapper.getBoardNoticeList();
+		  
+		  return boardNoticeList;
+	  }
 	  
+	  //소상공인 게시글 목록
+	  public List<Board> getBoardBizList(){
+		  List<Board> BoardBizList = boardMapper.getBoardBizList();
+		  
+		  return BoardBizList;
+	  }
+	  
+	  //게시글 목록
 	  public List<Board> getBoardList(){
 		  List<Board> boardList = boardMapper.getBoardList();
 		  

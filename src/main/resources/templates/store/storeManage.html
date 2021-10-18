@@ -20,31 +20,50 @@
 </style>
 </th:block>
 
+<th:block layout:fragment="customJs">
+
+	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
+    
+</th:block>
+
 
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 	<div class="row">
 		<div class="col-lg-9"></div>
 		<div class="col-lg-3">
+			<a th:href="@{/store/storeMenuManage}">
 			<button type="button" class="btn btn-primary btn-flat m-b-10">메뉴 관리</button>
+			</a>
+			<a th:href="@{/store/storeTableManage}">
 			<button type="button" class="btn btn-primary btn-flat m-b-10">테이블 관리</button>
+			</a>
 		</div>
 	</div>
 	<div class="card">
-		<table class="table table-hover ">
+	
+		<table id="myTable" class="table table-bordered table-striped">
 			<thead>
-				<tr>
-					<th>매장 코드</th>
+                <tr>
+                	<th>매장 코드</th>
 					<th>매장명</th>
 					<th>소상공인 아이디</th>
 					<th>매장 주소</th>
 					<th>매장 전화번호</th>
 					<th>매장 평가단 동의여부</th>
 					<th>매장노출여부</th>
-					<th></th>
+					<th data-orderable="false">매장수정</th>
 				</tr>
-			</thead>
-			<tbody>
+            </thead>
+            <tbody>
 				<tr th:each="s : ${storeList}">
 					<td th:text="${s.storeCode}"></td>
 					<td th:text="${s.storeName}"></td>
@@ -53,10 +72,15 @@
 					<td th:text="${s.storePhone}"></td>
 					<td th:text="${s.storeTasteAgree}"></td>
 					<td th:text="${s.storeExposAgree}"></td>
-					<td><button type="button" class="btn btn-link btn-flat m-b-10">수정</button></td>
+					<td>
+						<a th:href="@{/store/modifyStoreInfo(storeCode=${s.storeCode})}">
+						<button type="button" class="modifyMenuBtn btn btn-success btn-outline fa fa-pencil text-white"></button>
+						</a>
+					</td>
 				</tr>
 			</tbody>
-		</table>						
+		</table>
+					
 	</div>
 </th:block>					
 					

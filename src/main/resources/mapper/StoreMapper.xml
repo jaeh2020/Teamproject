@@ -18,7 +18,6 @@
 		<result property="storeHoliday"		column="store_holiday"/>
 		<result property="storeTasteAgree"	column="store_taste_agree"/>
 		<result property="storeExposAgree"	column="store_expos_agree"/>
-		<result property="storePhoto"		column="store_photo"/>
 		<result property="storeTableNum"	column="store_table_num"/>
 		<result property="storeOccupancy"	column="store_occupancy"/>
 		<association property="foodMainCate" javaType="FoodMainCate">
@@ -40,29 +39,28 @@
 		<result property="menuRegTime"			column="menu_reg_time"/>
 		<result property="menuUsing"			column="menu_using"/>
 			<association property="foodMainCate" javaType="FoodMainCate">
-			<id property="mainCateCode"			column="main_cate_code"/>
-			<result property="mainCateName"		column="main_cate_name"/>
+				<id property="mainCateCode"			column="main_cate_code"/>
+				<result property="mainCateName"		column="main_cate_name"/>
 			</association>
 			<association property="menuCate" 	javaType="MenuCate">
-			<id property="menuCateCode"			column="menu_cate_code"/>
-			<result property="menuCateName"		column="menu_cate_name"/>
+				<id property="menuCateCode"			column="menu_cate_code"/>
+				<result property="menuCateName"		column="menu_cate_name"/>
 			</association>
 			<association property="store" 		javaType="Store">
-			<id property="storeCode"			column="store_code"/>
-			<result property="storeName"		column="store_name"/>
-			<result property="bizCode"			column="biz_code"/>
-			<result property="bizId"			column="biz_id"/>
-			<result property="storeLocation"	column="store_location"/>
-			<result property="storeTime"		column="store_time"/>
-			<result property="storePhone"		column="store_phone"/>
-			<result property="mainCateCode"		column="main_cate_code"/>
-			<result property="mainCateCode2"	column="main_cate_code2"/>
-			<result property="storeHoliday"		column="store_holiday"/>
-			<result property="storeTasteAgree"	column="store_taste_agree"/>
-			<result property="storeExposAgree"	column="store_expos_agree"/>
-			<result property="storePhoto"		column="store_photo"/>
-			<result property="storeTableNum"	column="store_table_num"/>
-			<result property="storeOccupancy"	column="store_occupancy"/>
+				<id property="storeCode"			column="store_code"/>
+				<result property="storeName"		column="store_name"/>
+				<result property="bizCode"			column="biz_code"/>
+				<result property="bizId"			column="biz_id"/>
+				<result property="storeLocation"	column="store_location"/>
+				<result property="storeTime"		column="store_time"/>
+				<result property="storePhone"		column="store_phone"/>
+				<result property="mainCateCode"		column="main_cate_code"/>
+				<result property="mainCateCode2"	column="main_cate_code2"/>
+				<result property="storeHoliday"		column="store_holiday"/>
+				<result property="storeTasteAgree"	column="store_taste_agree"/>
+				<result property="storeExposAgree"	column="store_expos_agree"/>
+				<result property="storeTableNum"	column="store_table_num"/>
+				<result property="storeOccupancy"	column="store_occupancy"/>
 			</association>
 	</resultMap>
 	
@@ -89,11 +87,268 @@
 			<result property="storeHoliday"		column="store_holiday"/>
 			<result property="storeTasteAgree"	column="store_taste_agree"/>
 			<result property="storeExposAgree"	column="store_expos_agree"/>
-			<result property="storePhoto"		column="store_photo"/>
 			<result property="storeTableNum"	column="store_table_num"/>
 			<result property="storeOccupancy"	column="store_occupancy"/>
 			</association>
 	</resultMap>
+	
+	<resultMap type="Statement" id="statementResultMap">
+		<result property="stateCode"			column="state_code"/>
+		<result property="mainState"			column="main_state"/>
+		<result property="stateName"			column="state_name"/>
+	</resultMap>
+	
+	<resultMap type="StoreCancel" id="storeCancelResultMap">
+		<result property="storeCancelCode"			column="store_cancel_code"/>
+		<result property="bizId"					column="biz_id"/>
+		<result property="storeCode"				column="store_code"/>
+		<result property="storeCancelAsk"			column="store_cancel_ask"/>
+		<result property="cancelTime"				column="cancel_time"/>
+		<result property="cancelComTime"			column="cancel_com_time"/>
+		<result property="cancelConfirmId"			column="cancel_confirm_id"/>
+		<result property="stateCode"				column="state_code"/>
+			<association property="statement" 		javaType="Statement">
+			<id property="stateCode"			column="state_code"/>
+			<result property="mainState"		column="main_state"/>
+			<result property="stateName"		column="state_name"/>
+			</association>
+			<association property="store" 		javaType="Store">
+			<id property="storeCode"			column="store_code"/>
+			<result property="storeName"		column="store_name"/>
+			<result property="bizCode"			column="biz_code"/>
+			<result property="bizId"			column="biz_id"/>
+			<result property="storeLocation"	column="store_location"/>
+			<result property="storeTime"		column="store_time"/>
+			<result property="storePhone"		column="store_phone"/>
+			<result property="mainCateCode"		column="main_cate_code"/>
+			<result property="mainCateCode2"	column="main_cate_code2"/>
+			<result property="storeHoliday"		column="store_holiday"/>
+			<result property="storeTasteAgree"	column="store_taste_agree"/>
+			<result property="storeExposAgree"	column="store_expos_agree"/>
+			<result property="storeTableNum"	column="store_table_num"/>
+			<result property="storeOccupancy"	column="store_occupancy"/>
+			</association>
+	</resultMap>
+	
+	
+	
+	<!-- 입점취소 승인버튼시  delete -->
+	<delete id="deleteStore" parameterType="String">
+		DELETE 
+		FROM 
+			tb_store_info
+		WHERE 
+			store_code=#{storeCode};
+	</delete>
+	
+	
+	
+	<!-- 입점취소 승인버튼시 update -->
+	<update id="modifyStoreCancel" parameterType="map">
+		UPDATE tb_store_cancel
+			SET
+				<if test="state == '승인' ">
+					cancel_confirm_id= #{cancelConfirmId}
+					,state_code = 'state_store_cancle_com'
+					,cancel_com_time = CURTIME()
+				</if>
+				<if test="state == '거절'">
+					cancel_confirm_id= #{cancelConfirmId}
+					,state_code = 'state_store_cancle_rej'
+					,cancel_com_time = CURTIME()
+				</if>
+			WHERE 
+				store_cancel_code = #{storeCancelCode};
+	</update>
+	
+	
+	
+	<!-- 입점취소신청 리스트 조회 -->
+	<select id="getStoreCancelList" resultMap="storeCancelResultMap">
+		SELECT
+			c.store_cancel_code
+			,c.biz_id
+			,c.store_code
+			,c.store_name
+			,c.store_cancel_ask
+			,c.cancel_time
+			,c.cancel_com_time
+			,c.cancel_confirm_id
+			,c.state_code
+			,s.state_name
+		FROM
+			tb_store_cancel AS c
+			INNER join
+			tb_statement AS s
+			ON
+			c.state_code = s.state_code;
+	</select>
+	
+	
+	<!-- 나의입점취소현황 조회 (매장코드 비교) - ajax -->
+	<select id="getMyCancelList" parameterType="String" resultMap="storeCancelResultMap">
+		SELECT
+			store_cancel_code
+			,biz_id
+			,store_code
+			,store_name
+			,store_cancel_ask
+			,cancel_time
+			,cancel_com_time
+			,cancel_confirm_id
+			,state_code
+		FROM
+			tb_store_cancel
+		WHERE
+			store_code = #{storeCode};
+	</select>
+	
+	
+	<!-- 나의입점취소현황 조회 (세션아이디 비교) -->
+	<select id="getmyCancelStoreList" resultMap="storeCancelResultMap">
+		SELECT
+			c.store_cancel_code
+			,c.biz_id
+			,c.store_code
+			,c.store_name
+			,c.store_cancel_ask
+			,c.cancel_time
+			,c.cancel_com_time
+			,c.cancel_confirm_id
+			,c.state_code
+			,s.state_name
+		FROM
+			tb_store_cancel AS c
+			INNER JOIN
+			tb_statement AS s
+			ON
+			c.state_code = s.state_code
+		WHERE
+			c.biz_id = #{bizId};
+	</select>
+	
+
+	
+	<!-- 취소요청 상태코드 가져오기 -->
+	<select id="getCancelStatement" resultMap="statementResultMap">
+		SELECT 
+			state_code
+			,main_state
+			,state_name
+		FROM 
+			tb_statement
+		WHERE
+			main_state = '입점취소'
+			and
+			state_name = '취소요청';
+	</select>
+	
+	
+	<!-- 취소신청 전송 -->
+	<insert id="cancelStore" parameterType="StoreCancel">
+		INSERT INTO tb_store_cancel
+			(store_cancel_code
+			,biz_id
+			,store_code
+			,store_name
+			,store_cancel_ask
+			,cancel_time
+			,cancel_com_time
+			,cancel_confirm_id
+			,state_code
+			)
+		VALUES (
+			 #{storeCancelCode}
+			, #{bizId}
+			, #{storeCode}
+			, #{storeName}
+			, #{storeCancelAsk}
+			, CURTIME()
+			, NULL
+			, NULL
+			, #{stateCode}
+		);
+	
+	</insert>
+	
+	
+	
+	<!-- 취소코드 자동증가 -->
+	<select id="getNewCancelCode" resultType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN 'st_con001'
+			ELSE
+			CONCAT('st_can', LPAD(MAX(CAST(SUBSTRING(store_cancel_code,7,3)AS DECIMAL)+1),3,0))
+			END AS storeCancelCode
+		FROM
+			tb_store_cancel;
+	</select>
+	
+
+	
+	
+	<!-- 입점등록처리 -->
+	<insert id="addMyStore" parameterType="Store">
+		INSERT INTO tb_store_info
+			(store_code
+			,store_name
+			,biz_code
+			,biz_id
+			,store_location
+			,store_time
+			,store_phone
+			,main_cate_code
+			,main_cate_code2
+			,store_holiday
+			,store_taste_agree
+			,store_expos_agree
+			,store_table_num
+			,store_occupancy
+			)
+		VALUES (
+			 #{storeCode}
+			, #{storeName}
+			, #{bizCode}
+			, #{bizId}
+			, #{storeLocation}
+			, #{storeTime}
+			, #{storePhone}
+			, #{mainCateCode}
+			, #{mainCateCode2}
+			, #{storeHoliday}
+			, #{storeTasteAgree}
+			, #{storeExposAgree}
+			, #{storeTableNum}
+			, #{storeOccupancy}
+		);
+	</insert>
+	
+	
+	<!-- 매장 자동증가 코드 -->
+	<select id="getNewStoreCode" resultType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN 's_001'
+			ELSE
+			CONCAT('s_', LPAD(MAX(CAST(SUBSTRING(store_code,3,3)AS DECIMAL)+1),3,0))
+			END AS storeCode
+		FROM
+			tb_store_info;
+	</select>
+	
+	
+	
+	<!-- 소상공인 코드 조회 -->
+	<select id="getBizCode" parameterType="String" resultType="MemberBiz"> 
+		SELECT
+			biz_code AS bizCode
+			,member_id AS memberId
+		FROM
+			tb_member_biz
+		WHERE	
+			member_id = #{bizId};
+	</select>
 	
 	<!-- 나의매장 테이블코드 자동증가 -->
 	<select id="getNewStoreTableCode" resultType="String">
@@ -194,6 +449,7 @@
 		WHERE
 			menu_code = #{menuCode};
 	</update>
+
 	
 	<!-- 메뉴수정 화면 -->
 	<select id="getMyMenuInfoByMenuCode" parameterType="String" resultType="Menu">
@@ -210,7 +466,6 @@
 			tb_store_menu
 		WHERE
 			menu_code = #{menuCode};
-	
 	</select>
 
 
@@ -252,7 +507,7 @@
 		, #{menuName}
 		, #{menuPrice}
 		, #{menuDetail}
-		, CURDATE()
+		, CURTIME()
 		, #{menuUsing}
 		);
 	</insert>
@@ -262,11 +517,18 @@
 	<update id="modifyMainCate" parameterType="Store" >
 		UPDATE 
 			tb_store_info
-		SET
-			main_cate_code = #{mainCateCode}
-			,main_cate_code2 = #{mainCateCode2}
+		<set>
+			<if test="mainCateCode2 != '' ">
+				main_cate_code = #{mainCateCode}
+				,main_cate_code2 = #{mainCateCode2}
+			</if>
+			<if test="mainCateCode2 == '' ">
+				main_cate_code = #{mainCateCode}
+				,main_cate_code2 = NULL
+			</if>
+		</set>
 		WHERE
-			biz_id = #{bizId};
+			store_code = #{storeCode};
 	</update>
 	
 	
@@ -299,7 +561,7 @@
 	</update>
 	
 	
-	<!-- 매장정보 수정처리위한 매장코드 가져오기-->
+	<!-- 매장정보조회 매장코드조건비교-->
 	<select id="getStoreInfoByCode" parameterType="String" resultMap="storeResultMap">
 		SELECT
 			biz_code
@@ -320,37 +582,58 @@
 	  	WHERE
 			store_code = #{storeCode};
 	</select>
-
-
-
-	<!-- 나의 매장정보 리스트 조회(그룹콘캣 이용한방법) -->
-	<!-- <select id="getMyStoreList" resultMap="storeResultMap">
+	
+	
+	
+	
+	<!-- 모든매장 테이블리스트 조회 -->
+	<select id="getTableList" resultMap="tableMap">
 		SELECT
-			s.biz_code
-			,s.biz_id
-			,s.main_cate_code
-			,s.main_cate_code2
-			,s.store_code
-			,s.store_holiday
-			,s.store_location
-			,s.store_name
-			,s.store_occupancy
-			,s.store_phone
-			,s.store_table_num
-			,s.store_taste_agree
-			,s.store_expos_agree
-			,s.store_time
-			,GROUP_CONCAT(if(s.main_cate_code = f.main_cate_code, f.main_cate_name, NULL) ) AS mainCateName
-			,GROUP_CONCAT(if(s.main_cate_code2 = f.main_cate_code, f.main_cate_name, NULL) ) AS mainCateName2
+			t.store_table_code
+			,t.store_code
+			,i.store_name
+			,t.biz_id
+			,t.table_num
 		FROM
-			tb_store_info AS s
+			tb_store_table AS t
+			INNER join
+			tb_store_info AS i
+			ON
+			t.store_code = i.store_code
+	</select>
+
+
+	<!-- 모든 매장메뉴 리스트 조회 -->
+	<select id="getMenuList" resultMap="menuResultMap">
+		SELECT 
+			s.menu_code
+			,s.biz_id
+			,s.store_code
+			,i.store_name
+			,s.main_cate_code
+			,s.menu_cate_code
+			,s.menu_name
+			,s.menu_price
+			,s.menu_detail
+			,s.menu_reg_time
+			,s.menu_using
+			,f.main_cate_name
+			,c.menu_cate_name
+		FROM 
+			tb_store_menu AS s
 			INNER join
 			tb_food_main_cate AS f
 			ON
-			biz_id = #{bizId};
-	</select> -->
-
-
+			s.main_cate_code = f.main_cate_code
+			INNER join
+			tb_store_menu_cate AS c
+			ON
+			s.menu_cate_code = c.menu_cate_code
+			INNER join
+			tb_store_info AS i
+			ON
+			s.store_code = i.store_code;
+	</select>
 	
 	<!-- 나의 매장메뉴 리스트 조회 -->
 	<select id="getMyMenuList" resultMap="menuResultMap">
@@ -411,8 +694,6 @@
 		WHERE
 			store_code = #{storeCode};
 	</select>
-	
-	
 	
 	
 	<!-- -->
@@ -482,6 +763,8 @@
 			biz_id = #{bizId};
 	</select>
 
+
+
 	<select id="getMyStoreList" resultMap="storeResultMap">
 		SELECT
 			s.biz_code
@@ -511,8 +794,6 @@
 	<!-- -->
 	<!-- -->
 	<!-- -->
-	
-	
 	
 	
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="amdn.anywhere.mapper.QuestionChoiceMapper">
+	<resultMap type="QuestionChoices" id="questionChoicesResultMAp">
+			<result property="code" column="choice_code"/>
+			<result property="score" column="choice_score"/>
+			<result property="cntNum" column="choice_content_num"/>
+			<result property="cntKor" column="choice_content_kor"/>
+	</resultMap>
+	<select id="getQChoices" resultMap="questionChoicesResultMAp">
+		SELECT
+			choice_code
+			,choice_score
+			,choice_content_num
+			,choice_content_kor
+		FROM
+			tb_question_choices
+	</select> 
+</mapper>

@@ -14,6 +14,9 @@
 		#applyBtn {
 			margin: 20px 0px 0px 0px;
 		}
+		.alert{
+			text-align: center;
+		}
 		
 	</style>
 </th:block>	 
@@ -50,13 +53,18 @@
 		                        </tr>
 		                    	<tr>
 		                    		<td class="titleCss">모집명</td>
-		                    		<td colspan="3">[[${recruitInfo.recruitTitle}]]</td>
+		                    		<td >[[${recruitInfo.recruitTitle}]]</td>
+		                            <td class="titleCss">모집기한</td>
+		                            <td class="color-primary">[[${recruitInfo.recruitFinTime}]]</td>
 		                    	</tr>
 		                        <tr>
 		                         	<td class="titleCss">모집인원</td>
 		                            <td class="color-success"> [[${recruitInfo.recruitNumNow}]] / [[${recruitInfo.recruitNumTotal}]]</td>
-		                            <td class="titleCss">모집기한</td>
-		                            <td class="color-primary">[[${recruitInfo.recruitFinTime}]]</td>
+		                            <td class="titleCss">모집연령대</td>
+		                            <td th:if="${recruitInfo.ageList.size == 1}" class="color-primary age" th:text="${recruitInfo.ageList[0].ageGroup}" th:id="${recruitInfo.ageList[0].ageFrom}"></td>
+		                            <td th:unless="${recruitInfo.ageList.size == 1}" class="color-primary age">
+		                            	<span th:each="l : ${recruitInfo.ageList}" th:id="${l.ageFrom}"> [[${l.ageGroup}]] </span>
+		                            </td>
 		                        </tr>
 		                        <tr>
 		                        	<td class="cateCss" colspan="4"><strong>매장정보</strong></td>
@@ -86,10 +94,17 @@
 		            <div class="row">
 		            	<div class="col-md-8"></div>
 		            	<div class="col-md-4">
-		            		<form method="post">
-		            			<input type="hidden" name="recruitBCode" th:value="${recruitInfo.recruitTBizCode}">
-			            		<button type="button" id="applyBtn" class="btn btn-success btn-block ">평가단 신청하기</button>		            	
-		            		</form>
+		            		<th:block th:if="${recruitInfo.recruitNumNow} < ${recruitInfo.recruitNumTotal}">
+			            		<form method="post">
+			            			<input type="hidden" name="recruitBCode" th:value="${recruitInfo.recruitTBizCode}">
+				            		<button type="button" id="applyBtn" class="btn btn-success btn-block ">평가단 신청하기</button>		            	
+		    	        		</form>
+		            		</th:block>
+		            		<th:block th:if="${recruitInfo.recruitNumNow == recruitInfo.recruitNumTotal} or ${recruitInfo.recruitFinTime < #dates.format(#dates.createToday(), 'yyyy-MM-dd')}">
+		            			<div class="alert alert-light">
+		            				<span class="color-danger">모집이 종료되었습니다.</span>
+		            			</div>
+		            		</th:block>
 		            	</div>
 		            </div>
 		        </div>
@@ -99,38 +114,91 @@
 </th:block>
 <th:block layout:fragment="customJsLib">
 <script type="text/javascript">
+		async function submitFn(){
+				const { value: accept } = await Swal.fire({
+					  title: '신청인 동의서 ',
+					  width : 750,
+					  html: '<table class="table">'
+								+'<tbody>'
+									+'<tr>'
+										+'<td>'
+											+'<i class="ti-check color-success"></i>'
+										+'</td>'
+										+'<td>개인정보의 수집제공활용 및 조회에 동의 하십니까?</td>'
+									+'</tr>'
+									+'<tr>'
+										+'<td>'
+											+'<i class="ti-alert color-danger"></i>'
+										+'</td>'
+										+'<td>신청 후 3개월 이내 매장 미방문 또는 허위 피드백 참여 시 불이익이 있을 수 있습니다.</td>'
+									+'</tr>'
+								+'</tbody>' 
+							+'</table>',
+					  input: 'checkbox',
+					  inputValue: 1,
+					  inputPlaceholder:
+					    '예, 동의합니다',
+					  confirmButtonText:
+					    '신청하기 <i class="fa fa-arrow-right"></i>',
+					  inputValidator: (result) => {
+					    return !result && '동의 체크를 해주셔야합니다!'
+					  }
+					})
+			
+					if (accept) {
+					  Swal.fire('신청되었습니다. :)')
+						$('form').attr('action', '/taster/applyTaster');
+						$('form').submit();
+					}
+			}
 	$(function(){
-		$('#applyBtn').on("click", async function(){
-			const { value: accept } = await Swal.fire({
-				  title: '신청인 동의서 ',
-				  width : 750,
-				  html: '<table class="table">'+
-							'<tbody>'+
-								'<tr><td><i class="ti-check color-success"></i></td>'+
-								'<td>개인정보의 수집제공활용 및 조회에 동의 하십니까?</td>'+
-								'</tr><tr><td><i class="ti-alert color-danger"></i></td><td>신청 후 3개월 이내 매장 미방문 또는 허위 피드백 참여 시 불이익이 있을 수 있습니다.' +
-								'</td>' +
-							'</tr>' +
-							'</tbody>' +
-						'</table>',
-				  input: 'checkbox',
-				  inputValue: 1,
-				  inputPlaceholder:
-				    '예, 동의합니다',
-				  confirmButtonText:
-				    '신청하기 <i class="fa fa-arrow-right"></i>',
-				  inputValidator: (result) => {
-				    return !result && '동의 체크를 해주셔야합니다!'
-				  }
-				})
+		$('#applyBtn').on("click", function(){
+				//나이 체크 필터
+				var request = $.ajax({
+					  url: "/taster/ageCheck", 
+					  method: "GET",
+					  dataType: "json" 
+				});
+				
+				request.done(function(data){
+					console.log(data);
+					var ageGroup = $('.age').children();
+					var result = 0;
+					
+					if(ageGroup.length == 0){ //연령대 그룹이 하나일경우
+						var ageFrom = $('.age').attr('id');
+						if(ageFrom == 0) result = 1;
+						else if(data >= ageFrom && data <= ageFrom + 9) result = 1;
+					}else{
+						var ageFrom = [];
+						for(var i=0; i < ageGroup.length; i++){
+							ageFrom.push(ageGroup.eq(i).attr('id')*1);
+							
+						}
+						for(var i=0; i < ageFrom.length; i++){
+							if(data >= ageFrom[i] && data <= ageFrom[i] + 9) {
+								result = 1; 
+								break;
+							}
+							else {
+								result = 0;
+							}
+						}
 
-				if (accept) {
-				  Swal.fire('신청되었습니다. :)')
-					$('form').attr('action', '/taster/applyTaster');
-					$('form').submit();
-				}
+					}
+					if(result == 1){
+						submitFn();
+					}else{
+						alert('모집 연령대에 해당되지 않습니다!');
+					}
+					
+				});
+				
+				request.fail(function( jqXHR, textStatus){
+					 alert( "Request failed: " + textStatus );
+				});	
+			});
 		});
-	});
 </script>
 </th:block>
 </html>

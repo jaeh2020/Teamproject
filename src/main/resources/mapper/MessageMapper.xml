@@ -231,8 +231,12 @@
 			<if test="messageCate1 != null and messageCate1 != 'All'">
 				m.message_cate_1 = #{messageCate1}
 			</if>
+			<if test="memberId != null">
+				AND n.member_id = #{memberId};
+			</if>
 		</where>
 	</select>
+	
 	<!-- 받은 알림 조회의 카테고리 -->
 	<select id="getMessageList" resultMap="messageResultMap">
 		SELECT 

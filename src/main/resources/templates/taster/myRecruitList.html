@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+<th:block layout:fragment="customCss">
+</th:block>
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customJs">
+
+	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
+    
+</th:block>
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="row">
+		<div class="col-12">
+			 <div class="card">
+	            <div class="card-body">
+	                <h4 class="card-title">평가단 모집 요청현황</h4>
+	                <h6 class="card-subtitle">...</h6>
+	                <div class="table-responsive m-t-40">
+	                    <table id="myTable" class="table table-bordered table-striped">
+	                        <thead>
+	                            <tr>
+	                                <th>매장명</th>                               
+	                                <th data-orderable="false">상세정보</th>
+	                                <th>요청시각</th>
+	                                <th>모집현황</th>
+	                                <th>모집 기한</th>
+	                                <th>상태</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                        	<th:block th:if="${#lists.size(recruitList) != 0}">
+		                            <tr th:each="l : ${recruitList}">
+		                                <td th:text="${l.storeInfo.storeName}"></td>
+		                                <td><button type="button" class="btn btn-dark btn-outline ti-search" name="detail" th:onclick="viewDetail([[${l.recruitTitle}]],[[${l.surveyTitle}]],[[${l.menu.menuName}]],[[${l.strAgeCodeList}]],[[${l.strCateList}]],[[${l.strSpecialCateList}]] );"></button></td>
+		                                <td th:text="${l.requestTime}"></td>
+		                                <td> [[${l.recruitNumNow}]] / [[${l.recruitNumTotal}]]</td>
+		                                <td th:text="${l.recruitFinTime}"></td>
+		                                <td th:text="${l.stateName}" class = "stateName" ></td>
+		                            </tr>
+	                            </th:block>
+	                            <tr th:unless="${#lists.size(recruitList) != 0}">
+	                            	<td colspan="5"> 등록된 모집 결과가 없습니다.</td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                </div>
+	            </div>
+	        </div>
+		</div>
+	</div>
+	 
+
+</th:block>
+<!-- End PAge Content -->
+			
+ <!--Custom JavaScript -->
+<th:block layout:fragment="customJsLib">
+	
+	<script type="text/javascript">
+
+	//상세보기 alert
+	function viewDetail(recruitTitle, surveyTitle, menuName, ageList, surveyCate, specialCate){
+			swal.fire({
+			icon: 'info',
+			title: '상세정보', 
+			showCloseButton: true,
+			width : 700,
+			html: '<table class="table"><tbody>'
+				+'<tr>'
+				+	'<td>모집공고명</td>'
+				+	'<td>'+recruitTitle +'</td>'
+				+'</tr>'
+				+'<tr>'
+				+	'<td>설문조사명</td>'
+				+	'<td>'+surveyTitle +'</td>'
+				+'</tr>'
+				+'<tr>'
+				+	'<td>평가메뉴</td>'
+				+	'<td>'+menuName +'</td>'
+				+'</tr>'
+				+'<tr>'
+				+	'<td>대상 연령대</td>'
+				+	'<td>'+ageList +'</td>'
+				+'</tr>'
+				+'<tr>'
+				+	'<td>평가항목</td>'
+				+	'<td>'+surveyCate +'</td>'
+				+'</tr>'
+				+'<tr>'
+				+	'<td>분석항목</td>'
+				+	'<td>'+specialCate +'</td>'
+				+'</tr>'
+				+'</tbody></table>'
+		});
+	}
+
+	
+	</script>
+</th:block>    
+</body>
+</html>

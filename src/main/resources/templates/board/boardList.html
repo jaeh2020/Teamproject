@@ -39,7 +39,7 @@
 								<td th:text="${b.boardRegTime}"></td>
 								<td th:text="${b.boardViews}"></td>
 								<td>
-									<a th:href="@{/board/boardReport}">신고</a>
+									<a th:href="@{/board/boardReport(boardNum=${b.boardNum})}">신고</a>
 								</td>
 							</tr>
 						</tbody>
@@ -63,15 +63,6 @@
 
 <script type="text/javascript">
 												
-    $(function(){
-    	var boardSecret = '0';
-    	
-    	if(boardSecret == 0){
-	    	$('#boardSecretHref').removeClass();
-    		
-    	}
-    	
-    });
     
     
     $(function(){

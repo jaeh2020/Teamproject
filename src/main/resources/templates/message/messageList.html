@@ -41,6 +41,7 @@
 
 	<!-- 상단 버튼부분 -->
 	<div class="row">
+	<input type="hidden" id="SID" th:value="${session.SID}">
 		<div class="col-lg-9"></div>
 		<div class="col-lg-3">
 			<div class="topBtn">
@@ -93,10 +94,11 @@
 		//ajax
     	$(function(){
            	//1.페이지 로드되었을 때 전체 메세지 출력
+           	var memberId = $('#SID').val();
    			var request = $.ajax({
        			  url: "/messageL", //요청 주소
        			  method: "GET", //요청 방식
-       			  data: {messageCate1 : "All"}, //전달 할 파라미터
+       			  data: {messageCate1 : "All", memberId : memberId}, //전달 할 파라미터
        			  dataType: "json" //받아 올 포맷방식
        			});
         			 //응답이 완료 되었을 경우 실행
@@ -127,10 +129,13 @@
 				var getId = $(this).attr("id");
 	            console.log(getId,'getId');
 	            
-    			var request = $.ajax({
+	            var memberId = $('#SID').val();
+	            console.log("memberId???",memberId)
+    			
+	            var request = $.ajax({
 	    			  url: "/messageL", //요청 주소
 	    			  method: "GET", //요청 방식
-	    			  data: {messageCate1 : getId}, //전달 할 파라미터
+	    			  data: {messageCate1 : getId, memberId : memberId}, //전달 할 파라미터
 	    			  dataType: "json" //받아 올 포맷방식
     				});
     			 //응답이 완료 되었을 경우 실행

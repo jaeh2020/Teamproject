@@ -9,10 +9,19 @@ import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
+import amdn.anywhere.domain.Table;
 
 @Mapper
 public interface BookMapper {
 	
+	//주문내역 리스트 getOrderList
+	public List<Order> getOrderAllList();
+	
+	//나의주문내역 상세조회
+	public List<Order> getOrderList(String bookCode);
+	
+	//주문내역 리스트 조회
+	public List<Order> getOrderUserInfoById(String bizId);
 	
 	//결제예정 그룹코드 자동증가
 	public String getnewOGroupCode();
@@ -30,7 +39,7 @@ public interface BookMapper {
 	public Statement getStateCode(String stateCode);
 	
 	//주문정보화면에서 메뉴리스트 조회
-	public List<Menu> getMenuList();
+	public List<Menu> getMenuList(String storeCode);
 
 	//상점명 조회
 	public Store getStoreInfo(String storeName);

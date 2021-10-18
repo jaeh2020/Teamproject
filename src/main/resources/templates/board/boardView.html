@@ -12,65 +12,65 @@
 	<div class="card card-outline-primary">
 		<div class="col-lg-12">
 				<div class="box box-primary">
-				
-					<!-- 히든 된 데이터 -->
-				<input type="hidden" name="boardNum" th:value="${board.boardNum}">
-				<input type="hidden" name="boardSecret" th:value="${board.boardSecret}"> 
-				
-				
-				<div class="box box-content" style="outline: solid 1px #D5D5D5; height: 600px;">
-					<div class="card-header">
-						<h4 class="m-b-0 text-white"><i class="ti-menu"></i>
-							[[${board.boardNum}]] 
-						</h4>
-						 
+					<form th:action="@{/board/boardDelete}" role="form" id="deleteForm" method="post">
+						<!-- 히든 된 데이터 -->
+					<input type="hidden" name="boardNum" th:value="${board.boardNum}">
+					<input type="hidden" name="boardSecret" th:value="${board.boardSecret}"> 
+					
+					
+					<div class="box box-content" style="outline: solid 1px #D5D5D5; height: 600px;">
+						<div class="card-header">
+							<h4 class="m-b-0 text-white"><i class="ti-menu"></i>
+								[[${board.boardNum}]] 
+							</h4>
+							 
+						</div>
+						<div class="boardTitle" style="padding-top: 20px; font-weight: bold; font-size: 15px;">
+							<i class="fa fa-pencil "></i> 제목 : [[${board.boardTitle}]] 
+						</div>
+						<div class="userId" style=" padding-top: 10px; font-weight: bold; font-size: 15px;">
+							<i class="fa fa-user f-s-20 color-blueviolet"></i>  작성자 : [[${board.memberId}]] 
+						</div>
+						<hr>
+						<div class="box-body" style=" height: 700px;  padding-top: 20px;  font-size: 15px;">
+							[[${board.boardContents}]]
+						</div>
+						</div>
+						<div>
+						<label for="title" style="margin-top: 30px; font-weight:bold; display: block; ">파일첨부</label>
+						<input name="boardFile" type="file" style="outline: solid 1px #D5D5D5;" readonly="readonly" />
 					</div>
-					<div class="boardTitle" style="padding-top: 20px; font-weight: bold; font-size: 15px;">
-						<i class="fa fa-pencil "></i> 제목 : [[${board.boardTitle}]] 
-					</div>
-					<div class="userId" style=" padding-top: 10px; font-weight: bold; font-size: 15px;">
-						<i class="fa fa-user f-s-20 color-blueviolet"></i>  작성자 : [[${board.memberId}]] 
-					</div>
-					<hr>
-					<div class="box-body" style=" height: 700px;  padding-top: 20px;  font-size: 15px;">
-						[[${board.boardContents}]]
-					</div>
-					</div>
-					<div>
-					<label for="title" style="margin-top: 30px; font-weight:bold; display: block; ">파일첨부</label>
-					<input name="boardFile" type="file" style="outline: solid 1px #D5D5D5;" readonly="readonly" />
-				</div>
-				
-				<h3 class="box-title m-t-40"></h3>
-					<form th:action="@{/board/boardView(boardNum=${board.boardNum})}" method="post" id="commentForm">
-						<!-- Reply List {s}-->
-						<h5 class="border-bottom pb-2 mb-0"><i class="ti-menu"></i> Reply list</h5>
-						<br>
-						<div class="my-3 p-3 bg-white rounded shadow-sm" th:if="${boardCommentList ne null and #lists.size(boardCommentList) > 0}" th:each=" bc : ${boardCommentList}">
-							<!-- 히든 된 데이터 -->
-							<input type="hidden" name="boardReplyCode" th:value="${bc.boardReplyCode}">
-							
-							<div class="commentId" th:text="${bc.memberId}"></div>
+					
+					<h3 class="box-title m-t-40"></h3>
+						<form th:action="@{/board/boardView(boardNum=${board.boardNum})}" method="post" id="commentForm">
+							<!-- Reply List {s}-->
+							<h5 class="border-bottom pb-2 mb-0"><i class="ti-menu"></i> Reply list</h5>
 							<br>
-							<div class="comment-content" th:text="${bc.boardReplyContents}"></div>
-							<br>
-							<div class="comment-date" th:text="${bc.boardReplyTime}" style="display: inline;"></div> 
-							<div style="float: right;">
-								<a th:href="@{/board/deleteComment(boardReplyCode=${bc.boardReplyCode})}"  id="delComment">삭제</a>
-							</div>
-							<hr>
-						</div> 
-						<!-- Reply List {e}-->
-						<div class="row">
-							<div class="col-md-12 ">
-								<div class="form-group">
-									<label style="font-weight: bold;">댓글</label>
-									<input type="text" class="form-control" style="height: 100px;" name="boardReplyContents">
-									<!-- <textarea style="width: 1030px" rows="5" cols="30" id="comment" name="boardReplyContents" placeholder="댓글을 입력하세요"></textarea> -->
-									<button type="button" class="btn btn-inverse" style="margin-top: 10px; float: right;" id="commentBtn">등록</button>
+							<div class="my-3 p-3 bg-white rounded shadow-sm" th:if="${boardCommentList ne null and #lists.size(boardCommentList) > 0}" th:each=" bc : ${boardCommentList}">
+								<!-- 히든 된 데이터 -->
+								<input type="hidden" name="boardReplyCode" th:value="${bc.boardReplyCode}">
+								
+								<div class="commentId" th:text="${bc.memberId}"></div>
+								<br>
+								<div class="comment-content" th:text="${bc.boardReplyContents}"></div>
+								<br>
+								<div class="comment-date" th:text="${bc.boardReplyTime}" style="display: inline;"></div> 
+								<div style="float: right;">
+									<a href="#none;" th:onclick="delReply([[${bc.boardReplyCode}]],[[${bc.boardNum}]]);" id="delComment">삭제</a>
+								</div>
+								<hr>
+							</div> 
+							<!-- Reply List {e}-->
+							<div class="row">
+								<div class="col-md-12 ">
+									<div class="form-group">
+										<label style="font-weight: bold;">댓글</label>
+										<input type="text" class="form-control" style="height: 100px;" name="boardReplyContents">
+										<!-- <textarea style="width: 1030px" rows="5" cols="30" id="comment" name="boardReplyContents" placeholder="댓글을 입력하세요"></textarea> -->
+										<button type="button" class="btn btn-inverse" style="margin-top: 10px; float: right;" id="commentBtn">등록</button>
+									</div>
 								</div>
 							</div>
-						</div>
 					</form>
 						<hr>
 				<div class="box-footer" style="margin-top: 20px;">
@@ -78,9 +78,14 @@
 						<a th:href="@{/board/boardList}" class="btn btn-primary listBtn" style="display: inline;">
 								<i class="fa fa-list"></i> 목록
 							</a>	
-						</div>3
-					</div>
-				</div>	
+						</div>
+				</div>
+				<div class="pull-right">
+					<a th:href="@{/board/boardModify(boardNum=${board.boardNum})}" class="btn btn-warning modBtn" id="boardModiBtn"><i class="fa fa-edit"></i> 수정</a>
+					<button type="button" class="btn btn-danger delBtn" id="baordDelBtn" ><i class="fa fa-trash"></i> 삭제</button>
+				</div>
+				</form>
+			</div>	
 		</div>
 	</div>
 </th:block>
@@ -90,18 +95,54 @@
    <script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->
    
    <script type="text/javascript">
+   
+   //a테그시 유효성 검사
+   function delReply(boardReplyCode, boardNum){
+	   if(confirm("삭제하시겠습니까?")){
+	        location.href = '/board/deleteComment?boardReplyCode=' + boardReplyCode + '&' + 'boardNum=' + boardNum;
+	        return true;
+	    } else {
+	        return false;
+	    }
+   } 
+   
+   function info_chk() { 
+	   return true; 
+	   } 
+   
+   function info_chk2(frm) {
+	   frm.action='http://www.test.co.kr/test2/event_ok.php'; 
+	   frm.submit(); 
+	   return true; 
+	   }
+
+   
+   
+  
    	$(function(){
-   		var form = commentForm;
-      		$('#commentBtn').click(function(){
-			alert('정말 등록하시겠습니까?')
-			form.submit();
-      		 });
+      	$('#commentBtn').on('click',function(){
       		
-      		$('#delComment').click(function(){
-    			alert('정말 삭제하시겠습니까?')
-    			form.submit();
-          	});
+      		var boardReplyContents = $('[name=boardReplyContents]')
+      		
+      		if(boardReplyContents.val() == ''){
+				alert('댓글을 입력해주세요.')
+				boardReplyContents.focus();
+      			return false;
+      		}
+      		alert('등록하시겠습니까?')
+      		$('#commentForm').submit();
+      	});	
 	});
+   	
+   	
+  	/* $(function(){
+   		var form = deleteForm;
+      		$('#baordDelBtn').click(function(){
+			alert('정말 삭제하시겠습니까?')
+			form.submit();
+      	});
+      		
+	});  */
    </script>
 </th:block>
 </html>

@@ -12,9 +12,11 @@ public class RecruitTasterByBiz {
 	private String recruitFinTime;
 	private String adminId;
 	private String stateCode;
+	private String stateName;
 	private String requestTime;
 	private String menuCode;
 	private int viewCounts;
+	private List<Age> ageList;
 	private List<String> ageCodeList;
 	private List<String> specialCateList;
 	private List<String> cateList;
@@ -157,17 +159,29 @@ public class RecruitTasterByBiz {
 	public void setMenu(Menu menu) {
 		this.menu = menu;
 	}
+	public String getStateName() {
+		return stateName;
+	}
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
+	}
+	
 	@Override
 	public String toString() {
 		return "RecruitTasterByBiz [recruitTBizCode=" + recruitTBizCode + ", bizId=" + bizId + ", recruitTitle="
 				+ recruitTitle + ", surveyTitle=" + surveyTitle + ", recruitNumTotal=" + recruitNumTotal
 				+ ", recruitNumNow=" + recruitNumNow + ", recruitFinTime=" + recruitFinTime + ", adminId=" + adminId
-				+ ", stateCode=" + stateCode + ", requestTime=" + requestTime + ", menuCode=" + menuCode
-				+ ", viewCounts=" + viewCounts + ", ageCodeList=" + ageCodeList + ", specialCateList=" + specialCateList
-				+ ", cateList=" + cateList + ", strAgeCodeList=" + strAgeCodeList + ", strSpecialCateList="
-				+ strSpecialCateList + ", strCateList=" + strCateList + ", storeCode=" + storeCode + ", storeInfo="
-				+ storeInfo + ", menu=" + menu + "]";
+				+ ", stateCode=" + stateCode + ", stateName=" + stateName + ", requestTime=" + requestTime
+				+ ", menuCode=" + menuCode + ", viewCounts=" + viewCounts + ", ageList=" + ageList + ", ageCodeList="
+				+ ageCodeList + ", specialCateList=" + specialCateList + ", cateList=" + cateList + ", strAgeCodeList="
+				+ strAgeCodeList + ", strSpecialCateList=" + strSpecialCateList + ", strCateList=" + strCateList
+				+ ", storeCode=" + storeCode + ", storeInfo=" + storeInfo + ", menu=" + menu + "]";
 	}
-	
+	public List<Age> getAgeList() {
+		return ageList;
+	}
+	public void setAgeList(List<Age> ageList) {
+		this.ageList = ageList;
+	}
 	
 }

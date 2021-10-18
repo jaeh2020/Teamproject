@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+<!-- 사용자 지정 Css -->	  
+<th:block layout:fragment="customCss">
+	<style type="text/css">
+
+	</style>
+</th:block>	
+ 	<!-- 사용자 지정 Js -->
+<th:block layout:fragment="customJs">
+	<!-- Echart -->
+    <script th:src="@{/js/lib/echart/echarts.js}"></script>
+    <!-- <script th:src="@{/js/lib/echart/echarts-init.js}"></script> -->	
+</th:block>
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card ">
+		        <div class="card-body">
+					<div class="form-group row">
+						<label class="col-lg-4 col-form-label" for="storeCode">매장을 선택해주세요 <span class="text-danger">*</span></label>
+						<div class="col-lg-7">
+							<select class="form-control" id="storeCode" name="storeCode">
+								<option value=""> : : : 매장 목록  : : : </option>
+								<option th:each="s : ${storeList}" th:text="${s.storeName}" th:value="${s.storeCode}"></option>
+							</select>
+						</div>
+					</div>
+					 <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Home</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Profile</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Messages</span></a> </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content tabcontent-border">
+                        <div class="tab-pane active" id="home" role="tabpanel">
+                             <div class="p-20">
+                             	<div class="card-title">
+                                	<h4>Echart</h4>
+                            	</div>
+                            	<div class="card-content">
+                                	<div id="basic-Pie" style="height: 370px"></div>
+                            	</div>
+                            </div>	
+                        </div>
+                        <div class="tab-pane  p-20" id="profile" role="tabpanel">2</div>
+                        <div class="tab-pane p-20" id="messages" role="tabpanel">3</div>
+                    </div>
+		        </div>
+		    </div>
+	    </div>
+	</div>
+</th:block>
+<th:block layout:fragment="customJsLib">
+	<script type="text/javascript">
+	//pie 차트에 필요한 데이터 가져오는 ajax
+	$(function(){
+		$('#storeCode').on("change", function(){
+				var storeCode = $('#storeCode option:selected').val();
+				console.log(storeCode);
+			
+			/* var request = $.ajax({
+			}); */
+		})
+		
+	});
+	
+	 <!--pie chart 세팅-->
+	$(function(){
+		
+	    var dom = document.getElementById("basic-Pie");
+	    var bpChart = echarts.init(dom);
+
+	    var app = {};
+	    option = null;
+	    option = {
+	        color: ['#62549a','#4aa9e9', '#ff6c60','#eac459', '#25c3b2' ],
+	        tooltip : {
+	            trigger: 'item',
+	            formatter: '{a} <br/>{b} : {c} ({d}%)'
+	        },
+	        legend: {
+	            orient : 'vertical',
+	            x : 'left',
+	            data:['Direct','Mail','Affiliate','AD','Search']
+	        },
+	        calculable : true,
+	        series : [
+	            {
+	                name:'Source',
+	                type:'pie',
+	                radius : '55%',
+	                center: ['50%', '60%'],
+	                data:[
+	                    {value:335, name:'Direct'},
+	                    {value:310, name:'Mail'},
+	                    {value:234, name:'Affiliate'},
+	                    {value:135, name:'AD'},
+	                    {value:1548, name:'Search'}
+	                ]
+	            }
+	        ]
+	    };
+
+	    if (option && typeof option === "object") {
+	        bpChart.setOption(option, false);
+	    }
+	});
+	 <!-- chart 세팅  -->   
+
+	</script>
+</th:block>
+</html>

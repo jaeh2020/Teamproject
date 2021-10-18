@@ -1,16 +1,21 @@
 package amdn.anywhere.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import amdn.anywhere.domain.QuestionAnswer;
 import amdn.anywhere.domain.QuestionCate;
+import amdn.anywhere.domain.QuestionChoices;
 import amdn.anywhere.domain.Questionnaire;
 import amdn.anywhere.domain.RecruitTasterByBiz;
 import amdn.anywhere.domain.Survey;
+import amdn.anywhere.mapper.QuestionAnswerMapper;
+import amdn.anywhere.mapper.QuestionChoiceMapper;
 import amdn.anywhere.mapper.QuestionsMapper;
 import amdn.anywhere.mapper.RecruitTasterByBizMapper;
 import amdn.anywhere.mapper.SurveyMapper;
@@ -22,19 +27,42 @@ public class QuestionService {
 	private QuestionsMapper questionMapper;
 	private SurveyMapper surveyMapper;
 	private RecruitTasterByBizMapper recruitTasterByBizMapper;
+	private QuestionChoiceMapper questionChoiceMapper;
+	private QuestionAnswerMapper questionAnswerMapper;
 	
-	public QuestionService(QuestionsMapper questionMapper, SurveyMapper surveyMapper, RecruitTasterByBizMapper recruitTasterByBizMapper) {
+	public QuestionService(
+			QuestionsMapper questionMapper
+			, SurveyMapper surveyMapper
+			, RecruitTasterByBizMapper recruitTasterByBizMapper
+			, QuestionChoiceMapper questionChoiceMapper
+			, QuestionAnswerMapper questionAnswerMapper) {
 		this.recruitTasterByBizMapper = recruitTasterByBizMapper; 
 		this.questionMapper =  questionMapper;
 		this.surveyMapper = surveyMapper;
+		this.questionChoiceMapper = questionChoiceMapper;
+		this.questionAnswerMapper = questionAnswerMapper;
 	}
+	//설문조사 참여인원 추가
+	public int updateServey (String recruitCode) {
+		return surveyMapper.updateSurvey(recruitCode);
+	}
+	//설문조사 답 등록하기
+	 public int addQuestionAnswer(List<QuestionAnswer> questionAnswerList) {
+		 int result = 0;
+		  result = questionAnswerMapper.addQuestionAnswer(questionAnswerList);
+		  
+		 return result;
+	 }
+	
 	//설문조사 삭제
 	public int deleteSurvey(String surveyCode) {
 		return surveyMapper.deleteSurvey(surveyCode);
 	}
 	//설문조사 등록
 	public int addSurvey(String recruitCode) {
-		List<RecruitTasterByBiz> recruitList =recruitTasterByBizMapper.selectRecruitBB(recruitCode);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("recruitCode", recruitCode);
+		List<RecruitTasterByBiz> recruitList =recruitTasterByBizMapper.selectRecruitBB(paramMap);
 		Survey newSurvey = new Survey();
 		if(recruitList.get(0) != null) {
 			RecruitTasterByBiz recruitInfo = recruitList.get(0);
@@ -109,12 +137,21 @@ public class QuestionService {
 		return questionMapper.addQCate(qCate);
 	}
 	
-	public List<Questionnaire> getQuestionList(String cateCode){
+	public List<Questionnaire> getQuestionList(String cateCode, char getChoices){
+		// 항목코드에 문자열 합치기
 		if(cateCode.indexOf("q_cate_") == -1) {
 			cateCode = "q_cate_" + cateCode;
 		}
+		//항목코드로 문항목록 가져오기
 		List<Questionnaire> questionList =questionMapper.getQuestionList(cateCode);
 		
+		//선택지 정보 필요할 경우 가져와서 세팅하기
+		if(getChoices == 'Y') {
+			List<QuestionChoices> questionChoices = questionChoiceMapper.getQChoices();
+			for(int i=0; i<questionList.size(); i++) {
+				questionList.get(i).setQuestionChoices(questionChoices);
+			}
+		}
 		return questionList;
 	}
 	

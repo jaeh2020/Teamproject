@@ -12,7 +12,7 @@
 		<result property="state" column="state"/>		
 		<association property="recruitTasterByBiz" javaType="RecruitTasterByBiz">
 			<id     property="recruitTBizCode" column="recruit_taster_biz_code"/>
-			<result property="strCateList" column="question_cate_code"/>
+			<result property="strCateList" column="question_cate_code_list"/>
 			<result property="surveyTitle" column="questions_title"/>
 		</association>
 		<association property="store" javaType="Store">
@@ -20,7 +20,12 @@
 			<result property="storeName" column="store_name"/>
 		</association>
 	</resultMap>
-	
+	<update id="updateSurvey" parameterType="String">
+		UPDATE tb_question_create
+			SET
+				num_of_parti = num_of_parti + 1
+		WHERE recruit_taster_biz_code = #{recruitCode}
+	</update>
 	<delete id="deleteSurvey" parameterType="String">
 		DELETE FROM tb_question_create WHERE question_create_code = #{surveyCode};	
 	</delete>
@@ -60,7 +65,7 @@
 			 ,c.num_of_parti
 			 ,c.reg_time
 			 ,c.state
-			 ,b.question_cate_code
+			 ,b.question_cate_code_list
 			 ,b.questions_title
 			 ,s.store_name
 		FROM

@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import amdn.anywhere.domain.FoodMainCate;
+import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.Menu;
+import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
+import amdn.anywhere.domain.StoreCancel;
 import amdn.anywhere.domain.Table;
 import amdn.anywhere.mapper.StoreMapper;
 
@@ -22,6 +25,61 @@ public class StoreService {
 		this.storeMapper = storeMapper;
 	}
 	
+	//승인버튼시 매장delete
+	public int deleteStore(String storeCode) {
+		return storeMapper.deleteStore(storeCode);
+	}
+	
+	//승인버튼시 상태.완료일시.승인완료아이디 update
+	public int modifyStoreCancel(Map<String, String> paramMap) {
+		return storeMapper.modifyStoreCancel(paramMap);
+	}
+	
+	//취소현황 리스트 조회
+	public List<StoreCancel> getStoreCancelList(){
+		List<StoreCancel> storeCancelList = storeMapper.getStoreCancelList();
+		return storeCancelList;
+	}
+	
+	//나의입점취소현황 조회
+	public Map<String, Object> getmyCancelStoreList(String bizId){
+		
+		List<StoreCancel> myCancelStoreList = storeMapper.getmyCancelStoreList(bizId);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("myCancelStoreList", myCancelStoreList);
+		
+		return paramMap;
+	}
+	
+	//취소요청 상태코드 가져오기
+	public Statement getCancelStatement() {
+		return storeMapper.getCancelStatement();
+	}
+	
+	//입점취소 전송
+	public int cancelStore(StoreCancel storeCancel) {
+		return storeMapper.cancelStore(storeCancel);
+	}
+	
+	//취소코드 자동증가
+	public String getNewCancelCode() {
+		return storeMapper.getNewCancelCode();
+	}
+	
+	//입점등록처리
+	public int addMyStore(Store store) {
+		return storeMapper.addMyStore(store);
+	}
+	
+	//매장코드 자동증가 
+	public String getNewStoreCode() {
+		return storeMapper.getNewStoreCode();
+	}
+	
+	//소상공인 코드 조회 
+	public MemberBiz getBizCode(String bizId){ 
+		return storeMapper.getBizCode(bizId);
+	}
 	
 	//나의매장 테이블코드 자동증가
 	public String getNewStoreTableCode() {
@@ -37,7 +95,6 @@ public class StoreService {
 	public int addMyTable(Table table) {
 		return storeMapper.addMyTable(table);
 	}
-	
 	
 	//나의매장 테이블 삭제처리
 	public int deleteMyTable(String storeTableCode) {
@@ -81,8 +138,6 @@ public class StoreService {
 		return paramMap;
 	}
 	
-	
-	
 	//나의매장 메뉴수정화면
 	public Menu getMyMenuInfoByMenuCode(String menuCode) {
 		return storeMapper.getMyMenuInfoByMenuCode(menuCode);
@@ -98,7 +153,6 @@ public class StoreService {
 		return storeMapper.addMyMenu(menu);
 	}
 	
-	
 	//메뉴 대분류 수정처리
 	public int modifyMainCate(Store store) {
 		return storeMapper.modifyMainCate(store);
@@ -112,16 +166,12 @@ public class StoreService {
 	}
 
 	//나의매장 메뉴리스트 조회
-	public Map<String, Object> getMyMenuList(String storeCode){
+	public Map<String, Object> getMyMenuList(String bizId){
 			
-		List<Menu> myMenuList = storeMapper.getMyMenuList(storeCode);
-		List<Store> storeList = storeMapper.getMyStoreList(storeCode);
-		List<Store> storeList2 = storeMapper.getMyStoreList2(storeCode);
+		List<Menu> myMenuList = storeMapper.getMyMenuList(bizId);
 					
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 					
-		paramMap.put("storeList", storeList);
-		paramMap.put("storeList2", storeList2);
 		paramMap.put("myMenuList", myMenuList);
 	
 		return paramMap;
@@ -135,13 +185,18 @@ public class StoreService {
 	
 	//수정처리 위한 매장코드 가져오기
 	public Store getStoreInfoByCode(String storeCode) {
-		  return storeMapper.getStoreInfoByCode(storeCode);
+		return storeMapper.getStoreInfoByCode(storeCode);
+	}
+	
+	//나의매장정보 선택하여 취소요청 상태코드 조회 - ajax
+	public StoreCancel getMyCancelList(String stCode) {
+		return storeMapper.getMyCancelList(stCode);
 	}
 	
 	
-	//내의매장정보 선택하여 조회 - ajax
-		public Store getStoreRead(String stCode){ 
-			return storeMapper.getStoreRead(stCode); 
+	//나의매장정보 선택하여 조회 - ajax
+	public Store getStoreRead(String stCode){ 
+		return storeMapper.getStoreRead(stCode); 
 	}
 	
 	
@@ -170,12 +225,27 @@ public class StoreService {
 		
 		return paramMap;
 	}
+	
+	//매장전체 테이블리스트 조회
+	public List<Table> getTableList(){
+		List<Table> tableList = storeMapper.getTableList();
+		
+		return tableList;
+	}
+	
+	//매장전체 메뉴리스트 조회
+	public List<Menu> getMenuList(){
+		List<Menu> menuList = storeMapper.getMenuList();
+		
+		return menuList;
+	}
 
 	
-	//매장리스트조회
+	//매장전체 매장리스트조회
 	public List<Store> getStoreList(){
 		List<Store> storeList = storeMapper.getStoreList();
 		
 		return storeList;
 	}
+
 }

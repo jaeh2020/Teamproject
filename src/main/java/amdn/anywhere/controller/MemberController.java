@@ -17,8 +17,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
+import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
+import amdn.anywhere.domain.Statement;
 import amdn.anywhere.service.MemberService;
 
 
@@ -31,6 +33,175 @@ public class MemberController {
 		this.memberService = memberService;
 	}
 	
+	//선호도 수정 ajax
+	@GetMapping(value="/modifyUserLike", produces = "application/json")
+	@ResponseBody
+	public String modifyUserLike(	@RequestParam(value = "userLikeCode") String userLikeCode
+							,@RequestParam(value = "likeId") String likeId
+							,@RequestParam(value = "likeArr[]") List<String> likeArr
+							,@RequestParam(value = "unlikeArr[]") List<String> unlikeArr
+							,MemberUserLike mul) {
+		
+		mul.setUserLikeCode(userLikeCode);
+		mul.setLikeId(likeId);
+		mul.setUserLikeKey1(likeArr.get(0));
+		mul.setUserLikeKey2(likeArr.get(1));
+		mul.setUserLikeKey3(likeArr.get(2));
+		mul.setUserUnlikeKey1(unlikeArr.get(0));
+		mul.setUserUnlikeKey2(unlikeArr.get(1));
+		mul.setUserUnlikeKey3(unlikeArr.get(2));
+		
+		if(mul != null) {
+			mul.setUserLikeCode(memberService.getUserLikeCode());
+			memberService.addMemberUserLike(mul);
+		}
+
+		return "mul";
+	}
+	
+	@GetMapping("/member/modifyUserLike")
+	public String modifyUserLike(@RequestParam(name = "userId", required = false) String userId
+								,Model model) {
+		
+		//선호-비선호 메인카테 불러오기
+		List<FoodMainCate> foodMainList = memberService.getFoodMainList();
+		
+		MemberUser mul = memberService.getMemberUserInfoById(userId);
+		
+		model.addAttribute("title", "MYPAGE  > 추천/비추천 카테고리 수정");
+		model.addAttribute("location", "MYPAGE  > 추천/비추천 카테고리 수정");
+		model.addAttribute("foodMainList", foodMainList);
+		model.addAttribute("mul", mul);
+		
+		return "/member/modifyUserLike";
+	}
+	
+	//소비자 회원아이디 클릭시 추천/비추천 보여주는 ajax
+	@GetMapping(value = "/likeList", produces = "application/json")
+	@ResponseBody
+	public MemberUser likList( @RequestParam(value = "userId") String userId){
+		System.out.println("userId : " + userId);
+		
+		MemberUser memberUser = memberService.getMemberUserInfoById(userId);
+		memberUser.setUserId(userId);
+		System.out.println("memberUser??? : " + memberUser);
+		
+		return memberUser;
+	}
+	
+	//소상공인 승인 ajax
+	@GetMapping(value="/modifyBizConfirm", produces = "application/json")
+	@ResponseBody
+	public String modifyBizConfirm(	@RequestParam(value = "bizCode") String bizCode
+									,@RequestParam(value = "memberId") String memberId
+									,@RequestParam(value = "state") String state) {
+		
+		System.out.println("bizCode : " + bizCode);
+		System.out.println("memberId : " + memberId);
+		System.out.println("state : " + state);
+		
+		MemberBiz memberBiz = memberService.getMemberBizInfoByCode(bizCode);
+		
+		memberBiz.setConfirmId(memberId);
+		memberBiz.setBizStatus(state);
+		
+		memberService.modifyBizConfirm(memberBiz);
+		
+		System.out.println("memberBiz 수정완료? : " + memberBiz);
+
+		return "memberBiz";
+	}
+	
+	//회원 전체 목록 조회
+	@GetMapping("/member/memberUserList")
+	public String getMemberUserList(Model model) {
+		
+		List<MemberUser> memberUserList = memberService.getMemberUserList();
+		
+		model.addAttribute("title", "소비자 회원 목록");
+		model.addAttribute("location", "소비자 회원 목록");
+		model.addAttribute("memberUserList", memberUserList);
+
+		
+		return "/member/memberUserList";
+	}
+	
+	//회원탈퇴
+	@PostMapping("/member/deleteMember")
+	public String deleteMember( @RequestParam(name = "memberId", required = false) String memberId
+						,@RequestParam(name = "memberPw", required = false) String memberPw) {
+		
+		System.out.println("(removeMember) 화면에서 입력받은값 : memberId : " + memberId + "memberPw : " + memberPw);
+
+		return "redirect:/";
+	};
+	
+	@GetMapping("/member/deleteMember")
+	public String deleteMember( @RequestParam(name = "memberId", required = false) String memberId
+								,Model model) {
+		
+		System.out.println("(removeMember) 화면에서 입력받은값 : memberId : " + memberId);
+
+		model.addAttribute("title", "MYPAGE  > 회원탈퇴");
+		model.addAttribute("location", "MYPAGE  > 회원탈퇴");
+		return "/member/deleteMember";
+	}
+	
+	//회원 전체 목록 조회
+	@GetMapping("/member/memberBizList")
+	public String getMemberBizList(Model model) {
+		
+		List<MemberBiz> memberBizList = memberService.getMemberBizList();
+		
+		model.addAttribute("title", "소상공인 승인 신청 목록");
+		model.addAttribute("location", "소상공인 승인 신청 목록");
+		model.addAttribute("memberBizList", memberBizList);
+
+		
+		return "member/memberBizList";
+	}
+	
+	//소상공인 가입 승인
+	@PostMapping("/member/addBizConfirm")
+	public String addBizConfirm(MemberBiz memberBiz) {
+		System.out.println("커맨드 객체 memberBiz: " + memberBiz);
+		
+		if(memberBiz != null) {
+			memberBiz.setBizCode(memberService.getMemberBizCode());
+			memberService.addBizConfirm(memberBiz);
+		}
+		
+		//승인 신청하면 소상공인마이페이지로 가도록 경로 수정 필요
+		return "redirect:/member/myPageBiz?memberId="+memberBiz.getMemberId();
+	}
+	
+	@GetMapping("/member/addBizConfirm")
+	public String addBizConfirm(Model model) {
+		
+		model.addAttribute("title", "소상공인 가입 승인");
+		model.addAttribute("location", "소상공인 가입 승인");
+		return "/member/addBizConfirm";
+	}
+	
+	//마이페이지 myPageBiz
+	@GetMapping("/member/myPageBiz")
+	public String myPageBiz(@RequestParam(name = "memberId", required = false) String memberId
+							,Member member
+							,Model model) {
+		
+		MemberBiz memberBiz = memberService.getMemberBizInfoById(memberId);
+		System.out.println("memberBiz"+memberBiz);
+		if(memberBiz == null) {
+			return "redirect:/member/addBizConfirm";
+		}
+		
+		model.addAttribute("title", "MYPAGE");
+		model.addAttribute("location", "MYPAGE");
+		model.addAttribute("memberBiz", memberBiz);
+		
+		return "/member/myPageBiz";
+	}
+	
 	//마이페이지 myPage
 	@GetMapping("/member/myPage")
 	public String myPage(@RequestParam(name = "userId", required = false) String userId
@@ -40,8 +211,8 @@ public class MemberController {
 		MemberUser memberUser = memberService.getMemberUserInfoById(userId);
 		System.out.println("memberUser"+memberUser);
 		
-		model.addAttribute("title", "회원가입  > MYPAGE");
-		model.addAttribute("location", "회원가입  > MYPAGE");
+		model.addAttribute("title", "MYPAGE");
+		model.addAttribute("location", "MYPAGE");
 		model.addAttribute("memberUser", memberUser);
 		
 		return "/member/myPage";
@@ -55,7 +226,7 @@ public class MemberController {
 		
 		memberService.modifyMyInfo(member);
 		
-		return "redirect:/member/myInfo";
+		return "redirect:/member/myInfo?memberId="+member.getMemberId();
 	}
 	
 	@GetMapping("/member/modifyMyInfo")
@@ -63,6 +234,8 @@ public class MemberController {
 						 ,Model model) {
 		
 		Member member = memberService.getMemberInfoById(memberId);
+		
+		System.out.println("member 수정"+ member);
 		
 		model.addAttribute("title", "마이페이지  > 내정보 수정");
 		model.addAttribute("location", "마이페이지  > 내정보 수정");
@@ -95,16 +268,28 @@ public class MemberController {
 	public String login( @RequestParam(name = "memberId", required = false) String memberId
 						,@RequestParam(name = "memberPw", required = false) String memberPw
 						, HttpSession session
-						, RedirectAttributes redirecAttr) {
+						, RedirectAttributes redirecAttr
+						, MemberBiz memberBiz) {
 		//1 회원이 있다
 		if(memberId != null && !"".equals(memberId) &&
 			memberPw != null && !"".equals(memberPw)) {
 			Member member = memberService.getMemberInfoById(memberId);
-			if(member != null) {
+
+			//비즈 로그인 시
+			if(member != null && member.getLevelCode().equals("level_biz")) {
 				if(memberPw.equals(member.getMemberPw())) {
 					session.setAttribute("SID", memberId);
 					session.setAttribute("SLEVEL", member.getLevelCode());
 					session.setAttribute("SNAME", member.getMemberName());
+									
+					return "redirect:/member/myPageBiz?memberId="+memberBiz.getMemberId();
+				}
+			}else {
+				if(memberPw.equals(member.getMemberPw())) {
+					session.setAttribute("SID", memberId);
+					session.setAttribute("SLEVEL", member.getLevelCode());
+					session.setAttribute("SNAME", member.getMemberName());
+					
 					return "redirect:/";
 				}
 			}
@@ -179,13 +364,13 @@ public class MemberController {
 	@GetMapping(value="/userLike", produces = "application/json")
 	@ResponseBody
 	public String userLike(	@RequestParam(value = "userLikeCode") String userLikeCode
-							,@RequestParam(value = "memberId") String memberId
+							,@RequestParam(value = "likeId") String likeId
 							,@RequestParam(value = "likeArr[]") List<String> likeArr
 							,@RequestParam(value = "unlikeArr[]") List<String> unlikeArr
 							,MemberUserLike mul) {
 		
 		mul.setUserLikeCode(userLikeCode);
-		mul.setMemberId(memberId);
+		mul.setLikeId(likeId);
 		mul.setUserLikeKey1(likeArr.get(0));
 		mul.setUserLikeKey2(likeArr.get(1));
 		mul.setUserLikeKey3(likeArr.get(2));

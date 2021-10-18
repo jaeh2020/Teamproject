@@ -1,6 +1,8 @@
 package amdn.anywhere.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
+import amdn.anywhere.domain.Table;
 import amdn.anywhere.mapper.BookMapper;
 
 
@@ -26,6 +29,37 @@ public class BookService {
 		  
 	 }
 	 
+	 //주문리스트조회
+	 public List<Order> getOrderAllList(){
+		 List<Order> orderList = bookMapper.getOrderAllList();
+		 return orderList;
+	 }
+
+	 
+	 //나의 주문내역 상세 조회
+	 public Map<String, Object> getOrderList(String bookCode){ 
+		
+		List<Order> orderDetail = bookMapper.getOrderList(bookCode); 
+		
+		Map<String, Object>paramMap = new HashMap<String, Object>(); 
+		
+		paramMap.put("orderDetail",orderDetail); 
+		
+		return paramMap;
+	}
+	
+	 
+	 //나의 주문내역 리스트
+	 public Map<String, Object> getOrderUserInfoById(String bizId){ 
+		
+		List<Order> userOrderList = bookMapper.getOrderUserInfoById(bizId); 
+		
+		Map<String, Object>paramMap = new HashMap<String, Object>(); 
+		
+		paramMap.put("userOrderList",userOrderList); 
+		
+		return paramMap;
+	 }
 	 
 	 //결제예정 그룹코드 자동증가
 	 public String getnewOGroupCode() {
@@ -61,8 +95,8 @@ public class BookService {
 	  
 	 
 	 //주문정보에 메뉴리스트 뿌려주기
-	 public List<Menu> getMenuList(){
-		 List<Menu> menuList = bookMapper.getMenuList();
+	 public List<Menu> getMenuList(String storeCode){
+		 List<Menu> menuList = bookMapper.getMenuList(storeCode);
 		 
 		 return menuList;
 	 }

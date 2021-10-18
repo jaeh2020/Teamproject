@@ -47,7 +47,7 @@
 	                        </thead>
 	                        <tbody>
 	                            <tr th:each="l : ${recruitList}">
-	                                <td class = "recruitCode" th:text="${l.recruitTBizCode}"></td>
+	                                <td th:text="${l.recruitTBizCode}" class = "recruitCode" ></td>
 	                                <td th:text="${l.storeCode}"></td>
 	                                <td th:text="${l.storeInfo.storeName}"></td>
 	                                <td th:text="${l.bizId}"></td>
@@ -55,10 +55,10 @@
 	                                <td th:text="${l.requestTime}"></td>
 	                                <td> [[${l.recruitNumNow}]] / [[${l.recruitNumTotal}]]</td>
 	                                <td th:text="${l.recruitFinTime}"></td>
-	                                <td th:text="${l.stateCode}"></td>
+	                                <td th:text="${l.stateName}" class = "stateName" ></td>
 	                                <td>
 	                                	<a class="confirmBtn btn btn-success text-white">승인</a>
-	                                	<a class="cancelBtn btn btn-danger text-white" >취소</a>
+	                                	<a class="cancelBtn btn btn-danger text-white" >거절</a>
 	                                </td>
 	                                <td th:if="${l.adminId} neq null" th:text="${l.adminId}"></td>
 	                                <td th:unless="${l.adminId} neq null" th:text="배정전"></td>
@@ -80,7 +80,7 @@
 	
 	<script type="text/javascript">
 	$(function () {
-		  $('[data-toggle="tooltip"]').tooltip()
+		  $('[data-toggle="tooltip"]').tooltip();
 		});
 	//상세보기 alert
 	function viewDetail(recruitTitle, surveyTitle, menuName, ageList, surveyCate, specialCate){
@@ -142,23 +142,32 @@
 	$(function(){
 		$('.confirmBtn').on("click", function(){
 			var recruitBCode = $(this).parent().parent().find('.recruitCode').text();
-			confirmAlert(function(checked){
-				if (checked) {
-		            window.location.href = "/taster/changeState?recruitCode="+ recruitBCode + "&state=승인";
-		        }
-			});
+			var stateName = $(this).parent().parent().find('.stateName').text();
+			if(stateName == '승인완료'){
+				 Swal.fire({
+				    	title: '이미 승인처리된 항목입니다!',
+				    	icon: 'info',	
+				    	showConfirmButton : false
+				    });	
+			}else{
+				confirmAlert(function(checked){
+					if (checked) {
+			            window.location.href = "/taster/changeState?recruitCode="+ recruitBCode + "&state=승인";
+			        }
+				});				
+			}
 		});
 	});
 	function cancleAlert(callback){
 		swal.fire({
-			  title: '모집 취소처리하시겠습니까?',
+			  title: '승인 거절 하시겠습니까?',
 			  showDenyButton: true,
 			  confirmButtonText: '예',
 			  denyButtonText: '아니오',
 			  denyButtonColor: '#d33'
 		}).then((result) => {
 			  if (result.isConfirmed) {
-			    Swal.fire('취소처리 되었습니다.', '', 'success');
+			    Swal.fire('거절 되었습니다.', '', 'success');
 
 			  }else if (result.isDenied) {
 				    Swal.fire('취소되었습니다.', '', 'info');
@@ -178,12 +187,6 @@
 	});
 	
 	</script>
-	
-
-
-   
 </th:block>
-    
-    
 </body>
 </html>

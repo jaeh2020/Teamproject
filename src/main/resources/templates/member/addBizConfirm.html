@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+	
+<!-- css -->
+<style type= "text/css">
+	.card h3{
+		text-align: center;
+		padding: 10px;
+	}
+	.login-form{
+		padding: 0;
+	}
+	form input{
+		width: 5px;
+	}
+	.box-radio-input{
+		display: inline;
+	}
+	.form-group span, .radio span{
+		color: #610B5E;
+		margin-left: 5px;
+	}
+	.form-group p{
+		display: inline-block;
+	}
+	.login-form .btn {
+		display : inline-block;
+		width : 450px;
+		text-align: center;
+	}
+	.form-button{
+		text-align: center;
+	}
+</style>
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="card card-outline-primary">
+		<!-- 회원가입 내용 -->		
+        <div class="container-fluid">
+           	<div class="row justify-content-center">
+                <div class="col-ml-5">
+                    <div class="login-content">
+                        <div class="login-form">
+                        	<h3>소상공인 승인 신청서</h3>
+                            <form method="post">
+                                <input type="hidden" name="bizCode" id="bizCode">
+                                <div class="form-group">
+                                    <label>소상공인 아이디</label><span>*</span>
+                                    <input type="text" class="form-control" name="memberId" th:value="${session.SID}" readonly="readonly">
+                                </div>
+                                <div class="form-group">
+                                    <label>사업자 등록 번호</label><span>*</span>
+                                    <input type="text" class="form-control" id="bizNum" name="bizNum" placeholder="사업자 등록 번호">
+                                    <p>10자리의 숫자로 입력해주세요.</p>
+                                    <div id="pwCheck"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>소상공인 확인서 첨부</label><span>*</span>
+                                    <input type="file" class="form-control file" name="bizFileAtt" accept=".gif, .jpg, .png" required="required">
+                                     <p>파일 확장자가 .gif / .jpg / .png 인 파일만 업로드 가능합니다.</p>
+                                     <div id="preview"></div>
+                                </div>
+                                <div>
+                                    <input type="hidden" class="form-control" id="memberName" name="bizStatus" value="state_confirm_ing">
+                                </div>
+                                <div>
+                                    <input type="hidden" class="form-control" id="memberBirth" name="confirmId" value="id001" placeholder="승인자 아이디도 업데이트로">
+                                </div>
+                                
+                                <div class="form-button" id="btn">
+                              <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">신청하기</button>
+                                </div>
+                            </form>                            
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+    <th:block layout:fragment="customJsLib">
+		<script type="text/javascript">
+			window.onload = function() {
+				swal.fire("승인 신청서를 작성해주세요.")
+		   };
+		</script>
+    </th:block>
+</body>
+</html>

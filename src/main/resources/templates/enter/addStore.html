@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+	
+		<!-- css -->
+<style type= "text/css">
+	tbody tr td{
+		color: #505050;
+	}
+	.btn-primary{
+		display : block;
+		float : right;
+		color: #fff;
+		margin: 5px;
+	}
+</style>
+
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	
+
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card card-outline-primary">
+				<div class="card-title">
+					<div class="card-header">
+	                	<h4 class="m-b-0 text-white">입점 등록 신청</h4>
+	                </div>
+				</div>
+				<form id="addStoreForm" th:action="@{/enter/addStore}" method="post">
+					<div class="card-body">
+						<div class="basic-form">
+								<div class="form-group">
+									<label>소상공인 코드</label>
+									<div class="col-md-6" style="display: inline;">
+									<input type="text" name="bizCode" id="bizCode" class="form-control" readonly="readonly">
+									<button type="button" id="bizCodeBtn" class="btn btn-outline-primary" th:onclick="bizCodeSerch([[${memberBiz.bizCode}]]);">
+										소상공인코드 가져오기
+									</button>
+									</div> 					
+								</div>
+								<div class="form-group">
+									<label>소상공인 아이디</label>
+									<input type="text" name="bizId" class="form-control" readonly="readonly" th:value="${bizId}">
+								</div>
+								<div class="form-group">
+									<label>매장 이름</label>
+									<input type="text" name="storeName" class="form-control" >
+								</div>
+								<div class="form-group">
+									<label>매장 주소</label>
+									<input type="text" name="storeLocation" id="address_kakao" class="form-control" placeholder="클릭시 주소겅색창이 열립니다.">
+								</div>
+								<div class="form-group">
+									<label>매장 전화번호</label>
+									<input type="text" name="storePhone" class="form-control">
+									<small class="form-control-feedback" style="color: red;"> 000-000-0000 형태로 지역번호 포함 작성 요망.</small>
+								</div>
+								<div class="form-group">
+									<label>영업시간</label>
+									<input type="text" name="storeTime" class="form-control">
+									<small class="form-control-feedback" style="color: red;"> 00:00 ~ 00:00 형태로 작성. 0시~23시 기준 </small>
+								</div>
+								<div class="form-group">
+									<label>휴일</label>
+									<input type="text" name="storeHoliday" class="form-control">
+									<small class="form-control-feedback" style="color: red;"> 자유형식으로 작성. </small>
+								</div>
+								<div class="form-group">
+									<label>메인카테고리</label>
+									<select class="form-control" id="mainCateCode" name="mainCateCode">
+										<option value=""> : : 필수 선택  : :</option>
+										<th:block th:each="m : ${mainCate}">
+										<option th:value="${m.mainCateCode}">[[${m.mainCateName}]] </option>
+										</th:block>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>메인카테고리2</label>
+									<select class="form-control" id="mainCateCode2" name="mainCateCode2">
+										<option value=""> : : 없음 : :</option>
+										<th:block th:each="m : ${mainCate}">
+										<option th:value="${m.mainCateCode}">[[${m.mainCateName}]] </option>
+										</th:block>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>평가단(먹깨비) 동의여부</label>
+									<select class="form-control" id="storeTasteAgree" name="storeTasteAgree">
+										<option th:value="Y">Y</option>
+										<option th:value="N">N</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>매장노출여부</label>
+									<select class="form-control" id="storeExposAgree" name="storeExposAgree">
+										<option th:value="Y">Y</option>
+										<option th:value="N">N</option>
+									</select>
+									<small class="form-control-feedback" style="color: red;"> 'N' 선택시 메인 검색화면에서 노출이 되지 않습니다. </small>
+								</div>
+								<div class="form-group">
+									<label>테이블개수</label>
+									<input type="number" name="storeTableNum" class="form-control">
+								</div>
+								<div class="form-group">
+									<label>테이블 총 좌석수</label>
+									<input type="number" name="storeOccupancy" class="form-control">
+									<small class="form-control-feedback" style="color: red;"> ex) 테이블1개당 4좌석 -> 테이블2개일시 : 8개 </small>
+								</div>
+								<div class="form-group">
+									<button type="button" id="addStoreInfoBtn" class="btn btn-primary btn-flat m-b-10">신청</button>
+								</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	
+	
+	
+</th:block>					
+					
+<!--Custom JavaScript -->
+<th:block layout:fragment="customJsLib">
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c96f24708bcaeb6b92031a20b7e4b518&libraries=services"></script>
+    
+    <script type="text/javascript">
+    
+    
+    
+  	/*  카카오 주소검색 api */
+  	
+    window.onload = function(){
+        document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+            //카카오 지도 발생
+            new daum.Postcode({
+                oncomplete: function(data) { //선택시 입력값 세팅
+                	
+                	/* var addr = ''; //주소변수
+                	
+                	if(data.userSelectedType === 'R'){
+                		addr = data.roadAddress;
+                	}else{
+                		addr = data.jibunAddress;
+                	} */
+                	
+                	
+                    document.getElementById("address_kakao").value = data.jibunAddress; // 주소 넣기
+                    /* document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱 */
+                }
+            }).open();
+        });
+    };
+    
+   	/* 유효성검사 */ 
+	$(function(){
+			$('#addStoreInfoBtn').click(function(){
+				
+				var bizCode = $('[name=bizCode]');
+				var storeName = $('[name=storeName]');
+				var storeLocation = $('[name=storeLocation]');
+				var storePhone = $('[name=storePhone]');
+				var storeTime = $('[name=storeTime]');
+				var storeHoliday = $('[name=storeHoliday]');
+				var mainCateCode = $('[name=mainCateCode]');
+				var storeTasteAgree = $('[name=storeTasteAgree]');
+				var storeExposAgree = $('[name=storeExposAgree]');
+				var storeTableNum = $('[name=storeTableNum]');
+				var storeOccupancy = $('[name=storeOccupancy]');
+				
+				if(bizCode.val().trim() == ''){
+					alert('소상공인 코드가 부여된 소상공인만 신청가능합니다.');
+					return false;
+					
+				}else if(storeName.val().trim() == ''){
+					alert('매장명을 입력해주세요 .');
+					return false;
+					
+				}else if(storeLocation.val().trim() == ''){
+					alert('주소를 입력해주세요 .');
+					return false;
+					
+				}else if(storePhone.val().trim() == ''){
+					alert('매장전화번호를 입력해주세요 .');
+					return false;
+					
+				}else if(storeTime.val().trim() == ''){
+					alert('매장영업시간을 입력해주세요 .');
+					return false;
+					
+				}else if(storeHoliday.val().trim() == ''){
+					alert('매장휴일을 입력해주세요 .');
+					return false;
+					
+				}else if(mainCateCode.val().trim() == ''){
+					alert('메인카테고리를 선택해주세요 .');
+					return false;
+					
+				}else if(storeTasteAgree.val().trim() == ''){
+					alert('평가단 동의여부를 선택해주세요 .');
+					return false;
+					
+				}else if(storeExposAgree.val().trim() == ''){
+					alert('매장노출여부를 선택해주세요 .');
+					return false;
+					
+				}else if(storeTableNum.val().trim() == ''){
+					alert('테이블 개수를 입력해주세요 .');
+					return false;
+					
+				}else if(storeOccupancy.val().trim() == ''){
+					alert('테이블 총 좌석수를 입력해주세요 .');
+					return false;
+					
+				}
+				alert('입점등록이 완료 되었습니다.');
+				$('#addStoreForm').submit();
+			});
+		});
+   	
+   	
+   	/* 소상공인코드 가져오기 */
+   	function bizCodeSerch(bizCode){
+   		$('#bizCode').val(bizCode);
+	}
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+	</script>
+
+</th:block>
+</body>
+</html>

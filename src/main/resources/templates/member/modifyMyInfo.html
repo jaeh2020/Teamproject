@@ -48,9 +48,9 @@
 	}
 	.login-form .btn {
 		display : inline-block;
-		width : 70px;
+		width : 80px;
 		text-align: center;
-		margin-left: 20px;
+		margin-right: 25px;
 	}
 	.form-button{
 		text-align: center;
@@ -58,40 +58,25 @@
 	.form-control{
 		width: 400px;
 	}
- 
+ 	.login-form{
+ 		margin-left: 60px;
+ 	}
 </style>
 </th:block>
 
 
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
-	<div class="row">
-		<!-- 왼쪽부분 -->
-		<div class="col-lg-3">
-			<div class="card sidebar">
-				<table class="table table-hover ">
-					<thead>
-						<tr><th>마이페이지</th></tr>
-					</thead>
-                    <tbody>
-                        <tr><td>내정보</td></tr>
-                        <tr><td>메뉴</td></tr>
-                        <tr><td>메뉴</td></tr>
-                        <tr><td>메뉴</td></tr>
-                        <tr><td>회원탈퇴</td></tr>
-                    </tbody>
-		        </table>
-			</div>
-		</div>
-		
+	<div class="row justify-content-center">
+		<div class="col-lg-3"></div>
 		<!-- 내 정보 폼 -->
-		<div class="col-lg-9 ">
+		<div class="col-lg-6 ">
 			<div class="card card-outline-primary">
 	            <div class="card-header">
 	                <h4 class="m-b-0 text-white">내정보</h4>
 	            </div>
 	            <div class="card-body">	            
-					<div class="login-form">
+					<div class="login-form justify-content-center">
 						<form th:action="@{/member/myInfo}" method="post">
  							<div class="form-group">
 								<label>회원 권한</label>
@@ -146,15 +131,14 @@
                           	<a th:href="@{/member/myInfo(memberId=${member.memberId})}">
                             	<button type="button" class="btn btn-inverse btn-flat m-b-30 m-t-30">취소</button>
                             </a>
-                            <a th:href="@{#}">
                             	<button type="button" id="modi" class="btn btn-success btn-flat m-b-30 m-t-30">수정하기</button>
-                            </a>
                            </div>
                        </form>
 					</div>
 	        	</div>
 			</div>
 		</div>
+		<div class="col-lg-3"></div>
 	</div>
 </th:block>
 

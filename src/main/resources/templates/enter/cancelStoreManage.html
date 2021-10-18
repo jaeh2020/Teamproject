@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+<th:block layout:fragment="customCss">
+</th:block>
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customJs">
+
+	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
+    
+</th:block>
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="row">
+		<div class="col-12">
+			 <div class="card">
+	            <div class="card-body">
+	                <h4 class="card-title">입점취소 관리</h4>
+	                <div class="table-responsive m-t-40">
+	                    <table id="myTable" class="table table-bordered table-striped">
+	                        <thead>
+	                            <tr>
+	                                <th>취소코드</th>
+	                                <th>매장코드</th>
+	                                <th>매장명</th>
+	                                <th>요청아이디</th>	                       
+	                                <th>취소사유</th>	                       
+	                                <th>요청등록일시</th>
+	                                <th>요청완료일시</th>
+	                                <th>요청승인아이디</th>
+	                                <th>취소상태</th>
+	                                <th data-orderable="false">승인/취소</th>
+	                            </tr>
+	                        </thead>
+	                         <tbody>
+								<tr th:each="s : ${storeCancelList}">
+									<td th:text="${s.storeCancelCode}" class="storeCancelCode"></td>
+									<td th:text="${s.storeCode}" class="storeCode"></td>
+									<td th:text="${s.store.storeName}"></td>
+									<td th:text="${s.bizId}"></td>
+									<td th:text="${s.storeCancelAsk}"></td>
+									<td th:text="${s.cancelTime}"></td>
+									<td th:text="${s.cancelComTime}"></td>
+									<td th:text="${s.cancelConfirmId}"></td>
+									<td th:text="${s.statement.stateName}" class="stateName"></td>
+									<td>
+										<input type="hidden" th:value="${memberId}">
+										<a class="confirmBtn btn btn-success text-white">승인</a>
+	                                	<a class="cancelBtn btn btn-danger text-white" >거절</a>
+									</td>
+								</tr>
+							</tbody>
+	                    </table>
+	                </div>
+	            </div>
+	        </div>
+		</div>
+	</div>
+	 
+
+</th:block>
+<!-- End PAge Content -->
+			
+ <!--Custom JavaScript -->
+<th:block layout:fragment="customJsLib">
+	
+	<script type="text/javascript">
+	
+	//승인버튼 클릭시
+	$(function(){
+		$('.confirmBtn').on("click", function(){
+			var storeCancelCode = $(this).parent().parent().find('.storeCancelCode').text();
+			var storeCode = $(this).parent().parent().find('.storeCode').text();
+			var stateName = $(this).parent().parent().find('.stateName').text();
+			
+			if(stateName == '승인완료'){
+				alert('이미 승인이 완료된 신청건 입니다.');
+				return false
+			}else{
+				if (confirm('승인처리하시겠습니까? 승인처리시 해당 매장의 정보는 삭제됩니다.')) {
+					location.href = "/enter/cancelStoreChangeState?storeCancelCode="+ storeCancelCode + "&state=승인" + "&storeCode=" + storeCode;
+			    }
+			}
+		});
+	});
+	
+	//거절버튼 클릭시
+	$(function(){
+		$('.cancelBtn').on("click", function(){
+			var storeCancelCode = $(this).parent().parent().find('.storeCancelCode').text();
+			var stateName = $(this).parent().parent().find('.stateName').text();
+			
+			if(stateName == '승인거절'){
+				alert('이미 거절이 완료된 신청건 입니다.');
+				return false
+			}else{
+				if (confirm('거철처리하시겠습니까?')) {
+					location.href = "/enter/cancelStoreChangeState?storeCancelCode="+ storeCancelCode + "&state=거절";
+			    }
+			}
+		});
+	});
+	
+	</script>
+	
+
+
+   
+</th:block>
+    
+    
+</body>
+</html>

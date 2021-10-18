@@ -4,6 +4,12 @@
 	  layout:decorate="~{layout/default}">
 <th:block layout:fragment="customCss">
 	<style type="text/css">
+		.right{
+			float: right;
+		}
+		.card{
+			width: 600px;  
+		}
 	</style>
 </th:block>
 <th:block layout:fragment="customTitle">
@@ -19,8 +25,8 @@
 	                  <div class="form-validation">
 	                      <form class="form-valide" id="recruitApplyForm" th:action="@{/taster/recruitApplyProcess}" method="post">
 	                          <div class="form-group row">
-	                              <label class="col-lg-4 col-form-label" for="recruitTBizCode">요청매장 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
+	                              <label class="col-lg-4 col-form-label" for="storeCode">요청매장 <span class="text-danger">*</span></label>
+	                              <div class="col-lg-7">
 	                                  <select class="form-control" id="storeCode" name="storeCode">
 	                                      <option value=""> : : : 매장 목록  : : : </option>
 	                                      <option th:each="s : ${storeList}" th:text="${s.storeName}" th:value="${s.storeCode}"></option>
@@ -29,11 +35,11 @@
 	                          </div>
 	                          <div class="form-group row">
 	                              <label class="col-lg-4 col-form-label" for="menuCode">평가 메뉴 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
+	                              <div class="col-lg-7">
 	                                  <select class="form-control" id="menuCode" name="menuCode">
 	                                      <option value=""> : : : 메뉴 목록  : : : </option>
 	                                  </select>
-	                              	<label class="css-control css-control-primary css-checkbox" for="newMenuCheck">
+	                              	<label class="css-control css-control-primary css-checkbox right" for="newMenuCheck">
                                           <span class="text-muted m-b-15 f-s-12">등록되지 않은 신메뉴일 경우 체크</span>
                                           <input type="checkbox" class="css-control-input" id="newMenuCheck" name="menuCode">
 	                                </label>
@@ -41,60 +47,68 @@
 	                          </div>
 	                          <div class="form-group row">
 	                              <label class="col-lg-4 col-form-label" for="recruitTitle">모집 공고 제목 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
-	                                  <input type="text" class="form-control" id="recruitTitle" name="recruitTitle" placeholder="공고명을 입력하세요..">
-	                              </div>
+	                              <div class="col-lg-7">
+										<input type="text" class="form-control" id="recruitTitle" name="recruitTitle" placeholder="공고명을 입력하세요..">
+										<label class="css-control css-control-primary css-checkbox right" for="makeRTitle">
+											<span class="text-muted m-b-15 f-s-12">자동완성</span>
+											<input type="checkbox" class="css-control-input" id="makeRTitle">
+		                                </label>
+	                              </div> 
 	                          </div>
 	                          <div class="form-group row">
 	                              <label class="col-lg-4 col-form-label" for="surveyTitle">설문조사 제목 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
+	                              <div class="col-lg-7">
 	                                  <input type="text" class="form-control" id="surveyTitle" name="surveyTitle" placeholder="설문조사 제목을 입력하세요..">
+	                              	  <label class="css-control css-control-primary css-checkbox right" for="makeSTitle">
+											<span class="text-muted m-b-15 f-s-12">자동완성</span>
+											<input type="checkbox" class="css-control-input" id="makeSTitle">
+		                               </label>
 	                              </div>
 	                          </div>
 	                          <div class="form-group row">
 	                              <label class="col-lg-4 col-form-label" for="val-checkbox">모집 연령대 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
+	                              <div class="col-lg-7">
 	                              	<label class="css-control css-control-primary css-checkbox" for="age10">
-	                                  	<input type="checkbox" class="css-control-input" id="age10" name="ageCodeList" value="1">
+	                                  	<input type="checkbox" class="css-control-input" id="age10" name="ageCodeList" value="age_10">
 	                                      <span class="css-control-indicator"></span> 10대
 	                                  </label>
 	                                  <label class="css-control css-control-primary css-checkbox" for="age20">
-	                                  	<input type="checkbox" class="css-control-input" id="age20" name="ageCodeList" value="2">
+	                                  	<input type="checkbox" class="css-control-input" id="age20" name="ageCodeList" value="age_20">
 	                                      <span class="css-control-indicator"></span> 20대
 	                                  </label>
 	                                  <label class="css-control css-control-primary css-checkbox" for="age30">
-	                                  	<input type="checkbox" class="css-control-input" id="age30" name="ageCodeList" value="3">
+	                                  	<input type="checkbox" class="css-control-input" id="age30" name="ageCodeList" value="age_30">
 	                                      <span class="css-control-indicator"></span> 30대
 	                                  </label>
 	                                  <label class="css-control css-control-primary css-checkbox" for="age40">
-	                                  	<input type="checkbox" class="css-control-input" id="age40" name="ageCodeList" value="4">
+	                                  	<input type="checkbox" class="css-control-input" id="age40" name="ageCodeList" value="age_40">
 	                                      <span class="css-control-indicator"></span> 40대
 	                                  </label> 
 	                                  <label class="css-control css-control-primary css-checkbox" for="age50">
-	                                  	<input type="checkbox" class="css-control-input" id="age50" name="ageCodeList" value="5">
+	                                  	<input type="checkbox" class="css-control-input" id="age50" name="ageCodeList" value="age_50">
 	                                      <span class="css-control-indicator"></span> 50대 이상
 	                                  </label>
 	                                   <label class="css-control css-control-primary css-checkbox" for="allAge">
-	                                  	<input type="checkbox" class="css-control-input" id="allAge" name="ageCodeList" value="6">
+	                                  	<input type="checkbox" class="css-control-input" id="allAge" name="ageCodeList" value="age_all">
 	                                      <span class="css-control-indicator"></span> 모든 연령대
 	                                  </label>
 	                              </div>
 	                          </div>
 	                          <div class="form-group row">
 	                              <label class="col-lg-4 col-form-label" for="recruitNumTotal">모집 인원 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
+	                              <div class="col-lg-7">
 	                                  <input type="text" class="form-control" id="recruitNumTotal" name="recruitNumTotal" >
 	                              </div>
 	                          </div>
 	                          <div class="form-group row">
 	                              <label class="col-lg-4 col-form-label">모집 종료일<span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
+	                              <div class="col-lg-7">
 	                                  <input type="date" class="form-control" name="recruitFinTime" placeholder="dd/mm/yyyy">
 	                              </div>
 	                        		</div>
 	                          <div class="form-group row">
 	                              <label class="col-lg-4 col-form-label" >설문 항목 <span class="text-danger">*</span></label>
-	                              <div class="col-lg-6">
+	                              <div class="col-lg-7">
 	                              	<input type="checkbox" class="css-control-input"  name="cateList" id="selectAllCate" value="all">
 	                                <span class="css-control-indicator"></span> 전체선택
 	                              	<th:block th:each="q :${qCateList}">
@@ -107,7 +121,7 @@
 	                          </div>     
 	                          <div class="form-group row">
 									<label class="col-lg-4 col-form-label" for="val-website">분석 요청 항목 <span class="text-danger">*</span><p><code class="m-b-14 f-s-11">설문항목을 먼저 선택해주세요.</code></p></label>
-									<div class="col-lg-6">
+									<div class="col-lg-7">
 										<label class="css-control css-control-primary css-checkbox specialCheck">
 
 	                                		<input type="checkbox" class="css-control-input" name="specialCateList" id="notSelectSpecial" value="noSpecial">
@@ -295,6 +309,59 @@
 						});
 					}
 				});		
+			});
+			
+			function selectChckFn(){
+				if(selectStore.val() == null || selectStore.val() == ''){
+					alert('매장을 먼저 선택해주세요.');
+					return false;
+				}
+				if(selectMenu.val() == null || selectMenu.val() == ''){
+					alert('메뉴를 먼저 선택해주세요.');
+					return false;
+				}
+				return true;
+			}
+			
+			var date = new Date();
+			var year = date.getFullYear();
+			
+			$(function(){
+				$('#makeRTitle').on("click", function(){
+					var result = selectChckFn();
+					if(result){
+						if($(this).prop("checked")){
+							var storeName = $('#storeCode option:selected').text();		
+							var newRTitle =  year + '년도'+' [' + storeName +'] 에서 평가단을 모집합니다.';
+							recruitTitle.val(newRTitle);
+							recruitTitle.attr('readonly', true);	
+						}else if($(this).prop("checked") == false){
+							recruitTitle.val('');
+							recruitTitle.removeAttr('readonly');
+						}
+					}else{
+						return false;
+					}
+				});
+			});
+			$(function(){
+				$('#makeSTitle').on("click", function(){
+					var result = selectChckFn();
+					if(result){
+						if($(this).prop("checked")){
+							var storeName = $('#storeCode option:selected').text();
+							var menuName =  $('#menuCode option:selected').text();
+							var newSTitle =  year + '년도'+' [' + storeName +' - ' + menuName + '] 설문조사';
+							surveyTitle.val(newSTitle);
+							surveyTitle.attr('readonly', true);	
+						}else if($(this).prop("checked") == false){
+							surveyTitle.val('');
+							surveyTitle.removeAttr('readonly');
+						}						
+					}else{
+						return false;
+					}
+				});
 			});
 	</script>
 	<script th:src="@{/js/lib/form-validation/jquery.validate.min.js}"></script>

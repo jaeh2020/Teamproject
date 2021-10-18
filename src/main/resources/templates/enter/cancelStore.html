@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+	
+		<!-- css -->
+<style type= "text/css">
+	tbody tr td{
+		color: #505050;
+	}
+	.btn-primary{
+		display : block;
+		float : right;
+		color: #fff;
+		margin: 5px;
+	}
+</style>
+
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	
+
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card card-outline-primary">
+				<div class="card-title">
+					<div class="card-header">
+	                	<h4 class="m-b-0 text-white">입점 취소 신청</h4>
+	                </div>
+				</div>
+				<form id="cancelStoreForm" th:action="@{/enter/cancelStore}" method="post">
+					<div class="card-body">
+						<div class="basic-form">
+								<div class="form-group">
+									<label>소상공인 아이디</label>
+									<input type="text" name="bizId" class="form-control" readonly="readonly" th:value="${bizId}">
+									<input type="hidden" name="stateCode" th:value="${statement.stateCode}">
+								</div>
+								<div class="form-group">
+									<label>취소 신청할 매장코드</label>
+									<select class="form-control" id="storeCode" name="storeCode">
+										<option value=""> : : 선택 : :</option>
+										<th:block th:each="s : ${storeInfo}">
+										<option th:value="${s.storeCode}"> [[${s.storeCode}]] : [[${s.storeName}]] </option>
+										</th:block>
+									</select>
+								</div>
+								<div class="form-group">
+									<label> <span class="text-danger">(재확인)</span> 취소 신청할 매장</label>
+									<select class="form-control" id="storeName" name="storeName">
+										<option value=""> : : 선택 : :</option>
+										<th:block th:each="s : ${storeInfo}">
+										<option th:value="${s.storeName}"> [[${s.storeName}]] </option>
+										</th:block>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>취소 사유</label>
+									<select class="form-control" id="storeCancelAsk" name="storeCancelAsk">
+										<option value=""> : : 선택 : :</option>
+										<option value="폐업">폐업 </option>
+										<option value="매장이전">매장이전 </option>
+										<option value="개인사정">개인사정 </option>
+									</select>
+								</div>
+								<div class="form-group">
+									<button type="button" id="cancelStoreBtn" class="btn btn-primary btn-flat m-b-10">신청</button>
+								</div>
+								<div class="form-group">
+									<input type="hidden" name="state" id="state">
+								</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	
+	
+	
+</th:block>					
+					
+<!--Custom JavaScript -->
+<th:block layout:fragment="customJsLib">
+    
+    <script type="text/javascript">
+    
+   	/* 유효성검사 */ 
+	$(function(){
+			$('#cancelStoreBtn').click(function(){
+				
+				var storeCancelAsk = $('[name=storeCancelAsk]');
+				var storeName = $("#storeName option:checked").text();
+				var storeCodeBefore = $("#storeCode option:checked").text();
+				var storeCode = storeCodeBefore.substring(storeCodeBefore.lastIndexOf(':')+1);
+
+				if(storeCode != storeName){
+					alert('매장코드와 매장명이 서로 일치하지않습니다. 다시 선택해주세요');
+					return false;
+					
+				}else if(storeCancelAsk.val().trim() == ''){
+					alert('취소사유를 선택해주세요 .');
+					return false;
+				}
+				
+				$('#cancelStoreForm').submit();
+			});
+		});
+   	
+   	
+   	/* 상태코드 조회 ajax - 신청여부 유효성검사위한 스크립트 */
+   	$(function(){
+    	var selStore = document.querySelector('#storeCode');
+    	
+    	selStore.addEventListener('change',function(){
+    		
+    		var stCode = $(this).val();
+    		
+    		var request =  $.ajax({
+                url: "/enter/cancelStoreDetail", //요청 주소
+                method: "GET", //요청 방식
+                data: { storeCode : stCode },
+                dataType: "json" //받아올 포맷방식
+           });   
+           request.done(function(data){
+        	   console.log(data);
+        	   
+        	   $('#state').val(data.stateCode);
+        	   alert('이미 입점취소신청이 완료된 매장입니다');
+        	   $('#state').val('');
+        	   $('#storeCode').val('');
+        	   
+           });
+        	   
+   		});
+   	});
+  
+	</script>
+
+</th:block>
+</body>
+</html>

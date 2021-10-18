@@ -56,8 +56,8 @@ public class MessageService {
 	}
 	
 	//메시지 알림 조회(ajax)
-	public List<Message> getMessageL(String messageCate1){
-		List<Message> messageL = messageMapper.getMessageL(messageCate1);
+	public List<Message> getMessageL(String messageCate1, String memberId){
+		List<Message> messageL = messageMapper.getMessageL(messageCate1, memberId);
 		
 		return messageL;
 	}

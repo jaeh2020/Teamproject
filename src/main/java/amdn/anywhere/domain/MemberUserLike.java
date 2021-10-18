@@ -3,7 +3,7 @@ package amdn.anywhere.domain;
 public class MemberUserLike {
 
 	public String userLikeCode;
-	public String memberId;
+	public String likeId;
 	public String userLikeKey1;
 	public String userLikeKey2;
 	public String userLikeKey3;
@@ -16,11 +16,11 @@ public class MemberUserLike {
 	public void setUserLikeCode(String userLikeCode) {
 		this.userLikeCode = userLikeCode;
 	}
-	public String getMemberId() {
-		return memberId;
+	public String getLikeId() {
+		return likeId;
 	}
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setLikeId(String likeId) {
+		this.likeId = likeId;
 	}
 	public String getUserLikeKey1() {
 		return userLikeKey1;
@@ -60,10 +60,9 @@ public class MemberUserLike {
 	}
 	@Override
 	public String toString() {
-		return "MemberUserLike [userLikeCode=" + userLikeCode + ", memberId=" + memberId + ", userLikeKey1="
-				+ userLikeKey1 + ", userLikeKey2=" + userLikeKey2 + ", userLikeKey3=" + userLikeKey3
-				+ ", userUnlikeKey1=" + userUnlikeKey1 + ", userUnlikeKey2=" + userUnlikeKey2 + ", userUnlikeKey3="
-				+ userUnlikeKey3 + "]";
+		return "MemberUserLike [userLikeCode=" + userLikeCode + ", likeId=" + likeId + ", userLikeKey1=" + userLikeKey1
+				+ ", userLikeKey2=" + userLikeKey2 + ", userLikeKey3=" + userLikeKey3 + ", userUnlikeKey1="
+				+ userUnlikeKey1 + ", userUnlikeKey2=" + userUnlikeKey2 + ", userUnlikeKey3=" + userUnlikeKey3 + "]";
 	}
 	
 }

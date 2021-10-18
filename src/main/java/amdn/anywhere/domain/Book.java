@@ -13,7 +13,7 @@ public class Book {
 	private Date bookCompTime;
 	private String bookCallAgree;
 	private String stateCode;
-	private int bookPickup;
+	private String bookPickup;
 	public String getBookCode() {
 		return bookCode;
 	}
@@ -74,10 +74,10 @@ public class Book {
 	public void setStateCode(String stateCode) {
 		this.stateCode = stateCode;
 	}
-	public int getBookPickup() {
+	public String getBookPickup() {
 		return bookPickup;
 	}
-	public void setBookPickup(int bookPickup) {
+	public void setBookPickup(String bookPickup) {
 		this.bookPickup = bookPickup;
 	}
 	@Override
@@ -87,6 +87,7 @@ public class Book {
 				+ bookSignTime + ", bookCompTime=" + bookCompTime + ", bookCallAgree=" + bookCallAgree + ", stateCode="
 				+ stateCode + ", bookPickup=" + bookPickup + "]";
 	}
+	
 	
 	
 	

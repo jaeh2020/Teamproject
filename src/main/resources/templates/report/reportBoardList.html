@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customJs">
+
+	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
+    
+</th:block>
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="row">
+		<div class="col-12">
+			 <div class="card">
+			 	<form th:action="@{/report/reportDelete}" method="post" id="reportBoardForm">
+		            <div class="card-body">
+		                <div class="table-responsive m-t-40">
+		                    <table id="myTable" class="table table-bordered table-striped">
+		                        <thead>
+		                            <tr>
+		                                <th>신고코드</th>
+		                                <th>신고유형</th>
+		                                <th>게시물 번호</th>
+		                                <th>신고자</th>	                                                              	                              	                                                              	                                                                                         	                              	                                                              	                               
+		                                <th data-orderable="false">신고 내용</th>
+		                                <th>신고등록시간</th>
+		                                <th>신고확정자</th>
+		                                <th>신고완료시간</th>
+		                                <th>진행상태</th>
+		                                <th data-orderable="false">벌점등록</th>
+		                                <th data-orderable="false">삭제</th>
+		                            </tr>
+		                        </thead>
+		                        <tbody>
+		                        	<tr th:each="r : ${reportBoardList}">
+			                            <td th:text="${r.reportCode}"></td>
+			                            <td th:text="${r.reportCateCode}"></td>
+			                            <td th:text="${r.boardNum}"></td>
+			                            <td th:text="${r.reportId}"></td>
+			                            <td><a type="button" class="btn btn-dark btn-outline ti-search" th:href="@{/report/reportBoardCom(reportCode=${r.reportCode})}"></a></td>
+			                            <td th:text="${r.reportRegTime}"></td>
+			                            <td th:text="${r.memberId}"></td>
+			                            <td th:text="${r.reportConfirmTime}"></td>
+			                            <td th:text="${r.stateCode}"></td>                     
+			                            <td>
+			                            	<a th:href="@{/report/penaltyAdd(reportCode=${r.reportCode})}" class="btn btn-warning btn-flat btn-addon s-b-10 s-l-5"><i class="fa fa-exclamation-triangle"></i></a>
+			                            </td>
+			                            <td><a href="#none;" class="deleteBtn btn btn-danger btn-outline ti-trash text-white" id="reportDelBtn" th:onclick="reportDel([[${r.reportCode}]]);"></a></td>
+		                            </tr>
+		                        </tbody>
+		                    </table>
+		                </div>
+		            </div>
+	            </form>
+	        </div>
+		</div>
+	</div>
+</th:block>
+
+<th:block layout:fragment="customJsLib">
+	<Script type="text/javascript">
+		//삭제버튼 alert창
+	   function reportDel(reportCode){
+	   		if(confirm("정말 삭제하시겠습니까?")){
+	   			location.href = '/report/reportDelete?reportCode='+reportCode;
+	   			return true;
+	   		}else{
+	   			return false;
+	   		}
+	   		
+	   	}
+	</Script>
+
+
+
+
+	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+	<script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->	    
+</th:block>
+
+
+
+</html>
