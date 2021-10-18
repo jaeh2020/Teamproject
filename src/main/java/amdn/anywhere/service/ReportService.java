@@ -22,9 +22,15 @@ public class ReportService {
 		  this.reportMapper = reportMapper;
 	 }
 	 
-	  
 
-	 //벌점점수가져오기
+	  //기타 벌점 등록
+	  public int penaltyInsert(Penalty penalty) {
+		  return reportMapper.penaltyInsert(penalty);
+	  };
+
+	 
+	  
+	  //벌점점수가져오기
 	 public PenaltyStandard getPenaltyScore(String penaltyStandard) {
 		 return reportMapper.getPenaltyScore(penaltyStandard);
 	 };

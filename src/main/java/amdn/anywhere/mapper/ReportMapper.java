@@ -11,6 +11,9 @@ import amdn.anywhere.domain.Report;
 @Mapper
 public interface ReportMapper {
 	
+	//기타 벌점 등록
+	public int penaltyInsert(Penalty penalty);
+	
 	//벌점점수가져오기
 	public PenaltyStandard getPenaltyScore(String penaltyStandard);
 	

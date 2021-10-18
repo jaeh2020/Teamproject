@@ -92,15 +92,23 @@
 	   $(function(){
 		   $('#boardReportBtn').click(function(){
 			  var penaltyStandard = $('[name=penaltyStandard]');
+			  var penaltyId = $('[name=penaltyId]');
+			  
+			  if(penaltyId.val() == ''){
+				  alert('벌점 대상자를 작성해주세요.');
+				  penaltyId.focus();
+				  return false;
+			  } 
 			  
 			  if(penaltyStandard.val() == ''){
 				  alert('벌점유형을 선택해주세요.');
 				  penaltyStandard.focus();
 				  return false;
 			  } 
+			  
 			   
 			  alert('벌점등록완료!')
-			  $('#penaltyAddForm').submit();
+			  $('#penaltyInsertForm').submit();
 		   });
 	   });
 

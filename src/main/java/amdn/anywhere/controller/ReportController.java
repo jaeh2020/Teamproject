@@ -29,11 +29,31 @@ public class ReportController {
 		 }
 	 
 	 
+	//추가벌점등록처리
+	@PostMapping("/penaltyInsert")
+	public String penaltyInsert(Penalty penalty
+			                   ,@RequestParam(name = "penaltyStandard" , required = false) String penaltyStandard) {
+		
+		System.out.println("penalty" + penalty);
+		
+		
+		if (penalty != null) {
+			penalty.setPenaltyCode(reportService.getNewPenaltyCode());
+			reportService.getPenaltyScore(penaltyStandard);
+			reportService.penaltyInsert(penalty);
+		}
+		
+		return "redirect:/report/penaltyList";
+	}
+	 
+	 
+	 
+	 
 	 //추가벌점등록
 	 @GetMapping("/penaltyInsert")
 	 public String penaltyInsert(Model model
 			 					,HttpSession session
-			 					,@RequestParam(name = "penaltyStandard" , required = false)String penaltyStandard) {
+			 					,@RequestParam(name = "penaltyStandard" ,required = false)String penaltyStandard) {
 		 
 		//벌점 등록자 아이디 가져오기
 		String memberId = (String)session.getAttribute("SID");
@@ -44,6 +64,7 @@ public class ReportController {
 		 model.addAttribute("location", "벌점 등록");
 		 model.addAttribute("memberId", memberId);
 		 model.addAttribute("penaltyScore", penaltyScore);
+		
 		 
 		 return "/report/penaltyInsert";
 	 }
