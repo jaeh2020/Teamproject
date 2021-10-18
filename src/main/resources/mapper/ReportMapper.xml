@@ -13,26 +13,100 @@
 		<result property="reportRegTime"		column="rep_time"></result>
 		<result property="reportConfirmTime"		column="rep_confi_time"></result>
 		<result property="reportId"		column="report_id"></result>
+		<result property="reportApplyId"		column="report_apply_id"></result>
 		<result property="memberId"		column="member_id"></result>
 		<result property="stateCode"		column="state_code"></result>
 	</resultMap>
+	
+	<resultMap type="Penalty" id="PenaltyMap">
+		<result property="penaltyCode"		column="penalty_code"></result>
+		<result property="penaltyStandard"		column="penalty_standard_code"></result>
+		<result property="reportAccuScore"		column="report_accu_score"></result>
+		<result property="reportCode"		column="rep_code"></result>
+		<result property="reportRegTime"		column="report_time"></result>
+		<result property="penaltyCheckDate"		column="penalty_check_date"></result>
+		<result property="penaltyId"		column="penalty_id"></result>
+		<result property="memberId"		column="member_id"></result>
+	</resultMap>
+	
+	<resultMap type="PenaltyStandard" id="PenaltyStandardMap">
+		<result property="penaltyStandardCode"		column="penalty_standard_code"></result>
+		<result property="penaltyStandard"		column="penalty_standard"></result>
+		<result property="penaltyScore"		column="penalty_score"></result>
+	</resultMap>
 
 
-<!-- 벌점 부과 아이디 가져오기 -->
-<!-- <select id="getpenaltyMemberId" parameterType="String" resultType="">
+
+<select id="getPenaltyScore" parameterType="String" resultType="ReportCate">
 	SELECT
-		m.member_id
+		penalty_score
 	FROM
-		tb_board_management AS m
-		INNER JOIN 
-		tb_report AS r
-		on
-		m.board_num = r.board_num
-	WHERE
-		r.board_num = #{boardNum}
-	GROUP BY
-		m.member_Id;
-</select> -->
+		tb_penalty_standard 
+	WHERE 
+		penalty_standard_code = #{penaltyStandard};
+
+</select>
+
+<!-- 벌점 삭제 처리 -->
+<delete id="penaltyDelete" parameterType="String">
+	DELETE
+	FROM
+		tb_penalty
+	WHERE 
+		penalty_code = #{penaltyCode};
+</delete>
+
+<!-- 벌점 목록 -->
+<select id="getPenaltyList" resultMap="PenaltyMap">
+	SELECT 
+	penalty_code
+	, penalty_standard_code
+	, report_accu_score
+	, rep_code
+	, report_time
+	, penalty_check_date
+	, penalty_id
+	, member_id
+FROM 
+	tb_penalty;
+</select>
+
+<!-- 벌점 등록 -->
+<insert id="boardPenalty" parameterType="Penalty">
+	INSERT INTO tb_penalty
+	(penalty_code
+	, penalty_standard_code
+	, report_accu_score
+	, rep_code
+	, report_time
+	, penalty_check_date
+	, penalty_id
+	, member_id)
+	VALUES (
+	#{penaltyCode}
+	, #{penaltyStandard}
+	, #{reportAccuScore}
+	, #{reportCode}
+	, #{reportRegTime}
+	, NOW()
+	, #{penaltyId}
+	, #{memberId}
+	);
+</insert>
+
+
+<!-- 게시판 벌점 자동증가 코드 -->
+<select id="getNewPenaltyCode" resultType="String">
+	SELECT
+		CASE
+		WHEN COUNT(1) = 0 THEN 'pen_001'
+		ELSE
+			CONCAT('pen_', LPAD(MAX(CAST(SUBSTRING(penalty_code,5,6)AS DECIMAL)+1),3,0))
+		END AS penaltyCode
+	FROM
+	tb_penalty;
+</select>
+
 
 
 <!-- 게시판 작성 아이디 가져오기 -->
@@ -83,6 +157,7 @@
 		,rep_confi_time	
 		,report_id
 		,member_id	
+		,report_apply_id	
 		,state_code	 
 	FROM
 		tb_report

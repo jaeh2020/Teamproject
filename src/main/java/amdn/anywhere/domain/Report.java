@@ -9,9 +9,9 @@ public class Report {
 	private String reportRegTime;
 	private String reportConfirmTime;
 	private String reportId;
+	private String reportApplyId;
 	private String memberId;
 	private String stateCode;
-	
 	public String getReportCode() {
 		return reportCode;
 	}
@@ -60,6 +60,12 @@ public class Report {
 	public void setReportId(String reportId) {
 		this.reportId = reportId;
 	}
+	public String getReportApplyId() {
+		return reportApplyId;
+	}
+	public void setReportApplyId(String reportApplyId) {
+		this.reportApplyId = reportApplyId;
+	}
 	public String getMemberId() {
 		return memberId;
 	}
@@ -76,11 +82,9 @@ public class Report {
 	public String toString() {
 		return "Report [reportCode=" + reportCode + ", reportCateCode=" + reportCateCode + ", boardNum=" + boardNum
 				+ ", reviewNum=" + reviewNum + ", reportContents=" + reportContents + ", reportRegTime=" + reportRegTime
-				+ ", reportConfirmTime=" + reportConfirmTime + ", reportId=" + reportId + ", memberId=" + memberId
-				+ ", stateCode=" + stateCode + "]";
+				+ ", reportConfirmTime=" + reportConfirmTime + ", reportId=" + reportId + ", reportApplyId="
+				+ reportApplyId + ", memberId=" + memberId + ", stateCode=" + stateCode + "]";
 	}
-	
-	
 	
 	
 	

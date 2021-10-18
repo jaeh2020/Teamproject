@@ -110,12 +110,14 @@ public class BoardController {
 		Board board = boardService.getBoardInfoByCode(boardNum);
 		//신고 상태코드 가져오기
 		Statement reportStatement = boardService.getReportStatement(reportStatementCode);
-		
+	
 		
 		model.addAttribute("title", "게시판 신고");
 		model.addAttribute("reportId", reportId);
 		model.addAttribute("board" , board);
 		model.addAttribute("reportStatement" , reportStatement);
+	
+		
 		
 		return "board/boardReport";
 	}

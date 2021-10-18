@@ -26,14 +26,16 @@ public class BoardService {
 		  this.boardMapper = boardMapper;
 	 }
 	  
-	  //신고 등록
+	  //소상공인 신고 등록
 	  public int boardBizReport(Report report) {
 		  return boardMapper.boardReport(report);
 	  };
-	  //신고 등록
+	  
+	  //소비자 신고 등록
 	  public int boardReport(Report report) {
 		  return boardMapper.boardReport(report);
 	  };
+	  
 	  
 	  //신고번호 자동증가 코드
 	  public String getNewReportNum() {

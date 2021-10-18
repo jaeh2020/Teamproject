@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import amdn.anywhere.domain.Penalty;
+import amdn.anywhere.domain.PenaltyStandard;
 import amdn.anywhere.domain.Report;
 import amdn.anywhere.mapper.ReportMapper;
 
@@ -19,9 +21,35 @@ public class ReportService {
 	  public ReportService(ReportMapper reportMapper) { 
 		  this.reportMapper = reportMapper;
 	 }
+	 
 	  
-	
+
+	 //벌점점수가져오기
+	 public PenaltyStandard getPenaltyScore(String penaltyStandard) {
+		 return reportMapper.getPenaltyScore(penaltyStandard);
+	 };
 	  
+	  
+	  //벌점 삭제 처리
+	  public int penaltyDelete(String penaltyCode) {
+		  return reportMapper.penaltyDelete(penaltyCode);
+	  };
+	  
+	 //벌점 목록
+	 public List<Penalty> getPenaltyList(){
+		List<Penalty> penaltyList = reportMapper.getPenaltyList();
+		return penaltyList;
+	 };
+	 
+	 //벌점 등록
+	 public int boardPenalty(Penalty penalty) {
+		 return reportMapper.boardPenalty(penalty);
+	 };
+
+	 //벌점 코드 자동증가
+	 public String getNewPenaltyCode() {
+		 return reportMapper.getNewPenaltyCode();
+	 };
 	  
 	  //게시판 신고 삭제처리
 	  public int reportDelete(String reportCode) {
