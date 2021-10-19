@@ -326,7 +326,7 @@ public class QuestionController{
 		List<QuestionCate> cateList = questionService.getQuestionCateList();
 
 		model.addAttribute("title", "설문조사 항목관리");
-		model.addAttribute("location2", "항목 관리");
+		model.addAttribute("location", "항목 관리");
 		model.addAttribute("cateList", cateList);
 		
 		return "/survey/questionManage";

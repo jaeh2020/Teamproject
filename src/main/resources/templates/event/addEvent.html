@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+<th:block layout:fragment="customCss">
+	<style type="text/css">
+    	#eventDetail{
+    		height: 100px;
+    	}
+    	input[type="file"]{
+    		width: 100%;
+    	}
+    	.btn-outline-danger{
+			color: #dc3545!important;
+		}
+		.btn-outline-danger:hover {
+			color: #FCFBFB!important;
+		}
+		button{
+			width: 150px;
+			float: right;
+		}	
+	</style>
+</th:block>	  
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customLocation">
+	<div class="row page-titles">
+	    <div class="col-md-5 align-self-center">
+	        <h3 class="text-primary" th:text="${location2}"></h3></div>
+	    <div class="col-md-7 align-self-center">
+	        <ol class="breadcrumb">
+	            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+	            <li class="breadcrumb-item active">
+	            	<a th:text="${location1}" th:href="@{${location1URL}}"></a>
+	            </li>
+	            <li class="breadcrumb-item active" th:text="${location2}"></li>
+	        </ol>
+	    </div>
+	</div>
+</th:block>
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+
+		<div class="row justify-content-center">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<form method="post" th:action="@{/event/addEventProcess}" enctype="multipart/form-data">
+						 	<div class="form-group row">
+	                             <label class="col-lg-4 col-form-label" for="eventName">이벤트명<span class="text-danger">*</span></label>
+	                             <div class="col-lg-7">
+									<input type="text" class="form-control" id="eventName" name="eventName" placeholder="이벤트명을 입력하세요..">
+	                             </div> 
+	                         </div>
+	                         <div class="form-group row">
+	                             <label class="col-lg-4 col-form-label" for="eventDetail">상세설명 <span class="text-danger">*</span></label>
+	                             <div class="col-lg-7">
+	                                 <input type="text" class="form-control" id="eventDetail" name="eventDetail" placeholder="...">
+	                             </div>
+	                         </div>
+	                         <div class="form-group row">
+	                             <label class="col-lg-4 col-form-label" for="eventStr">시작일 <span class="text-danger">*</span></label>
+	                             <div class="col-lg-7">
+	                                 <input type="date" class="form-control" id="eventStr" name="eventStr">
+	                             </div>
+	                         </div>
+	                         <div class="form-group row">
+	                             <label class="col-lg-4 col-form-label" for="eventFin">종료일 <span class="text-danger">*</span></label>
+	                             <div class="col-lg-7">
+	                                 <input type="date" class="form-control" id="eventFin" name="eventFin">
+	                             </div>
+	                         </div>
+			                <h6 class="card-subtitle">이벤트 배너와 공고 <code>이미지 파일</code> 첨부해주세요</h6>
+		                    <div class="form-group row">
+	                             <label class="col-lg-4 col-form-label" for="eventBanner">배너용<span class="text-danger">*</span></label>
+	                             <div class="fallback">
+									 <input name="bannerImg" type="file" accept="image/png, image/jpeg" multiple/>
+	       		                 </div> 
+	                        </div>
+	                        <div class="form-group row">
+	                            <label class="col-lg-4 col-form-label" for="eventImg">공고용<span class="text-danger">*</span></label>
+	                            <div class="fallback">
+									 <input name="img" type="file" accept="image/png, image/jpeg" multiple/>
+	                             </div> 
+	      	           		</div>spr
+           	            </form> 
+           	            <button type="button" class="btn btn-outline-danger"><i class="bi bi-check-circle-fill"></i> 등록</button>
+	                </div>
+				</div>
+			</div>
+		</div>
+
+
+</th:block>
+
+<th:block layout:fragment="customJsLib">
+    
+    <script type="text/javascript">
+		$(function(){
+			$('button').on("click",function(){
+				$('form').submit();
+			});
+		});
+    </script>
+</th:block>
+</html>
