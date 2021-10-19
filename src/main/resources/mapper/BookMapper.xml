@@ -64,7 +64,6 @@
 		<result property="orderCompTime"		column="order_comp_time"/>
 		<result property="orderStateCode"		column="order_state_code"/>
 		<result property="storeTableCode"		column="store_table_code"/>
-		<result property="tabelStateCode"		column="table_state_code"/>
 		<association property="book" javaType="Book">
 			<id property="bookCode" 			column="b_o_code"/>
 			<result property="storeCode"		column="store_code"/>
@@ -140,7 +139,6 @@
 			,o.order_comp_time
 			,o.order_state_code
 			,o.store_table_code
-			,o.table_state_code
 			,i.store_name
 			,s.state_name
 			,m.menu_name
@@ -188,7 +186,6 @@
 			,o.order_comp_time
 			,o.order_state_code
 			,o.store_table_code
-			,o.table_state_code
 			,b.book_user_name
 			,b.book_user_phone
 			,b.book_peo_num
@@ -233,7 +230,6 @@
 			,o.order_comp_time
 			,o.order_state_code
 			,o.store_table_code
-			,o.table_state_code
 			,i.store_name
 			,s.state_name
 			,m.menu_name
@@ -322,7 +318,6 @@
 			,order_comp_time
 			,order_state_code
 			,store_table_code
-			,table_state_code
 		)VALUES
 		<foreach collection="list" item="item" separator=" , " >
         (
@@ -339,7 +334,6 @@
         ,CURDATE()
         ,NULL
         ,"${item.stateCode}"
-        ,NULL
         ,NULL
         )
     	</foreach>

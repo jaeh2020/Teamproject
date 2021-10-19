@@ -10,7 +10,6 @@ import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
-import amdn.anywhere.domain.Table;
 
 @Mapper
 public interface BookMapper {
