@@ -127,10 +127,24 @@ public class MemberController {
 	//회원탈퇴
 	@PostMapping("/member/deleteMember")
 	public String deleteMember( @RequestParam(name = "memberId", required = false) String memberId
-						,@RequestParam(name = "memberPw", required = false) String memberPw) {
+								,@RequestParam(name = "memberPw", required = false) String memberPw
+								,RedirectAttributes redirectAttr
+								,HttpSession session) {
 		
 		System.out.println("(removeMember) 화면에서 입력받은값 : memberId : " + memberId + "memberPw : " + memberPw);
+		
+		String result = memberService.removeMember(memberId, memberPw);
+		
+		if("회원 탈퇴 실패".equals(result)) {
+			redirectAttr.addAttribute("memberId", memberId);
+			redirectAttr.addAttribute("result", "회원 비번 불일치");
+			
+			return "redirect:/member/deleteMember";
+		}
+		System.out.println("result : " +result);
 
+		session.invalidate();
+		
 		return "redirect:/";
 	};
 	

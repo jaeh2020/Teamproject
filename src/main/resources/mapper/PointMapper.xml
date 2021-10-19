@@ -31,6 +31,41 @@
 		</association>
 	</resultMap>
 
+	<select id="getPointListInfoById" resultMap="pointResultMap">
+		SELECT 
+			  p.point_num
+			, p.user_id
+			, p.o_total
+			, p.point_save
+			, p.point_contents
+			, p.po_sta_code
+			, p.point_save_time
+			, p.point_add
+			, p.before_point_history
+			, p.after_point_history
+			, p.pred_del_time
+			, s.po_sta_code
+			, s.po_del_sta_date
+			, d.point_del_num
+			, d.user_id
+			, d.point_num
+			, d.po_sta_code
+			, d.point_del_time
+			, d.del_point
+			, d.remain_point
+		FROM 
+			tb_point as p
+			INNER JOIN
+			tb_point_del_standard as s
+			ON
+			p.po_sta_code = s.po_sta_code
+			INNER JOIN
+			tb_point_del as d
+			ON
+			p.point_num = d.point_num;
+	</select>
+	
+	<!-- 전체  -->
 	<select id="getPointList" resultMap="pointResultMap">
 		SELECT 
 			  p.point_num
