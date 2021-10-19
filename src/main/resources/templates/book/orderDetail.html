@@ -33,6 +33,8 @@
 						<table class="table table-hover" style="border: 0px;">
 							<thead>
 								<tr>
+									<th>예약코드</th>
+									<th>주문코드</th>
 									<th>예약자명</th>
 									<th>전화번호</th>
 									<th>인원수</th>
@@ -46,6 +48,9 @@
 							</thead>
 							<tbody>
 							<tr th:if="${#lists.size(orderDetail) > 0}" th:each="o, status : ${orderDetail}">
+									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}"
+										th:text="${o.bookCode}" ></td>
+									<td th:text="${o.oCode}"></td>
 									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}"
 										th:text="${o.book.bookUserName}" ></td>
 									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}"

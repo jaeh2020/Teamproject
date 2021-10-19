@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+
+
+<style type= "text/css">
+	tbody tr td{
+		color: #505050;
+	}
+	.btn-primary{
+		display : block;
+		float : left;
+		color: #fff;
+		margin: 5px;
+	}
+</style>
+
+
+</th:block>
+
+<th:block layout:fragment="customJs">
+
+	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
+    
+</th:block>
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+
+	<div class="row justify-content-center">
+			<div class="card">
+				<button type="button" class="btn btn-danger" disabled="">웨이팅 현황</button>
+				<table id="" class="table table-bordered table-striped">
+		                  <thead>
+		                      <tr>
+		                      	<th>매장코드</th>
+								<th>사용중인 테이블</th>
+								<th>사용가능 테이블</th>
+								<th>현재 대기 인원</th>
+		                      </tr>
+		                  </thead>
+						<tbody>
+						
+							<tr>
+								<td th:text="${waiting.storeCode}"></td>
+								<td th:text="${waiting.stoUseTab}"></td>
+								<td th:text="${waiting.stoEmpTab}"></td>
+								<td th:text="${waiting.waitNum}"></td>
+							</tr>
+						</tbody>
+		        </table>
+			</div>
+		</div>
+	
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="card">
+				<button type="button" class="btn btn-info" disabled="">웨이팅대기인원</button>
+				<table id="myTable" class="table table-bordered table-striped">
+		                  <thead>
+		                      <tr>
+		                      	<th>웨이팅코드</th>
+								<th>예약/주문코드</th>
+								<th>예약대기 등록일시</th>
+								<th>대기 상태</th>
+								<th>상태변경</th>
+								<th>입장완료 일시</th>
+								<th>총 대기시간</th>
+		                      </tr>
+		                  </thead>
+						<tbody>
+		                 
+						</tbody>
+		        </table>
+			</div>
+		</div>
+		
+		<div class="col-lg-6">
+			<div class="card">
+				<button type="button" class="btn btn-info" disabled="">테이블 현황</button>
+				<table id="myTable" class="table table-bordered table-striped">
+		                  <thead>
+		                      <tr>
+								<th>테이블 코드</th>
+								<th>테이블 번호</th>
+								<th>테이블 상태</th>
+								<th>테이블 상태 변경</th>
+		                      </tr>
+		                  </thead>
+						<tbody>
+							<tr th:each="p : ${posTableList}">
+								<td th:text="${p.storeTableCode}"></td>
+								<td th:text="${p.tableNum}"></td>
+								<td th:text="${p.statement.stateName}"></td>
+								<td>
+									<select class="tableStateCode">
+										<option value="">: : 상태 선택 : :</option>
+										<th:block th:each="p : ${posStateList}">
+										<option th:value="${p.stateCode}"> 
+										[[${p.stateName}]] 
+										</option>
+									</select>
+								</td>
+		                 	</tr>
+						</tbody>
+		        </table>
+			</div>
+		</div>
+	</div>
+
+</th:block>					
+					
+<!--Custom JavaScript -->
+<th:block layout:fragment="customJsLib">
+    
+    <script type="text/javascript">
+   
+	</script>
+   
+</th:block>
+</body>
+</html>

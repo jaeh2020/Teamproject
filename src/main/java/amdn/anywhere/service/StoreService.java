@@ -14,6 +14,7 @@ import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.domain.StoreCancel;
 import amdn.anywhere.domain.Table;
+import amdn.anywhere.domain.Waiting;
 import amdn.anywhere.mapper.StoreMapper;
 
 @Service
@@ -64,6 +65,17 @@ public class StoreService {
 	//취소코드 자동증가
 	public String getNewCancelCode() {
 		return storeMapper.getNewCancelCode();
+	}
+	
+	//입점등록후 웨이팅테이블 insert
+	public int addWaitingTable(Waiting waiting) {
+		return storeMapper.addWaitingTable(waiting);
+	}
+	
+	
+	//웨이팅코드 자동증가
+	public String getNewWaitingCode() {
+		return storeMapper.getNewWaitingCode();
 	}
 	
 	//입점등록처리

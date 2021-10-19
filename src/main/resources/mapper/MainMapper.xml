@@ -21,11 +21,10 @@
 		<result property="storeTableNum"	column="store_table_num"/>
 		<result property="storeOccupancy"	column="store_occupancy"/>
 		<association property="waiting" javaType="Waiting">
-			<id property="bizCode"			column="biz_code"/>
+			<id property="storeWait"		column="store_wait"/>
 			<result property="bizId"		column="biz_id"/>
 			<result property="stoEmpTab"	column="sto_emp_tab"/>
 			<result property="storeCode"	column="store_code"/>
-			<result property="storeWait"	column="store_wait"/>
 			<result property="stoUseTab"	column="sto_use_tab"/>
 			<result property="waitNum"		column="wait_num"/>
 		</association>
