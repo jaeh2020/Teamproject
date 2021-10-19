@@ -57,33 +57,25 @@
 	            <div class="card-body">
 	            <div class="table-responsive m-t-40">
 	            <p>소상공인 아이디를 클릭해 승인 여부를 선택해주세요.</p>
-                	<table id="myTable" class="table table-bordered table-striped">
+                	<table id="myTable" class="table">
                     	<thead>
                             <tr>
-                                <th>포인트 적립 번호</th>
-                                <th>소비자 아이디</th>
-                                <th>결제 금액?</th>
-                                <th>포인트 적립(%)</th>
-                                <th>포인트 적립 내용</th>
-                                <th>포인트 적립 일시</th>
+                                <th>적립 일시</th>
+                                <th>적립 내용</th>
+                                <th>소멸 예정일</th>
                                 <th>적립 포인트</th>
-                                <th>기존 포인트 내역</th>
-                                <th>적립 후 포인트 내역</th>
-                                <th>예상 소멸 일시</th>
+                                <th>잔여 포인트</th>
+                                <th>포인트 적립(%)</th>
                             </tr>
                         </thead>
 						<tbody th:id="pointList">
-		                    <tr th:each="l : ${pointList}">
-		                    	<td th:text="${l.pointNum}" th:id="${l.pointNum}"></td>
-		                    	<td th:text="${l.userId}"></td> 
-		                    	<td th:text="${l.oTotal}"></td> 
-		                    	<td th:text="${l.pointSave}"></td> 
-		                    	<td th:text="${l.pointContents}"></td> 
+		                    <tr th:each="l : ${pointList}"> 
 		                    	<td th:text="${l.pointSaveTime}"></td> 
+		                    	<td th:text="${l.pointContents}"></td> 
 		                    	<td th:text="${l.pointAdd}"></td>
-		                    	<td th:text="${l.beforePointHistory}"></td>
-		                    	<td th:text="${l.afterPointHistory}"></td>
 		                    	<td th:text="${l.predDelTime}"></td>
+		                    	<td th:text="${l.afterPointHistory}"></td>
+		                    	<td th:text="${l.pointSave}"></td> 
 		                    </tr>
 	               		</tbody>
 	            	</table>
@@ -96,11 +88,6 @@
 
 
 <th:block layout:fragment="customJsLib">
-	<script th:src="@{/js/lib/sweetalert/sweetalert.min.js}"></script>
-	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
-    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
-    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
-    <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
 	<script type="text/javascript">
 		
 	</script>

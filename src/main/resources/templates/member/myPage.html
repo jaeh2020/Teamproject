@@ -23,6 +23,14 @@
 	.wrap {
 		text-align: center;
 	}
+	.wrap p{
+		font-size: 20px;
+	}
+	.wrap p span{
+		font-size: 25px;
+		color: #585858;
+		font-weight: bold;
+	}
 	.col-lg-2{
 		padding: 0;
 		margin: 10px;
@@ -63,24 +71,25 @@
 					<div class="col-lg-2">
 	   			 		<div class="wrap">
 	    			 		<h4>주문건수</h4>
-	    			 		<div>[[${memberUser.userOrderTotal}]]</div>
+	    			 		<p>[[${memberUser.userOrderTotal}]]</p>
 	   			 		</div>
 	   			 	</div>
 	            	<div class="col-lg-1"><hr></div>
           			 	<div class="col-lg-2">
           			 		<div class="wrap">
-           			 		<h4>POINT</h4>
-           			 		<div>[[${memberUser.userPoint}]]</div>
+          			 		<a th:href="@{/point/userPointList}">
+	           			 		<h4>POINT</h4>
+	           			 		<p><span>[[${memberUser.userPoint}]]</span> P</p>
+	           			 	</a>
            			 	</div>
           			 	</div>
             		<div class="col-lg-1"><hr></div>
           			 	<div class="col-lg-2">
           			 		<div class="wrap">
            			 		<h4>먹깨비</h4>
-           			 		<div>[[${memberUser.userEvaluator}]]</div>
+           			 		<p>[[${memberUser.userEvaluator}]]</p>
            			 	</div>
           			 	</div>
-	      
 			</div>
 	        </div>
 		</div>

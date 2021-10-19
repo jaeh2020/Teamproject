@@ -58,6 +58,24 @@
 		</association>
 	</resultMap>
 	
+	<!-- 소비자 회원 탈퇴 -->
+	<delete id="removeMemberUser" parameterType="String">
+		DELETE 
+		FROM 
+			tb_member_user
+		WHERE 
+			user_id = #{userId};
+	</delete>
+	
+	<!-- 전체 회원 탈퇴 -->
+	<delete id="removeMember" parameterType="String">
+		DELETE 
+		FROM 
+			tb_member 
+		WHERE 
+			member_id = #{memberId};
+	</delete>
+	
 	<!-- 소비자 추천/비추천 수정 -->
 	<update id="modifyUserLike">
 		UPDATE tb_member_user_like

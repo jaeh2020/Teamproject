@@ -13,6 +13,12 @@ import amdn.anywhere.domain.MemberUserLike;
 @Mapper
 public interface MemberMapper {
 
+	//소비자(user)회원 탈퇴
+	public int removeMemberUser(String userId);
+	
+	//전체(member)회원탈퇴
+	public int removeMember(String memberId);
+	
 	//선호-비선호 선택 등록
 	public int modifyUserLike(MemberUserLike memberUserLike);
 	
