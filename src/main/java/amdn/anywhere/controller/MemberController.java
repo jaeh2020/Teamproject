@@ -36,11 +36,11 @@ public class MemberController {
 	//선호도 수정 ajax
 	@GetMapping(value="/modifyUserLike", produces = "application/json")
 	@ResponseBody
-	public String modifyUserLike(	@RequestParam(value = "userLikeCode") String userLikeCode
-							,@RequestParam(value = "likeId") String likeId
-							,@RequestParam(value = "likeArr[]") List<String> likeArr
-							,@RequestParam(value = "unlikeArr[]") List<String> unlikeArr
-							,MemberUserLike mul) {
+	public String modifyUserLike(@RequestParam(value = "userLikeCode") String userLikeCode
+								,@RequestParam(value = "likeId") String likeId
+								,@RequestParam(value = "likeArr[]") List<String> likeArr
+								,@RequestParam(value = "unlikeArr[]") List<String> unlikeArr
+								,MemberUserLike mul) {
 		
 		mul.setUserLikeCode(userLikeCode);
 		mul.setUserLikeKey1(likeArr.get(0));
@@ -367,7 +367,11 @@ public class MemberController {
 	public String addMember03(MemberUser memberUser) {
 		System.out.println("멤버유저 : " + memberUser);		
 		
+		//소비자 추가정보 입력
 		if(memberUser != null) memberService.addMember03(memberUser);
+		//포인트 최초 등록
+		
+		//메세지 알림 체크 등록
 		
 		return "redirect:/member/addMember05";
 	}
