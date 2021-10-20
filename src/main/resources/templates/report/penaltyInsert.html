@@ -46,16 +46,17 @@
 										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 벌점유형</label>
 										<div class="col-md-9">
 											<select class="form-control custom-select" name="penaltyStandard" id="penaltyStandard">
-												<option value="">★★ 선택해주세요 ★★</option>
-												<option value="panalty_appliance">평가단 신청 후 미참가 (1/2)</option>
-												<option value="panalty_appliance_re">평가단 신청 후 미참가 (2/2)</option>
-												<option value="panalty_appliance_noreport">평가단 진행 후 리포트 수행 안함</option>
-												<option value="penalty_badword">욕 1회</option>
-												<option value="penalty_cancle">악의적인 예약취소</option>
-												<option value="penalty_noshow">주문 후 미방문</option>
+												<option value="">: : 벌점유형을 선택하세요 : :</option>
+													<th:block th:each="p : ${penaltyStandardList}">
+													<option th:value="${p.penaltyStandardCode}"> 
+													[[${p.penaltyStandard}]] 
+													</option>
 											</select>
 										</div>
 									</div>
+								</div>
+								<div class="col-md-9">
+									<input type="hidden" id="penaltyScore" name="penaltyScore" class="form-control" readonly="readonly">
 								</div>
 								<!--/span-->
 							</div>
@@ -76,47 +77,71 @@
 
 <th:block layout:fragment="customJsLib">
 	<script type="text/javascript">
-	
-	//취소버튼 alert창
-	   function reportBoardCan(){
-	   		if(confirm("정말로 취소하시겠습니까?")){
-	   			location.href = '/report/reportBoardList';
-	   			return true;
-	   		}else{
-	   			return false;
-	   		}
-	   		
-	   	}
-	
-	   //유효성 검사
-	   $(function(){
-		   $('#boardReportBtn').click(function(){
-			  var penaltyStandard = $('[name=penaltyStandard]');
-			  var penaltyId = $('[name=penaltyId]');
-			  
-			  if(penaltyId.val() == ''){
-				  alert('벌점 대상자를 작성해주세요.');
-				  penaltyId.focus();
-				  return false;
-			  } 
-			  
-			  if(penaltyStandard.val() == ''){
-				  alert('벌점유형을 선택해주세요.');
-				  penaltyStandard.focus();
-				  return false;
-			  } 
-			  
+		
+		//취소버튼 alert창
+		   function reportBoardCan(){
+		   		if(confirm("정말로 취소하시겠습니까?")){
+		   			location.href = '/report/penaltyList';
+		   			return true;
+		   		}else{
+		   			return false;
+		   		}
+		   		
+		   	}
+		
+		   //유효성 검사
+		   $(function(){
+			   $('#boardReportBtn').click(function(){
+				  var penaltyStandard = $('[name=penaltyStandard]');
+				  var penaltyId = $('[name=penaltyId]');
+				  
+				  if(penaltyId.val() == ''){
+					  alert('벌점 대상자를 작성해주세요.');
+					  penaltyId.focus();
+					  return false;
+				  } 
+				  
+				  if(penaltyStandard.val() == ''){
+					  alert('벌점유형을 선택해주세요.');
+					  penaltyStandard.focus();
+					  return false;
+				  } 
+				  
+				   
+				  alert('벌점등록완료!')
+				  $('#penaltyInsertForm').submit();
+			   });
 			   
-			  alert('벌점등록완료!')
-			  $('#penaltyInsertForm').submit();
+		   		/* 벌점유형선택하여 점수 불러오기 - ajax */
+			
+		    	var selPenalty = document.querySelector('#penaltyStandard');
+		    	
+		    	selPenalty.addEventListener('change',function(){
+		    		
+		    		var penCode = $(this).val();
+		    		console.log(penCode);
+		    		
+		    		var request =  $.ajax({
+		                url: "/report/penaltyScore", //요청 주소
+		                method: "GET", //요청 방식
+		                data: { penaltyStandard : penCode },
+		                dataType: "json" //받아올 포맷방식
+		           });   
+		           request.done(function(data){
+		        	   console.log(data.penaltyScore);
+		        	   
+		        	   $('#penaltyScore').val(data.penaltyScore);
+		           });
+		        	   
+		   		});
 		   });
-	   });
-
-
+		   
+		   
+		 
 	</script>
-
+	
 	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-	<script src="js/lib/owl-carousel/owl.carousel-init.js"></script>	     -->
+	<script src="js/lib/owl-carousel/owl.carousel-init.js"></script>-->
 
 
 </th:block>

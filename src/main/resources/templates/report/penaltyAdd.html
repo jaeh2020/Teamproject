@@ -19,7 +19,7 @@
 				<div class="card-body">
 					<form th:action="@{/report/penaltyAdd}" role="form" id="penaltyAddForm" method="post" >
 						<input type="hidden" name="reportRegTime" th:value="${getReportCode.reportConfirmTime}">
-						<input type="hidden" name="reportAccuScore" value=3>
+						<input type="hidden" name="penaltyScore" value=3>
 						<div class="form-body">
 							<h3 class="box-title">Board Penalty</h3>
 							<hr class="m-t-0 m-b-40">
