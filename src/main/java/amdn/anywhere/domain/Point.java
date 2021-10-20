@@ -13,7 +13,6 @@ public class Point {
 	private String beforePointHistory;
 	private String afterPointHistory;
 	private String predDelTime;
-	private PointDelStandard pointDelStandard;
 	private PointDel pointDel;
 	public String getPointNum() {
 		return pointNum;
@@ -81,12 +80,6 @@ public class Point {
 	public void setPredDelTime(String predDelTime) {
 		this.predDelTime = predDelTime;
 	}
-	public PointDelStandard getpointDelStandard() {
-		return pointDelStandard;
-	}
-	public void setpointDelStandard(PointDelStandard pointDelStandard) {
-		this.pointDelStandard = pointDelStandard;
-	}
 	public PointDel getPointDel() {
 		return pointDel;
 	}
@@ -98,8 +91,7 @@ public class Point {
 		return "Point [pointNum=" + pointNum + ", userId=" + userId + ", oTotal=" + oTotal + ", pointSave=" + pointSave
 				+ ", pointContents=" + pointContents + ", poStaCode=" + poStaCode + ", pointSaveTime=" + pointSaveTime
 				+ ", pointAdd=" + pointAdd + ", beforePointHistory=" + beforePointHistory + ", afterPointHistory="
-				+ afterPointHistory + ", predDelTime=" + predDelTime + ", pointDelStandard=" + pointDelStandard
-				+ ", pointDel=" + pointDel + "]";
+				+ afterPointHistory + ", predDelTime=" + predDelTime + ", pointDel=" + pointDel + "]";
 	}
 	
 }

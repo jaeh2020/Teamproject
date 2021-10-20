@@ -23,13 +23,9 @@
 	            </div>
 	            <div class="card-body">
 	           		<form th:action="@{/message/messageCheck}" method="get">
+						<input type="hidden" id="memberId" name="memberId" th:value="${session.SID}">
 						<table class="table table-hover ">
 							<tbody>
-								<!-- <tr>
-									<td>회원아이디</td>
-									<td>
-										<input type="text" id="memberId" name="memberId" th:value="${session.SID}">
-								</tr> -->
 			                    <tr>
 			                        <td>주문</td>
 			                        <td>
@@ -119,6 +115,62 @@
 	<script type="text/javascript">
 	
 		$(function(){
+			//페이지 로딩 시 db에서 값 가져와서 체크박스에 체크하기
+			var memberId = $("#memberId").val();
+			console.log(memberId)
+			
+			var request =  $.ajax({
+				  url: "/mscList", //요청 주소
+				  method: "GET", //요청 방식
+				  data: { memberId : memberId },
+				  dataType: "json" //받아올 포맷방식
+			});	
+			request.done(function(data){
+				
+				console.log(data);
+				var ordReserv = data.orderReservation;
+				var pay = data.messagePay;
+				var waiting = data.messageWaiting;
+				var board = data.messageBoard;
+				var review = data.messageReview;
+				var point = data.messagePoint;
+				var evaluator = data.messageEvaluator;
+				var membership = data.messageMemberShip;
+				var favorite = data.messageFavorite;
+				var event = data.messageEvent;
+				var sms = data.messageSms;
+				var email = data.messageEmail;
+			
+				
+				console.log(ordReserv,'ordReserv');
+
+				var mCheckArr = [];
+				mCheckArr.push(ordReserv, pay, waiting, board, review, point, evaluator, membership, favorite, event, sms, email);
+	
+				console.log(mCheckArr[1],'mCheckArr[1]');
+				console.log(mCheckArr,'mCheckArr');
+
+ 				//mCheck 배열 체크			
+ 				for(var i=0; i < mCheckArr.length; i++){
+ 					valArr = [];
+ 				}
+				$('input:checkbox[name=mcheck]').each(function(index, item) {			
+					valArr.push(this.value);
+					if(mCheckArr[index] == "y"){
+						console.log(valArr[index],'체크된 값!!1')
+						$(this).attr('checked','checked');
+						//this.checked = true;
+					}
+				});
+ 				
+			});
+			//응답 실패
+			request.fail(function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    });
+			
+
+			//체크 한 값 배열에 담아서 수정하기
 			$('.btn').on('click', function(){
 				var memberId = $("#memberId").val();
 				var ckArr = [];
@@ -147,11 +199,6 @@
 				request.fail(function(request,status,error){
 			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			       });
-				/* //응답에 실패 혹은 에러 발생시 실행
-				request.fail(function( jqXHR, textStatus ) {
-				  alert( "실패!: " + textStatus );
-
-				}); */
 			});
 		});
 

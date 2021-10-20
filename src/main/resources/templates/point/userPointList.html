@@ -9,36 +9,36 @@
 <!-- css -->
 <style type= "text/css">
 	.btn{
-		margin : 5px;
-		color: #505050;
+		padding : 10px 25px;
+		font-size: 17px;
 		float: left;
 	}
-	.topBtn{
-		float: right;
+	#myTable{
+		color: #323232;
 	}
-	.btn-success{
-		padding-top : 6px;
-		color: #fff;
+	#pointAdd{
+		color: #FF5675;
+		font-weight: bold;
 	}
-	ul a{
-		display:block;
-	}
-	.all{
-		color: #000;
-	}
-	#messageList{
-		cursor: pointer;
-	}
-	.clicked {
-        color: gold;
-    }
-    #memberBiz td{
-    	cursor: pointer;
-    }
     p{
     	margin: 0;
     	text-align: end;
     }
+    .top {
+ 		caption-side: top;
+ 		padding: 0;
+	}
+	.top .btn{
+		background-color: #84799F;
+		color: #fff;
+	}
+	.top .btn2{
+		background-color: #FF848F;
+		color: #fff;
+	}
+	.table thead  tr th{
+		border-bottom : 3px solid #dee2e6;
+	}
 </style>
 </th:block>
 
@@ -52,12 +52,15 @@
 		<div class="col-lg-12 ">
 			<div class="card card-outline-primary">
 	            <div class="card-header">
-	                <h4 class="m-b-0 text-white">포인트 내역</h4>
+	                <h4 class="m-b-0 text-white">포인트 내역 조회</h4>
 	            </div>
 	            <div class="card-body">
 	            <div class="table-responsive m-t-40">
-	            <p>소상공인 아이디를 클릭해 승인 여부를 선택해주세요.</p>
-                	<table id="myTable" class="table">
+                	<table id="myTable" class="table table-hover">
+                		<caption class="top">
+	                		<button type="button" class="btn btn-pink">적립내역</button>
+	                		<button type="button" class="btn btn2 btn-pink">사용내역</button>
+                		</caption>
                     	<thead>
                             <tr>
                                 <th>적립 일시</th>
@@ -65,17 +68,15 @@
                                 <th>소멸 예정일</th>
                                 <th>적립 포인트</th>
                                 <th>잔여 포인트</th>
-                                <th>포인트 적립(%)</th>
                             </tr>
                         </thead>
 						<tbody th:id="pointList">
 		                    <tr th:each="l : ${pointList}"> 
 		                    	<td th:text="${l.pointSaveTime}"></td> 
 		                    	<td th:text="${l.pointContents}"></td> 
-		                    	<td th:text="${l.pointAdd}"></td>
 		                    	<td th:text="${l.predDelTime}"></td>
+		                    	<td th:text="${l.pointAdd}" id="pointAdd"></td>
 		                    	<td th:text="${l.afterPointHistory}"></td>
-		                    	<td th:text="${l.pointSave}"></td> 
 		                    </tr>
 	               		</tbody>
 	            	</table>
