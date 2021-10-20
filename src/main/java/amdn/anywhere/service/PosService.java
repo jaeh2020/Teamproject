@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import amdn.anywhere.domain.Order;
+import amdn.anywhere.domain.Standby;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.domain.StoreCancel;
@@ -23,6 +24,42 @@ public class PosService {
 	@Autowired
 	public PosService(PosMapper posMapper) { 
 		 this.posMapper = posMapper; 
+	}
+	
+	//table update
+	public int modifyPosTable(Map<String, String> paramMap) {
+		return posMapper.modifyPosTable(paramMap);
+	}
+	
+	//standby테이블 상태=주문완료, 완료일시, 총대기시간 update
+	public int modifyPosStanbyState(Map<String, String> paramMap) {
+		return posMapper.modifyPosStanbyState(paramMap);
+	}
+	
+	
+	//waiting테이블 입장대기인원 update
+	public int modifyWaitingNum(Map<String, String> paramMap) {
+		return posMapper.modifyWaitingNum(paramMap);
+	}
+	
+	
+	//웨이팅소비자목록조회-standby
+	public List<Standby> getPosStandby(String storeCode){
+		List<Standby> standbyList = posMapper.getPosStandby(storeCode);
+		
+		return standbyList;
+	}
+	
+	
+	//웨이팅승인시 standby테이블 insert
+	public int addPosStandby(Map<String, String> paramMap) {
+		return posMapper.addPosStandby(paramMap);
+	}
+	
+	
+	//standby코드 자동증가
+	public String getNewBookStandbyCode() {
+		return posMapper.getNewBookStandbyCode();
 	}
 
 	

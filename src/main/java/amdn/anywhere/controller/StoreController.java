@@ -92,7 +92,6 @@ public class StoreController {
 			redirect = "redirect:/store/myStoreManage/myTableManage";
 		}
 		return redirect;
-		/* return "redirect:/store/myStoreManage/myTableManage"; */
 	}
 	
 	

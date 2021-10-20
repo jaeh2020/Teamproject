@@ -43,6 +43,7 @@ public class MainController {
 	@GetMapping("/")
 	public String main(Model model
 					  ,@RequestParam(name="placeInput", required = false) String placeInput
+					  ,@RequestParam(name="placeAddress", required = false) String placeAddress
 					  ,@RequestParam(name="mainCateCode", required = false) String mainCateCode) {
 		
 		//메뉴 카테고리(대분류) 불러오기
@@ -61,6 +62,7 @@ public class MainController {
 		model.addAttribute("mainCate", mainCate);
 		model.addAttribute("title", "AMDN, 아무데나");
 		model.addAttribute("mainList", mainList);
+		model.addAttribute("placeAddress", placeAddress);		
 
 		return "main";
 	}

@@ -65,34 +65,46 @@
 		</div>
 	
 	<div class="row">
-		<div class="col-lg-6">
+		<div class="col-lg-8">
 			<div class="card">
 				<button type="button" class="btn btn-info" disabled="">웨이팅대기인원</button>
 				<table id="myTable" class="table table-bordered table-striped">
 		                  <thead>
-		                      <tr>
-		                      	<th>웨이팅코드</th>
+		                  	<tr>
+		                      	<th>매장코드</th>
 								<th>예약/주문코드</th>
 								<th>예약대기 등록일시</th>
 								<th>대기 상태</th>
-								<th>상태변경</th>
+								<th>입장완료<br>
+								<small class="text-danger">입장완료 : </small> <small> 입장대기 > 주문완료 </small>
+								</th>
 								<th>입장완료 일시</th>
-								<th>총 대기시간</th>
 		                      </tr>
 		                  </thead>
 						<tbody>
-		                 
+							<tr th:each="s : ${standbyList}">
+								<td th:text="${s.storeCode}" class="storeCode"></td>
+								<td th:text="${s.bookCode}" class="bookCode"></td>
+								<td th:text="${s.waitTime}"></td>
+								<td th:text="${s.statement.stateName}" class="waitStateName"></td>
+								<td>
+									<button type="button" class="waitConBtn btn btn-dark btn-sm m-b-10 m-l-5">
+										<i class="ti-check-box"> 입장완료 </i>
+									</button>
+								</td>
+								<td th:text="${s.waitCompTime}"></td>
 						</tbody>
 		        </table>
 			</div>
 		</div>
 		
-		<div class="col-lg-6">
+		<div class="col-lg-4">
 			<div class="card">
 				<button type="button" class="btn btn-info" disabled="">테이블 현황</button>
 				<table id="myTable" class="table table-bordered table-striped">
 		                  <thead>
 		                      <tr>
+								<th>매장 코드</th>
 								<th>테이블 코드</th>
 								<th>테이블 번호</th>
 								<th>테이블 상태</th>
@@ -101,14 +113,15 @@
 		                  </thead>
 						<tbody>
 							<tr th:each="p : ${posTableList}">
-								<td th:text="${p.storeTableCode}"></td>
+								<td th:text="${p.storeCode}" class="storeCode"></td>
+								<td th:text="${p.storeTableCode}" class="storeTableCode"></td>
 								<td th:text="${p.tableNum}"></td>
-								<td th:text="${p.statement.stateName}"></td>
+								<td th:text="${p.statement.stateName}" class="nowState"></td>
 								<td>
-									<select class="tableStateCode">
-										<option value="">: : 상태 선택 : :</option>
+									<select class="tableStateName">
+										<option value="없">: : 상태 선택 : :</option>
 										<th:block th:each="p : ${posStateList}">
-										<option th:value="${p.stateCode}"> 
+										<option th:value="${p.stateName}"> 
 										[[${p.stateName}]] 
 										</option>
 									</select>
@@ -126,6 +139,55 @@
 <th:block layout:fragment="customJsLib">
     
     <script type="text/javascript">
+    
+    
+ 	//웨이팅 입장완료 클릭시
+	$(function(){
+		$('.waitConBtn').on("click", function(){
+			var bookCode = $(this).parent().parent().find('.bookCode').text();
+			var storeCode = $(this).parent().parent().find('.storeCode').text();
+			var waitStateName = $(this).parent().parent().find('.waitStateName').text();
+			
+			if(waitStateName == '주문완료'){
+				alert('이미 주문이 완료된 건 입니다.');
+				return false
+				
+			}else if(waitStateName == '결제완료'){
+				alert('결제가 완료된 주문건은 상태변경이 불가합니다.');
+				return false
+				
+			}else{
+				if (confirm('입장처리하시겠습니까?')) {
+					alert('입장처리가 완료되었습니다. \n주문POS로 이동하여 테이블을 지정해주세요.');
+					location.href = "/pos/posWaitChangeState?bookCode="+ bookCode + "&state=입장완료&storeCode=" + storeCode;
+			    }
+			}
+		});
+	});
+ 	
+ 	
+	//테이블상태 select 선택시
+	$(function(){
+		$('.tableStateName').on("change", function(){
+			var storeTableCode = $(this).parent().parent().find('.storeTableCode').text();
+			var tableStateName = $(this).parent().parent().find('.tableStateName').val();
+			var storeCode = $(this).parent().parent().find('.storeCode').text();
+			var nowState = $(this).parent().parent().find('.nowState').text();
+			
+
+			if(tableStateName == nowState){
+				alert('이미 ' + nowState + ' 상태입니다');
+				return false;
+			}else if(tableStateName == "없"){
+				alert('상태를 선택해주세요.');
+			}else{
+				alert('테이블 상태가 변경되었습니다.');
+				location.href = "/pos/posTableUpdate?storeTableCode="+ storeTableCode + "&state=테이블상태변경&tableStateName=" + tableStateName + "&storeCode=" + storeCode;
+			}
+		});
+	});
+    
+    
    
 	</script>
    

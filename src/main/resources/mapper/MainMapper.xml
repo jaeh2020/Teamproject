@@ -50,10 +50,10 @@
 		<where>
 			<if test="placeInput != null and mainCateCode != null">
 				i.store_location LIKE CONCAT('%',#{placeInput},'%')
-				AND
+				AND(
 				i.main_cate_code = #{mainCateCode}
 				OR
-				i.main_cate_code2 = #{mainCateCode}
+				i.main_cate_code2 = #{mainCateCode})
 			</if>
 		</where>
 	</select>
