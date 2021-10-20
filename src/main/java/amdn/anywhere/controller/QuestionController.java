@@ -51,6 +51,21 @@ public class QuestionController{
 		this.surveyResultService = surveyResultService;
 		
 	}
+	//18. ajax - 항목별 결과 가져오기
+	@GetMapping(value="/getChartData", produces = "application/json")
+	@ResponseBody
+	public List<SurveyResult> getChartData(
+			@RequestParam(name="cateCode", required = false) String cateCode
+			,@RequestParam(name="surveyCode", required = false) String surveyCode){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("cateCode", cateCode);
+		paramMap.put("surveyCode", surveyCode);
+		
+		List<SurveyResult> resultForCate = questionService.getSurveyResult(paramMap);
+		resultForCate = surveyResultService.getAvgForCate(resultForCate);
+		return resultForCate ; 
+	}
 	//17. ajax - 설문코드로 설문결과 가져오기
 	@GetMapping(value="/getSurveyResult", produces = "application/json")
 	@ResponseBody

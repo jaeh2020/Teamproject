@@ -1,8 +1,12 @@
 package amdn.anywhere.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import amdn.anywhere.domain.Event;
+import amdn.anywhere.domain.FileDto;
 import amdn.anywhere.service.EventService;
 
 @Controller
@@ -23,15 +28,33 @@ public class EventController {
 	public EventController(EventService eventService) {
 		this.eventService = eventService;
 	}
+	//6. 이벤트 등록 프로세스
 	@PostMapping("/addEventProcess")
-	public String addEventProcess(
+	public String addEventProcess(Model model,
 				@RequestParam(value="bannerImg", required = false) MultipartFile bannerImg
-				,@RequestParam(value="img", required = false) MultipartFile img, Event event){
+				,@RequestParam(value="img", required = false) MultipartFile img, Event event) throws IllegalStateException, IOException{
 		System.out.println(bannerImg.getOriginalFilename());
 		System.out.println(img.getOriginalFilename());
 		System.out.println(event);
 		
+		List<FileDto> fileList = new ArrayList<FileDto>();
+		FileDto dto1 = new FileDto( UUID.randomUUID().toString()
+									, bannerImg.getOriginalFilename()
+									, bannerImg.getContentType());
+		FileDto dto2 = new FileDto( UUID.randomUUID().toString()
+									, img.getOriginalFilename()
+									, img.getContentType());
+		fileList.add(dto1);
+		fileList.add(dto2);
 		
+		File newFileName1 = new File(dto1.getFileId() + "_" + dto1.getFileName()); 
+		File newFileName2 = new File(dto2.getFileId() + "_" + dto2.getFileName());
+		bannerImg.transferTo(newFileName1);
+		img.transferTo(newFileName2);
+		System.out.println("완료");
+		System.out.println(dto1);
+		System.out.println(dto2);
+	
 		return "redirect:/event/eventManage";
 	}
 	

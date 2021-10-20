@@ -84,6 +84,7 @@ public class TasterService {
 	}
 	//4 모집 신청 처리 
 	public int addRecruit(RecruitTasterByBiz recruitTasterByBiz) {
+		int result = 0;
 		//1. 모집코드 자동생성 처리
 		String newRecruitCode = createRecruitCode();
 		recruitTasterByBiz.setRecruitTBizCode(newRecruitCode);
@@ -99,8 +100,8 @@ public class TasterService {
 		recruitTasterByBiz.setStrAgeCodeList(ageList);
 		
 		//4. insert
-		recruitTasterByBizMapper.insertRecruit(recruitTasterByBiz);
-		return 0;
+		result = recruitTasterByBizMapper.insertRecruit(recruitTasterByBiz);
+		return result;
 	}
 	// 3-2. 모집신청 폼 - 평가할 메뉴목록 조회
 	public List<Menu> getMenuList(String storeCode){	

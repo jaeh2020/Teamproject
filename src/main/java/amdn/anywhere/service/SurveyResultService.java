@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import amdn.anywhere.domain.Age;
+import amdn.anywhere.domain.SurveyResult;
 import amdn.anywhere.mapper.AgeMapper;
 import amdn.anywhere.mapper.TasterMapper;
 
@@ -21,7 +22,21 @@ public class SurveyResultService {
 		this.ageMapper = ageMapper;
 		this.tasterMapper = tasterMapper;
 	}
-	
+	//2. 설문결과에서 문항별 평균값 구하기
+	public List<SurveyResult> getAvgForCate(List<SurveyResult> resultList){
+
+		int sum = 0;
+	    for(int i=0; i < resultList.size(); i++) {
+	    		sum = resultList.get(i).getChoice1()*1;
+	    		sum +=  resultList.get(i).getChoice2()*2;
+	    		sum +=  resultList.get(i).getChoice3()*3;
+	    		sum +=  resultList.get(i).getChoice4()*4;
+	    		sum +=  resultList.get(i).getChoice5()*5;
+	    		int avg = Math.round(sum/5);	
+	    		resultList.get(i).setAvg(avg);
+	    }
+		return resultList;
+	}
 	//1. 설문코드로 연령대 그룹 가져와서 Map 에 세팅
 	public Map<String, Object> getTastersAge(String surveyCode){
 		List<Integer> tastersAge = tasterMapper.getTastersAge(surveyCode);
