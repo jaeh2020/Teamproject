@@ -15,6 +15,7 @@ public class SurveyResult {
 	private int choice3;
 	private int choice4;
 	private int choice5;
+	private int avg;
 	public String getCreateCode() {
 		return createCode;
 	}
@@ -93,19 +94,25 @@ public class SurveyResult {
 	public void setChoice5(int choice5) {
 		this.choice5 = choice5;
 	}
+	public String getqCateName() {
+		return qCateName;
+	}
+	public void setqCateName(String qCateName) {
+		this.qCateName = qCateName;
+	}
+	public int getAvg() {
+		return avg;
+	}
+	public void setAvg(int avg) {
+		this.avg = avg;
+	}
 	@Override
 	public String toString() {
 		return "SurveyResult [createCode=" + createCode + ", recruitBBCode=" + recruitBBCode + ", recruitTasterByBiz="
 				+ recruitTasterByBiz + ", numOfParti=" + numOfParti + ", qCateCode=" + qCateCode + ", qCateName="
 				+ qCateName + ", questionCate=" + questionCate + ", qCode=" + qCode + ", qContent=" + qContent
 				+ ", choice1=" + choice1 + ", choice2=" + choice2 + ", choice3=" + choice3 + ", choice4=" + choice4
-				+ ", choice5=" + choice5 + "]";
-	}
-	public String getqCateName() {
-		return qCateName;
-	}
-	public void setqCateName(String qCateName) {
-		this.qCateName = qCateName;
+				+ ", choice5=" + choice5 + ", avg=" + avg + "]";
 	}
 	
 }

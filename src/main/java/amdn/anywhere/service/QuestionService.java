@@ -43,7 +43,7 @@ public class QuestionService {
 		this.questionChoiceMapper = questionChoiceMapper;
 		this.questionAnswerMapper = questionAnswerMapper;
 	}
-	//설문조사 결과 가져오시
+	//설문조사 결과 가져오기
 	public List<SurveyResult> getSurveyResult(Map<String, Object> paramMap){
 		return questionAnswerMapper.getResultForSurvey(paramMap);
 	}

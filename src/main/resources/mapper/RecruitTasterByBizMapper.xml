@@ -110,7 +110,6 @@
 			, t.special_question_cate_list
 			, t.request_date
 			, t.recruit_num_total
-			, t.recruit_num_now
 			, t.menu_code
 			, t.count_of_view
 			, t.recruit_fin_time
@@ -124,6 +123,7 @@
 			, s.store_phone
 			, s.store_holiday
 			, st.state_name
+			, count(a.user_id) AS recruit_num_now
 		FROM 
 			tb_taster_recruit_biz AS t
 			INNER JOIN 
@@ -135,7 +135,9 @@
 			INNER JOIN
 			tb_statement AS st
 			ON t.state_code = st.state_code
-			
+			LEFT JOIN 
+			tb_taster_apply AS a
+			ON t.recruit_taster_biz_code = a.recruit_taster_biz_code	
 		<where>
 			<if test="recruitCode != null">
 				t.recruit_taster_biz_code = #{recruitCode}
@@ -144,6 +146,7 @@
 				t.biz_id = #{bizId}
 			</if>
 		</where>
+		GROUP BY t.recruit_taster_biz_code
 	</select>
 	
 	

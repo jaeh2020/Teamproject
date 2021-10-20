@@ -46,6 +46,11 @@
 			<if test="surveyCode != null">
 				r.question_create_code = #{surveyCode}
 			</if>
+			<trim prefix="AND ">
+				<if test="cateCode != null">
+					c.question_cate_code = #{cateCode}
+				</if>
+			</trim>
 		</where>	
 		GROUP BY a.question_code
 	</select>
