@@ -36,25 +36,21 @@ public class MemberController {
 	//선호도 수정 ajax
 	@GetMapping(value="/modifyUserLike", produces = "application/json")
 	@ResponseBody
-	public String modifyUserLike(	@RequestParam(value = "userLikeCode") String userLikeCode
-							,@RequestParam(value = "likeId") String likeId
-							,@RequestParam(value = "likeArr[]") List<String> likeArr
-							,@RequestParam(value = "unlikeArr[]") List<String> unlikeArr
-							,MemberUserLike mul) {
+	public String modifyUserLike(@RequestParam(value = "userLikeCode") String userLikeCode
+								,@RequestParam(value = "likeId") String likeId
+								,@RequestParam(value = "likeArr[]") List<String> likeArr
+								,@RequestParam(value = "unlikeArr[]") List<String> unlikeArr
+								,MemberUserLike mul) {
 		
 		mul.setUserLikeCode(userLikeCode);
-		mul.setLikeId(likeId);
 		mul.setUserLikeKey1(likeArr.get(0));
 		mul.setUserLikeKey2(likeArr.get(1));
 		mul.setUserLikeKey3(likeArr.get(2));
 		mul.setUserUnlikeKey1(unlikeArr.get(0));
 		mul.setUserUnlikeKey2(unlikeArr.get(1));
 		mul.setUserUnlikeKey3(unlikeArr.get(2));
-		
-		if(mul != null) {
-			mul.setUserLikeCode(memberService.getUserLikeCode());
-			memberService.addMemberUserLike(mul);
-		}
+		System.out.println(mul.getLikeId() + "dfdfsdfff");
+		memberService.modifyUserLike(mul);
 
 		return "mul";
 	}
@@ -62,16 +58,18 @@ public class MemberController {
 	@GetMapping("/member/modifyUserLike")
 	public String modifyUserLike(@RequestParam(name = "userId", required = false) String userId
 								,Model model) {
+		System.out.println("userId::::::" + userId);
 		
 		//선호-비선호 메인카테 불러오기
 		List<FoodMainCate> foodMainList = memberService.getFoodMainList();
 		
-		MemberUser mul = memberService.getMemberUserInfoById(userId);
+		MemberUser memberUser = memberService.getMemberUserInfoById(userId);
+		memberUser.setUserId(userId);
 		
 		model.addAttribute("title", "MYPAGE  > 추천/비추천 카테고리 수정");
 		model.addAttribute("location", "MYPAGE  > 추천/비추천 카테고리 수정");
 		model.addAttribute("foodMainList", foodMainList);
-		model.addAttribute("mul", mul);
+		model.addAttribute("memberUser", memberUser);
 		
 		return "/member/modifyUserLike";
 	}
@@ -129,10 +127,24 @@ public class MemberController {
 	//회원탈퇴
 	@PostMapping("/member/deleteMember")
 	public String deleteMember( @RequestParam(name = "memberId", required = false) String memberId
-						,@RequestParam(name = "memberPw", required = false) String memberPw) {
+								,@RequestParam(name = "memberPw", required = false) String memberPw
+								,RedirectAttributes redirectAttr
+								,HttpSession session) {
 		
 		System.out.println("(removeMember) 화면에서 입력받은값 : memberId : " + memberId + "memberPw : " + memberPw);
+		
+		String result = memberService.removeMember(memberId, memberPw);
+		
+		if("회원 탈퇴 실패".equals(result)) {
+			redirectAttr.addAttribute("memberId", memberId);
+			redirectAttr.addAttribute("result", "회원 비번 불일치");
+			
+			return "redirect:/member/deleteMember";
+		}
+		System.out.println("result : " +result);
 
+		session.invalidate();
+		
 		return "redirect:/";
 	};
 	
@@ -355,7 +367,11 @@ public class MemberController {
 	public String addMember03(MemberUser memberUser) {
 		System.out.println("멤버유저 : " + memberUser);		
 		
+		//소비자 추가정보 입력
 		if(memberUser != null) memberService.addMember03(memberUser);
+		//포인트 최초 등록
+		
+		//메세지 알림 체크 등록
 		
 		return "redirect:/member/addMember05";
 	}

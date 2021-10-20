@@ -78,6 +78,18 @@ public class MessageController {
 		return "redirect:/messageList";
 	}
 	
+	//알림체크값 db에서 가져와서 보여주기
+	@GetMapping(value = "/mscList", produces = "application/json")
+	@ResponseBody
+	public MessageCheck mscList(@RequestParam(value = "memberId") String memberId) {
+		log.info("체크박스에서 넘어온 memberId 값 : {}", memberId);
+		
+		MessageCheck mscList = messageService.getMessageCheck(memberId);
+		mscList.setMemberId(memberId);
+		log.info("체크박스로 넘어갈 mscList 값 : {}", mscList);
+		
+		return mscList;
+	}
 	
 	//알림 뭐 받을지 체크,입력
 	@PostMapping("/message/messageCheck")

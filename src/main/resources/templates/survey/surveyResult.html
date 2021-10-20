@@ -33,26 +33,21 @@
 							</select>
 						</div>
 					</div>
+					<div class="form-group row">
+						<label class="col-lg-4 col-form-label" for="storeCode">진행된 설문조사 <span class="text-danger">*</span></label>
+						<div class="col-lg-7">
+							<select class="form-control" id="surveyCode" name="surveyCode">
+								<option value=""> : : : 설문 목록  : : : </option>
+							</select>
+						</div>
+					</div>
+					<div id="default"></div>
 					 <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Home</span></a> </li>
-                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Profile</span></a> </li>
-                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Messages</span></a> </li>
+                    <ul class="nav nav-tabs" role="tablist" id="tabList">
                     </ul>
                     <!-- Tab panes -->
-                    <div class="tab-content tabcontent-border">
-                        <div class="tab-pane active" id="home" role="tabpanel">
-                             <div class="p-20">
-                             	<div class="card-title">
-                                	<h4>Echart</h4>
-                            	</div>
-                            	<div class="card-content">
-                                	<div id="basic-Pie" style="height: 370px"></div>
-                            	</div>
-                            </div>	
-                        </div>
-                        <div class="tab-pane  p-20" id="profile" role="tabpanel">2</div>
-                        <div class="tab-pane p-20" id="messages" role="tabpanel">3</div>
+                    <div class="tab-content tabcontent-border" id="tabCont">
+                        
                     </div>
 		        </div>
 		    </div>
@@ -61,28 +56,92 @@
 </th:block>
 <th:block layout:fragment="customJsLib">
 	<script type="text/javascript">
-	//pie 차트에 필요한 데이터 가져오는 ajax
-	$(function(){
-		$('#storeCode').on("change", function(){
-				var storeCode = $('#storeCode option:selected').val();
-				console.log(storeCode);
-			
-			/* var request = $.ajax({
-			}); */
-		})
-		
-	});
-	
-	 <!--pie chart 세팅-->
-	$(function(){
-		
-	    var dom = document.getElementById("basic-Pie");
-	    var bpChart = echarts.init(dom);
+	//레이다 차트 세팅
+	function radarChart(data){
+		console.log(data);
+		var totalScore =data[0].numOfParti;
+		var r1=0;
+		var r2=0;
+		var r3=0;
+		var r4=0;
+		var r5=0;
+		var r6=0;
+		var r7=0;
+		for(var i=0; i<data.length; i++){
+			if(data[i].qCode == 'food_007') r1= data[i].avg;
+			if(data[i].qCode == 'food_008') r2= data[i].avg;
+			if(data[i].qCode == 'food_009') r3= data[i].avg;
+			if(data[i].qCode == 'food_010') r4= data[i].avg;
+			if(data[i].qCode == 'food_011') r5= data[i].avg;
+			if(data[i].qCode == 'food_012') r6= data[i].avg;
+			if(data[i].qCode == 'food_013') r7= data[i].avg;
+			if(data[i].qCode == 'food_014') r8= data[i].avg;
+		}
+		 var dom = document.getElementById("foodTotal");
+		    var rdChart = echarts.init(dom);
 
+		    var app = {};
+		    option = null;
+		    option = {
+		        color: ['#4aa9e9'],
+		        tooltip : {
+		            trigger: 'axis'
+		        },
+		        legend: {
+		            orient : 'vertical',
+		            x : 'left',
+		            y : 0,
+		            data:['my store']
+		        },
+		        polar : [
+		            {
+		                indicator : [
+		                    { text: '맵다', max: totalScore},
+		                    { text: '짜다', max: totalScore},
+		                    { text: '달다', max: totalScore},
+		                    { text: '시다', max: totalScore},
+		                    { text: '음식 양', max: totalScore},
+		                    { text: '바삭하다', max: totalScore},
+		                    { text: '잘 구워졌다', max: totalScore},
+		                    { text: '신선하다', max: totalScore},
+		                ]
+		            }
+		        ],
+		        calculable : true,
+		        series : [
+		            {
+		                name: 'my store',
+		                type: 'radar',
+		                data : [
+		                    {
+		                        value : [r1, r2, r3, r4, r5, r6, r7, r8],
+		                        name : 'my store'
+		                    }
+		                ]
+		            }
+		        ]
+		    };
+
+		    if (option && typeof option === "object") {
+		        rdChart.setOption(option, false);
+		    }
+
+	}
+	
+	//파이 차트 세팅 함수
+	function pieChart(chartId, c1, c2, c3, c4, c5){
+		console.log(chartId + " <<<<<<<<chartId");
+		console.log(c1 + " <<<<<<<<chartId");
+		console.log(c2 + " <<<<<<<<chartId");
+		console.log(c3 + " <<<<<<<<chartId");
+		console.log(c4 + " <<<<<<<<chartId");
+		console.log(c5 + " <<<<<<<<chartId");
+		var dom = document.getElementById(chartId);
+	    var bpChart = echarts.init(dom);
 	    var app = {};
 	    option = null;
 	    option = {
-	        color: ['#62549a','#4aa9e9', '#ff6c60','#eac459', '#25c3b2' ],
+	        color: ['#62549a','#4aa9e9','#25c3b2','#eac459', '#ff6c60'],
 	        tooltip : {
 	            trigger: 'item',
 	            formatter: '{a} <br/>{b} : {c} ({d}%)'
@@ -90,7 +149,7 @@
 	        legend: {
 	            orient : 'vertical',
 	            x : 'left',
-	            data:['Direct','Mail','Affiliate','AD','Search']
+	            data:['매우 긍정적','긍정','보통','약간 부정','매우 부정적']
 	        },
 	        calculable : true,
 	        series : [
@@ -100,21 +159,214 @@
 	                radius : '55%',
 	                center: ['50%', '60%'],
 	                data:[
-	                    {value:335, name:'Direct'},
-	                    {value:310, name:'Mail'},
-	                    {value:234, name:'Affiliate'},
-	                    {value:135, name:'AD'},
-	                    {value:1548, name:'Search'}
+	                    {value: c5, name:'매우 긍정적'},
+	                    {value: c4, name:'긍정'},
+	                    {value: c3, name:'보통'},
+	                    {value: c2, name:'약간 부정'},
+	                    {value: c1, name:'매우 부정적'}
 	                ]
 	            }
 	        ]
 	    };
-
+	    //option && bpChart.setOption(option);
 	    if (option && typeof option === "object") {
 	        bpChart.setOption(option, false);
 	    }
-	});
-	 <!-- chart 세팅  -->   
+		
+		
+	}
+	
+		//tab 선택시 선택항목코드를 전달하여 차트에 필요한 데이터 가져오는 ajax
+		
+		function navLink(cateCode){
+			console.log('================================================이벤트 발동 !!');
+			var cateCode = cateCode.getAttribute( 'id' );
+			var surveyCode = $('#surveyCode option:selected').val();
+			console.log(cateCode, surveyCode);
+		var request = $.ajax({
+					url: "/survey/getChartData", //요청 주소
+					method: "GET", //요청 방식
+					data: { cateCode : cateCode, surveyCode: surveyCode },
+					dataType: "json" //받아올 포맷방식
+					});	
+			
+				request.done(function(data){
+					 console.log(data);
+
+					 var qCateCode = data[0].qCateCode;
+					 var qCateName = data[0].qCateName;
+					 var tabCtnt = '';
+					 var divId = qCateCode+'Ctnt';
+					 
+					 tabCtnt +='	<div class="p-20">';
+					 tabCtnt +='		<div class="card-content chartCtnt" id="'+divId+'"></div>';
+					 tabCtnt +='  	</div>';	
+					
+					 $('#'+qCateCode).html(tabCtnt);
+					 
+					 var chartCtnt =''
+					 for(var i=0; i<data.length; i++){
+						 
+						var chartId = data[i].qCode +'-pie';
+						
+						chartCtnt +='<h4> ' +data[i].qContent+ ' </h4>';
+						chartCtnt +='<div id="'+chartId+'" style="height: 370px"></div>';
+						
+					 }
+					 //음식항목일 경우 차트 추가
+					 if(qCateCode == 'q_cate_food'){
+						 chartCtnt = '<h4> 통합 </h4><div id="foodTotal" style="height: 370px"></div>' + chartCtnt;
+						 
+					 }
+
+					 $('#'+divId).html(chartCtnt);
+					 
+					for(var i=0; i<data.length; i++){
+						var chartId = data[i].qCode +'-pie';
+						pieChart(chartId, data[i].choice1, data[i].choice2, data[i].choice3, data[i].choice4, data[i].choice5);
+					}
+					//레이더 차트 함수 호출
+					 if(qCateCode == 'q_cate_food')	radarChart(data);
+				});
+				 request.fail(function( jqXHR, textStatus){
+						alert( "Request failed: " + textStatus );
+				});  
+			
+			
+		}
+		
+		//매장 선택시 설문지 목록 가져오는 ajax
+		$(function(){
+			$('#storeCode').on("change", function(){
+					var storeCode = $('#storeCode option:selected');
+					console.log(storeCode);
+				
+				    var request = $.ajax({
+						url: "/survey/getSurveyList", //요청 주소
+						method: "GET", //요청 방식
+						data: { storeCode : storeCode.val() },
+						dataType: "json" //받아올 포맷방식
+						});	 
+					request.done(function(data){
+						 console.log(data);
+						 var option = '<option value=""> : : :  설문 목록   : : : </option>';
+						 for(var i=0; i<data.length; i++){
+							 option += '<option value= ' + data[i].createCode + '>' + data[i].recruitTasterByBiz.surveyTitle + '</option>';
+						 }
+							$('#surveyCode').html(option);					 
+					});
+					 request.fail(function( jqXHR, textStatus){
+							alert( "Request failed: " + textStatus );
+					}); 
+				});
+			});
+		//참여자 연령대 정보 가져오는 ajax 
+		$(function(){
+			$('#surveyCode').on("change", function(){
+				var surveyCode = $('#surveyCode option:selected');
+		
+				
+				var request = $.ajax({
+						url: "/survey/getSurveyResult", //요청 주소
+						method: "GET", //요청 방식
+						data: { surveyCode : surveyCode.val() },
+						dataType: "json" //받아올 포맷방식
+						});
+				var tabHtml = '';
+				var tabCtnt = '';
+				
+				 request.done(function(data){
+					 console.log(data);
+					 
+					 var qCate = '';
+					 for(var i=0; i < data.surveyResult.length ; i++){
+						 var qCateCode = data.surveyResult[i].qCateCode;
+						 var qCateName = data.surveyResult[i].qCateName;
+						 if(qCate != qCateCode){
+							 tabHtml += '<li class="nav-item">';
+							 tabHtml +='	<a class="nav-link tabBtn" data-toggle="tab" href="#'+qCateCode+'" role="tab" onclick="navLink('+qCateCode+')">';
+							 tabHtml +='		<span class="hidden-sm-up">';
+							 tabHtml +='			<i class="ti-home"></i>';
+							 tabHtml +='		</span>';
+							 tabHtml +='		<span class="hidden-xs-down">'+ qCateName +'</span>';
+							 tabHtml +='	</a>';
+							 tabHtml +='</li>';
+							 
+							 tabCtnt += '<div class="tab-pane" id="'+ qCateCode + '" role="tabpanel">';
+							 tabCtnt +='</div>';
+							 $('#tabList').html(tabHtml);
+							 $('#tabCont').html(tabCtnt);
+						 }
+							qCate = qCateCode;
+					 }
+					 //연령대별 참여현황 차트
+					 var defaultInfo ='';
+					 defaultInfo += '<div class="tab-pane active" id="'+ i + '" role="tabpanel">';
+					 defaultInfo +='	<div class="p-20">';
+					 defaultInfo +='		<div class="card-title">';
+					 defaultInfo +='			<h4>참여인원: ' + data.surveyResult[0].numOfParti+ '명</h4>';
+					 defaultInfo +='		</div>';
+					 defaultInfo +='		<div class="card-content">';
+					 defaultInfo +='			<div id="age-Pie" style="height: 370px"></div>';
+					 defaultInfo +='		</div>';
+					 defaultInfo +='  	</div>';	
+					 defaultInfo +='</div>'; 
+					 
+					 $('#default').html(defaultInfo);
+					 
+					 var age10 = data.age10; 	
+					 var age20 = data.age20; 	
+					 var age30 = data.age30; 	
+					 var age40 = data.age40; 	
+					 var age50 = data.age50;
+			
+					 	var dom = document.getElementById("age-Pie");
+					    var bpChart = echarts.init(dom);
+	
+					    var app = {};
+					    option = null;
+					    option = {
+					        color: ['#62549a','#4aa9e9', '#ff6c60','#eac459', '#25c3b2' ],
+					        tooltip : {
+					            trigger: 'item',
+					            formatter: '{a} <br/>{b} : {c} ({d}%)'
+					        },
+					        legend: {
+					            orient : 'vertical',
+					            x : 'left',
+					            data:['10대','20대','30대','40대','50대 이상']
+					        },
+					        calculable : true,
+					        series : [
+					            {
+					                name:'Source',
+					                type:'pie',
+					                radius : '55%',
+					                center: ['50%', '60%'],
+					                data:[
+					                    {value: age10, name:'10대'},
+					                    {value: age20, name:'20대'},
+					                    {value: age30, name:'30대'},
+					                    {value: age40, name:'40대'},
+					                    {value: age50, name:'50대 이상'}
+					                ]
+					            }
+					        ]
+					    };
+	
+					    if (option && typeof option === "object") {
+					        bpChart.setOption(option, false);
+					    }
+					 
+				});
+				 
+					
+				 request.fail(function( jqXHR, textStatus){
+						alert( "Request failed: " + textStatus );
+					}); 
+			});
+			
+		});
 
 	</script>
 </th:block>

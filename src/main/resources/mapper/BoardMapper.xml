@@ -51,6 +51,7 @@
 		<result property="reportConfirmTime"		column="rep_confi_time"></result>
 		<result property="reportId"		column="report_id"></result>
 		<result property="memberId"		column="member_id"></result>
+		<result property="reportApplyId"		column="report_apply_id"></result>
 		<result property="stateCode"		column="state_code"></result>
 	</resultMap>
 		
@@ -68,6 +69,7 @@
 			, rep_time
 			, rep_confi_time
 			, report_id
+			, report_apply_id
 			, member_id
 			, state_code)
 			VALUES(
@@ -79,11 +81,13 @@
 			, NOW()
 			, NULL
 			, #{reportId}
+			, #{reportApplyId}
 			, NULL
 			, #{stateCode});
 	</insert>
 	
 	
+
 	<!-- 게시글 신고 자동증가 코드 -->
 	<select id="getNewReportNum" resultType="String">
 		SELECT
@@ -171,8 +175,19 @@
 	</update>
 
 
+	
+	<delete id="commentdel" parameterType="map">
+		DELETE
+		FROM
+			tb_board_reply
+		WHERE 
+			board_num = #{boardNum};
+	</delete>
+	
+	
+	
 	<!-- 게시판 삭제처리 -->
-	<delete id="boardDelete" parameterType="String">
+	<delete id="boardDelete" parameterType="map">
 		DELETE
 		FROM
 			tb_board_management

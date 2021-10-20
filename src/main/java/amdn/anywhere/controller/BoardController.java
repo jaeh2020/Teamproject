@@ -1,7 +1,9 @@
 
 package amdn.anywhere.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -30,12 +32,7 @@ public class BoardController {
 		this.boardService = boardService;
 	}
 	
-	
 
-
-	
-	
-	
 	
 	//소상공인 게시글 신고 작성처리
 	@PostMapping("/boardBizReport")
@@ -93,7 +90,7 @@ public class BoardController {
 		model.addAttribute("board" , board);
 		model.addAttribute("reportStatement" , reportStatement);
 		
-		return "board/boardBizReport";
+		return "/board/boardBizReport";
 	}
 	
 	//게시글 신고 작성
@@ -110,14 +107,16 @@ public class BoardController {
 		Board board = boardService.getBoardInfoByCode(boardNum);
 		//신고 상태코드 가져오기
 		Statement reportStatement = boardService.getReportStatement(reportStatementCode);
-		
+	
 		
 		model.addAttribute("title", "게시판 신고");
 		model.addAttribute("reportId", reportId);
 		model.addAttribute("board" , board);
 		model.addAttribute("reportStatement" , reportStatement);
+	
 		
-		return "board/boardReport";
+		
+		return "/board/boardReport";
 	}
 
 	
@@ -228,21 +227,44 @@ public class BoardController {
 	public String boardNoticeDelete(Board board
 									,@RequestParam(name = "boardNum" , required = false) String boardNum ) {
 		
-		System.out.println("board 화면 값" + board);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("boardNum", boardNum);
 		
-		boardService.boardDelete(boardNum);
+		boardService.boardDelete(paramMap);
 		
 		return "redirect:/board/boardNoticeList";
 	}
 	
-	//게시글 삭제처리
-	@GetMapping("/boardDelete")
-	public String boardDelete(Board board
+	//소상공인 게시글 삭제처리
+	@GetMapping("/boardBizDelete")
+	public String boardBizDelete(Board board
 			,@RequestParam(name = "boardNum" , required = false) String boardNum ) {
 		
-		System.out.println("board 화면 값" + board);
 		
-		boardService.boardDelete(boardNum);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("boardNum", boardNum);
+		
+		//삭제버튼 클릭시 delete
+		boardService.commentdel(paramMap);
+		boardService.boardDelete(paramMap);
+		
+		
+		return "redirect:/board/boardBizList";
+	}
+	
+	//소비자 게시글 삭제처리
+	@GetMapping("/boardDelete")
+	public String boardDelete(Board board
+							  ,@RequestParam(name = "boardNum" , required = false) String boardNum ) {
+		
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("boardNum", boardNum);
+		
+		//삭제버튼 클릭시 delete
+		boardService.commentdel(paramMap);
+		boardService.boardDelete(paramMap);
+		
 		
 		return "redirect:/board/boardList";
 	}

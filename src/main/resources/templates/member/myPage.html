@@ -23,6 +23,14 @@
 	.wrap {
 		text-align: center;
 	}
+	.wrap p{
+		font-size: 20px;
+	}
+	.wrap p span{
+		font-size: 25px;
+		color: #585858;
+		font-weight: bold;
+	}
 	.col-lg-2{
 		padding: 0;
 		margin: 10px;
@@ -42,6 +50,18 @@
 	.level{
 		color: #64D2D2;
 		font-weight: bold;
+	}
+	.bi-emoji-sunglasses{
+		color: #FF9E9B;
+	}
+	.bi-hand-thumbs-up{
+		color: #FFB2AF
+	}
+	.bi-heart-fill{
+		color: #FFC6C3
+	}
+	.bi-person-x{
+		color: #FFDFDC
 	}
 </style>
 </th:block>
@@ -63,24 +83,25 @@
 					<div class="col-lg-2">
 	   			 		<div class="wrap">
 	    			 		<h4>주문건수</h4>
-	    			 		<div>[[${memberUser.userOrderTotal}]]</div>
+	    			 		<p>[[${memberUser.userOrderTotal}]]</p>
 	   			 		</div>
 	   			 	</div>
 	            	<div class="col-lg-1"><hr></div>
           			 	<div class="col-lg-2">
           			 		<div class="wrap">
-           			 		<h4>POINT</h4>
-           			 		<div>[[${memberUser.userPoint}]]</div>
+          			 		<a th:href="@{/point/userPointList(userId=${session.SID})}">
+	           			 		<h4>POINT</h4>
+	           			 		<p><span>[[${memberUser.userPoint}]]</span> P</p>
+	           			 	</a>
            			 	</div>
           			 	</div>
             		<div class="col-lg-1"><hr></div>
           			 	<div class="col-lg-2">
           			 		<div class="wrap">
            			 		<h4>먹깨비</h4>
-           			 		<div>[[${memberUser.userEvaluator}]]</div>
+           			 		<p>[[${memberUser.userEvaluator}]]</p>
            			 	</div>
           			 	</div>
-	      
 			</div>
 	        </div>
 		</div>
@@ -90,7 +111,7 @@
     		<!-- 프로필 하단 -->
    			 <div class="listWrap">
    			 	<div class="list"><a th:href="@{/member/myInfo(memberId=${session.SID})}"><i class="bi bi-emoji-sunglasses f-s-60"></i><h4>내정보</h4></a></div>
-   			 	<div class="list"><a th:href="@{/member/modifyUserLike(memberId=${session.SID})}"><i class="bi bi-hand-thumbs-up f-s-60"></i><h4>추천 / 비추천</h4></a></div>
+   			 	<div class="list"><a th:href="@{/member/modifyUserLike(userId=${session.SID})}"><i class="bi bi-hand-thumbs-up f-s-60"></i><h4>추천 / 비추천</h4></a></div>
    			 	<div class="list"><a th:href="@{#}"><i class="bi bi-heart-fill f-s-60"></i><h4>좋아요</h4></a></div>
    			 	<div class="list"><a th:href="@{/member/deleteMember(memberId=${session.SID})}"><i class="bi bi-person-x f-s-60"></i><h4>회원탈퇴</h4></a></div>   			 	
    			 </div>

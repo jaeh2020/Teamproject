@@ -1,6 +1,7 @@
 package amdn.anywhere.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,14 +27,16 @@ public class BoardService {
 		  this.boardMapper = boardMapper;
 	 }
 	  
-	  //신고 등록
+	  //소상공인 신고 등록
 	  public int boardBizReport(Report report) {
 		  return boardMapper.boardReport(report);
 	  };
-	  //신고 등록
+	  
+	  //소비자 신고 등록
 	  public int boardReport(Report report) {
 		  return boardMapper.boardReport(report);
 	  };
+	  
 	  
 	  //신고번호 자동증가 코드
 	  public String getNewReportNum() {
@@ -77,10 +80,16 @@ public class BoardService {
 	  
 	  }
 	 
+	 //댓글 삭제 처리(paramMap)
+	  public int commentdel(Map<String, String> paramMap) {
+		  return boardMapper.commentdel(paramMap);
+	  }
 	 
+	  
+	  
 	  //게시판 삭제 처리
-	  public int boardDelete(String boardNum) {
-		  return boardMapper.boardDelete(boardNum);
+	  public int boardDelete(Map<String, String> paramMap) {
+		  return boardMapper.boardDelete(paramMap);
 	  }
 	  
 	  

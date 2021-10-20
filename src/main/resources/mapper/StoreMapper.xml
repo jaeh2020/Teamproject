@@ -74,6 +74,7 @@
 		<result property="storeCode"				column="store_code"/>
 		<result property="bizId"					column="biz_id"/>
 		<result property="tableNum"					column="table_num"/>
+		<result property="tableStateCode"			column="table_state_code"/>
 			<association property="store" 		javaType="Store">
 			<id property="storeCode"			column="store_code"/>
 			<result property="storeName"		column="store_name"/>
@@ -285,13 +286,48 @@
 			tb_store_cancel;
 	</select>
 	
+	
+	<!-- 입점등록 후 웨이팅테이블 insert -->
+	<insert id="addWaitingTable" parameterType="Waiting">
+		INSERT INTO tb_store_waiting
+			(
+			store_wait
+			,store_code
+			,biz_id
+			,sto_use_tab
+			,sto_emp_tab
+			,wait_num
+		)
+		VALUES (
+			#{storeWait}
+			,#{storeCode}
+			,#{bizId}
+			,0
+			,#{stoEmpTab}
+			,0
+		);
+	</insert>
+	
+	
+	<!-- 웨이팅코드 자동증가 -->
+	<select id="getNewWaitingCode" resultType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN 'wa_001'
+			ELSE
+			CONCAT('wa_', LPAD(MAX(CAST(SUBSTRING(store_wait,4,3)AS DECIMAL)+1),3,0))
+			END AS storeWait
+		FROM
+			tb_store_waiting;
+	</select>
 
 	
 	
 	<!-- 입점등록처리 -->
 	<insert id="addMyStore" parameterType="Store">
 		INSERT INTO tb_store_info
-			(store_code
+			(
+			store_code
 			,store_name
 			,biz_code
 			,biz_id
@@ -344,6 +380,7 @@
 		SELECT
 			biz_code AS bizCode
 			,member_id AS memberId
+			,biz_status AS bizStatus
 		FROM
 			tb_member_biz
 		WHERE	
@@ -385,12 +422,14 @@
 			,store_code
 			,biz_id
 			,table_num
+			,table_state_code
 			)
 			VALUES(
 			#{storeTableCode}
 			,#{storeCode}
 			,#{bizId}
 			,#{tableNum}
+			,'state_table_com'
 			);
 	</insert>
 	

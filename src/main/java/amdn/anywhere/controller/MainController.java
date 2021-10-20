@@ -1,11 +1,13 @@
 package amdn.anywhere.controller;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,19 +29,6 @@ public class MainController {
 		this.storeService = storeService;
 	}
 	
-	/*
-	 * @PostMapping("/") public String
-	 * getMainList(@RequestParam(name="mainCateName", required = false) String
-	 * mainCateName ,Model model) {
-	 * 
-	 * Map<String, Object> paramMap = new HashMap<String, Object>();
-	 * paramMap.put("mainCateName", mainCateName);
-	 * 
-	 * 
-	 * return "redirect:/"; }
-	 */
-	
-	
 	//ajax
 	@GetMapping(value="/storeList", produces = "application/json")
 	@ResponseBody
@@ -52,17 +41,28 @@ public class MainController {
 	
 		
 	@GetMapping("/")
-	public String main(Model model) {
+	public String main(Model model
+					  ,@RequestParam(name="placeInput", required = false) String placeInput
+					  ,@RequestParam(name="placeAddress", required = false) String placeAddress
+					  ,@RequestParam(name="mainCateCode", required = false) String mainCateCode) {
 		
 		//메뉴 카테고리(대분류) 불러오기
 		List<FoodMainCate> mainCate = storeService.getMainCate();
 		
 		//상점 리스트, 실시간 예약대기 번호 가져오기
-		List<Store> mainList = mainService.getMainList();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("placeInput", placeInput);
+		paramMap.put("mainCateCode", mainCateCode);
+		
+		System.out.println(placeInput + ": placeInput");
+		System.out.println(mainCateCode + ": mainCateCode");
+		
+		List<Store> mainList = mainService.getMainList(paramMap);
 		
 		model.addAttribute("mainCate", mainCate);
-		model.addAttribute("title", "main page");
+		model.addAttribute("title", "AMDN, 아무데나");
 		model.addAttribute("mainList", mainList);
+		model.addAttribute("placeAddress", placeAddress);		
 
 		return "main";
 	}

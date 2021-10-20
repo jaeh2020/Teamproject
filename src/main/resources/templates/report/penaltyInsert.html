@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="col-lg-12">
+			<div class="card card-outline-info">
+				<div class="card-header">
+					<h4 class="m-b-0 text-white">벌점 등록</h4>
+				</div>
+				<br>
+				<div class="card-body">
+					<form th:action="@{/report/penaltyInsert}" role="form" id="penaltyInsertForm" method="post" >
+						
+						<div class="form-body">
+							<h3 class="box-title">Penalty</h3>
+							<hr class="m-t-0 m-b-40">
+							<!--/row-->
+							<div class="row">
+								<!--/span-->
+								<div class="col-md-12">
+									<div class="form-group row">
+										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 벌점 부과자</label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" readonly="readonly" name="memberId" th:value="${memberId}">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group row">
+										<label class="control-label text-right col-md-3"><span class="text-danger">*</span>벌점 대상자</label>
+										<div class="col-md-9">
+											<input type="text" class="form-control" name="penaltyId" />
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group row">
+										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 벌점유형</label>
+										<div class="col-md-9">
+											<select class="form-control custom-select" name="penaltyStandard" id="penaltyStandard">
+												<option value="">: : 벌점유형을 선택하세요 : :</option>
+													<th:block th:each="p : ${penaltyStandardList}">
+													<option th:value="${p.penaltyStandardCode}"> 
+													[[${p.penaltyStandard}]] 
+													</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-9">
+									<input type="hidden" id="penaltyScore" name="penaltyScore" class="form-control" readonly="readonly">
+								</div>
+								<!--/span-->
+							</div>
+							<!--/row-->
+						</div>
+						<hr>
+						<div class="box-footer">
+							<a href="#" class="btn btn-info"  th:onclick="reportBoardCan()"><span class="ti-close form-control-feedback"></span> 취소</a>
+							<div class="pull-right">
+								<button type="button" class="btn btn-danger boardSaveBtn" id="boardReportBtn"><i class="fa fa-save"></i> 등록</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+</th:block>
+
+<th:block layout:fragment="customJsLib">
+	<script type="text/javascript">
+		
+		//취소버튼 alert창
+		   function reportBoardCan(){
+		   		if(confirm("정말로 취소하시겠습니까?")){
+		   			location.href = '/report/penaltyList';
+		   			return true;
+		   		}else{
+		   			return false;
+		   		}
+		   		
+		   	}
+		
+		   //유효성 검사
+		   $(function(){
+			   $('#boardReportBtn').click(function(){
+				  var penaltyStandard = $('[name=penaltyStandard]');
+				  var penaltyId = $('[name=penaltyId]');
+				  
+				  if(penaltyId.val() == ''){
+					  alert('벌점 대상자를 작성해주세요.');
+					  penaltyId.focus();
+					  return false;
+				  } 
+				  
+				  if(penaltyStandard.val() == ''){
+					  alert('벌점유형을 선택해주세요.');
+					  penaltyStandard.focus();
+					  return false;
+				  } 
+				  
+				   
+				  alert('벌점등록완료!')
+				  $('#penaltyInsertForm').submit();
+			   });
+			   
+		   		/* 벌점유형선택하여 점수 불러오기 - ajax */
+			
+		    	var selPenalty = document.querySelector('#penaltyStandard');
+		    	
+		    	selPenalty.addEventListener('change',function(){
+		    		
+		    		var penCode = $(this).val();
+		    		console.log(penCode);
+		    		
+		    		var request =  $.ajax({
+		                url: "/report/penaltyScore", //요청 주소
+		                method: "GET", //요청 방식
+		                data: { penaltyStandard : penCode },
+		                dataType: "json" //받아올 포맷방식
+		           });   
+		           request.done(function(data){
+		        	   console.log(data.penaltyScore);
+		        	   
+		        	   $('#penaltyScore').val(data.penaltyScore);
+		           });
+		        	   
+		   		});
+		   });
+		   
+		   
+		 
+	</script>
+	
+	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+	<script src="js/lib/owl-carousel/owl.carousel-init.js"></script>-->
+
+
+</th:block>
+
+
+
+</html>

@@ -155,6 +155,7 @@
 				var bookUserName = $('[name=bookUserName]');
 				var bookUserPhone = $('[name=bookUserPhone]');
 				var bookPeoNum = $('[name=bookPeoNum]');
+				var userId = $('[name=userId]');
 				
 				if(bookUserName.val().trim() == ''){
 					alert('예약자 성함을 입력해주세요.');
@@ -173,7 +174,12 @@
 				}else if($("input[name=bookPickup]:checkbox:checked").length == 0){
 					alert('포장여부를 선택해주세요.');
 					return false;
+					
+				}else if(userId.val().trim() == ''){
+					alert('로그인 후 이용해주세요');
+					return false;
 				}
+				
 				alert('주문정보 입력 화면으로 이동됩니다.')
 				$('#addBookMemForm').submit();	
 			});

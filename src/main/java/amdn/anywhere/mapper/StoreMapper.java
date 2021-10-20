@@ -12,6 +12,7 @@ import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.domain.StoreCancel;
 import amdn.anywhere.domain.Table;
+import amdn.anywhere.domain.Waiting;
 
 @Mapper
 public interface StoreMapper {
@@ -36,6 +37,12 @@ public interface StoreMapper {
 	
 	//취소코드 자동증가
 	public String getNewCancelCode();
+	
+	//입점등록후 웨이팅테이블 insert
+	public int addWaitingTable(Waiting waiting);
+	
+	//웨이팅코드 자동증가
+	public String getNewWaitingCode();
 	
 	//입점등록처리
 	public int addMyStore(Store store);

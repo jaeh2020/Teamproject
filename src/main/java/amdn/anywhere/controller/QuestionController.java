@@ -23,9 +23,11 @@ import amdn.anywhere.domain.Questionnaire;
 import amdn.anywhere.domain.RecruitTasterByBiz;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.domain.Survey;
+import amdn.anywhere.domain.SurveyResult;
 import amdn.anywhere.domain.Taster;
 import amdn.anywhere.service.QuestionService;
 import amdn.anywhere.service.StoreService;
+import amdn.anywhere.service.SurveyResultService;
 import amdn.anywhere.service.TasterService;
 
 @Controller
@@ -35,17 +37,60 @@ public class QuestionController{
 	private TasterService tasterService;
 	private QuestionService questionService;
 	private StoreService storeService;
+	private SurveyResultService surveyResultService;
 	
 	public QuestionController(
 			QuestionService questionService
 			,TasterService tasterService
-			, StoreService storeService){
+			, StoreService storeService
+			, SurveyResultService surveyResultService){
 
 		this.tasterService = tasterService;
 		this.questionService = questionService;
 		this.storeService = storeService;
+		this.surveyResultService = surveyResultService;
 		
 	}
+	//18. ajax - 항목별 결과 가져오기
+	@GetMapping(value="/getChartData", produces = "application/json")
+	@ResponseBody
+	public List<SurveyResult> getChartData(
+			@RequestParam(name="cateCode", required = false) String cateCode
+			,@RequestParam(name="surveyCode", required = false) String surveyCode){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("cateCode", cateCode);
+		paramMap.put("surveyCode", surveyCode);
+		
+		List<SurveyResult> resultForCate = questionService.getSurveyResult(paramMap);
+		resultForCate = surveyResultService.getAvgForCate(resultForCate);
+		return resultForCate ; 
+	}
+	//17. ajax - 설문코드로 설문결과 가져오기
+	@GetMapping(value="/getSurveyResult", produces = "application/json")
+	@ResponseBody
+	public Map<String, Object> getSurveyResult(@RequestParam(name="surveyCode", required = false) String surveyCode){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("surveyCode", surveyCode);
+		List<SurveyResult> surveyResultList= questionService.getSurveyResult(paramMap);
+		//연령대그룹 가져오기
+		paramMap.clear();
+		paramMap = surveyResultService.getTastersAge(surveyCode);
+		paramMap.put("surveyResult", surveyResultList);
+		return paramMap;
+	}
+	
+	//16 ajax - 매장코드로 설문목록 가져오기
+	@GetMapping(value="/getSurveyList", produces = "application/json")
+	@ResponseBody
+	public List<Survey> getSurveyList(@RequestParam(name="storeCode", required = false) String storeCode){
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("storeCode", storeCode);
+		List<Survey> surveyList= questionService.getSurveyList(paramMap);
+		
+		return surveyList;
+	}
+	
 	//15. 내설문조사 결과 페이지 이동
 	@GetMapping("/surveyResult")
 	public String surveyResult(HttpSession session, Model model) {
@@ -296,7 +341,7 @@ public class QuestionController{
 		List<QuestionCate> cateList = questionService.getQuestionCateList();
 
 		model.addAttribute("title", "설문조사 항목관리");
-		model.addAttribute("location2", "항목 관리");
+		model.addAttribute("location", "항목 관리");
 		model.addAttribute("cateList", cateList);
 		
 		return "/survey/questionManage";

@@ -81,6 +81,7 @@
                       </li>
                       <!-- End Messages -->
                   </ul>
+				<code> 최근 배포 일시: 2021-10-18 16:00</code>
                   <!-- User profile and search -->
                   <ul class="navbar-nav my-lg-0">						
 					
@@ -130,7 +131,7 @@
                           </a>
                           <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                               <ul class="dropdown-user">
-                                  <li><a th:if="${session.SLEVEL == 'level_user'}" th:href="@{/book/bookMyOrderList(userId=${session.SID})}"><i class="fa fa-truck"></i> 나의 주문/결제 내역 </a></li>
+                                  <li><a th:if="${session.SLEVEL == 'level_user'}" th:href="@{/book/bookMyOrderList}"><i class="fa fa-truck"></i> 나의 주문/결제 내역 </a></li>
                                   <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/book/bookOrderList}"><i class="fa fa-truck"></i> 전체 주문/결제 내역 </a></li>
                               </ul>
                           </div>

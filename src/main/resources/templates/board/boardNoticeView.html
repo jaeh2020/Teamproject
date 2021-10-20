@@ -67,32 +67,6 @@
    
    <script type="text/javascript">
    
-   //a테그시 유효성 검사
-   function delReply(boardReplyCode, boardNum){
-	   if(confirm("삭제하시겠습니까?")){
-	        location.href = '/board/deleteComment?boardReplyCode=' + boardReplyCode + '&' + 'boardNum=' + boardNum;
-	        return true;
-	    } else {
-	        return false;
-	    }
-   } 
-   
-  
-   	$(function(){
-      	$('#commentBtn').on('click',function(){
-      		
-      		var boardReplyContents = $('[name=boardReplyContents]')
-      		
-      		if(boardReplyContents.val() == ''){
-				alert('댓글을 입력해주세요.')
-				boardReplyContents.focus();
-      			return false;
-      		}
-      		alert('등록하시겠습니까?')
-      		$('#commentForm').submit();
-      	});	
-	});
-   	
    	
   	$(function(){
    		var form = deleteForm;

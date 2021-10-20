@@ -1,6 +1,7 @@
 package amdn.anywhere.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -20,7 +21,7 @@ public interface BoardMapper {
 	
 	//신고등록
 	public int boardReport(Report report);
-	
+	 
 	//신고 코드 자동증가
 	public String getNewReportNum();
 	
@@ -42,8 +43,12 @@ public interface BoardMapper {
 	//게시물 조회 수 증가
 	 public int updateBoardCnt(String boardNum); 
 	 
+	 //게시물 삭제 처리 (paramMap)
+	 public int commentdel(Map<String, String> paramMap);
+	 
+	 
 	 //게시물 삭제 처리
-	 public int boardDelete(String boardNum);
+	 public int boardDelete(Map<String, String> paramMap);
 	
 	 //게시물 수정 처리
 	 public int boardModify(Board board);

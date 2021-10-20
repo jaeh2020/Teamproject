@@ -47,7 +47,7 @@
 		                        <tbody>
 		                        	<tr th:each="r : ${reportBoardList}">
 			                            <td th:text="${r.reportCode}"></td>
-			                            <td th:text="${r.reportCateCode}"></td>
+			                            <td th:text="${r.reportCate.reportCate}"></td>
 			                            <td th:text="${r.boardNum}"></td>
 			                            <td th:text="${r.reportId}"></td>
 			                            <td><a type="button" class="btn btn-dark btn-outline ti-search" th:href="@{/report/reportBoardCom(reportCode=${r.reportCode})}"></a></td>

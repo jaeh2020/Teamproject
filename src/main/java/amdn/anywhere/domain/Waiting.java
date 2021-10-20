@@ -3,7 +3,6 @@ package amdn.anywhere.domain;
 public class Waiting {
 	private String storeWait;
 	private String storeCode;
-	private String bizCode;
 	private String bizId;
 	private int stoUseTab;
 	private int stoEmpTab;
@@ -19,12 +18,6 @@ public class Waiting {
 	}
 	public void setStoreCode(String storeCode) {
 		this.storeCode = storeCode;
-	}
-	public String getBizCode() {
-		return bizCode;
-	}
-	public void setBizCode(String bizCode) {
-		this.bizCode = bizCode;
 	}
 	public String getBizId() {
 		return bizId;
@@ -52,8 +45,8 @@ public class Waiting {
 	}
 	@Override
 	public String toString() {
-		return "Waiting [storeWait=" + storeWait + ", storeCode=" + storeCode + ", bizCode=" + bizCode + ", bizId="
-				+ bizId + ", stoUseTab=" + stoUseTab + ", stoEmpTab=" + stoEmpTab + ", waitNum=" + waitNum + "]";
+		return "Waiting [storeWait=" + storeWait + ", storeCode=" + storeCode + ", bizId=" + bizId + ", stoUseTab="
+				+ stoUseTab + ", stoEmpTab=" + stoEmpTab + ", waitNum=" + waitNum + "]";
 	}
 	
 	

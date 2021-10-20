@@ -20,6 +20,7 @@ import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.domain.StoreCancel;
+import amdn.anywhere.domain.Waiting;
 import amdn.anywhere.service.StoreService;
 
 @Controller
@@ -145,18 +146,28 @@ public class EnterController {
 	
 	//입점등록처리
 	@PostMapping("/addStore")
-	public String addStore(Store store) {
+	public String addStore(Store store
+						  ,Waiting waiting) {
 		
 		//매장코드 자동증가
 		String newStoreCode = storeService.getNewStoreCode();
 		
-		//매장코드 자동증가 생성 후 storeinfo테이블에 insert
+		//웨이팅코드 자동증가
+		String getNewWaitingCode = storeService.getNewWaitingCode();
+		
+		//insert
 			if(store != null) {
+				//매장코드 자동증가 생성 후  매장정보insert
 				store.setStoreCode(newStoreCode);
 				storeService.addMyStore(store);
+				
+				//웨이팅코드 자동증가 생성 후 웨이팅현황테이블insert
+				waiting.setStoreCode(newStoreCode);
+				waiting.setStoreWait(getNewWaitingCode);
+				storeService.addWaitingTable(waiting);
 			}
 			
-		return "redirect:/store/myStoreManage/myStoreInfo";
+		return "redirect:/store/myStoreManage/myTableManage";
 	}
 
 	//나의매장 리스트 선택하여 조회 ajax
@@ -175,6 +186,8 @@ public class EnterController {
 		
 		//세션아이디(로그인되어있는 아이디) 
 		String bizId = (String) session.getAttribute("SID");
+		//세션권한(로그인되어있는 권한)
+		String bizLevel = (String) session.getAttribute("SLEVEL");
 		
 		//소상공인 코드 조회 
 		MemberBiz memberBiz = storeService.getBizCode(bizId);
@@ -182,6 +195,7 @@ public class EnterController {
 		//메뉴 대분류 전체 조회
 		List<FoodMainCate> mainCate = storeService.getMainCate();
 		 
+		model.addAttribute("bizLevel", bizLevel);
 		model.addAttribute("mainCate", mainCate);
 		model.addAttribute("memberBiz", memberBiz);
 		model.addAttribute("bizId", bizId);

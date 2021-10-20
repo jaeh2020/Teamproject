@@ -14,6 +14,7 @@ import amdn.anywhere.domain.QuestionChoices;
 import amdn.anywhere.domain.Questionnaire;
 import amdn.anywhere.domain.RecruitTasterByBiz;
 import amdn.anywhere.domain.Survey;
+import amdn.anywhere.domain.SurveyResult;
 import amdn.anywhere.mapper.QuestionAnswerMapper;
 import amdn.anywhere.mapper.QuestionChoiceMapper;
 import amdn.anywhere.mapper.QuestionsMapper;
@@ -41,6 +42,10 @@ public class QuestionService {
 		this.surveyMapper = surveyMapper;
 		this.questionChoiceMapper = questionChoiceMapper;
 		this.questionAnswerMapper = questionAnswerMapper;
+	}
+	//설문조사 결과 가져오기
+	public List<SurveyResult> getSurveyResult(Map<String, Object> paramMap){
+		return questionAnswerMapper.getResultForSurvey(paramMap);
 	}
 	//설문조사 참여인원 추가
 	public int updateServey (String recruitCode) {
@@ -76,8 +81,9 @@ public class QuestionService {
 		return surveyMapper.addSurvey(newSurvey);
 	}
 	//설문조사 목록 조회
-	public List<Survey> getSurveyList(String recruitCode){
-		return surveyMapper.getSurveyList(recruitCode);
+	public List<Survey> getSurveyList(Map<String, String> paramMap){
+		
+		return surveyMapper.getSurveyList(paramMap);
 	}
 	
 	//하나의 항목 조회

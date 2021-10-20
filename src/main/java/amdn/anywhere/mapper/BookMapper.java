@@ -1,6 +1,7 @@
 package amdn.anywhere.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,19 +10,18 @@ import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
-import amdn.anywhere.domain.Table;
 
 @Mapper
 public interface BookMapper {
 	
-	//주문내역 리스트 getOrderList
-	public List<Order> getOrderAllList();
+	//주문내역 리스트
+	public List<Order> getOrderAllList(Map<String, Object> paramMap);
 	
 	//나의주문내역 상세조회
 	public List<Order> getOrderList(String bookCode);
 	
 	//주문내역 리스트 조회
-	public List<Order> getOrderUserInfoById(String bizId);
+	public List<Order> getOrderUserInfoById(Map<String, Object> paramMap);
 	
 	//결제예정 그룹코드 자동증가
 	public String getnewOGroupCode();
@@ -33,7 +33,7 @@ public interface BookMapper {
 	public String getNewOrderCode();
 	
 	//주문정보입력후 insert
-	public int addBookOrder(Order order);
+	public int addBookOrder(List<Map<String,Object>> paramList);
 	
 	//예약자정보화면에서 상태코드 조회
 	public Statement getStateCode(String stateCode);

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+<th:block layout:fragment="customCss">
+		<style type="text/css">
+			.btn-outline-danger{
+				color: #dc3545!important;
+			}
+			.btn-outline-danger:hover {
+				color: #FCFBFB!important;
+			}
+		</style>
+</th:block>
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customJs">
+
+	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
+    
+</th:block>
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+
+<div class="row">
+		<div class="col-12">
+			 <div class="card">
+	            <div class="card-body">
+	            	<a class="btn btn-outline-danger" th:href="@{/event/addEvent}"><i class="bi bi-plus-circle"></i> 이벤트 등록 </a>
+	                <div class="table-responsive m-t-40">
+	                    <table id="myTable" class="table table-bordered table-striped">
+	                        <thead>
+	                            <tr>
+	                                <th>이벤트코드</th>
+	                                <th>이벤트명</th>                               	                               
+	                                <th>시작일시</th>
+	                                <th>종료일시</th>
+	                                <th>등록일시</th>
+	                                <th>등록자</th>
+	                                <th>상태</th>
+	                                <th data-orderable="false">공고보기</th>
+	                                <th data-orderable="false">상세보기</th>
+	                                <th data-orderable="false">종료</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                        	<tr th:each="l : ${eventList}">
+		                            <td th:text="${l.eventCode}"></td>
+		                            <td th:text="${l.eventName}"></td>
+		                            <td th:text="${l.eventStr}"></td>
+		                            <td th:text="${l.eventFin}"></td>
+		                            <td th:text="${l.regTime}"></td>
+		                            <td th:text="${l.adminId}"></td>
+		                            <td th:text="${l.stateName}"></td>
+		                            <td><a type="button" th:href="@{/event/eventDetail(eventCode=${l.eventCode})}" class="btn btn-success btn-outline ti-search text-white" ></a></td>
+		                            <td><button type="button" class="btn btn-success btn-outline ti-search text-white" th:onclick="viewFn([[${l.eventName}]], [[${l.eventDetail}]])"></button></td>
+		                            <td><a type="button" th:onclick="finFn([[${l.stateCode}]],[[${l.eventCode}]])" class="finBtn btn btn-danger btn-outline ti-trash text-white" ></a></td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                </div>
+	            </div>
+	        </div>
+		</div>
+	</div>
+	 
+
+</th:block>
+
+<th:block layout:fragment="customJsLib">
+    th:href = "@{/event/finishEvent(eventCode=${l.eventCode})}"  
+    <script type="text/javascript">
+ 
+    	function finFn(stateCode, eventCode){
+   			if(stateCode == 'state_event_end'){
+   				alert('이미 종료된 이벤트입니다.');
+   				return false;
+   			}else{
+   				var result = confirm('이벤트를 종료하시겠습니까?');
+   				if(result){
+   					window.location.href="/event/finishEvent?eventCode=" + eventCode;
+   				}
+   			}
+    	}
+		function viewFn(eventName, detail){
+			swal.fire({
+				icon: 'info',
+				title: '상세정보', 
+				showCloseButton: true,
+				width : 700,
+				html: '<table class="table"><tbody>'
+					+'<tr>'
+					+	'<td> 이벤트명 </td>'
+					+	'<td>'+eventName +'</td>'
+					+'</tr>'
+					+'<tr>'
+					+	'<td> 상세설명 </td>'
+					+	'<td>'+ detail +'</td>'
+					+'</tr>'
+					+'</tbody></table>'
+			});
+		}
+    </script>
+	
+    
+</th:block>
+</html>

@@ -13,12 +13,13 @@
 	<div class="col-lg-12">
 			<div class="card card-outline-info">
 				<div class="card-header">
-					<h4 class="m-b-0 text-white">게시판 벌점 처리</h4>
+					<h4 class="m-b-0 text-white">게시판 벌점 등록</h4>
 				</div>
 				<br>
 				<div class="card-body">
 					<form th:action="@{/report/penaltyAdd}" role="form" id="penaltyAddForm" method="post" >
-						
+						<input type="hidden" name="reportRegTime" th:value="${getReportCode.reportConfirmTime}">
+						<input type="hidden" name="penaltyScore" value=3>
 						<div class="form-body">
 							<h3 class="box-title">Board Penalty</h3>
 							<hr class="m-t-0 m-b-40">
@@ -26,32 +27,21 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group row">
-										<label class="control-label text-right col-md-3">신고 번호</label>
+										<label class="control-label text-right col-md-3">신고 코드</label>
 										<div class="col-md-9">
-											<input type="text" class="form-control" readonly="readonly" name="reportCode" >
+											<input type="text" class="form-control" readonly="readonly" name="reportCode" th:value="${getReportCode.reportCode}">
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group row">
-										<label class="control-label text-right col-md-3">신고자 아이디</label>
-										<div class="col-md-9">
-											<input type="text" class="form-control" readonly="readonly" name="userId" >
-										</div>
-									</div>
-								</div>	
-							</div>
-							<!--/row-->
-							<hr>
+							
 							<div class="row">
 								<!--/span-->
 								<div class="col-md-12">
 									<div class="form-group row">
 										<label class="control-label text-right col-md-3"><span class="text-danger">*</span>벌점 대상자</label>
 										<div class="col-md-9">
-											<input type="text" class="form-control" readonly="readonly" name="userId" >
+											<input type="text" class="form-control" readonly="readonly" name="penaltyId" th:value="${getReportCode.reportApplyId}" >
 										</div>
 									</div>
 								</div>
@@ -59,7 +49,7 @@
 									<div class="form-group row">
 										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 벌점 부과자</label>
 										<div class="col-md-9">
-											<input type="text" class="form-control" readonly="readonly" name="memberId" >
+											<input type="text" class="form-control" readonly="readonly" name="memberId" th:value="${memberId}">
 										</div>
 									</div>
 								</div>
@@ -67,14 +57,9 @@
 									<div class="form-group row">
 										<label class="control-label text-right col-md-3"><span class="text-danger">*</span> 벌점유형</label>
 										<div class="col-md-9">
-											<select class="form-control custom-select" name="reportCateCode" id="reportCateCode">
+											<select class="form-control custom-select" name="penaltyStandard" id="penaltyStandard">
 												<option value="">★★ 선택해주세요 ★★</option>
-												<option value="panalty_appliance">평가단 신청 후 미참가 (1/2)</option>
-												<option value="panalty_appliance_noreport">평가단 진행 후 리포트 수행 안함</option>
-												<option value="panalty_appliance_re">평가단 신청 후 미참가 (2/2) </option>
 												<option value="penalty_badword">욕 1회</option>
-												<option value="penalty_cancle">악의적인 예약취소</option>
-												<option value="penalty_noshow">주문 후 미방문</option>
 											</select>
 										</div>
 									</div>
@@ -87,7 +72,7 @@
 						<div class="box-footer">
 							<a href="#" class="btn btn-info"  th:onclick="reportBoardCan()"><span class="ti-close form-control-feedback"></span> 취소</a>
 							<div class="pull-right">
-								<button type="button" class="btn btn-danger boardSaveBtn" id="boardReportBtn"><i class="fa fa-save"></i> 신고하기</button>
+								<button type="button" class="btn btn-danger boardSaveBtn" id="boardReportBtn"><i class="fa fa-save"></i> 등록</button>
 							</div>
 						</div>
 					</form>
@@ -113,16 +98,16 @@
 	   //유효성 검사
 	   $(function(){
 		   $('#boardReportBtn').click(function(){
-			  var reportCateCode = $('[name=reportCateCode]');
+			  var penaltyStandard = $('[name=penaltyStandard]');
 			  
-			  if(reportCateCode.val() == ''){
-				  alert('신고유형을 선택해주세요.');
-				  reportCateCode.focus();
+			  if(penaltyStandard.val() == ''){
+				  alert('벌점유형을 선택해주세요.');
+				  penaltyStandard.focus();
 				  return false;
 			  } 
 			   
-			  alert('신고 접수처리완료!')
-			  $('#reportBoardForm').submit();
+			  alert('벌점등록완료!')
+			  $('#penaltyAddForm').submit();
 		   });
 	   });
 

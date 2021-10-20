@@ -3,6 +3,57 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="amdn.anywhere.mapper.QuestionAnswerMapper">
+	<resultMap type="SurveyResult" id="surveyRResultMap">
+		<result property="createCode" column="question_create_code"/>
+		<result property="numOfParti" column="totalNum"/>
+		<result property="qCateCode" column="question_cate_code"/>
+		<result property="qCateName" column="cate_name"/>
+		<result property="qCode" column="question_code"/>
+		<result property="qContent" column="question_content"/>
+		<result property="choice1" column="choice1"/>
+		<result property="choice2" column="choice2"/>
+		<result property="choice3" column="choice3"/>
+		<result property="choice4" column="choice4"/>
+		<result property="choice5" column="choice5"/>
+		<result property="recruitBBCode" column="recruit_taster_biz_code"/>
+	</resultMap>
+	<select id="getResultForSurvey" parameterType="Map" resultMap="surveyRResultMap">
+		SELECT
+			r.question_create_code
+			,a.recruit_taster_biz_code
+			,a.question_code
+			,c.question_cate_code
+			,c.cate_name
+			,q.question_content
+			,SUM(if(a.tasters_choice = 'q_choice_01', 1,0 )) AS 'choice1'
+			,sum(if(a.tasters_choice = 'q_choice_02', 1,0 )) AS 'choice2'
+			,sum(if(a.tasters_choice = 'q_choice_03', 1,0 )) AS 'choice3'
+			,sum(if(a.tasters_choice = 'q_choice_04', 1,0 )) AS 'choice4'
+			,sum(if(a.tasters_choice = 'q_choice_05', 1,0 )) AS 'choice5'
+			,COUNT(*) AS 'totalNum' 
+		FROM
+			tb_question_answer AS a
+			INNER JOIN 
+			tb_questionnaire AS q
+			ON a.question_code = q.question_code
+			INNER JOIN 
+			tb_question_cate AS c
+			ON q.question_cate_code = c.question_cate_code
+			INNER JOIN 
+			tb_question_create AS r
+			ON r.recruit_taster_biz_code = a.recruit_taster_biz_code
+		<where>
+			<if test="surveyCode != null">
+				r.question_create_code = #{surveyCode}
+			</if>
+			<trim prefix="AND ">
+				<if test="cateCode != null">
+					c.question_cate_code = #{cateCode}
+				</if>
+			</trim>
+		</where>	
+		GROUP BY a.question_code
+	</select>
 	<select id="createAnswerCode" resultType="String">
 		SELECT
 			IFNULL(

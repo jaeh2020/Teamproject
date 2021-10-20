@@ -58,6 +58,50 @@
 		</association>
 	</resultMap>
 	
+	<!-- 소비자 회원 탈퇴 -->
+	<delete id="removeMemberUser" parameterType="String">
+		DELETE 
+		FROM 
+			tb_member_user
+		WHERE 
+			user_id = #{userId};
+	</delete>
+	
+	<!-- 전체 회원 탈퇴 -->
+	<delete id="removeMember" parameterType="String">
+		DELETE 
+		FROM 
+			tb_member 
+		WHERE 
+			member_id = #{memberId};
+	</delete>
+	
+	<!-- 소비자 추천/비추천 수정 -->
+	<update id="modifyUserLike">
+		UPDATE tb_member_user_like
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="userLikeKey1 != null and userLikeKey1 != ''.toString()">
+				user_like_key_1 = #{userLikeKey1},
+			</if>
+			<if test="userLikeKey2 != null and userLikeKey2 != ''.toString()">
+				user_like_key_2 = #{userLikeKey2},
+			</if>
+			<if test="userLikeKey3 != null and userLikeKey3 != ''.toString()">
+				user_like_key_3 = #{userLikeKey3},
+			</if>
+			<if test="userUnlikeKey1 != null and userUnlikeKey1 != ''.toString()">
+				user_unlike_key_1 = #{userUnlikeKey1},
+			</if>
+			<if test="userUnlikeKey2 != null and userUnlikeKey2 != ''.toString()">
+				user_unlike_key_2 = #{userUnlikeKey2},
+			</if>
+			<if test="userUnlikeKey3 != null and userUnlikeKey3 != ''.toString()">
+				user_unlike_key_3 = #{userUnlikeKey3},
+			</if>
+		</trim>
+		WHERE 
+			user_like_code = #{userLikeCode};
+	</update>
 	<!-- 소상공인 승인 상태, 승인자 아이디 변경 -->
 	<update id="modifyBizConfirm">
 		UPDATE tb_member_biz

@@ -15,6 +15,23 @@
 		<result property="storeCode" column="store_code" />
 		<result property="userName" column="member_name" />
 	</resultMap>
+	<select id="getTastersAge" parameterType="String" resultType="Integer">
+		SELECT
+			YEAR(NOW())-SUBSTRING(m.member_birth,1,4)+1
+		FROM
+				tb_taster_apply AS t
+				INNER JOIN 
+				tb_question_answer AS q
+				ON t.user_id = q.user_id
+				INNER JOIN 
+				tb_member AS m
+				ON t.user_id = m.member_id
+				INNER JOIN 
+				tb_question_create AS c
+				ON c.recruit_taster_biz_code = t.recruit_taster_biz_code
+		WHERE c.question_create_code = #{surveyCode}
+		GROUP BY q.user_id
+	</select>
 	<update id="updateTaster" parameterType="map">
 		UPDATE tb_taster_apply
 			SET 

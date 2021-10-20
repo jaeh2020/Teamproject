@@ -13,26 +13,183 @@
 		<result property="reportRegTime"		column="rep_time"></result>
 		<result property="reportConfirmTime"		column="rep_confi_time"></result>
 		<result property="reportId"		column="report_id"></result>
+		<result property="reportApplyId"		column="report_apply_id"></result>
 		<result property="memberId"		column="member_id"></result>
 		<result property="stateCode"		column="state_code"></result>
+			<association property="reportCate" 		javaType="ReportCate">
+			<id property="reportCateCode"			column="rep_cate_code"/>
+			<result property="reportCate"		column="rep_cate"/>
+			</association>
+			<association property="reportCate" 		javaType="ReportCate">
+			<id property="reportCateCode"			column="rep_cate_code"/>
+			<result property="reportCate"		column="rep_cate"/>
+			</association>
+	</resultMap>
+	
+	<resultMap type="Penalty" id="PenaltyMap">
+		<result property="penaltyCode"		column="penalty_code"></result>
+		<result property="penaltyStandard"		column="penalty_standard_code"></result>
+		<result property="penaltyScore"		column="penalty_score"></result>
+		<result property="reportCode"		column="rep_code"></result>
+		<result property="reportRegTime"		column="report_time"></result>
+		<result property="penaltyCheckDate"		column="penalty_check_date"></result>
+		<result property="penaltyId"		column="penalty_id"></result>
+		<result property="memberId"		column="member_id"></result>
+	</resultMap>
+	
+	<resultMap type="PenaltyStandard" id="PenaltyStandardMap">
+		<result property="penaltyStandardCode"		column="penalty_standard_code"></result>
+		<result property="penaltyStandard"		column="penalty_standard"></result>
+		<result property="penaltyScore"		column="penalty_score"></result>
+	</resultMap>
+	
+	<resultMap type="MemberBlackList" id="memberBlackListMap">
+		<result property="blackListNum"		column="blacklist_num"></result>
+		<result property="penaltyCode"		column="penalty_code"></result>
+		<result property="blackListAskTime"		column="blacklist_ask_time"></result>
+		<result property="blackListAsk"		column="blacklist_ask"></result>
+		<result property="blackListCancelTime"		column="blacklist_cancle_time"></result>
+		<result property="StoreCode"		column="store_code"></result>
+		<result property="userId"		column="user_id"></result>
+		<result property="memberId"		column="member_id"></result>
+		<result property="membershipCode"		column="before_ms_lev"></result>
 	</resultMap>
 
 
-<!-- 벌점 부과 아이디 가져오기 -->
-<!-- <select id="getpenaltyMemberId" parameterType="String" resultType="">
+
+<!-- 블랙리스트 자동증가 -->
+<select id="getBlackListCode" resultType="String">
 	SELECT
-		m.member_id
+		CASE
+		WHEN COUNT(1) = 0 THEN 'b_001'
+		ELSE
+			CONCAT('b_', LPAD(MAX(CAST(SUBSTRING(blacklist_num,5,6)AS DECIMAL)+1),3,0))
+		END AS blackListNum
 	FROM
-		tb_board_management AS m
-		INNER JOIN 
-		tb_report AS r
-		on
-		m.board_num = r.board_num
-	WHERE
-		r.board_num = #{boardNum}
-	GROUP BY
-		m.member_Id;
-</select> -->
+	tb_member_blacklist;
+</select>
+
+<!-- 블랙리스트 목록 가져오기 -->
+<select id="getmemberBlackList" resultMap="memberBlackListMap">
+	SELECT 
+		blacklist_num
+		, penalty_code
+		, blacklist_ask_time
+		, blacklist_ask
+		, blacklist_cancle_time
+		, store_code
+		, user_id
+		, member_id
+		, before_ms_lev
+	FROM 
+		tb_member_blacklist;
+</select>
+
+<!-- ajax 벌점 점수 가져오기 -->
+<select id="getPenaltyScore" parameterType="String" resultMap="PenaltyStandardMap">
+	SELECT
+		penalty_score
+	FROM
+		tb_penalty_standard 
+	WHERE 
+		penalty_standard_code = #{penCode};
+
+</select>
+
+<!-- 벌점리스트가져오기 -->
+<select id="getPenaltyStandardList" resultMap="PenaltyStandardMap">
+SELECT 
+	penalty_standard_code
+	, penalty_standard
+	, penalty_score
+FROM 
+	tb_penalty_standard;
+</select>
+
+<!-- 기타 벌점 등록하기 -->
+<insert id="penaltyInsert" parameterType="Penalty">
+	INSERT INTO tb_penalty
+	(penalty_code
+	, penalty_standard_code
+	, penalty_score
+	, rep_code
+	, report_time
+	, penalty_check_date
+	, penalty_id
+	, member_id)
+	VALUES 
+	(#{penaltyCode}
+	,#{penaltyStandard}
+	, #{penaltyScore}
+	, NULL
+	, NULL
+	, NOW()
+	, #{penaltyId}
+	, #{memberId});
+</insert>
+
+
+<!-- 벌점 삭제 처리 -->
+<delete id="penaltyDelete" parameterType="String">
+	DELETE
+	FROM
+		tb_penalty
+	WHERE 
+		penalty_code = #{penaltyCode};
+</delete>
+
+<!-- 벌점 목록 -->
+<select id="getPenaltyList" resultMap="PenaltyMap">
+	SELECT 
+	penalty_code
+	, penalty_standard_code
+	, penalty_score
+	, rep_code
+	, report_time
+	, penalty_check_date
+	, penalty_id
+	, member_id
+FROM 
+	tb_penalty;
+</select>
+
+
+<!-- 벌점 등록 -->
+<insert id="boardPenalty" parameterType="Penalty">
+	INSERT INTO tb_penalty
+	(penalty_code
+	, penalty_standard_code
+	, penalty_score
+	, rep_code
+	, report_time
+	, penalty_check_date
+	, penalty_id
+	, member_id)
+	VALUES (
+	#{penaltyCode}
+	, #{penaltyStandard}
+	, #{penaltyScore}
+	, #{reportCode}
+	, #{reportRegTime}
+	, NOW()
+	, #{penaltyId}
+	, #{memberId}
+	);
+</insert>
+
+
+<!-- 게시판 벌점 자동증가 코드 -->
+<select id="getNewPenaltyCode" resultType="String">
+	SELECT
+		CASE
+		WHEN COUNT(1) = 0 THEN 'pen_001'
+		ELSE
+			CONCAT('pen_', LPAD(MAX(CAST(SUBSTRING(penalty_code,5,6)AS DECIMAL)+1),3,0))
+		END AS penaltyCode
+	FROM
+	tb_penalty;
+</select>
+
 
 
 <!-- 게시판 작성 아이디 가져오기 -->
@@ -83,6 +240,7 @@
 		,rep_confi_time	
 		,report_id
 		,member_id	
+		,report_apply_id	
 		,state_code	 
 	FROM
 		tb_report
@@ -93,18 +251,24 @@
 
 <!-- 게시판 신고 목록 -->
 <select id="getReportBoardList" resultMap="ReportBoardMap">
-	SELECT 
-		  rep_code		
-		, rep_cate_code 
-		, board_num		
-		, rep_contents	
-		, rep_time		
-		, rep_confi_time 
-		, report_id		
-		, member_id		
-		, state_code	
-	FROM 
-		tb_report
+	SELECT
+	r.rep_code
+	,r.rep_cate_code
+	,c.rep_cate
+	,r.board_num
+	,r.rep_contents
+	,r.rep_time
+	,r.report_id
+	,r.member_id
+	,r.rep_confi_time
+	,r.state_code
+	,s.state_name
+FROM
+	tb_report AS r
+	INNER join
+	tb_report_cate AS c
+	on
+	r.rep_cate_code = c.rep_cate_code;
 </select>
 
 

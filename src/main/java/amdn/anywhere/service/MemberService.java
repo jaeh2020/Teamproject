@@ -20,6 +20,36 @@ public class MemberService {
 		this.memberMapper = memberMapper;
 	}
 	
+	//전체 회원 탈퇴
+	public String removeMember(String memberId, String memberPw) {
+		String result = "회원 탈퇴 실패";
+		
+		//입력받은 비밀번호 일치?
+		Member member = memberMapper.getMemberInfoById(memberId);
+		if(member != null) {
+			if(memberPw.equals(member.getMemberPw())) {
+				
+				//회원권한
+				String memberLevel = member.getLevelCode();
+				
+				//소비자
+				if(memberLevel.equals("level_user")) {
+					memberMapper.removeMemberUser(memberId);
+				}
+				
+				memberMapper.removeMember(memberId);
+				
+				result ="회원 탈퇴 성공!!!!!!!!!!!!";
+			}
+		}
+		return result;
+	}
+	
+	//소비자 추천/비추천 수정
+	public int modifyUserLike(MemberUserLike memberUserLike) {
+		return memberMapper.modifyUserLike(memberUserLike);
+	}
+	
 	//소상공인 승인 상태, 승인자 아이디 변경
 	public int modifyBizConfirm(MemberBiz memberBiz) {
 		return memberMapper.modifyBizConfirm(memberBiz);
