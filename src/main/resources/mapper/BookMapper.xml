@@ -262,7 +262,7 @@
 			</if>
 		</where>
 			
-		GROUP BY o.o_code;
+		GROUP BY o.b_o_code;
 		</select>
 	
 
@@ -302,7 +302,7 @@
 
 
 <!-- 주문정보입력 후 insert  -->
-	<insert id="addBookOrder" parameterType="Order">
+	<insert id="addBookOrder" parameterType="list">
 		INSERT INTO tb_order
 			(o_code
 			,b_o_code
@@ -326,12 +326,12 @@
         ,"${item.userId}"
         ,"${item.storeCode}"
         ,"${item.menuCode}"
-        ,"${item.oCount}"
-        ,"${item.menuTotalPrice}"
+        ,"${item.menuAmount}"
+        ,"${item.totalPrice}"
         ,"${item.oRequest}"
         ,"${item.payGroCode}"
         ,"${item.oTotalPrice}"
-        ,CURDATE()
+        ,CURTIME()
         ,NULL
         ,"${item.stateCode}"
         ,NULL

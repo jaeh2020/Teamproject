@@ -33,7 +33,7 @@ public interface BookMapper {
 	public String getNewOrderCode();
 	
 	//주문정보입력후 insert
-	public int addBookOrder(Order order);
+	public int addBookOrder(List<Map<String,Object>> paramList);
 	
 	//예약자정보화면에서 상태코드 조회
 	public Statement getStateCode(String stateCode);

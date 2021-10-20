@@ -95,8 +95,8 @@ public class BookService {
 	 
 	 
 	 //주문정보입력 후 insert
-	 public int addBookOrder(Order order) {
-		 return bookMapper.addBookOrder(order);
+	 public int addBookOrder(List<Map<String,Object>> paramList) {
+		 return bookMapper.addBookOrder(paramList);
 	 }
 	 
 	 

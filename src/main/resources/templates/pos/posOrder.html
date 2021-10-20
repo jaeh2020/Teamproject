@@ -41,8 +41,8 @@
 				<button type="submit" id="dateSearchBtn" class="btn btn-danger btn-flat m-b-10">
 					<i class="fa fa-search"></i>
 				</button>
-			<button type="button"  class="btn btn-dark btn-flat btn-addon m-b-10 m-l-5" style="float: right;">
-					<i class="ti-user"> 테이블/예약대기 실시간 현황 POS </i>
+			<button type="button" class="mainBtn btn btn-dark btn-flat btn-addon m-b-10 m-l-5" style="float: right;">
+					<i class="ti-user"> POS 메인화면 </i>
 			</button>
 			</form>
 		</div>	
@@ -64,7 +64,8 @@
 			<thead>
                 <tr style="text-align: center;">
                 	<th>주문/예약코드</th>
-                	<th>매장명</th>
+                	<th>매장코드</th>
+                	<th>소비자아이디</th>
                 	<th data-orderable="false">주문/예약 <br> 상세</th>
 					<th>주문등록일</th>
 					<th>주문승인일</th>
@@ -81,7 +82,8 @@
             <tbody>
 				<tr th:each="o : ${myPosOrderList}">
 					<td th:text="${o.bookCode}" id="bookCode" class="bookCode"></td>
-					<td th:text="${o.store.storeName}"></td>
+					<td th:text="${o.store.storeCode}" class="storeCode"></td>
+					<td th:text="${o.userId}" class="userId"></td>
 					<td>
 						<a th:href="@{/book/orderDetail(bookCode=${o.bookCode})}">
 						<button type="button" class="btn btn-dark btn-outline ti-search"></button>
@@ -140,6 +142,10 @@
 				alert('결제가 완료된 주문건은 상태변경이 불가합니다.');
 				return false
 				
+			}else if(orderStateName == '입장대기'){
+				alert('입장대기는 테이블/웨이팅 POS화면에서 처리가능합니다.');
+				return false
+				
 			}else{
 				if (confirm('승인처리하시겠습니까?')) {
 					location.href = "/pos/posOrderChangeState?bookCode="+ bookCode + "&state=주문승인";
@@ -154,6 +160,7 @@
 			var bookCode = $(this).parent().parent().find('.bookCode').text();
 			var storeCode = $(this).parent().parent().find('.storeCode').text();
 			var orderStateName = $(this).parent().parent().find('.orderStateName').text();
+			var userId = $(this).parent().parent().find('.userId').text();
 			
 			if(orderStateName == '입장대기'){
 				alert('이미 입장대기로 상태가 변경된 주문건 입니다.');
@@ -169,7 +176,7 @@
 				
 			}else{
 				if (confirm('승인처리하시겠습니까?')) {
-					location.href = "/pos/posOrderChangeState?bookCode="+ bookCode + "&state=웨이팅승인";
+					location.href = "/pos/posOrderChangeState?bookCode="+ bookCode + "&state=웨이팅승인&storeCode=" + storeCode + "&userId=" + userId;
 			    }
 			}
 		});
@@ -189,6 +196,16 @@
 
 		});
 	});
+	
+	
+	/* 메인pos버튼시 뒤로가기 이벤트 */
+	$(function(){
+			$('.mainBtn').click(function(){
+				
+				window.history.back();
+				
+			});
+		});
 	
     
 	</script>

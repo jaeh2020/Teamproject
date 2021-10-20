@@ -70,6 +70,33 @@
 		location.href='/pos/posTableWait?storeCode=' + storeCode;
 	});
     
+	
+    
+    /* 유효성검사 */
+	$(function(){
+		$('.posOrderMoveBtn').click(function(){
+			
+			var selectMyStore = $('[name=selectMyStore]');
+			
+			if(selectMyStore.val().trim() == ''){
+				alert('매장을 선택해주세요');
+				return false;
+			}
+		});
+	});
+    
+	$(function(){
+		$('.posTableWaitMoveBtn').click(function(){
+			
+			var selectMyStore = $('[name=selectMyStore]');
+			
+			if(selectMyStore.val().trim() == ''){
+				alert('매장을 선택해주세요');
+				return false;
+			}
+		});
+	});
+    
 	</script>
 
 </th:block>

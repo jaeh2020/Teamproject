@@ -113,6 +113,140 @@
 		<result property="waitNum"		column="wait_num"/>
 	</resultMap>
 	
+	<resultMap type="Standby" id="standbyMap">
+		<result property="bookStandbyCode"	column="book_standby_code"/>
+		<result property="bookCode"			column="b_o_code"/>
+		<result property="userId"			column="user_id"/>
+		<result property="storeCode"		column="store_code"/>
+		<result property="waitTime"			column="wait_time"/>
+		<result property="stateCode"		column="state_code"/>
+		<result property="waitCompTime"		column="wait_comp_time"/>
+			<association property="statement" javaType="Statement">
+			<id property="stateCode" 			column="state_code"/>
+			<result property="mainState"		column="main_state"/>
+			<result property="stateName"		column="state_name"/>
+			</association>
+	</resultMap>
+	
+	
+	<!-- table update -->
+	<update id="modifyPosTable" parameterType="map">
+		UPDATE tb_store_table
+			set
+			<if test="tableStateName == '사용중' ">	
+			table_state_code = 'state_table_using'
+			</if>
+			<if test="tableStateName == '정리중' ">
+			table_state_code = 'state_table_clearing'
+			</if>
+			<if test="tableStateName == '사용가능' ">
+			table_state_code = 'state_table_com'
+			</if>
+		WHERE
+			store_table_code = #{storeTableCode};
+	</update>
+	
+	
+	
+	<!-- standby테이블 상태=주문완료, 완료일시, 총대기시간 update -->
+	<update id="modifyPosStanbyState" parameterType="map">
+		UPDATE tb_store_standby
+			set
+			state_code = 'state_book_com'
+			,wait_comp_time = CURTIME()
+		WHERE
+			b_o_code = #{bookCode};
+	</update>
+	
+	
+	
+	
+	<!-- waiting테이블 입장대기인원 update -->
+	<update id="modifyWaitingNum" parameterType="map">
+		UPDATE tb_store_waiting
+			SET
+			<if test="state == '웨이팅승인' ">
+			wait_num = wait_num + 1
+			</if>
+			<if test="state == '입장완료' ">
+			wait_num = wait_num - 1
+			</if>
+			<if test="tableStateName == '사용중' ">
+			sto_use_tab = sto_use_tab + 1
+			,sto_emp_tab = sto_emp_tab - 1
+			</if>
+			<if test="tableStateName == '사용가능' ">
+			sto_use_tab = sto_use_tab - 1
+			,sto_emp_tab = sto_emp_tab + 1
+			</if>
+			<if test="tableStateName == '정리중' ">
+			sto_use_tab = sto_use_tab + 0
+			</if>
+		WHERE
+			store_code = #{storeCode};
+	
+	</update>
+	
+	
+	<!-- 웨이팅소비자목록조회-standby -->
+	<select id="getPosStandby" resultMap="standbyMap">
+		SELECT
+			w.book_standby_code
+			,w.b_o_code
+			,w.user_id
+			,w.store_code
+			,w.wait_time
+			,w.state_code
+			,w.wait_comp_time
+			,s.state_name
+		FROM
+			tb_store_standby AS w
+			INNER join
+			tb_statement AS s
+			on
+			w.state_code = s.state_code
+		WHERE
+			store_code = #{storeCode};
+	</select>
+	
+	
+	
+	<!-- 웨이팅승인시 standby테이블 insert -->
+	<insert id="addPosStandby" parameterType="map">
+		INSERT INTO tb_store_standby
+			(
+			book_standby_code
+			,b_o_code
+			,user_id
+			,store_code
+			,wait_time
+			,state_code
+			,wait_comp_time
+			)
+		VALUES (
+			 #{bookStandbyCode}
+			, #{bookCode}
+			, #{userId}
+			, #{storeCode}
+			, CURTIME()
+			, 'state_waiting_wait'
+			, NULL
+		);
+	</insert>
+	
+	
+	<!-- standby코드 자동증가 -->
+	<select id="getNewBookStandbyCode" resultType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN 'standby_001'
+			ELSE
+			CONCAT('standby_', LPAD(MAX(CAST(SUBSTRING(book_standby_code,9,3)AS DECIMAL)+1),3,0))
+			END AS bookStandbyCode
+		FROM
+			tb_store_standby;
+	</select>
+	
 	
 
 	<!-- 웨이팅현황 조회 -->
@@ -131,7 +265,7 @@
 	</select>
 	
 	
-	<!-- 테이블번호.상태 변경시 update -->
+	<!-- 테이블번호 변경 or 입장완료버튼 클릭시 update -->
 	<update id="modifyPosTableState" parameterType="map">
 		UPDATE tb_order
 		SET
@@ -155,13 +289,16 @@
 			state_code = 'state_waiting_wait'
 			,book_call_agree = #{orderConfirmId}
 			</if>
+			<if test="state == '입장완료' ">
+			state_code = 'state_book_com'
+			</if>
 		WHERE
 			b_o_code = #{bookCode};
 	</update>
 	
 	
 	
-	<!-- 주문승인/웨이팅승인 클릭시 order테이블 상태변경 -->
+	<!-- 주문승인/웨이팅승인 클릭 or 입장완료버튼 클릭시 order테이블 상태변경 -->
 	<update id="modifyPosOrderState" parameterType="map">
 		UPDATE tb_order
 		SET
@@ -171,6 +308,10 @@
 			</if>
 			<if test="state == '웨이팅승인' ">
 			order_state_code = 'state_waiting_wait'
+			</if>
+			<if test="state == '입장완료' ">
+			order_comp_time = CURTIME()
+			,order_state_code = 'state_book_com'
 			</if>
 		WHERE
 			b_o_code = #{bookCode};

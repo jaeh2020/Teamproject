@@ -93,9 +93,12 @@ public class BookController {
 	//나의 주문내역리스트 조회	
 	@GetMapping("/bookMyOrderList")
 		public String bookMyOrderList(Model model
-								  	,@RequestParam(name = "userId", required = false) String userId
 								  	,@RequestParam(name = "dateBefore", required = false) String dateBefore
-								  	,@RequestParam(name = "dateAfter", required = false) String dateAfter) {
+								  	,@RequestParam(name = "dateAfter", required = false) String dateAfter
+								  	,HttpSession session) {
+		
+		//세션아이디(로그인되어있는 아이디)
+		String userId = (String) session.getAttribute("SID");
 		
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -124,52 +127,71 @@ public class BookController {
 		public String addBookOrder(@RequestBody List<Map<String,Object>> paramList
 								  ,Order order
 								  ,Book book) {
-			System.out.println("paramList:::"+paramList);
-			System.out.println("paramList 0번째:::"+paramList.get(0).get("storeCode"));
-			System.out.println("paramList 0번째:::"+paramList.get(0).get("userId"));
-			System.out.println("paramList 0번째:::"+paramList.get(0).get("bookUserName"));
-			System.out.println("paramList 0번째:::"+paramList.get(0).get("bookUserPhone"));
-			System.out.println("paramList 0번째:::"+paramList.get(0).get("bookPeoNum"));
-			System.out.println("paramList 0번째:::"+paramList.get(0).get("stateCode"));
-			System.out.println("paramList 0번째:::"+paramList.get(0).get("bookPickup"));
+			String result = "fail";
 			
-			//paramList에서 예약정보 불러오기
-			String storeCode = (String) paramList.get(0).get("storeCode");
-			String userId = (String) paramList.get(0).get("userId");
-			String bookUserName = (String) paramList.get(0).get("bookUserName");
-			String bookUserPhone = (String) paramList.get(0).get("bookUserPhone");
-			int bookPeoNum = (int) paramList.get(0).get("bookPeoNum");
-			String stateCode = (String) paramList.get(0).get("stateCode");
-			String bookPickup = (String) paramList.get(0).get("bookPickup");
-			
-			//불러온 예약정보 DTO에 setter
-			book.setStoreCode(storeCode);
-			book.setUserId(userId);
-			book.setBookUserName(bookUserName);
-			book.setBookUserPhone(bookUserPhone);
-			book.setBookPeoNum(bookPeoNum);
-			book.setStateCode(stateCode);
-			book.setBookPickup(bookPickup);
-		
-		
-			//결제예정 그룹코드 자동증가
-			order.setPayGroCode(bookService.getnewOGroupCode());
-			
-			String newBookCode = bookService.getNewBookCode();
-			
-			//예약코드 자동증가 생성 후 book테이블에 insert
-			if(book != null && newBookCode != null) {
-				book.setBookCode(newBookCode);
-				bookService.addBookMember(book);
-			}
+			if(paramList != null) {	
+				System.out.println("paramList:::"+paramList);
+				System.out.println("paramList 0번째:::"+paramList.get(0).get("storeCode"));
+				System.out.println("paramList 0번째:::"+paramList.get(0).get("userId"));
+				System.out.println("paramList 0번째:::"+paramList.get(0).get("bookUserName"));
+				System.out.println("paramList 0번째:::"+paramList.get(0).get("bookUserPhone"));
+				System.out.println("paramList 0번째:::"+paramList.get(0).get("bookPeoNum"));
+				System.out.println("paramList 0번째:::"+paramList.get(0).get("stateCode"));
+				System.out.println("paramList 0번째:::"+paramList.get(0).get("bookPickup"));
+				
+				//paramList에서 예약정보 불러오기
+				String storeCode = (String) paramList.get(0).get("storeCode");
+				String userId = (String) paramList.get(0).get("userId");
+				String bookUserName = (String) paramList.get(0).get("bookUserName");
+				String bookUserPhone = (String) paramList.get(0).get("bookUserPhone");
+				int bookPeoNum = Integer.parseInt((String) paramList.get(0).get("bookPeoNum"));
+				String stateCode = (String) paramList.get(0).get("stateCode");
+				String bookPickup = (String) paramList.get(0).get("bookPickup");
+				
+				//불러온 예약정보 DTO에 setter
+				book.setStoreCode(storeCode);
+				book.setUserId(userId);
+				book.setBookUserName(bookUserName);
+				book.setBookUserPhone(bookUserPhone);
+				book.setBookPeoNum(bookPeoNum);
+				book.setStateCode(stateCode);
+				book.setBookPickup(bookPickup);
+				
+				
+				//결제예정 그룹코드 자동증가
+				String payGroCode = bookService.getnewOGroupCode();
+				String newBookCode = bookService.getNewBookCode();
+				int paramListSize = paramList.size();
+				
+				if(	   payGroCode != null 	&& !"".equals(payGroCode)
+					&& newBookCode != null	&& !"".equals(newBookCode)) {
 					
-			//주문코드 자동증가 생성 후 order테이블에 insert
-			if(order != null && newBookCode != null) {
-				order.setBookCode(newBookCode);
-				bookService.addBookOrder(order);
+					for(int i=0; i<paramListSize; i++) {
+						int totalPrice = 0;
+						
+						int menuAmount = Integer.parseInt((String) paramList.get(i).get("menuAmount"));
+						int menuPrice  = Integer.parseInt((String) paramList.get(i).get("menuPrice"));
+						totalPrice = menuAmount * menuPrice;						
+						
+						paramList.get(i).put("bookCode", newBookCode);
+						paramList.get(i).put("payGroCode", payGroCode);
+						paramList.get(i).put("totalPrice", totalPrice);
+						
+					}
+					
+					//예약코드 자동증가 생성 후 book테이블에 insert
+					book.setBookCode(newBookCode);
+					bookService.addBookMember(book);
+
+					//주문코드 자동증가 생성 후 order테이블에 insert
+					bookService.addBookOrder(paramList);
+
+					result = "success";
+				}
+				
 			}
 			
-		return "success";
+		return result;
 	}
 	
 	

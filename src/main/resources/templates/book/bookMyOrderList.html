@@ -58,8 +58,6 @@
 	                	<th>예약코드</th>
 	                	<th>주문 매장명</th>
 	                	<th data-orderable="false">주문예약정보 상세</th>
-						<th>주문 메뉴</th>
-						<th>주문 수량</th>
 						<th>총 결제금액</th>
 						<th data-orderable="false">영수증 출력</th>
 						<th>주문등록일시</th>
@@ -76,8 +74,6 @@
 							<button type="button" class="btn btn-dark btn-outline ti-search"></button>
 							</a>
 						</td>
-						<td th:text="${o.menu.menuName}"></td>
-						<td th:text="${o.oCount}"></td>
 						<td th:text="${o.oTotalPrice}"></td>
 						<td>
 							<button type="button" class="printBtn btn btn-dark btn-outline fa fa-print"></button>
