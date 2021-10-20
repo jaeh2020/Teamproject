@@ -3,13 +3,12 @@ package amdn.anywhere.domain;
 public class Penalty {
 	private String penaltyCode;
 	private String penaltyStandard;
-	private int reportAccuScore;
+	private int penaltyScore;
 	private String reportCode;
 	private String reportRegTime;
 	private String penaltyCheckDate;
 	private String penaltyId;
 	private String memberId;
-	
 	public String getPenaltyCode() {
 		return penaltyCode;
 	}
@@ -22,11 +21,11 @@ public class Penalty {
 	public void setPenaltyStandard(String penaltyStandard) {
 		this.penaltyStandard = penaltyStandard;
 	}
-	public int getReportAccuScore() {
-		return reportAccuScore;
+	public int getPenaltyScore() {
+		return penaltyScore;
 	}
-	public void setReportAccuScore(int reportAccuScore) {
-		this.reportAccuScore = reportAccuScore;
+	public void setPenaltyScore(int penaltyScore) {
+		this.penaltyScore = penaltyScore;
 	}
 	public String getReportCode() {
 		return reportCode;
@@ -60,11 +59,13 @@ public class Penalty {
 	}
 	@Override
 	public String toString() {
-		return "Penalty [penaltyCode=" + penaltyCode + ", penaltyStandard=" + penaltyStandard + ", reportAccuScore="
-				+ reportAccuScore + ", reportCode=" + reportCode + ", reportRegTime=" + reportRegTime
+		return "Penalty [penaltyCode=" + penaltyCode + ", penaltyStandard=" + penaltyStandard + ", penaltyScore="
+				+ penaltyScore + ", reportCode=" + reportCode + ", reportRegTime=" + reportRegTime
 				+ ", penaltyCheckDate=" + penaltyCheckDate + ", penaltyId=" + penaltyId + ", memberId=" + memberId
 				+ "]";
 	}
+	
+
 	
 	
 }

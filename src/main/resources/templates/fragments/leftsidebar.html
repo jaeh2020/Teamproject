@@ -31,18 +31,18 @@
                      <li class="nav-label">게시판 관리 / 김채연</li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-file-text-o"></i><span class="hide-menu">게시판 관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/board/boardNoticeList}">공지사항</a></li>
-                             <li><a th:href="@{/board/boardList}">소비자 게시판</a></li>
-                             <li><a th:href="@{/board/boardBizList}">소상공인 게시판</a></li>
+                             <li><a  th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/board/boardNoticeList}">공지사항</a></li>
+                             <li><a  th:if="${session.SLEVEL == 'level_user'}" th:href="@{/board/boardList}">소비자 게시판</a></li>
+                             <li><a  th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/board/boardBizList}">소상공인 게시판</a></li>
                          </ul>
                      </li>
 					           <li class="nav-label">신고 관리 / 김채연</li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-exclamation-triangle"></i><span class="hide-menu">신고 관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a href="#">블랙리스트 목록</a></li>
-                             <li><a th:href="@{/report/penaltyList}">벌점 목록</a></li>
-                             <li><a th:href="@{/report/reportBoardList}">게시판 신고목록</a></li>
-                              <li><a href="#">리뷰 신고목록</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/report/memberBlackList}">블랙리스트 목록</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/report/penaltyList}">벌점 목록</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/report/reportBoardList}">게시판 신고목록</a></li>
+                              <li><a th:if="${session.SLEVEL == 'level_admin'}" href="#">리뷰 신고목록</a></li>
                          </ul>
                      </li>
                       <li class="nav-label">입점 관리</li>

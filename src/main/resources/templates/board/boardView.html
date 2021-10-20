@@ -12,7 +12,6 @@
 	<div class="card card-outline-primary">
 		<div class="col-lg-12">
 				<div class="box box-primary">
-					<form th:action="@{/board/boardDelete}" role="form" id="deleteForm" method="post">
 						<!-- 히든 된 데이터 -->
 					<input type="hidden" name="boardNum" th:value="${board.boardNum}">
 					<input type="hidden" name="boardSecret" th:value="${board.boardSecret}"> 
@@ -48,7 +47,7 @@
 							<br>
 							<div class="my-3 p-3 bg-white rounded shadow-sm" th:if="${boardCommentList ne null and #lists.size(boardCommentList) > 0}" th:each=" bc : ${boardCommentList}">
 								<!-- 히든 된 데이터 -->
-								<input type="hidden" name="boardReplyCode" th:value="${bc.boardReplyCode}">
+								<input type="hidden" name="boardReplyCode" th:value="${bc.boardReplyCode}" class="boardReplyCode">
 								
 								<div class="commentId" th:text="${bc.memberId}"></div>
 								<br>
@@ -66,12 +65,11 @@
 									<div class="form-group">
 										<label style="font-weight: bold;">댓글</label>
 										<input type="text" class="form-control" style="height: 100px;" name="boardReplyContents">
-										<!-- <textarea style="width: 1030px" rows="5" cols="30" id="comment" name="boardReplyContents" placeholder="댓글을 입력하세요"></textarea> -->
 										<button type="button" class="btn btn-inverse" style="margin-top: 10px; float: right;" id="commentBtn">등록</button>
 									</div>
 								</div>
 							</div>
-					</form>
+						</form>
 						<hr>
 				<div class="box-footer" style="margin-top: 20px;">
 					<div class="pull-left">
@@ -84,7 +82,6 @@
 					<a th:href="@{/board/boardModify(boardNum=${board.boardNum})}" class="btn btn-warning modBtn" id="boardModiBtn"><i class="fa fa-edit"></i> 수정</a>
 					<button type="button" class="btn btn-danger delBtn" id="baordDelBtn" ><i class="fa fa-trash"></i> 삭제</button>
 				</div>
-				</form>
 			</div>	
 		</div>
 	</div>
@@ -96,53 +93,43 @@
    
    <script type="text/javascript">
    
-   //a테그시 유효성 검사
-   function delReply(boardReplyCode, boardNum){
-	   if(confirm("삭제하시겠습니까?")){
-	        location.href = '/board/deleteComment?boardReplyCode=' + boardReplyCode + '&' + 'boardNum=' + boardNum;
-	        return true;
-	    } else {
-	        return false;
-	    }
-   } 
-   
-   function info_chk() { 
-	   return true; 
+	   //a테그시 유효성 검사
+	   function delReply(boardReplyCode, boardNum){
+		   if(confirm("삭제하시겠습니까?")){
+		        location.href = '/board/deleteComment?boardReplyCode=' + boardReplyCode + '&' + 'boardNum=' + boardNum;
+		        return true;
+		    } else {
+		        return false;
+		    }
 	   } 
    
-   function info_chk2(frm) {
-	   frm.action='http://www.test.co.kr/test2/event_ok.php'; 
-	   frm.submit(); 
-	   return true; 
-	   }
-
-   
-   
-  
-   	$(function(){
-      	$('#commentBtn').on('click',function(){
-      		
-      		var boardReplyContents = $('[name=boardReplyContents]')
-      		
-      		if(boardReplyContents.val() == ''){
-				alert('댓글을 입력해주세요.')
-				boardReplyContents.focus();
-      			return false;
-      		}
-      		alert('등록하시겠습니까?')
-      		$('#commentForm').submit();
-      	});	
-	});
-   	
-   	
-  	/* $(function(){
-   		var form = deleteForm;
-      		$('#baordDelBtn').click(function(){
-			alert('정말 삭제하시겠습니까?')
-			form.submit();
-      	});
-      		
-	});  */
+	   $(function(){
+	      	$('#commentBtn').on('click',function(){
+	      		
+	      		var boardReplyContents = $('[name=boardReplyContents]')
+	      		
+	      		if(boardReplyContents.val() == ''){
+					alert('댓글을 입력해주세요.')
+					boardReplyContents.focus();
+	      			return false;
+	      		}
+	      		alert('등록하시겠습니까?')
+	      		$('#commentForm').submit();
+	      	});	
+		});
+	   	
+	 //삭제버튼 클릭시
+		$(function(){
+			$('#baordDelBtn').on("click", function(){
+				var boardNum = $(this).parent().parent().find('.card-header').text();
+				console.log(boardNum);
+				
+				confirm('삭제처리하시겠습니까?')
+				location.href = "/board/boardDelete?boardNum="+ boardNum;
+				  
+				
+			}); 
+		});
    </script>
 </th:block>
 </html>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import amdn.anywhere.domain.MemberBlackList;
 import amdn.anywhere.domain.Penalty;
 import amdn.anywhere.domain.PenaltyStandard;
 import amdn.anywhere.domain.Report;
@@ -21,21 +22,41 @@ public class ReportService {
 	  public ReportService(ReportMapper reportMapper) { 
 		  this.reportMapper = reportMapper;
 	 }
+	  
 	 
+	 //블랙리스트코드 자동증가
+	 public String getBlackListCode() {
+		 return reportMapper.getBlackListCode();
+	 }
+	  
+	  
+	 //블랙리스트 가져오기
+	 public List<MemberBlackList> getmemberBlackList(){ 
+		 List<MemberBlackList> memberBlackList = reportMapper.getmemberBlackList();
+		 return memberBlackList;
+		 
+	 };
+	 
+	  
+	  //ajax 벌점점수가져오기
+	  public PenaltyStandard getPenaltyScore(String penCode) {
+		  return reportMapper.getPenaltyScore(penCode);
+	  };
+	  
+	  
+	  //벌점리스트가져오기
+	  public List<PenaltyStandard> getPenaltyStandardList(){
+		  List<PenaltyStandard> penaltyStandardList = reportMapper.getPenaltyStandardList();
+			return penaltyStandardList;
+	  }
 
+	 
 	  //기타 벌점 등록
 	  public int penaltyInsert(Penalty penalty) {
 		  return reportMapper.penaltyInsert(penalty);
 	  };
 
-	 
-	  
-	  //벌점점수가져오기
-	 public PenaltyStandard getPenaltyScore(String penaltyStandard) {
-		 return reportMapper.getPenaltyScore(penaltyStandard);
-	 };
-	  
-	  
+  
 	  //벌점 삭제 처리
 	  public int penaltyDelete(String penaltyCode) {
 		  return reportMapper.penaltyDelete(penaltyCode);

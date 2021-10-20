@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import amdn.anywhere.domain.MemberBlackList;
 import amdn.anywhere.domain.Penalty;
 import amdn.anywhere.domain.PenaltyStandard;
 import amdn.anywhere.domain.Report;
@@ -29,10 +31,38 @@ public class ReportController {
 		 }
 	 
 	 
-	//추가벌점등록처리
+	 
+	 
+	 //블랙리스트 목록
+	@GetMapping("/memberBlackList")
+	public String memberBlackList(Model model) {
+		
+		 List<MemberBlackList> memberBlackList = reportService.getmemberBlackList(); 
+		
+
+		model.addAttribute("title", "블랙리스트 목록");
+		model.addAttribute("location", "블랙리스트 목록");
+		model.addAttribute("memberBlackList", memberBlackList);
+		
+
+		return "/report/memberBlackList";
+	}
+	
+	
+	 //벌점유형선택하여 점수 불러오기 ajax
+	@GetMapping(value="/penaltyScore", produces = "application/json")
+	@ResponseBody
+	public PenaltyStandard getPenaltyStandardList(
+				@RequestParam(name="penaltyStandard", required = false) String penaltyStandard){		
+		
+		return reportService.getPenaltyScore(penaltyStandard);
+	}
+
+	 //추가벌점등록처리
 	@PostMapping("/penaltyInsert")
 	public String penaltyInsert(Penalty penalty
-			                   ,@RequestParam(name = "penaltyStandard" , required = false) String penaltyStandard) {
+			                   ,@RequestParam(name = "penaltyStandard" , required = false) String penaltyStandard
+							  ) {
 		
 		System.out.println("penalty" + penalty);
 		
@@ -46,26 +76,26 @@ public class ReportController {
 		return "redirect:/report/penaltyList";
 	}
 	 
-	 
-	 
-	 
+	  
 	 //추가벌점등록
 	 @GetMapping("/penaltyInsert")
 	 public String penaltyInsert(Model model
 			 					,HttpSession session
-			 					,@RequestParam(name = "penaltyStandard" ,required = false)String penaltyStandard) {
+			 					) {
 		 
 		//벌점 등록자 아이디 가져오기
 		String memberId = (String)session.getAttribute("SID");
-		//벌점 점수 가져오기
-		PenaltyStandard penaltyScore = reportService.getPenaltyScore(penaltyStandard);
+		
+		
+		//벌점목록가져오기
+		List<PenaltyStandard> penaltyStandardList = reportService.getPenaltyStandardList();
+		
 		
 		 model.addAttribute("title", "벌점 등록");
 		 model.addAttribute("location", "벌점 등록");
 		 model.addAttribute("memberId", memberId);
-		 model.addAttribute("penaltyScore", penaltyScore);
+		 model.addAttribute("penaltyStandardList", penaltyStandardList);
 		
-		 
 		 return "/report/penaltyInsert";
 	 }
 	 

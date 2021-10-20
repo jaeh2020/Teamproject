@@ -175,8 +175,19 @@
 	</update>
 
 
+	
+	<delete id="commentdel" parameterType="map">
+		DELETE
+		FROM
+			tb_board_reply
+		WHERE 
+			board_num = #{boardNum};
+	</delete>
+	
+	
+	
 	<!-- 게시판 삭제처리 -->
-	<delete id="boardDelete" parameterType="String">
+	<delete id="boardDelete" parameterType="map">
 		DELETE
 		FROM
 			tb_board_management

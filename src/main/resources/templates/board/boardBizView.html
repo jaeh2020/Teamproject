@@ -81,12 +81,10 @@
 							</a>	
 						</div>
 				</div>
-				<form th:action="@{/board/boardDelete}" role="form" id="deleteForm" method="post">
 				<div class="pull-right">
 					<a th:href="@{/board/boardBizModify(boardNum=${board.boardNum})}" class="btn btn-warning modBtn" id="boardModiBtn"><i class="fa fa-edit"></i> 수정</a>
 					<button type="button" class="btn btn-danger delBtn" id="baordDelBtn" ><i class="fa fa-trash"></i> 삭제</button>
 				</div>
-				</form>
 			</div>	
 		</div>
 	</div>
@@ -98,7 +96,7 @@
    
    <script type="text/javascript">
    
-   //a테그시 유효성 검사
+   //댓글삭제
    function delReply(boardReplyCode, boardNum){
 	   if(confirm("삭제하시겠습니까?")){
 	        location.href = '/board/deleteComment?boardReplyCode=' + boardReplyCode + '&' + 'boardNum=' + boardNum;
@@ -124,15 +122,19 @@
       	});	
 	});
    	
-   	
-  	$(function(){
-   		var form = deleteForm;
-      		$('#baordDelBtn').click(function(){
-			alert('정말 삭제하시겠습니까?')
-			form.submit();
-      	});
-      		
-	}); 
+    //삭제버튼 클릭시
+	$(function(){
+		$('#baordDelBtn').on("click", function(){
+			var boardNum = $(this).parent().parent().find('.card-header').text();
+			console.log(boardNum);
+			
+			confirm('삭제처리하시겠습니까?')
+			location.href = "/board/boardBizDelete?boardNum="+ boardNum;
+			  
+			
+		}); 
+	});
+  
    </script>
 </th:block>
 </html>

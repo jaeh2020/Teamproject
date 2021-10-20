@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import amdn.anywhere.domain.MemberBlackList;
 import amdn.anywhere.domain.Penalty;
 import amdn.anywhere.domain.PenaltyStandard;
 import amdn.anywhere.domain.Report;
@@ -11,11 +12,20 @@ import amdn.anywhere.domain.Report;
 @Mapper
 public interface ReportMapper {
 	
+	//블랙리스트코드 자동증가
+	public String getBlackListCode();
+	
+	//블랙리스트 가져오기
+	public List<MemberBlackList> getmemberBlackList();
+	
+	//벌점리스트가져오기
+	public List<PenaltyStandard> getPenaltyStandardList();
+	
 	//기타 벌점 등록
 	public int penaltyInsert(Penalty penalty);
 	
-	//벌점점수가져오기
-	public PenaltyStandard getPenaltyScore(String penaltyStandard);
+	//벌점 점수가져오기
+	public PenaltyStandard getPenaltyScore(String penCode);
 	
 	//벌점 삭제 처리
 	public int penaltyDelete(String penaltyCode);
