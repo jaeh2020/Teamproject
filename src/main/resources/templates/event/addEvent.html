@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default}">
+	  layout:decorate="~{layout/default2}">
 <th:block layout:fragment="customCss">
 	<style type="text/css">
     	#eventDetail{
@@ -21,7 +21,11 @@
 			float: right;
 		}	
 	</style>
-</th:block>	  
+</th:block>
+	<th:block layout:fragment="customJs">
+	    <script th:src="@{/js/lib/form-validation/jquery.validate.min.js}"></script>
+   
+	</th:block>	  
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
 </th:block>
@@ -46,8 +50,8 @@
 		<div class="row justify-content-center">
 			<div class="col-lg-12">
 				<div class="card">
-					<div class="card-body">
-						<form method="post" th:action="@{/event/addEventProcess}" enctype="multipart/form-data">
+					<div class="card-body form-validation">
+						<form class=".form-valide" id="eventForm" method="post" th:action="@{/event/addEventProcess}" enctype="multipart/form-data">
 						 	<div class="form-group row">
 	                             <label class="col-lg-4 col-form-label" for="eventName">이벤트명<span class="text-danger">*</span></label>
 	                             <div class="col-lg-7">
@@ -76,33 +80,89 @@
 		                    <div class="form-group row">
 	                             <label class="col-lg-4 col-form-label" for="eventBanner">배너용<span class="text-danger">*</span></label>
 	                             <div class="fallback">
-									 <input name="bannerImg" type="file" accept="image/png, image/jpeg" multiple/>
+									 <input id="bannerImg" name="bannerImg" type="file" accept="image/png, image/jpeg"/>
 	       		                 </div> 
 	                        </div>
 	                        <div class="form-group row">
 	                            <label class="col-lg-4 col-form-label" for="eventImg">공고용<span class="text-danger">*</span></label>
 	                            <div class="fallback">
-									 <input name="img" type="file" accept="image/png, image/jpeg" multiple/>
+									 <input id="img" name="img" type="file" accept="image/png, image/jpeg"/>
 	                             </div> 
-	      	           		</div>spr
+	      	           		</div>
+	      	           		<div class="form-group row">
+	           	            	<button type="submit" class="btn btn-outline-danger"><i class="bi bi-check-circle-fill"></i> 등록</button>
+    						</div>
            	            </form> 
-           	            <button type="button" class="btn btn-outline-danger"><i class="bi bi-check-circle-fill"></i> 등록</button>
 	                </div>
 				</div>
 			</div>
 		</div>
-
-
 </th:block>
 
 <th:block layout:fragment="customJsLib">
-    
-    <script type="text/javascript">
-		$(function(){
-			$('button').on("click",function(){
-				$('form').submit();
-			});
-		});
+	<script type="text/javascript">
+	//날짜 통제 : 오늘날짜부터 선택가능하기
+	$(function(){
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; 
+		var yyyy = today.getFullYear();
+		if(dd<10){
+			  dd='0'+dd;
+			} 
+		if(mm<10){
+			  mm='0'+mm;
+			} 
+
+		today = yyyy+'-'+mm+'-'+dd;
+		$('input[type=date]').attr("min", today);
+	});
+	
+	
+	//유효성검사
+	    $("#eventForm").validate({
+	    	 ignore: [],
+	         errorClass: "invalid-feedback animated fadeInDown",
+	         errorElement: "div",
+	         errorPlacement: function(e, a) {
+	             jQuery(a).parents(".form-group > div").append(e)
+	         },
+	         highlight: function(e) {
+	             jQuery(e).closest(".form-group").removeClass("is-invalid").addClass("is-invalid")
+	         },
+	         success: function(e) {
+	             jQuery(e).closest(".form-group").removeClass("is-invalid"), jQuery(e).remove()
+	         },
+	         rules: {
+	         	"eventName": {
+	         		required: !0
+	         	},
+	         	"eventDetail": {
+	         		required: !0
+	         	},
+	         	"eventStr": {
+	         		required: !0
+	         	},
+	         	"eventFin": { 
+	         		required: !0
+	         	},
+	         	"bannerImg": {
+	         		required: !0
+	         	},
+	         	"img" : {
+	         		required: !0
+	         	}
+	         },
+	         messages: {
+	         	"eventName":"이벤트명을 입력해주세요",
+	         	"eventDetail":"상세설명을 입력해주세요",
+	         	"eventStr": "시작일을 선택해주세요",
+	         	"eventFin": "종료일을 선택해주세요",
+	         	"bannerImg": "파일을 선택해주세요",
+	         	"img": "파일을 선택해주세요" 
+	         }
+	     });
     </script>
+<script th:src="@{/js/lib/form-validation/jquery.validate-init2.js}"></script>    
 </th:block>
 </html>

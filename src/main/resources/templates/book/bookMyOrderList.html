@@ -56,20 +56,25 @@
 				<thead>
 	                <tr>
 	                	<th>예약코드</th>
+	                	<th style="display:none;">매장코드</th>
 	                	<th>주문 매장명</th>
+	                	<th>아이디</th>
 	                	<th data-orderable="false">주문예약정보 상세</th>
 						<th>총 결제금액</th>
 						<th data-orderable="false">영수증 출력</th>
 						<th>주문등록일시</th>
 						<th>주문상태</th>
-						<th>결제완료일시</th>
-						<th>리뷰작성</th>
+           <th>결제완료일시</th>
+						<th>예약취소</th>
+            <th>리뷰작성</th>
 					</tr>
 	            </thead>
 	            <tbody>
 					<tr th:each="o : ${userOrderList}">
 						<td th:text="${o.bookCode}" id="bookCode" class="bookCode"></td>
+						<td style="display:none;" th:text="${o.storeCode}" class="storeCode"></td>
 						<td th:text="${o.store.storeName}"></td>
+						<td th:text="${o.userId}" class="userId"></td>
 						<td>
 							<a th:href="@{/book/orderDetail(bookCode=${o.bookCode})}">
 							<button type="button" class="btn btn-dark btn-outline ti-search"></button>
@@ -83,8 +88,11 @@
 						<td th:text="${o.statement.StateName}" class="stateName"></td>
 						<td th:text="${o.orderCompTime}" id="orderCompTime"></td>
 						<td>
-							<a th:href="@{/review/reviewWrite(bookCode=${o.bookCode})}" class="btn btn-dark btn-outline fa fa-thumbs-up"></a>
+							<button type="button" class="cancelBtn btn btn-dark btn-outline">예약취소</button>
 						</td>
+            <td>
+              	<a th:href="@{/review/reviewWrite(bookCode=${o.bookCode})}" class="btn btn-dark btn-outline fa fa-thumbs-up"></a>
+            </td>
 					</tr>
 				</tbody>
 			</table>
@@ -147,6 +155,29 @@
 			}else{
 				alert('결제완료시에만 영수증 출력이 가능합니다.');
 				return false;
+			}
+		});
+	});
+	
+	
+	//예약취소버튼 클릭시
+	$(function(){
+		$('.cancelBtn').on("click", function(){
+			var bookCode = $(this).parent().parent().find('.bookCode').text();
+			var storeCode = $(this).parent().parent().find('.storeCode').text();
+			var stateName = $(this).parent().parent().find('.stateName').text();
+			var userId = $(this).parent().parent().find('.userId').text();
+			
+			console.log(storeCode);
+			
+			if(stateName != '접수대기'){
+				alert('이미 주문이 승인되어 취소가 불가능합니다. 해당 매장에 문의해주세요.');
+				return false
+				
+			}else{
+				if (confirm('예약을 취소하시겠습니까?')) {
+					location.href = "/book/bookCancel?bookCode="+ bookCode + "&storeCode=" + storeCode + "&state=예약취소&userId=" + userId;
+			    }
 			}
 		});
 	});

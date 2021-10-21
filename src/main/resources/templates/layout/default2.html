@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <!-- th:replace="fragments/head.html(html확장자를 제외한 경로) :: (해당 html안에 선언된 조각변수이름) -->
-<head th:replace="fragments/head :: headFragment"></head>
+<head th:replace="fragments/head :: headFragment2"></head>
 <body class="fix-header fix-sidebar mini-sidebar">
 	
 	<div id="main-wrapper">
@@ -21,10 +21,10 @@
 			<th:block layout:fragment="customLocation">
 	            <div class="row page-titles">
 	                <div class="col-md-5 align-self-center">
-	                    <h3 class="text-primary" th:text="${location}"></h3></div>
+	                    <h3 th:text="${location}"></h3></div>
 	                <div class="col-md-7 align-self-center">
 	                    <ol class="breadcrumb">
-	                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+	                        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
 	                        <li class="breadcrumb-item active" th:text="${location}"></li>
 	                    </ol>
 	                </div>

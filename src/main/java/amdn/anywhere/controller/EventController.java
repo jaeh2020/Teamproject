@@ -2,11 +2,17 @@ package amdn.anywhere.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import amdn.anywhere.domain.Event;
-import amdn.anywhere.domain.FileDto;
 import amdn.anywhere.service.EventService;
 
 @Controller
@@ -30,30 +35,39 @@ public class EventController {
 	}
 	//6. 이벤트 등록 프로세스
 	@PostMapping("/addEventProcess")
-	public String addEventProcess(Model model,
-				@RequestParam(value="bannerImg", required = false) MultipartFile bannerImg
-				,@RequestParam(value="img", required = false) MultipartFile img, Event event) throws IllegalStateException, IOException{
-		System.out.println(bannerImg.getOriginalFilename());
-		System.out.println(img.getOriginalFilename());
-		System.out.println(event);
+	public String addEventProcess(Model model, HttpSession session
+				,@RequestParam(value="img", required = false) MultipartFile img, Event event
+				,@RequestParam(value="bannerImg", required = false) MultipartFile bannerImg){
+		event.setAdminId((String) session.getAttribute("SID"));
+		//dto 에 세팅
+		event.setEventImgName(img.getOriginalFilename());
+		event.setEventBannerName(bannerImg.getOriginalFilename());
+		//서버에 저장될 파일 이름 생성 : 나노시간 _원래 파일명
+		String newImgName = Long.toString(System.nanoTime()) + "_" + img.getOriginalFilename(); 
+		String newBannerName = Long.toString(System.nanoTime()) + "_" + bannerImg.getOriginalFilename(); 
+		//dto 에 세팅
+		event.setImgStoredPath(newImgName);
+		event.setBannerStoredPath(newBannerName);
 		
-		List<FileDto> fileList = new ArrayList<FileDto>();
-		FileDto dto1 = new FileDto( UUID.randomUUID().toString()
-									, bannerImg.getOriginalFilename()
-									, bannerImg.getContentType());
-		FileDto dto2 = new FileDto( UUID.randomUUID().toString()
-									, img.getOriginalFilename()
-									, img.getContentType());
-		fileList.add(dto1);
-		fileList.add(dto2);
-		
-		File newFileName1 = new File(dto1.getFileId() + "_" + dto1.getFileName()); 
-		File newFileName2 = new File(dto2.getFileId() + "_" + dto2.getFileName());
-		bannerImg.transferTo(newFileName1);
-		img.transferTo(newFileName2);
-		System.out.println("완료");
-		System.out.println(dto1);
-		System.out.println(dto2);
+		//이벤트 등록 처리
+		eventService.addEvent(event);
+		//파일을 서버에 저장하기
+		try {
+			byte[] imgBytes = img.getBytes();
+			byte[] bannerBytes = bannerImg.getBytes();
+
+			//저장경로 지정
+
+			Path path1 = Paths.get(System.getProperty("user.dir") + "/src/main/resources/static/images/event/"+ newImgName);
+			Path path2 = Paths.get(System.getProperty("user.dir") + "/src/main/resources/static/images/event/"+ newBannerName);
+			
+			Files.write(path1,imgBytes);
+			Files.write(path2,bannerBytes);
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	
 		return "redirect:/event/eventManage";
 	}

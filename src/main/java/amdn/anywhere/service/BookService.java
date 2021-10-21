@@ -29,6 +29,19 @@ public class BookService {
 		  
 	 }
 	 
+	 
+	 //예약취소테이블 insert
+	 public int addBookCancel(Map<String, String> paramMap) {
+		 return bookMapper.addBookCancel(paramMap);
+	 }
+	 
+	 
+	 //예약취소코드 자동증가
+	 public String getNewbookCancelCode() {
+		 return bookMapper.getNewbookCancelCode();
+	 }
+	 
+	 
 	 //주문리스트조회
 	 public List<Order> getOrderAllList(Map<String,Object> paramMap){
 		 

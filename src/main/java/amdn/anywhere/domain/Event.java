@@ -3,8 +3,10 @@ package amdn.anywhere.domain;
 public class Event {
 	private String eventCode;
 	private String eventName;
-	private String eventImg;
-	private String eventBanner;
+	private String eventImgName;
+	private String imgStoredPath;
+	private String eventBannerName;
+	private String bannerStoredPath;
 	private String eventStr;
 	private String eventFin;
 	private String eventDetail;
@@ -12,7 +14,6 @@ public class Event {
 	private String regTime;
 	private String adminId;
 	private String stateName;
-	
 	public String getEventCode() {
 		return eventCode;
 	}
@@ -25,18 +26,29 @@ public class Event {
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
-
-	public String getEventImg() {
-		return eventImg;
+	public String getEventImgName() {
+		return eventImgName;
 	}
-	public void setEventImg(String eventImg) {
-		this.eventImg = eventImg;
+	public void setEventImgName(String eventImgName) {
+		this.eventImgName = eventImgName;
 	}
-	public String getEventBanner() {
-		return eventBanner;
+	public String getImgStoredPath() {
+		return imgStoredPath;
 	}
-	public void setEventBanner(String eventBanner) {
-		this.eventBanner = eventBanner;
+	public void setImgStoredPath(String imgStoredPath) {
+		this.imgStoredPath = imgStoredPath;
+	}
+	public String getEventBannerName() {
+		return eventBannerName;
+	}
+	public void setEventBannerName(String eventBannerName) {
+		this.eventBannerName = eventBannerName;
+	}
+	public String getBannerStoredPath() {
+		return bannerStoredPath;
+	}
+	public void setBannerStoredPath(String bannerStoredPath) {
+		this.bannerStoredPath = bannerStoredPath;
 	}
 	public String getEventStr() {
 		return eventStr;
@@ -74,7 +86,6 @@ public class Event {
 	public void setAdminId(String adminId) {
 		this.adminId = adminId;
 	}
-
 	public String getStateName() {
 		return stateName;
 	}
@@ -83,10 +94,12 @@ public class Event {
 	}
 	@Override
 	public String toString() {
-		return "Event [eventCode=" + eventCode + ", eventName=" + eventName + ", eventImg=" + eventImg
-				+ ", eventBanner=" + eventBanner + ", eventStr=" + eventStr + ", eventFin=" + eventFin
-				+ ", eventDetail=" + eventDetail + ", stateCode=" + stateCode + ", regTime=" + regTime + ", adminId="
-				+ adminId + ", stateName=" + stateName + "]";
+		return "Event [eventCode=" + eventCode + ", eventName=" + eventName + ", eventImgName=" + eventImgName
+				+ ", imgStoredPath=" + imgStoredPath + ", eventBannerName=" + eventBannerName + ", bannerStoredPath="
+				+ bannerStoredPath + ", eventStr=" + eventStr + ", eventFin=" + eventFin + ", eventDetail="
+				+ eventDetail + ", stateCode=" + stateCode + ", regTime=" + regTime + ", adminId=" + adminId
+				+ ", stateName=" + stateName + "]";
 	}
+	
 	
 }

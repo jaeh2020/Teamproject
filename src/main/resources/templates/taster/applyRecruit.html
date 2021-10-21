@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default}">
+	  layout:decorate="~{layout/default2}">
 <th:block layout:fragment="customCss">
 	<style type="text/css">
 		.right{
@@ -24,6 +24,7 @@
 	              <div class="card-body">
 	                  <div class="form-validation">
 	                      <form class="form-valide" id="recruitApplyForm" th:action="@{/taster/recruitApplyProcess}" method="post">
+	                          <label><span class="text-danger">*</span><code class="m-b-14 f-s-11"> 필수항목입니다.</code></label>
 	                          <div class="form-group row">
 	                              <label class="col-lg-4 col-form-label" for="storeCode">요청매장 <span class="text-danger">*</span></label>
 	                              <div class="col-lg-7">
@@ -362,6 +363,21 @@
 						return false;
 					}
 				});
+			});
+			$(function(){
+				var today = new Date();
+				var dd = today.getDate();
+				var mm = today.getMonth()+1; 
+				var yyyy = today.getFullYear();
+				if(dd<10){
+					  dd='0'+dd;
+					} 
+				if(mm<10){
+					  mm='0'+mm;
+					} 
+
+				today = yyyy+'-'+mm+'-'+dd;
+				$('input[type=date]').attr("min", today);
 			});
 	</script>
 	<script th:src="@{/js/lib/form-validation/jquery.validate.min.js}"></script>

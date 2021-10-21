@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.Book;
-import amdn.anywhere.domain.MemberUser;
+import amdn.anywhere.domain.BookCancel;
 import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.service.BookService;
+import amdn.anywhere.service.PosService;
 
 
 
@@ -30,16 +31,63 @@ import amdn.anywhere.service.BookService;
 public class BookController {
 	
 	private final BookService bookService;
+	private final PosService posService;
 	
-	public BookController(BookService bookService) { 
+	public BookController(BookService bookService
+						 ,PosService posService) { 
 		this.bookService = bookService;
+		this.posService = posService;
+	}
+	
+	
+	//결제전 예약취소
+	@GetMapping("bookCancel")
+	public String bookCancel(@RequestParam(name = "bookCode", required = false) String bookCode
+							,@RequestParam(name = "storeCode", required = false) String storeCode
+							,@RequestParam(name = "state", required = false) String state
+							,@RequestParam(value="userId",required = false) String userId
+							,HttpSession session
+							,BookCancel bookCancel) {
+
+		//예약취소코드 자동증가
+		String newbookCancelCode = bookService.getNewbookCancelCode();
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("bookCode", bookCode);
+		paramMap.put("storeCode", storeCode);
+		paramMap.put("state", state);
+		paramMap.put("userId", userId);
+		paramMap.put("cCode", newbookCancelCode);
+		
+
+		//book테이블 상태 변경 - 예약취소
+		posService.modifyPosBookState(paramMap);
+		//order테이블 상태 변경 - 예약취소
+		posService.modifyPosOrderState(paramMap);
+		//standby테이블 상태 변경 - 예약취소
+		posService.modifyPosStanbyState(paramMap);
+		
+		//cancel테이블 insert
+		bookService.addBookCancel(paramMap);
+		
+		
+		String redirect = "";
+		if(session.getAttribute("SLEVEL").equals("level_user")) {
+			//소비자
+			redirect = "redirect:/book/bookMyOrderList";
+
+		}else if(session.getAttribute("SLEVEL").equals("level_biz")) {
+			//소상공인
+			redirect = "redirect:/pos/posOrder?storeCode=" + storeCode;
+		}
+		return redirect;
 	}
 	
 	
 	//영수증 출력 페이지
 	@GetMapping("/orderReceipt")
 	public String orderReceipt(@RequestParam(name = "bookCode", required = false) String bookCode
-			,Model model){
+							  ,Model model){
 		
 		Map<String, Object> paramMap = bookService.getOrderList(bookCode);
 		

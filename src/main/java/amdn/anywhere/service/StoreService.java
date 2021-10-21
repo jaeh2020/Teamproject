@@ -26,6 +26,8 @@ public class StoreService {
 		this.storeMapper = storeMapper;
 	}
 	
+	
+	
 	//승인버튼시 매장delete
 	public int deleteStore(String storeCode) {
 		return storeMapper.deleteStore(storeCode);
