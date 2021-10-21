@@ -1,5 +1,9 @@
 package amdn.anywhere.service;
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,5 +29,28 @@ public class EventService {
 	//2. 이벤트 종료하기
 	public int finishEvent(String eventCode) {
 		return eventMapper.finishEvent(eventCode);
+	}
+	//3. 이벤트 등록 
+	public int addEvent(Event event) {
+		//이벤트 시작일자와 현재 날짜 비교해서 상태 구분하기
+		Date now = new Date();
+		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
+
+		try {
+			Date eventStr = form.parse(event.getEventStr());
+			System.out.println(now);
+			System.out.println(eventStr);
+			
+			if(eventStr.after(now)) {
+				event.setStateCode("state_event_ready");
+			}else {
+				event.setStateCode("state_event_ing");
+			}
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return eventMapper.addEvent(event);
 	}
 }

@@ -9,23 +9,11 @@ public class Survey {
 	private String regTime;
 	private String qCateList;
 	private int numOfParti;
-	private String state;
+	private String stateCode;
+	private String stateName;
 	private Store store;
 	private RecruitTasterByBiz recruitTasterByBiz;
 	private List<QuestionCate> cateList;
-	
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
-	}
-	public int getNumOfParti() {
-		return numOfParti;
-	}
-	public void setNumOfParti(int numOfParti) {
-		this.numOfParti = numOfParti;
-	}
 	public String getCreateCode() {
 		return createCode;
 	}
@@ -56,6 +44,24 @@ public class Survey {
 	public void setqCateList(String qCateList) {
 		this.qCateList = qCateList;
 	}
+	public int getNumOfParti() {
+		return numOfParti;
+	}
+	public void setNumOfParti(int numOfParti) {
+		this.numOfParti = numOfParti;
+	}
+	public String getStateCode() {
+		return stateCode;
+	}
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+	public String getStateName() {
+		return stateName;
+	}
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
+	}
 	public Store getStore() {
 		return store;
 	}
@@ -77,8 +83,9 @@ public class Survey {
 	@Override
 	public String toString() {
 		return "Survey [createCode=" + createCode + ", storeCode=" + storeCode + ", recruitBBCode=" + recruitBBCode
-				+ ", regTime=" + regTime + ", qCateList=" + qCateList + ", numOfParti=" + numOfParti + ", state="
-				+ state + ", store=" + store + ", recruitTasterByBiz=" + recruitTasterByBiz + ", cateList=" + cateList
-				+ "]";
+				+ ", regTime=" + regTime + ", qCateList=" + qCateList + ", numOfParti=" + numOfParti + ", stateCode="
+				+ stateCode + ", stateName=" + stateName + ", store=" + store + ", recruitTasterByBiz="
+				+ recruitTasterByBiz + ", cateList=" + cateList + "]";
 	}
+
 }

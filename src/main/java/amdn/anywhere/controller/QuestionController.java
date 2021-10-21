@@ -39,11 +39,7 @@ public class QuestionController{
 	private StoreService storeService;
 	private SurveyResultService surveyResultService;
 	
-	public QuestionController(
-			QuestionService questionService
-			,TasterService tasterService
-			, StoreService storeService
-			, SurveyResultService surveyResultService){
+	public QuestionController(QuestionService questionService,TasterService tasterService, StoreService storeService, SurveyResultService surveyResultService){
 
 		this.tasterService = tasterService;
 		this.questionService = questionService;

@@ -9,7 +9,8 @@
 		<result property="recruitBBCode" column="recruit_taster_biz_code"/>
 		<result property="numOfParti" column="num_of_parti"/>
 		<result property="regTime" column="reg_time"/>
-		<result property="state" column="state"/>		
+		<result property="stateCode" column="state_code"/>		
+		<result property="stateName" column="state_name"/>		
 		<association property="recruitTasterByBiz" javaType="RecruitTasterByBiz">
 			<id     property="recruitTBizCode" column="recruit_taster_biz_code"/>
 			<result property="strCateList" column="question_cate_code_list"/>
@@ -64,7 +65,8 @@
 			 ,c.recruit_taster_biz_code
 			 ,c.num_of_parti
 			 ,c.reg_time
-			 ,c.state
+			 ,c.state_code
+			 ,st.state_name
 			 ,b.question_cate_code_list
 			 ,b.questions_title
 			 ,s.store_name
@@ -76,6 +78,9 @@
 			INNER JOIN 
 			tb_store_info AS s
 			ON c.store_code = s.store_code
+			INNER JOIN
+			tb_statement AS st
+			ON c.state_code = st.state_code
 		<where>
 			<if test="recruitCode != null">
 				c.recruit_taster_biz_code = #{recruitCode}
