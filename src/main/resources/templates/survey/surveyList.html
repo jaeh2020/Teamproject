@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default}">
+	  layout:decorate="~{layout/default2}">
 
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
+</th:block>
+<th:block layout:fragment="customCss">
+	<style type="text/css">
+		.badge{
+		    text-align: center;
+		    font-size: small;
+		}
+	</style>
 </th:block>
 <th:block layout:fragment="customJs">
 
@@ -48,9 +56,12 @@
 		                            <td th:text="${l.recruitTasterByBiz.surveyTitle}"></td>
 		                            <td th:text="${l.numOfParti}"></td>
 		                            <td><button type="button" class="btn btn-dark btn-outline ti-search"></button></td>
-		                            <td th:text="${l.state}"></td>
+		                            <td>
+		                            	<span th:if="${l.stateCode=='state_survey_ing'}" class="badge badge-success">[[${l.stateName}]]</span>
+	                                	<span th:unless="${l.stateCode=='state_survey_ing'}" class="badge badge-warning">[[${l.stateName}]]</span>
+		                            </td>
 		                            <td th:text="${l.regTime}"></td>
-		                             <td><a type="button" th:href = "@{/survey/deleteSurvey(surveyCode=${l.createCode})}" class="deleteBtn btn btn-danger btn-outline ti-trash text-white" ></a></td>
+		                            <td><a type="button" th:href = "@{/survey/deleteSurvey(surveyCode=${l.createCode})}" class="deleteBtn btn btn-danger btn-outline ti-trash text-white" ></a></td>
 	                            </tr>
 	                        </tbody>
 	                    </table>
