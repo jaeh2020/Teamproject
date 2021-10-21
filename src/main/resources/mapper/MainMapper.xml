@@ -30,30 +30,81 @@
 		</association>
 	</resultMap>
 	
-	<!--  실시간 웨이팅 리스트 조회 -->
+	
+	<!-- 검색어토탈 쌓기 -->
+	<insert id="addSearchTotal" parameterType="map">
+		INSERT INTO tb_search_total
+			(
+			search_code
+			,search_key
+			,search_time
+			)
+		VALUES (
+			 #{searchCode}
+			,#{searchKey}
+			,CURTIME()
+		);
+	</insert>
+	
+	
+	
+	<!--  검색어코드 자동증가  -->
+	<select id="getNewSearchCode" resultType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN 'sk_00001'
+			ELSE
+			CONCAT('sk_', LPAD(MAX(CAST(SUBSTRING(search_code,4,5)AS DECIMAL)+1),5,0))
+			END AS searchCode
+		FROM
+			tb_search_total;
+	</select>
+	
+	
+	
+
 	<!-- 상점목록 조회 -->
 	<select id="getMainList" resultMap="storeResultMap" parameterType="map">
 		SELECT 
 			i.store_name
+			,i.store_code
+			,f.main_cate_name
 			,i.store_phone
 			,i.store_code
 			,i.store_holiday
 			,i.store_location
 			,i.store_time
 			,w.wait_num
+			,m.menu_name
 		FROM 
 			tb_store_info as i
 			inner join
-			tb_store_waiting as w
+			tb_store_waiting AS w
 			ON 
 			i.store_code = w.store_code
+			inner JOIN
+			tb_store_menu AS m
+			on
+			i.store_code = m.store_code
+			INNER JOIN
+			tb_food_main_cate AS f
+			ON
+			i.main_cate_code = f.main_cate_code
 		<where>
-			<if test="placeInput != null and mainCateCode != null">
+			<if test="placeInput != null and mainCateCode != null and searchKey == null">
 				i.store_location LIKE CONCAT('%',#{placeInput},'%')
 				AND(
 				i.main_cate_code = #{mainCateCode}
 				OR
 				i.main_cate_code2 = #{mainCateCode})
+			</if>
+			<if test="placeInput != null and searchKey != null">
+				i.store_location LIKE CONCAT('%',#{placeInput},'%')
+				AND
+				(
+				f.main_cate_name = #{searchKey}
+				OR
+				m.menu_name LIKE CONCAT('%',#{searchKey},'%'))
 			</if>
 		</where>
 	</select>

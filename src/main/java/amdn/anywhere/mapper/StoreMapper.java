@@ -17,6 +17,8 @@ import amdn.anywhere.domain.Waiting;
 @Mapper
 public interface StoreMapper {
 	
+
+	
 	//승인버튼시 매장 delete
 	public int deleteStore(String storeCode);
 	
