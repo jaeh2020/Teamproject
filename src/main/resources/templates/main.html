@@ -14,6 +14,16 @@
 		background-color:transparent;
 		font-family: 'Gowun Batang', serif;
 	}
+	
+	tr,td{
+		padding:10px;
+	}
+	
+	.card-header{
+		font-family: 'Gowun Batang', serif;
+	}
+	
+	
 </style>
 	
 	
@@ -33,17 +43,90 @@
 							<i class="ti-info-alt"> 아래 주소검색 입력란을 클릭하여 주소를 검색 후, 카테고리를 클릭하면 해당 매장 리스트가 검색됩니다.</i>
 							</span>
 							<div class="input-group input-group-flat">
-								<input type="text" id="address_kakao" class="form-control" name="placeAddress" placeholder="건물명, 도로명 또는 지번으로 검색" th:value="${#strings.isEmpty(placeAddress)?'':placeAddress}">
-								<input type="hidden" id="seach_place" class="form-control" name="placeInput" placeholder="건물명, 도로명 또는 지번으로 검색" th:value="${#strings.isEmpty(placeAddress)?'':placeAddress}">
+								<input type="text" id="address_kakao" class="form-control" name="placeAddress" placeholder="건물명, 도로명 또는 지번으로 검색">
+								<input type="hidden" id="seach_place" class="form-control" name="placeInput" placeholder="건물명, 도로명 또는 지번으로 검색">
 							</div>
-						
+					
+					<!-- 어떤매장을검색해드릴까요 이미지-->
 					</div>
-					<div class="card" style="background-image: url('images/addresswhere.png'); width: 100%; height: 0; padding-top: calc(320 / 1382 * 100%); background-repeat:no-repeat; background-size: cover; background-position: center;">
+					<div class="card" style="background-image: url('images/addresswhere.png'); width: 100%; height: 0; padding-top: calc(212 / 1382 * 100%); background-repeat:no-repeat; background-size: cover; background-position: center;">
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- 주소검색 end -->
+		
+		
+		
+		
+		
+		<div class="row justify-content-center">
+			<div class="col-sm-8">
+				<div class="row">	
+					<div class="col-sm-4">
+					<div class="card" style="background-image: url('images/eventing.png'); width: 100%; height: 0; padding-top: calc(500 / 500 * 100%); background-repeat:no-repeat; background-size: cover; background-position: center;">
+					</div>
+					</div>
+					
+					<div class="col-sm-4">
+					<div class="card" style="background-image: url('images/keyword.png'); width: 100%; height: 0; padding-top: calc(500 / 500 * 100%); background-repeat:no-repeat; background-size: cover; background-position: center;">
+					</div>
+					</div>
+					
+					<div class="col-sm-4">
+					<div class="card" style="background-image: url('images/survay.png'); width: 100%; height: 0; padding-top: calc(500 / 500 * 100%); background-repeat:no-repeat; background-size: cover; background-position: center;">
+					</div>
+					</div>
+				</div>
+			</div>
+		
+		
+			
+			
+			<!-- 실시간검색 -->
+			<div class="col-sm-3">
+				<div class="card">
+					<div class="input-group input-group-flat">
+						<input type="text" class="searchKey form-control" name="searchKey" placeholder="메뉴 or 키워드 검색">
+						<button class="searchLiveBtn btn btn-dark btn-outline ti-search" type="submit"></button>
+					</div>
+					
+					<div class="card-header">
+					<h6 style="text-align: center;">
+						<i class="fa ti-timer f-s-20"></i>
+						<strong>실시간 인기 검색어</strong>
+						<i class="fa ti-timer f-s-20"></i>
+						<br>
+						<small>최근 업데이트 시간 : 00:00:00</small>
+					</h6>
+					</div>
+					
+					<table>
+						<tbody>
+							<tr style="margin: 5px;">
+								<td>
+								<button class="btn btn-pink btn-outline f-s-15" disabled> 1 </button>
+								</td>
+								<td>떡볶이</td>
+							</tr>
+							<tr>
+								<td>
+								<button class="btn btn-pink btn-outline f-s-15" disabled> 2 </button>
+								</td>
+								<td>중국집</td>
+							</tr>
+							<tr>
+								<td>
+								<button class="btn btn-pink btn-outline f-s-15" disabled> 3 </button>
+								</td>
+								<td>혼밥</td>
+							</tr>
+						</tbody>
+					</table>
+					
+				</div>
+			</div>
+		</div>
 		
 	
 		<!-- start menu cate -->
@@ -184,7 +267,35 @@
 			$('#searchForm').submit();
 		});
 	});
+	
+	
+	/* 실시간 검색 버튼 유효성검사 */
+	$(function(){
+		$('.searchLiveBtn').click(function(){
+			var plaInp = $('[name=placeInput]');
+			
+			//유효성검사
+			if(plaInp.val().trim() == ''){
+				alert('주소를 먼저 입력 후 검색해주세요.');
+				return false;
+			}
+			$('#searchForm').submit();
+		});
+	});
+	
+	
+	
+	/* 실시간 검색 버튼 클릭시 데이터 쌓기 */
+	$(function(){
+		$('.searchLiveBtn').click(function(){
+			var searchKey = $(this).parent().find('.searchKey').val();
+			
+			location.href = "/searchTotal?searchKey="+ searchKey;
+		});
+	});
 
+	
+	
     
 	/* 카카오 주소검색 api */
 	
@@ -195,7 +306,7 @@
                 oncomplete: function(data) { //선택시 입력값 세팅
                 	console.log(data.address)
                     document.getElementById("address_kakao").value = data.address; // 주소 넣기
-                    document.getElementById("seach_place").value = data.bname; // 주소 넣기
+                    document.getElementById("seach_place").value = data.sigungu; // 주소 넣기
                 }
             }).open();
         });
@@ -228,7 +339,6 @@
 					htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 전화번호 : </text>' + '<text style="font-family: Jua, sans-serif;">' + data.storePhone + '</text>';
 					htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 영업시간 : </text>' + '<text style="font-family: Jua, sans-serif;">' + data.storeTime + '</text>';
 					htmml += '<br> <text class="text-danger" style="font-family: Jua, sans-serif;"> 휴일 : </text>' + '<text style="font-family: Jua, sans-serif;">' + data.storeHoliday + '</text>';
-					htmml += '<br> <text class="text-warning" style="font-family: Jua, sans-serif;"> 현재 예약 가능 상태 : </text>' + '<text style="font-family: Jua, sans-serif;"> 가능  </text>';
 									
 					Swal.fire(htmml);
 				

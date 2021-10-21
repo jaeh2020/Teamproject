@@ -29,6 +29,11 @@ public class MainController {
 		this.storeService = storeService;
 	}
 	
+	
+
+	
+	
+	
 	//ajax
 	@GetMapping(value="/storeList", produces = "application/json")
 	@ResponseBody
@@ -44,20 +49,30 @@ public class MainController {
 	public String main(Model model
 					  ,@RequestParam(name="placeInput", required = false) String placeInput
 					  ,@RequestParam(name="placeAddress", required = false) String placeAddress
-					  ,@RequestParam(name="mainCateCode", required = false) String mainCateCode) {
+					  ,@RequestParam(name="mainCateCode", required = false) String mainCateCode
+					  ,@RequestParam(name="searchKey", required = false) String searchKey
+					) {
 		
 		//메뉴 카테고리(대분류) 불러오기
 		List<FoodMainCate> mainCate = storeService.getMainCate();
+		
+		//검색어코드 자동증가
+		String newSearchCode = mainService.getNewSearchCode();
 		
 		//상점 리스트, 실시간 예약대기 번호 가져오기
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("placeInput", placeInput);
 		paramMap.put("mainCateCode", mainCateCode);
-		
-		System.out.println(placeInput + ": placeInput");
-		System.out.println(mainCateCode + ": mainCateCode");
+		paramMap.put("mainCateCode", mainCateCode);
+		paramMap.put("searchKey", searchKey);
+		paramMap.put("searchCode", newSearchCode);
 		
 		List<Store> mainList = mainService.getMainList(paramMap);
+		
+		//검색어 토탈 쌓기
+		if(searchKey != null) {
+			mainService.addSearchTotal(paramMap);
+		}
 		
 		model.addAttribute("mainCate", mainCate);
 		model.addAttribute("title", "AMDN, 아무데나");

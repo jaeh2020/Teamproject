@@ -148,12 +148,17 @@
 	
 	
 	
-	<!-- standby테이블 상태=주문완료, 완료일시, 총대기시간 update -->
+	<!-- standby테이블 상태=주문완료, 완료일시, 총대기시간 update or 예약취소시 상태변경 -->
 	<update id="modifyPosStanbyState" parameterType="map">
 		UPDATE tb_store_standby
 			set
+			<if test="state == '입장완료' ">
 			state_code = 'state_book_com'
 			,wait_comp_time = CURTIME()
+			</if>
+			<if test="state == '예약취소' ">
+			state_code = 'state_cancel_com'
+			</if>
 		WHERE
 			b_o_code = #{bookCode};
 	</update>
@@ -171,6 +176,12 @@
 			<if test="state == '입장완료' ">
 			wait_num = wait_num - 1
 			</if>
+			<if test="state == '테이블추가' ">
+			sto_emp_tab = sto_emp_tab + 1
+			</if>
+			<if test="state == '테이블삭제' ">
+			sto_emp_tab = sto_emp_tab - 1
+			</if>
 			<if test="tableStateName == '사용중' ">
 			sto_use_tab = sto_use_tab + 1
 			,sto_emp_tab = sto_emp_tab - 1
@@ -184,7 +195,6 @@
 			</if>
 		WHERE
 			store_code = #{storeCode};
-	
 	</update>
 	
 	
@@ -276,7 +286,7 @@
 	
 	
 	
-	<!-- 주문승인/웨이팅승인 클릭시 book테이블 상태변경-->
+	<!-- 주문승인/웨이팅승인 or 예약취소시 상태변경 클릭시 book테이블 상태변경-->
 	<update id="modifyPosBookState" parameterType="map">
 		UPDATE tb_book
 		SET
@@ -292,13 +302,16 @@
 			<if test="state == '입장완료' ">
 			state_code = 'state_book_com'
 			</if>
+			<if test="state == '예약취소' ">
+			state_code = 'state_cancel_com'
+			</if>
 		WHERE
 			b_o_code = #{bookCode};
 	</update>
 	
 	
 	
-	<!-- 주문승인/웨이팅승인 클릭 or 입장완료버튼 클릭시 order테이블 상태변경 -->
+	<!-- 주문승인/웨이팅승인or 입장완료버튼 or 예약취소 클릭시  order테이블 상태변경 -->
 	<update id="modifyPosOrderState" parameterType="map">
 		UPDATE tb_order
 		SET
@@ -312,6 +325,9 @@
 			<if test="state == '입장완료' ">
 			order_comp_time = CURTIME()
 			,order_state_code = 'state_book_com'
+			</if>
+			<if test="state == '예약취소' ">
+			order_state_code = 'state_cancel_com'
 			</if>
 		WHERE
 			b_o_code = #{bookCode};

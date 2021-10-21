@@ -133,6 +133,10 @@
 	
 	
 	
+	
+	
+	
+	
 	<!-- 입점취소 승인버튼시  delete -->
 	<delete id="deleteStore" parameterType="String">
 		DELETE 
@@ -303,7 +307,7 @@
 			,#{storeCode}
 			,#{bizId}
 			,0
-			,#{stoEmpTab}
+			,0
 			,0
 		);
 	</insert>

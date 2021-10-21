@@ -18,6 +18,18 @@ public class MainService {
 	public MainService(MainMapper mainMapper) { 
 		 this.mainMapper = mainMapper; 
 	}
+	
+	//검색어 토탈 쌓기
+	public int addSearchTotal(Map<String, Object> paramMap) {
+		return mainMapper.addSearchTotal(paramMap);
+	}
+	
+	
+	
+	//검색어코드 자동증가
+	public String getNewSearchCode() {
+		return mainMapper.getNewSearchCode();
+	}
 
 	
 	//상점리스트 조회
