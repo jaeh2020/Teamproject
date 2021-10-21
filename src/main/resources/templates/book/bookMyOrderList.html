@@ -63,6 +63,7 @@
 						<th>주문등록일시</th>
 						<th>주문상태</th>
 						<th>결제완료일시</th>
+						<th>리뷰작성</th>
 					</tr>
 	            </thead>
 	            <tbody>
@@ -81,6 +82,9 @@
 						<td th:text="${o.orderSignTime}" id="orderSignTime"></td>
 						<td th:text="${o.statement.StateName}" class="stateName"></td>
 						<td th:text="${o.orderCompTime}" id="orderCompTime"></td>
+						<td>
+							<a th:href="@{/review/reviewWrite(bookCode=${o.bookCode})}" class="btn btn-dark btn-outline fa fa-thumbs-up"></a>
+						</td>
 					</tr>
 				</tbody>
 			</table>
