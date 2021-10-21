@@ -48,9 +48,9 @@ public class PointController {
 		return "/point/addPoint";
 	}
 	
-	//개인별 포인트 조회
-	@GetMapping("/point/userPointList")
-	public List<Point> userPointList(@RequestParam(name = "userId", required = false) String userId
+	//개인별 소멸 포인트 조회
+	@GetMapping("/point/userDelPointList")
+	public List<Point> userDelPointList(@RequestParam(name = "userId", required = false) String userId
 								,Model model) {
 		
 		List<Point> pointList = pointService.getPointListInfoById(userId);
@@ -60,6 +60,34 @@ public class PointController {
 		model.addAttribute("pointList", pointList);
 		
 		return pointList;
+	}
+	
+	//개인별 적립 포인트 조회
+	@GetMapping("/point/userAddPointList")
+	public List<Point> userAddPointList(@RequestParam(name = "userId", required = false) String userId
+								,Model model) {
+		
+		List<Point> pointList = pointService.getPointListInfoById(userId);
+		
+		model.addAttribute("title", "포인트 내역");
+		model.addAttribute("location", "포인트 내역");
+		model.addAttribute("pointList", pointList);
+		
+		return pointList;
+	}
+	
+	//관리자 입장 포인트 소멸 내역 전체 조회
+	@GetMapping("/point/pointDelList")
+	public String pointDelList(Model model) {
+		
+		List<Point> point = pointService.getPointList();
+		
+		model.addAttribute("title", "포인트 내역");
+		model.addAttribute("location", "포인트 내역");
+		model.addAttribute("point", point);
+		System.out.println("point :::::" +point);
+		
+		return "/point/pointDelList";
 	}
 	
 	//관리자 입장 포인트 내역 전체 조회

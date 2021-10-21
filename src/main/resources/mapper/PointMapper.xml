@@ -10,22 +10,24 @@
 		<result property="oTotal" column="o_total"/>
 		<result property="pointSave" column="point_save"/>
 		<result property="pointContents" column="point_contents"/>
-		<result property="poStaCode" column="po_sta_code"/>
 		<result property="pointSaveTime" column="point_save_time"/>
 		<result property="pointAdd" column="point_add"/>
 		<result property="beforePointHistory" column="before_point_history"/>
 		<result property="afterPointHistory" column="after_point_history"/>
 		<result property="predDelTime" column="pred_del_time"/>		
 		<association property="pointDel" javaType="PointDel">
-			<id property="pointDelNum" column="point_del_num"/>
+			<id property="pointNum" column="point_num"/>
+			<result property="pointDelNum" column="point_del_num"/>
 			<result property="userId" column="user_id"/>
-			<result property="pointNum" column="point_num"/>
-			<result property="poStaCode" column="po_sta_code"/>
-			<result property="pointDelTime" column="po_del_sta_date"/>
+			<result property="pointDelTime" column="po_del_time"/>
 			<result property="delPoint" column="del_point"/>
 			<result property="remainPoint" column="remain_point"/>
+			<result property="pointDelContents" column="point_del_contents"/>
 		</association>
 	</resultMap>
+	
+	<!-- 포인트 소멸 개인조회 -->
+	<!-- 포인트 소멸 전체조회 -->
 	
 	<!-- 포인트 적립 -->
 	<insert id="addPoint">
@@ -74,7 +76,7 @@
 			tb_point;
 	</select>
 	
-	<!-- 포인트 개인조회 -->
+	<!-- 포인트적립 개인조회 -->
 	<select id="getPointListInfoById" resultMap="pointResultMap">
 		SELECT 
 			  p.point_num
@@ -93,6 +95,7 @@
 			, d.point_del_time
 			, d.del_point
 			, d.remain_point
+			, d.point_del_contents
 		FROM 
 			tb_point as p
 			LEFT JOIN
@@ -105,7 +108,7 @@
 			p.point_save_time desc;
 	</select>
 	
-	<!-- 전체  -->
+	<!-- 포인트 적립 전체 조회  -->
 	<select id="getPointList" resultMap="pointResultMap">
 		SELECT 
 			  p.point_num
@@ -124,6 +127,7 @@
 			, d.point_del_time
 			, d.del_point
 			, d.remain_point
+			, d.point_del_contents
 		FROM 
 			tb_point as p
 			LEFT JOIN

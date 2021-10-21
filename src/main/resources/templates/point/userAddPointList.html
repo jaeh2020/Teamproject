@@ -58,8 +58,8 @@
 	            <div class="table-responsive m-t-40">
                 	<table id="myTable" class="table table-hover">
                 		<caption class="top">
-	                		<button type="button" class="btn btn-pink">적립내역</button>
-	                		<button type="button" class="btn btn2 btn-pink">사용내역</button>
+	                		<a th:href="@{/point/userAddPointList(userId=${session.SID})}" class="btn btn-pink">적립내역</a>
+	                		<a th:href="@{/point/userDelPointList(userId=${session.SID})}" class="btn btn2 btn-pink">사용내역</a>
                 		</caption>
                     	<thead>
                             <tr>

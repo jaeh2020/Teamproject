@@ -9,7 +9,7 @@
 <!-- css -->
 <style type= "text/css">
 	.btn{
-		margin : 10px 0 0 200px;
+		margin : 5px;
 		color: #505050;
 		float: left;
 	}
@@ -29,10 +29,9 @@
 	#messageList{
 		cursor: pointer;
 	}
-	.btn{
-		background-color: #84799F;
-		color: #fff;
-	}
+	.clicked {
+        color: gold;
+      }
 </style>
 </th:block>
 
@@ -55,29 +54,20 @@
 						<thead>
                             <tr>
                                 <th></th>
-                                <th>회원 구분</th>
                                 <th>회원 아이디</th>
-                                <th>회원 비밀번호</th>
-                                <th>회원 이름</th>
-                                <th>회원 성별</th>
-                                <th>회원 생년월일</th>
-                                <th>회원 전화번호</th>
-                                <th>회원 이메일</th>
-                                <th>회원 가입 일시</th>
+                                <th>회원 구분</th>
+                                <th>마지막 로그인 시간</th>
+                                <th>마지막 로그아웃 시간</th>
                             </tr>
                         </thead>
 						<tbody th:id="memberList">
 		                    <tr th:each="l : ${memberList}">
 		                    	<td><label><input type="checkbox"></label></td>
+		                    	<td th:text="${l.memberLogin.loginNum}"></td> 
 		                    	<td th:text="${l.memberLevel.levelName}"></td>
-		                    	<td th:text="${l.memberId}"></td> 
-		                    	<td th:text="${l.memberPw}"></td> 
-		                    	<td th:text="${l.memberName}"></td> 
-		                    	<td th:text="${l.memberGender}"></td> 
-		                    	<td th:text="${l.memberBirth}"></td> 
-		                    	<td th:text="${l.memberPhone}"></td> 
-		                    	<td th:text="${l.memberEmail}"></td> 
-		                    	<td th:text="${l.memberRegTime}"></td> 
+		                    	<td th:text="${l.memberLogin.loginTime}"></td> 
+		                    	<td th:text="${l.memberLogin.logoutTime}"></td> 
+
 		                    </tr>
 	               		</tbody>
 	            	</table>
