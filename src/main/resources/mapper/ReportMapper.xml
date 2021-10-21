@@ -20,10 +20,6 @@
 			<id property="reportCateCode"			column="rep_cate_code"/>
 			<result property="reportCate"		column="rep_cate"/>
 			</association>
-			<association property="reportCate" 		javaType="ReportCate">
-			<id property="reportCateCode"			column="rep_cate_code"/>
-			<result property="reportCate"		column="rep_cate"/>
-			</association>
 	</resultMap>
 	
 	<resultMap type="Penalty" id="PenaltyMap">
