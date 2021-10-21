@@ -119,7 +119,7 @@
                                   <li><a th:if="${session.SLEVEL == 'level_user'}" th:href="@{/member/myPage(userId=${session.SID})}"><i class="ti-user"></i> 마이페이지</a></li>
                                   <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/member/myPageBiz(memberId=${session.SID})}"><i class="ti-user"></i> 마이페이지</a></li>
                                   <li><a th:href="@{/message/messageList}"><i class="ti-email"></i> 메세지</a></li>
-                                  <li><a th:href="@{/logout}"><i class="fa fa-power-off"></i> 로그아웃</a></li>
+                                  <li><a th:href="@{/logout(memberId=${session.SID})}"><i class="fa fa-power-off"></i> 로그아웃</a></li>
                               </ul>
                           </div>
                       </li>

@@ -10,7 +10,8 @@ public class Member {
 	private String memberPhone;
 	private String memberEmail;
 	private String memberRegTime;
-	
+	private MemberLevel memberLevel;
+	private MemberLogin memberLogin;
 	public String getMemberId() {
 		return memberId;
 	}
@@ -65,12 +66,25 @@ public class Member {
 	public void setMemberRegTime(String memberRegTime) {
 		this.memberRegTime = memberRegTime;
 	}
-	
+	public MemberLevel getMemberLevel() {
+		return memberLevel;
+	}
+	public void setMemberLevel(MemberLevel memberLevel) {
+		this.memberLevel = memberLevel;
+	}
+	public MemberLogin getMemberLogin() {
+		return memberLogin;
+	}
+	public void setMemberLogin(MemberLogin memberLogin) {
+		this.memberLogin = memberLogin;
+	}
 	@Override
 	public String toString() {
 		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName + ", levelCode="
-			+ levelCode + ", memberGender=" + memberGender + ", memberBirth=" + memberBirth + ", memberPhone="
-			+ memberPhone + ", memberEmail=" + memberEmail + ", memberRegTime=" + memberRegTime + "]";
+				+ levelCode + ", memberGender=" + memberGender + ", memberBirth=" + memberBirth + ", memberPhone="
+				+ memberPhone + ", memberEmail=" + memberEmail + ", memberRegTime=" + memberRegTime + ", memberLevel="
+				+ memberLevel + ", memberLogin=" + memberLogin + "]";
 	}
-
+	
+	
 }

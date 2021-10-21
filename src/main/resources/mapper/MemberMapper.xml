@@ -14,8 +14,20 @@
 		<result property="memberPhone" column="member_phone"/>
 		<result property="memberEmail" column="member_email"/>
 		<result property="memberRegTime" column="member_reg_time"/>
+		<association property="memberLevel" javaType="MemberLevel">
+			<id property="levelCode" column="level_code"/>
+			<result property="levelName" column="level_Name"/>
+		</association>
+		<association property="memberLogin" javaType="MemberLogin">
+			<id property="memberId" column="member_id"/>
+			<result property="loginNum" column="login_num"/>
+			<result property="levelCode" column="level_code"/>
+			<result property="loginTime" column="last_login_time"/>
+			<result property="logoutTime" column="last_logout_time"/>
+		</association>
+		
 	</resultMap>
-	
+
 	<!-- 레벨이랑 소비자 추가정보랑 -->
 	<resultMap type="MemberUser" id="memberUserResultMap">
 		<result property="userId" column="user_id"/>
@@ -58,6 +70,43 @@
 		</association>
 	</resultMap>
 	
+	<!-- 로그아웃 내역!!! -->
+	<update id="modifyLogout">
+		UPDATE tb_member_login
+		SET
+			last_logout_time = NOW()
+		WHERE 
+			member_id=#{memberId}
+	</update>
+	
+	<!-- 로그인 내역 -->
+	<insert id="addLogin">
+		INSERT INTO tb_member_login
+			(login_num
+			, member_id
+			, level_code
+			, last_login_time
+			, last_logout_time
+		)VALUES (
+			#{loginNum}
+			, #{memberId}
+			, #{levelCode}
+			, NOW()
+			, NOW());
+	</insert>
+	
+	<!-- 로그인내역코드 자동증가 -->
+	<select id="getLoginCode" resultType="String">
+		SELECT
+		   CASE
+		   WHEN COUNT(1) = 0 THEN 'login_001'
+		   ELSE
+		      CONCAT('login_', LPAD(MAX(CAST(SUBSTRING(login_num,7,3)AS DECIMAL)+1),3,0))
+		   END AS loginNum
+		FROM
+		   tb_member_login;
+	</select>
+	
 	<!-- 소비자 회원 탈퇴 -->
 	<delete id="removeMemberUser" parameterType="String">
 		DELETE 
@@ -75,7 +124,7 @@
 		WHERE 
 			member_id = #{memberId};
 	</delete>
-	
+
 	<!-- 소비자 추천/비추천 수정 -->
 	<update id="modifyUserLike">
 		UPDATE tb_member_user_like
@@ -334,20 +383,33 @@
 			member_id = #{memberId};
 	</select>
 	
-	<!-- 회원 전체 목록 조회 (나중에 소상공인 조회로 바뀔예정) -->
+	<!-- 회원 전체 목록 조회 -->
 	<select id="getMemberList" resultMap="memberResultMap">
 		SELECT 
-			member_id
-			, member_pw
-			, member_name
-			, level_code
-			, member_gender
-			, member_birth
-			, member_phone
-			, member_email
-			, member_reg_time
+			  m.member_id
+			, m.member_pw
+			, m.member_name
+			, m.level_code
+			, m.member_gender
+			, m.member_birth
+			, m.member_phone
+			, m.member_email
+			, m.member_reg_time
+			, lv.level_code
+			, lv.level_name
+			, l.login_num
+			, l.last_login_time
+			, l.last_logout_time
 		FROM 
-			tb_member;
+			tb_member AS m
+			LEFT join
+			tb_member_level AS lv
+			on
+			m.level_code = lv.level_code
+			LEFT join
+			tb_member_login AS l
+			on
+			m.member_id = l.member_id;
 	</select>
 	
 	<!-- 소비자 추가정보 등록 -->

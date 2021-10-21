@@ -55,35 +55,29 @@
 	                <h4 class="m-b-0 text-white">포인트 내역</h4>
 	            </div>
 	            <div class="card-body">
-	            <a th:href="@{/point/pointDelList}" class="btn btn-pink">포인트 소멸내역</a>            
 	            <div class="table-responsive m-t-40">
+	            <p>소상공인 아이디를 클릭해 승인 여부를 선택해주세요.</p>	             
                 	<table id="myTable" class="table table-bordered table-striped">
                     	<thead>
                             <tr>
-                                <th>포인트 적립 번호</th>
+                                <th>포인트 소멸 번호</th>
                                 <th>소비자 아이디</th>
-                                <th>결제 금액?</th>
-                                <th>포인트 적립(%)</th>
-                                <th>포인트 적립 내용</th>
-                                <th>포인트 적립 일시</th>
-                                <th>적립 포인트</th>
-                                <th>기존 포인트 내역</th>
-                                <th>적립 후 포인트 내역</th>
-                                <th>예상 소멸 일시</th>
+                                <th>포인트 적립 번호</th>
+                                <th>포인트 소멸 내용</th>
+                                <th>포인트 소멸 일시</th>
+                                <th>소멸 포인트</th>
+                                <th>소멸 후 포인트 내역</th>
                             </tr>
                         </thead>
 						<tbody th:id="pointList">
-		                    <tr th:each="l : ${pointList}">
-		                    	<td th:text="${l.pointNum}" th:id="${l.pointNum}"></td>
-		                    	<td th:text="${l.userId}"></td> 
-		                    	<td th:text="${l.oTotal}"></td> 
-		                    	<td th:text="${l.pointSave}"></td> 
-		                    	<td th:text="${l.pointContents}"></td> 
-		                    	<td th:text="${l.pointSaveTime}"></td> 
-		                    	<td th:text="${l.pointAdd}"></td>
-		                    	<td th:text="${l.beforePointHistory}"></td>
-		                    	<td th:text="${l.afterPointHistory}"></td>
-		                    	<td th:text="${l.predDelTime}"></td>
+		                    <tr th:each="l : ${point}">
+		                    	<td th:text="${l.pointDel.pointDelNum}"></td>
+		                    	<td th:text="${l.pointDel.userId}"></td> 
+		                    	<td th:text="${l.pointDel.pointNum}"></td> 
+		                    	<td th:text="${l.pointDel.pointDelContents}"></td>
+		                    	<td th:text="${l.pointDel.pointDelTime}"></td> 
+		                    	<td th:text="${l.pointDel.delPoint}"></td> 
+		                    	<td th:text="${l.pointDel.remainPoint}"></td> 
 		                    </tr>
 	               		</tbody>
 	            	</table>

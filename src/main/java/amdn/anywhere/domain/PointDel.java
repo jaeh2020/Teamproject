@@ -9,6 +9,7 @@ public class PointDel {
 	private String pointDelTime;
 	private String delPoint;
 	private String remainPoint;
+	private String pointDelContents;
 	public String getPointDelNum() {
 		return pointDelNum;
 	}
@@ -51,11 +52,17 @@ public class PointDel {
 	public void setRemainPoint(String remainPoint) {
 		this.remainPoint = remainPoint;
 	}
+	public String getPointDelContents() {
+		return pointDelContents;
+	}
+	public void setPointDelContents(String pointDelContents) {
+		this.pointDelContents = pointDelContents;
+	}
 	@Override
 	public String toString() {
 		return "PointDel [pointDelNum=" + pointDelNum + ", userId=" + userId + ", pointNum=" + pointNum + ", poStaCode="
 				+ poStaCode + ", pointDelTime=" + pointDelTime + ", delPoint=" + delPoint + ", remainPoint="
-				+ remainPoint + "]";
+				+ remainPoint + ", pointDelContents=" + pointDelContents + "]";
 	}
 	
 	
