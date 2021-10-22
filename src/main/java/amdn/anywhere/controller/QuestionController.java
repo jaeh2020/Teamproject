@@ -1,7 +1,6 @@
 package amdn.anywhere.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +23,7 @@ import amdn.anywhere.domain.RecruitTasterByBiz;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.domain.Survey;
 import amdn.anywhere.domain.SurveyResult;
+import amdn.anywhere.domain.SurveyStatisticForCate;
 import amdn.anywhere.domain.Taster;
 import amdn.anywhere.service.QuestionService;
 import amdn.anywhere.service.StoreService;
@@ -72,7 +72,9 @@ public class QuestionController{
 		//연령대그룹 가져오기
 		paramMap.clear();
 		paramMap = surveyResultService.getTastersAge(surveyCode);
+		List<SurveyStatisticForCate> percentForCateList= surveyResultService.getPercentageForCate(surveyCode);
 		paramMap.put("surveyResult", surveyResultList);
+		paramMap.put("percentForCateList", percentForCateList);
 		return paramMap;
 	}
 	
