@@ -169,7 +169,7 @@
 	
 	
 	<!-- 입점취소신청 리스트 조회 -->
-	<select id="getStoreCancelList" resultMap="storeCancelResultMap">
+	<select id="getStoreCancelList" resultMap="storeCancelResultMap" parameterType="map">
 		SELECT
 			c.store_cancel_code
 			,c.biz_id
@@ -186,7 +186,12 @@
 			INNER join
 			tb_statement AS s
 			ON
-			c.state_code = s.state_code;
+			c.state_code = s.state_code
+		<where>
+			<if test="dateBefore != null and dateAfter != null">
+					date(c.cancel_time) BETWEEN #{dateBefore} and #{dateAfter}
+			</if>
+		</where>
 	</select>
 	
 	
@@ -205,7 +210,7 @@
 		FROM
 			tb_store_cancel
 		WHERE
-			store_code = #{storeCode};
+			store_code = #{storeCode}
 	</select>
 	
 	
@@ -229,7 +234,7 @@
 			ON
 			c.state_code = s.state_code
 		WHERE
-			c.biz_id = #{bizId};
+			c.biz_id = #{bizId}
 	</select>
 	
 

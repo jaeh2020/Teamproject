@@ -154,10 +154,6 @@ public class BookController {
 		paramMap.put("dateAfter", dateAfter);
 		paramMap.put("userId", userId);
 		
-		System.out.println(dateBefore + ": dateBefore");
-		System.out.println(dateAfter + ": dateAfter");
-		System.out.println(userId + ": userId");
-		
 		List<Order> userOrderList = bookService.getOrderUserInfoById(paramMap);
 		
 		model.addAttribute("userOrderList", userOrderList);

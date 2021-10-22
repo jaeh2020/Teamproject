@@ -410,9 +410,16 @@
 			tb_store_menu AS m
 			on
 			o.menu_code = m.menu_code
-		where
-			o.store_code = #{storeCode}
-		GROUP BY o.b_o_code;
+		<where>
+				<if test="dateBefore == null and dateAfter == null">
+					o.store_code = #{storeCode}
+				</if>
+				<if test="dateBefore != null and dateAfter != null">
+					date(o.order_sign_time) BETWEEN #{dateBefore} and #{dateAfter}
+				</if>
+		</where>
+		GROUP BY o.b_o_code
+		ORDER BY o.order_sign_time DESC;
 	</select>
 	
 	

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import amdn.anywhere.domain.FoodMainCate;
+import amdn.anywhere.domain.MemberUser;
+import amdn.anywhere.domain.SearchKeyword;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.service.MainService;
+import amdn.anywhere.service.MemberService;
 import amdn.anywhere.service.StoreService;
 
 
@@ -23,10 +28,12 @@ import amdn.anywhere.service.StoreService;
 public class MainController {
 	private final MainService mainService;
 	private final  StoreService storeService;
+	private final  MemberService memberService;
 	
-	public MainController(MainService mainService, StoreService storeService) {
+	public MainController(MainService mainService, StoreService storeService, MemberService memberService) {
 		this.mainService = mainService;
 		this.storeService = storeService;
+		this.memberService = memberService;
 	}
 	
 	
@@ -53,6 +60,11 @@ public class MainController {
 					  ,@RequestParam(name="searchKey", required = false) String searchKey
 					) {
 		
+		
+		
+		//실시간검색현황 조회
+		SearchKeyword searchKeyword = mainService.getSearchKeyword();
+		
 		//메뉴 카테고리(대분류) 불러오기
 		List<FoodMainCate> mainCate = storeService.getMainCate();
 		
@@ -74,6 +86,7 @@ public class MainController {
 			mainService.addSearchTotal(paramMap);
 		}
 		
+		model.addAttribute("searchKeyword", searchKeyword);
 		model.addAttribute("mainCate", mainCate);
 		model.addAttribute("title", "AMDN, 아무데나");
 		model.addAttribute("mainList", mainList);

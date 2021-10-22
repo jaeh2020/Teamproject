@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import amdn.anywhere.domain.Order;
+import amdn.anywhere.domain.SearchKeyword;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.mapper.MainMapper;
 
@@ -19,11 +21,33 @@ public class MainService {
 		 this.mainMapper = mainMapper; 
 	}
 	
+	//선호도별 매장 조회 선호도3
+	public List<Store> getStoreLikeList3(String userId){
+		List<Store> storeLikeList3 = mainMapper.getStoreLikeList3(userId);
+		return storeLikeList3;
+	}
+	//선호도별 매장 조회 선호도2
+	public List<Store> getStoreLikeList2(String userId){
+		List<Store> storeLikeList2 = mainMapper.getStoreLikeList2(userId);
+		return storeLikeList2;
+	}
+	//선호도별 매장 조회 선호도1
+	public List<Store> getStoreLikeList(String userId){
+		List<Store> storeLikeList = mainMapper.getStoreLikeList(userId);
+		return storeLikeList;
+	}
+	
+	
+	//실시간검색현황 조회
+	public SearchKeyword getSearchKeyword() {
+		return mainMapper.getSearchKeyword();
+	}
+	
+	
 	//검색어 토탈 쌓기
 	public int addSearchTotal(Map<String, Object> paramMap) {
 		return mainMapper.addSearchTotal(paramMap);
 	}
-	
 	
 	
 	//검색어코드 자동증가

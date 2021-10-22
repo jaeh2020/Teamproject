@@ -101,8 +101,8 @@ public class PosService {
 	}
 
 	//나의매장 주문pos list조회
-	public List<Order> getPosOrderList(String storeCode){
-		List<Order> myPosOrderList = posMapper.getPosOrderList(storeCode);
+	public List<Order> getPosOrderList(Map<String, String> paramMap){
+		List<Order> myPosOrderList = posMapper.getPosOrderList(paramMap);
 		
 		return myPosOrderList;
 	}
