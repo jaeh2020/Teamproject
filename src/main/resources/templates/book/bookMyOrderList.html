@@ -64,8 +64,9 @@
 						<th data-orderable="false">영수증 출력</th>
 						<th>주문등록일시</th>
 						<th>주문상태</th>
-						<th>결제완료일시</th>
+           <th>결제완료일시</th>
 						<th>예약취소</th>
+            <th>리뷰작성</th>
 					</tr>
 	            </thead>
 	            <tbody>
@@ -89,6 +90,9 @@
 						<td>
 							<button type="button" class="cancelBtn btn btn-dark btn-outline">예약취소</button>
 						</td>
+            <td>
+              	<a th:href="@{/review/reviewWrite(bookCode=${o.bookCode})}" class="btn btn-dark btn-outline fa fa-thumbs-up"></a>
+            </td>
 					</tr>
 				</tbody>
 			</table>

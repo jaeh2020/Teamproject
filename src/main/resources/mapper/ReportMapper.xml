@@ -258,7 +258,6 @@ FROM
 	,r.member_id
 	,r.rep_confi_time
 	,r.state_code
-	,s.state_name
 FROM
 	tb_report AS r
 	INNER join

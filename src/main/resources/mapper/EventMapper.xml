@@ -52,6 +52,7 @@
 			, #{bannerStoredPath}
 			, #{storeCode}
 			, #{storeName})
+
 	</insert>
 	<update id="finishEvent" parameterType="String">
 		UPDATE tb_event
@@ -77,6 +78,7 @@
 			, t.state_name
 			, e.store_code
 			, s.store_name
+
 		FROM tb_event AS e
 			LEFT JOIN 
 			tb_statement AS t

@@ -22,6 +22,23 @@
 </th:block>
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
+
+<form th:action = "@{/enter/cancelStoreManage}" method="get">
+	<!-- 검색기능 -->
+	<div class="row">
+		<div class="col-lg-12 date-input">
+			<input type="date" id="dateBefore" name="dateBefore" class="form-control" style="width:200px; display:inline">
+				~
+				<input type="date" id="dateAfter" name="dateAfter" class="form-control" style="width:200px; display:inline">
+				<button type="submit" id="dateSearchBtn" class="btn btn-danger btn-flat m-b-10">
+					<i class="fa fa-search"></i>
+				</button>
+			<button type="button" class="mainBtn btn btn-dark btn-flat btn-addon m-b-10 m-l-5" style="float: right;">
+					<i class="ti-user"> POS 메인화면 </i>
+			</button>
+		</div>	
+	</div>
+		
 	<div class="row">
 		<div class="col-12">
 			 <div class="card">
@@ -67,7 +84,7 @@
 	        </div>
 		</div>
 	</div>
-	 
+</form>	 
 
 </th:block>
 <!-- End PAge Content -->
@@ -76,6 +93,11 @@
 <th:block layout:fragment="customJsLib">
 	
 	<script type="text/javascript">
+	
+	 /* 오늘날짜로 */
+	document.getElementById('dateBefore').valueAsDate = new Date();
+	document.getElementById('dateAfter').valueAsDate = new Date();
+    
 	
 	//승인버튼 클릭시
 	$(function(){

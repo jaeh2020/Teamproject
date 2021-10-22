@@ -1,12 +1,16 @@
 package amdn.anywhere.controller;
 
 import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpSession;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import amdn.anywhere.domain.Event;
 import amdn.anywhere.domain.Store;
+
 import amdn.anywhere.service.EventService;
 import amdn.anywhere.service.StoreService;
 

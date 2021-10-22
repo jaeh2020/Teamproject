@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="amdn.anywhere.mapper.ReviewMapper">
+<resultMap type="Order" id="orderResultMap">
+		<result property="oCode"				column="o_code"/>
+		<result property="bookCode"				column="b_o_code"/>
+		<result property="userId"				column="user_id"/>
+		<result property="storeCode"			column="store_code"/>
+		<result property="menuCode"				column="menu_code"/>
+		<result property="oCount"				column="o_count"/>
+		<result property="menuTotalPrice"		column="menu_total_price"/>
+		<result property="oRequest"				column="o_request"/>
+		<result property="payGroCode"			column="pay_gro_code"/>
+		<result property="oTotalPrice"			column="o_total_price"/>
+		<result property="orderSignTime"		column="order_sign_time"/>
+		<result property="orderCompTime"		column="order_comp_time"/>
+		<result property="orderStateCode"		column="order_state_code"/>
+		<result property="storeTableCode"		column="store_table_code"/>
+		<association property="book" javaType="Book">
+			<id property="bookCode" 			column="b_o_code"/>
+			<result property="storeCode"		column="store_code"/>
+			<result property="userId"			column="user_id"/>
+			<result property="bookUserName"		column="book_user_name"/>
+			<result property="bookUserPhone"	column="book_user_phone"/>
+			<result property="bookPeoNum"		column="book_peo_num"/>
+			<result property="bookSignTime"		column="book_sign_time"/>
+			<result property="bookCompTime"		column="book_comp_time"/>
+			<result property="bookCallAgree"	column="book_call_agree"/>
+			<result property="stateCode"		column="state_code"/>
+			<result property="bookPickup"		column="book_pickup"/>
+		</association>
+</resultMap>
+	
+<!-- 방문음식점이름 가져오기 -->
+<select id="getStoreName" resultMap="orderResultMap">
+	SELECT
+		s.store_name AS storeName
+	FROM
+		tb_book AS b
+		INNER join
+		tb_store_info AS s
+		on
+		b.store_code = s.store_code
+	WHERE
+		b.b_o_code = #{bookCode};
+</select>
+
+
+</mapper>

@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/default2}">
+
 <th:block layout:fragment="customCss">
 	<style type="text/css">
     	.btn {
@@ -17,6 +18,7 @@
     	
 	</style>
 </th:block>
+
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
 </th:block>
@@ -45,6 +47,7 @@
 					<div th:if="${event.stateCode == 'state_event_ing'} and ${event.storeCode != null}" style="text-align: right">
 						<a th:href="@{/book/addBookMember(storeName=${event.storeName})}" class="btn btn-success text-white"><i class="bi bi-box-arrow-right"></i> 주문하러 가기</a>
 					</div>
+
 				</div>
 			</div>
 		</div>

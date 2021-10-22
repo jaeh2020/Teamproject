@@ -55,6 +55,7 @@
 					<div class="card-body form-validation">
 						<form class=".form-valide" id="eventForm" method="post" th:action="@{/event/addEventProcess}" enctype="multipart/form-data">
 						 	<label><span class="text-danger">*</span><code class="m-b-14 f-s-11"> 필수항목입니다.</code></label>
+
 						 	<div class="form-group row">
 	                             <label class="col-lg-4 col-form-label" for="eventName">이벤트명<span class="text-danger">*</span></label>
 	                             <div class="col-lg-7">
@@ -103,6 +104,7 @@
 	      	           			<div class="aa">
 		           	            	<button type="submit" class="btn btn-outline-danger"><i class="bi bi-check-circle-fill"></i> 등록</button>
 	      	           			</div>
+
     						</div>
            	            </form> 
 	                </div>
@@ -113,6 +115,7 @@
 
 <th:block layout:fragment="customJsLib">
 	<script type="text/javascript">
+
 		function searchStore(storeCode, storeName){
 			console.log(storeCode, storeName);
 			$('#searchStore').val(storeCode);
@@ -144,6 +147,7 @@
 		
 		
 		//유효성검사
+
 	    $("#eventForm").validate({
 	    	 ignore: [],
 	         errorClass: "invalid-feedback animated fadeInDown",

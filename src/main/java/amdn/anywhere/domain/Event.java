@@ -16,6 +16,7 @@ public class Event {
 	private String stateName;
 	private String storeCode;
 	private String storeName;
+
 	public String getEventCode() {
 		return eventCode;
 	}
@@ -36,6 +37,7 @@ public class Event {
 	}
 	public String getImgStoredPath() {
 		return imgStoredPath;
+
 	}
 	public void setImgStoredPath(String imgStoredPath) {
 		this.imgStoredPath = imgStoredPath;
@@ -114,6 +116,8 @@ public class Event {
 				+ bannerStoredPath + ", eventStr=" + eventStr + ", eventFin=" + eventFin + ", eventDetail="
 				+ eventDetail + ", stateCode=" + stateCode + ", regTime=" + regTime + ", adminId=" + adminId
 				+ ", stateName=" + stateName + ", storeCode=" + storeCode + ", storeName=" + storeName + "]";
+
 	}
+	
 	
 }
