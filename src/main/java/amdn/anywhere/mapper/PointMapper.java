@@ -12,6 +12,9 @@ public interface PointMapper {
 	//포인트 적립 등록
 	public int addPoint(Point point);
 	
+	//가입 시 포인트 적립
+	public int addJoinPoint(Point point);
+	
 	//포인트 적립 코드 자동증가
 	public String getPointCode();
 	

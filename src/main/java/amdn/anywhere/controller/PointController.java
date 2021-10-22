@@ -9,31 +9,41 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import amdn.anywhere.domain.Message;
 import amdn.anywhere.domain.Point;
+import amdn.anywhere.service.MessageService;
 import amdn.anywhere.service.PointService;
 
 @Controller
 public class PointController {
 
 	private final PointService pointService;
+	private final MessageService messageService;
 	
-	public PointController(PointService pointService) {
+	public PointController(PointService pointService, MessageService messageService) {
 		this.pointService = pointService;
+		this.messageService = messageService;
 	}
 	
 	@PostMapping("/point/addPoint")
-	public String addPoint(Point point) {
+	public String addPoint(  Point point
+							,Message message) {
 		System.out.println("포인트포인트 : " +point);
 		
 		//자동증가코드
 		String pointCode = pointService.getPointCode();
-		
+		String messageCode = messageService.getMessageCode();
 		if(point != null) {			
 			point.setPointNum(pointCode);
 			pointService.addPoint(point);
+			
+			message.setMessageNum(messageCode);
+			message.setMemberId(point.getUserId());
+			message.setMessageCode("msg_point_collect");
+			messageService.addMessage(message);
 		}
 		System.out.println(pointCode);
-	
+		System.out.println("message포인트적립 " + message);
 		return "redirect:/point/pointList";
 	}
 	

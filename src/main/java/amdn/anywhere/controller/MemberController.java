@@ -21,17 +21,21 @@ import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.MemberLogin;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
+import amdn.anywhere.domain.Point;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.service.MemberService;
+import amdn.anywhere.service.PointService;
 
 
 @Controller
 public class MemberController {
 
 	private final MemberService memberService;
+	private final PointService pointService;
 	
-	public MemberController(MemberService memberService) {
+	public MemberController(MemberService memberService, PointService pointService) {
 		this.memberService = memberService;
+		this.pointService = pointService;
 	}
 	
 	//회원 전체 로그인 내역 조회
@@ -396,14 +400,17 @@ public class MemberController {
 	
 	//추가정보입력
 	@PostMapping("/member/addMember03")
-	public String addMember03(MemberUser memberUser) {
+	public String addMember03(MemberUser memberUser
+							, Point point) {
 		System.out.println("멤버유저 : " + memberUser);		
 		
-		//소비자 추가정보 입력
-		if(memberUser != null) memberService.addMember03(memberUser);
-		//포인트 최초 등록
-		
-		//메세지 알림 체크 등록
+		if(memberUser != null) {
+			//소비자 추가정보 입력
+			memberService.addMember03(memberUser);
+			//포인트 최초 등록
+			point.setPointNum(pointService.getPointCode());
+			pointService.addJoinPoint(point);
+		}
 		
 		return "redirect:/member/addMember05";
 	}

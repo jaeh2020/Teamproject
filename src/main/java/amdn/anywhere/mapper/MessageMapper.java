@@ -10,8 +10,10 @@ import amdn.anywhere.domain.MessageCommon;
 
 @Mapper
 public interface MessageMapper {
-	
 
+	//메세지 삭제
+	public int deleteMessage(String messageNum);
+	
 	//메세지 알림설정(update)(ajax)
 	public int modifyMsgCheck(MessageCheck messageCheck);
 	
@@ -26,6 +28,9 @@ public interface MessageMapper {
 	
 	//addmessage..
 	public int addMessage(Message message);
+	
+	//메세지 코드 자동증가
+	public String getMessageCode();
 	
 	//공통 알림메세지 리스트
 	public List<MessageCommon> getMessageCommonList();

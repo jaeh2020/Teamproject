@@ -34,7 +34,17 @@ public class MessageController {
 
 		this.messageService = messageService;
 	}
-	
+
+	//메세지 삭제
+	@GetMapping(value = "/deleteMessage", produces = "application/json")
+	@ResponseBody
+	public String deleteMessage( @RequestParam(value = "delArr[]") List<String> delArr) {
+		log.info("체크박스에서 넘어온 delArr 값 : {}", delArr);
+		
+		for(String checked : delArr) messageService.deleteMessage(checked);
+		
+		return "redirect:/message/messageList";
+	}
 	
 	//체크박스 -ajax
 	@GetMapping(value= "/msCheck", produces = "application/json")
@@ -75,7 +85,7 @@ public class MessageController {
 
 		messageService.modifyMsgCheck(msc);
 		
-		return "redirect:/messageList";
+		return "redirect:/message/messageList";
 	}
 	
 	//알림체크값 db에서 가져와서 보여주기
@@ -148,14 +158,17 @@ public class MessageController {
 	
 	//메세지 알림 등록 쉽게하려고
 	@PostMapping("/message/addMessage")
-	public String addMessage(Message message, HttpSession httpSession) {
+	public String addMessage(Message message) {
 		System.out.println("커맨드객체 : " + message);
 		
-		if(message != null) messageService.addMessage(message);
-		
-		Message msg = new Message();
-		msg.setConfirmId((String)httpSession.getAttribute("SID"));
-		System.out.println(msg);
+		String messageCode = messageService.getMessageCode();
+		System.out.println(messageCode + "messageCodemessageCode");
+		if(message != null) {
+			message.setMessageNum(messageCode);
+			messageService.addMessage(message);
+		}
+		System.out.println("메세세세ㅔㅔ지ㅣㅣ " + message);
+			
 		return "redirect:/messageList";
 	}
 	

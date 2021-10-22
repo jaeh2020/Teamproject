@@ -101,14 +101,14 @@
        			  data: {messageCate1 : "All", memberId : memberId}, //전달 할 파라미터
        			  dataType: "json" //받아 올 포맷방식
        			});
-        			 //응답이 완료 되었을 경우 실행
+        		//응답이 완료 되었을 경우 실행
        			request.done(function( data ) {
    	    			console.log(data);
        				var tbody= '';
    					for(var i= 0; i<data.length; i++){
    						tbody += '<tr><td>' ;
    						tbody += '<label><input type="checkbox" name="delCk" class="chBox" id="' ;
-   						tbody += [i];
+   						tbody += data[i].messageNum;
    						tbody += '"></label>';
 						tbody += '</td><td>' ;
    						tbody += data[i].messageCommon.messageDetail ;
@@ -163,32 +163,72 @@
 			//3.전체 삭제 버튼 누를 때
 			 $('#allDelete').click( function() {
 				 if(confirm('메세지 전체가 삭제됩니다. 정말 삭제하시겠습니까?') == true){
-			        $('#msgTb').remove();
-				 }
-				 /* var chk = $("#allDelete").prop("checked");
-				 console.log(chk,'chk1');
-				 if(chk) {
-				  $("checkbox").prop("checked", true);
-				 } else {
-				  $(".chBox").prop("checked", false);
-				 }
-				 console.log(chk,'chk2'); */
+					$("input[type=checkbox]").prop("checked", true);
+					var delArr = [];
+					$("input[name='delCk']:checked").each(function() {
+						delArr.push($(this).attr('id'));
+			        });
+					console.log(delArr,"delArr");
+					//ajax 통신해서 삭제
+	        		var request = $.ajax({
+		    			  url: "/deleteMessage", //요청 주소
+		    			  method: "GET", //요청 방식
+		    			  data: {"delArr" : delArr}, //전달 할 파라미터
+		    			  dataType: "text" //받아 올 포맷방식
+	   				});
+					//응답이 완료 되었을 경우 실행
+	       			request.done(function( data ) {
+	   	    			console.log(data);
+	   	    			location.reload();
+	        		});
+	       			//응답 실패
+	    			request.fail(function(request,status,error){
+	    		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	    		    });
+				 }			 
 			 });
 			
 			//4. 선택 삭제 버튼 누를 때
 			 $('#selDelete').click( function() {
 				var cnt = $("input[name='delCk']:checked").length;
-				var delArr = new Array();
+				var delArr = [];
 				$("input[name='delCk']:checked").each(function() {
 					delArr.push($(this).attr('id'));
 		        });
 				console.log(cnt,"cnt");
 				console.log(delArr,"delArr");
+				
 				if(cnt == 0){
-		            alert("선택된 메세지가 없습니다.");
-		        } else{
-		        	if(confirm('선택한 메세지가 삭제됩니다. 정말 삭제하시겠습니까?') == true) $('#msgTb').remove();
-			 }			
+			    	alert("선택된 메세지가 없습니다.");
+			    } else{
+		        	if(confirm('선택한 메세지가 삭제됩니다. 정말 삭제하시겠습니까?') == true){
+
+						//ajax 통신해서 삭제
+		        		var request = $.ajax({
+			    			  url: "/deleteMessage", //요청 주소
+			    			  method: "GET", //요청 방식
+			    			  data: {"delArr" : delArr}, //전달 할 파라미터
+			    			  dataType: "text" //받아 올 포맷방식
+		   				});
+						//응답이 완료 되었을 경우 실행
+		       			request.done(function( data ) {
+		   	    			console.log(data);
+		   	    			location.reload();
+		        		});
+		       			//응답 실패
+		    			request.fail(function(request,status,error){
+		    		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    		    });
+		        	}
+				}	
+				
+				
+				
+				
+				
+				
+				
+	
     	});
 
     });

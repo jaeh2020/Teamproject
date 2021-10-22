@@ -48,11 +48,19 @@
 		<result property="messageEmail" column="email"/>
 	</resultMap>
 
+	<!-- 메세지 삭제 -->
+	<delete id="deleteMessage" parameterType="String">
+		DELETE FROM 
+			tb_member_notification
+		WHERE
+			not_num= #{messageNum};
+	</delete>
+	
 	<!-- 메세지 체크 수정처리 -->
 	<update id="modifyMsgCheck" parameterType="MessageCheck">
 		UPDATE tb_member_message_check
 			<trim prefix="SET" suffixOverrides=",">
-				<if test="messageFavorite != null and messageFavorite != ''.toString()">
+				<if test="messageFavorite != ''.toString()">
 					favorite = #{messageFavorite},
 				</if>
 				<if test="orderReservation != null and orderReservation != ''.toString()">
@@ -67,25 +75,25 @@
 				<if test="messageBoard != null and messageBoard != ''.toString()">
 					board = #{messageBoard},
 				</if>
-				<if test="messageReview != null and messageReview != ''.toString()">
+				<if test="messageReview != ''.toString()">
 					review = #{messageReview},
 				</if>
-				<if test="messagePoint != null and messagePoint != ''.toString()">
+				<if test="messagePoint != ''.toString()">
 					point = #{messagePoint},
 				</if>
-				<if test="messageEvaluator != null and messageEvaluator != ''.toString()">
+				<if test="messageEvaluator != ''.toString()">
 					evaluator = #{messageEvaluator},
 				</if>
-				<if test="messageMemberShip != null and messageMemberShip != ''.toString()">
+				<if test="messageMemberShip != ''.toString()">
 					membership = #{messageMemberShip},
 				</if>
-				<if test="messageEvent != null and messageEvent != ''.toString()">
+				<if test="messageEvent != ''.toString()">
 					event = #{messageEvent},
 				</if>
-				<if test="messageSms != null and messageSms != ''.toString()">
+				<if test="messageSms != ''.toString()">
 					sms = #{messageSms},
 				</if>
-				<if test="messageEmail != null and messageEmail != ''.toString()">
+				<if test="messageEmail != ''.toString()">
 					email = #{messageEmail},
 				</if>			
 			</trim>
@@ -195,6 +203,18 @@
 			, NOW()
 			, #{messageMark});
 	</insert>
+	
+	<!-- 메세지 코드 자동생성 -->
+	<select id="getMessageCode" resultType="String">
+		SELECT
+		CASE
+		WHEN COUNT(1) = 0 THEN 'not_001'
+		ELSE
+			CONCAT('not_', LPAD(MAX(CAST(SUBSTRING(not_num,5,3)AS DECIMAL)+1),3,0))
+		END AS messageNum
+		FROM
+			tb_member_notification;
+	</select>
 	
 	<!-- 공통 메세지 리스트 -->
 	<select id="getMessageCommonList" resultMap="messageCommonResultMap">
