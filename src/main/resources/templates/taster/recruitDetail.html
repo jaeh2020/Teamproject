@@ -15,7 +15,13 @@
 			margin: 20px 0px 0px 0px;
 		}
 		.alert{
-			text-align: center;
+			text-align: end;
+		}
+		.btn-outline-danger{
+			color: #dc3545!important;
+		}
+		.btn-outline-danger:hover {
+			color: #FCFBFB!important;
 		}
 		
 	</style>
@@ -94,19 +100,25 @@
 		            <div class="row">
 		            	<div class="col-md-8"></div>
 		            	<div class="col-md-4">
-		            		<th:block th:if="${recruitInfo.recruitNumNow} < ${recruitInfo.recruitNumTotal}">
+		            		<th:block th:if="${recruitInfo.recruitNumNow} < ${recruitInfo.recruitNumTotal} and ${apply =='n'}">
 			            		<form method="post">
 			            			<input type="hidden" name="recruitBCode" th:value="${recruitInfo.recruitTBizCode}">
 				            		<button type="button" id="applyBtn" class="btn btn-success btn-block ">평가단 신청하기</button>		            	
 		    	        		</form>
 		            		</th:block>
-		            		<th:block th:if="${recruitInfo.recruitNumNow == recruitInfo.recruitNumTotal} or ${recruitInfo.recruitFinTime < #dates.format(#dates.createToday(), 'yyyy-MM-dd')}">
-		            			<div class="alert alert-light">
-		            				<span class="color-danger">모집이 종료되었습니다.</span>
+		            		<th:block th:if="${recruitInfo.recruitNumNow == recruitInfo.recruitNumTotal} or ${recruitInfo.recruitFinTime < #dates.format(#dates.createToday(), 'yyyy-MM-dd')} or ${apply =='y'}">
+		            			<div th:if="${apply =='y'}" class="alert alert-light">
+	            					<span class="color-danger"><i class="bi bi-exclamation-circle-fill"></i> 이미 신청한 공고 입니다.</span>
+		            			</div>
+		            			<div th:unless="${apply =='y'}" class="alert alert-light">
+		            				<span class="color-danger"><i class="bi bi-exclamation-circle-fill"></i> 모집이 종료되었습니다.</span>
 		            			</div>
 		            		</th:block>
 		            	</div>
 		            </div>
+	            	<div th:if="${apply =='y'}" style="text-align: center;">
+           				<a id="cancelBtn" class="btn btn-outline-danger" th:href="@{/taster/cancelTaster(recruitCode=${recruitInfo.recruitTBizCode})}">신청 취소 </a>
+         			</div>
 		        </div>
 		    </div>
 	    </div>
@@ -114,6 +126,13 @@
 </th:block>
 <th:block layout:fragment="customJsLib">
 <script type="text/javascript">
+		$(function(){
+			$('#cancelBtn').on("click", function(){
+				var result = confirm('평가단 취소 횟수 누적 3회 이상 시 신청이 제한됩니다. 그래도 취소하시겠습니까?')		
+				if(result) return true;
+				else return false;
+			});
+		});
 		async function submitFn(){
 				const { value: accept } = await Swal.fire({
 					  title: '신청인 동의서 ',
@@ -184,10 +203,22 @@
 								result = 0;
 							}
 						}
-
 					}
 					if(result == 1){
-						submitFn();
+						var request = $.ajax({
+							  url: "/taster/checkCancelTimes", 
+							  method: "GET",
+							  dataType: "text" 
+						});
+						request.done(function(data){
+							var yn = data;
+							if(yn=='T')	submitFn();
+							else alert('평가단 취소 누적 3회 이상으로 권한이 없습니다!');
+						});
+						request.fail(function( jqXHR, textStatus){
+							 alert( "Request failed: " + textStatus );
+						});	
+						
 					}else{
 						alert('모집 연령대에 해당되지 않습니다!');
 					}

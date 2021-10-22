@@ -18,6 +18,7 @@ import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.RecruitTasterByBiz;
 import amdn.anywhere.domain.Taster;
+import amdn.anywhere.domain.TasterCancel;
 import amdn.anywhere.service.MemberService;
 import amdn.anywhere.service.QuestionService;
 import amdn.anywhere.service.StoreService;
@@ -31,16 +32,50 @@ public class TasterController {
 	private QuestionService questionService;
 	private MemberService memberService;
 	
-
-	
-	public TasterController(
-			TasterService tasterService
-			, QuestionService questionService
-			, MemberService memberService ) {
+	public TasterController(TasterService tasterService, QuestionService questionService, MemberService memberService) {
 
 		this.tasterService = tasterService;
 		this.questionService = questionService;
 		this.memberService = memberService;
+	}
+	
+	//평가단 신청시 취소 횟수 확인하는 ajax
+	@GetMapping(value="/checkCancelTimes", produces = "application/json")
+	@ResponseBody
+	public String checkCancelTimes(HttpSession session) {
+		String result = "";
+		int cancleTimes= tasterService.checkCancelTimes((String)session.getAttribute("SID"));
+		
+		if(cancleTimes >= 3)result = "F";
+					   else result = "T";
+		System.out.println(result);
+		return result;
+	}
+	//평가단 - 취소하기
+	@GetMapping("/cancelTaster")
+	public String cancelTaster(HttpSession session, @RequestParam(value="recruitCode", required = false) String recruitCode) {
+		session.getAttribute("SID");
+		//취소테이블에 추가
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("userId", session.getAttribute("SID"));
+		paramMap.put("recruitBCode", recruitCode);
+		tasterService.cancelTaster(paramMap);
+		// 평가단 상태 업데이트
+		paramMap.put("state", "cancel");
+		tasterService.updateTaster(paramMap);
+		return "redirect:/taster/myApplyForTaster";
+	}
+	
+	//평가단 - 내 신청현황(소비자)
+	@GetMapping("/myApplyForTaster")
+	public String myApplyForTaster(Model model, HttpSession session) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("userId", session.getAttribute("SID"));
+		List<Taster> applyInfo = tasterService.getTasterList(paramMap);
+		model.addAttribute("title", "내 신청 현황");
+		model.addAttribute("location", "내 신청 현황");
+		model.addAttribute("applyInfo", applyInfo);
+		return "/taster/myApplyForTaster";
 	}
 	//평가단 모집 현황(소상공인)
 	@GetMapping("/myRecruitList")
@@ -80,48 +115,56 @@ public class TasterController {
 		tasterService.addTaster(taster);
 		
 		//현재 모집인원수 증가
-		Map<String, String> paramMap = new HashMap<String, String>();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("nowNum", "Y");
 		paramMap.put("recruitBCode", recruitBCode);
 		tasterService.updateRecruitBBiz(paramMap);
 
 		
-		String redirect = "";
-		if(session.getAttribute("SLEVEL").equals("level_admin")) {
-			//관리자
-			redirect = "redirect:/taster/tasterList";
-
-		}else if(session.getAttribute("SLEVEL").equals("level_user")) {
-			//소비자
-			redirect = "redirect:/survey/myList";
-		}
-		return redirect;
+		return "redirect:/taster/tasterList";
 	}
 	//평가단 관리페이지 이동
 	@GetMapping("/tasterList")
 	public String tasterList(Model model) {
 		List<Taster> tasterList = tasterService.getTasterList(null);
+		List<TasterCancel> cancelList = tasterService.getTasterCancelList(null);
 		model.addAttribute("title", "평가단 관리페이지");
 		model.addAttribute("location", "평가단 관리");
 		model.addAttribute("tasterList", tasterList);
+		model.addAttribute("cancelList", cancelList);
 		return "/taster/tasterList";
 	}
 	//모집 상세페이지 이동
 	@GetMapping("/recruitDetail")
-	public String recruitDetail(
-			@RequestParam(value = "recruitCode", required = false)String recruitBCode , Model model) {
+	public String recruitDetail(@RequestParam(value = "recruitCode", required = false)String recruitBCode
+								, Model model, HttpSession session) {
 		//조회수 업데이트
-		Map<String, String> paramMap = new HashMap<String, String>();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("view", "Y");
 		paramMap.put("recruitBCode", recruitBCode);		
 		tasterService.updateRecruitBBiz(paramMap);
 		//모집코드로 공고내용 가져오기
 		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitBCode, null).get(0);
+		
+		//세션아이디가 이미 신청자일 경우 신청하기 버튼 대신 알림 문구 보이기
+		paramMap.clear();
+		paramMap.put("recruitBCode", recruitBCode);
+		paramMap.put("userId", session.getAttribute("SID"));
+		
+		List<Taster> tasterList = tasterService.getTasterList(paramMap);
+		if(tasterList.isEmpty()==false)	{
+			for(Taster taster : tasterList) {
+				if(taster.getState().equals("state_taster_cancel"))model.addAttribute("apply", "n");
+				else model.addAttribute("apply", "y");
+			}
+		}   else model.addAttribute("apply", "n");
+		
 		model.addAttribute("title", "평가단 모집 공고");
 		model.addAttribute("location1URL", "/taster/recruitNotice");
 		model.addAttribute("location1", "평가단 모집공고");
 		model.addAttribute("location2", "상세페이지");
 		model.addAttribute("recruitInfo", recruitInfo);
+		
 		
 		return "/taster/recruitDetail";
 	}
@@ -144,7 +187,7 @@ public class TasterController {
 	
 		String id = (String) session.getAttribute("SID");
 		
-		Map<String, String> paramMap = new HashMap<String, String>();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("recruitBCode", recruitBCode);
 		paramMap.put("state", state);
 		paramMap.put("adminId", id);

@@ -10,6 +10,9 @@
 			.btn-outline-danger:hover {
 				color: #FCFBFB!important;
 			}
+			.badge {
+				font-size: small;
+			}
 		</style>
 </th:block>
 <th:block layout:fragment="customTitle">
@@ -40,8 +43,9 @@
 	                    <table id="myTable" class="table table-bordered table-striped">
 	                        <thead>
 	                            <tr>
-	                                <th>이벤트코드</th>
+	                                <th>#</th>
 	                                <th>이벤트명</th>                               	                               
+	                                <th>이벤트매장</th>                               	                               
 	                                <th>시작일시</th>
 	                                <th>종료일시</th>
 	                                <th>등록일시</th>
@@ -54,8 +58,9 @@
 	                        </thead>
 	                        <tbody>
 	                        	<tr th:each="l : ${eventList}">
-		                            <td th:text="${l.eventCode}"></td>
+		                            <td th:text="${lStat.count}" th:id="${l.eventCode}"></td>
 		                            <td th:text="${l.eventName}"></td>
+		                            <td th:text="${l.storeName}"></td>
 		                            <td th:text="${l.eventStr}"></td>
 		                            <td th:text="${l.eventFin}"></td>
 		                            <td th:text="${l.regTime}"></td>

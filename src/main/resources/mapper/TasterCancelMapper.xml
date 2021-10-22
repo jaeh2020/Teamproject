@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="amdn.anywhere.mapper.TasterCancelMapper">
+	<resultMap type="TasterCancel" id="tasterCancelResultMap">
+		<result property="cancelCode" column="taster_cancel_code"/>
+		<result property="tasterApplyCode" column="taster_apply_code"/>
+		<result property="userId" column="user_id"/>
+		<result property="userName" column="member_name"/>
+		<result property="cancelDate" column="cancle_time"/>
+		<result property="numOfCancel" column="num_of_cancel_times"/>
+		<result property="tasterApplyDate" column="apply_time"/>
+		<result property="recruitBCode" column="recruit_taster_biz_code"/>
+	</resultMap>
+	<select id="checkCancelTimes" parameterType="String" resultType="int" >
+		SELECT
+			MAX(num_of_cancel_times)
+		FROM
+			tb_taster_cancel
+		WHERE user_id = #{userId}
+	</select>
+	<select id="getTasterCancelList" parameterType="map" resultMap="tasterCancelResultMap">
+		SELECT 
+			c.taster_cancel_code
+			, c.taster_apply_code
+			, c.user_id
+			, c.cancle_time
+			, c.num_of_cancel_times
+			, m.member_name
+			, t.apply_time
+			, t.recruit_taster_biz_code
+		FROM tb_taster_cancel as c
+			INNER JOIN 
+			tb_member AS m
+			ON c.user_id = m.member_id
+			INNER JOIN 
+			tb_taster_apply AS t
+			ON c.taster_apply_code = t.taster_apply_code
+	</select>
+	
+	<insert id="cancelTaster" parameterType="map">
+		INSERT INTO tb_taster_cancel
+			(taster_cancel_code
+			, taster_apply_code
+			, user_id
+			, cancle_time
+			, num_of_cancel_times)
+			SELECT 
+				sf_new_taster_cancel_code()
+				, a.taster_apply_code
+				, #{userId}
+				, NOW()
+				, (SELECT COUNT(1)+1 FROM tb_taster_cancel WHERE user_id = #{userId})
+			FROM tb_taster_apply AS a
+			WHERE a.user_id = #{userId} AND a.recruit_taster_biz_code = #{recruitBCode};
+	</insert>
+	
+</mapper>

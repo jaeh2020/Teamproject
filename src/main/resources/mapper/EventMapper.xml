@@ -17,6 +17,8 @@
 		<result property="imgStoredPath" column="stored_image_path" />
 		<result property="bannerStoredPath" column="stored_banner_path" />
 		<result property="stateName" column="state_name" />
+		<result property="storeCode" column="store_code" />
+		<result property="storeName" column="store_name" />
 	</resultMap>
 	
 	<insert id="addEvent" parameterType="Event">
@@ -32,7 +34,9 @@
 			, reg_time
 			, admin_id
 			, stored_image_path
-			, stored_banner_path)
+			, stored_banner_path
+			, store_code
+			, store_name)
 		VALUES (
 			sf_new_event_code()
 			, #{eventName}
@@ -45,7 +49,10 @@
 			, NOW()
 			, #{adminId}
 			, #{imgStoredPath}
-			, #{bannerStoredPath})
+			, #{bannerStoredPath}
+			, #{storeCode}
+			, #{storeName})
+
 	</insert>
 	<update id="finishEvent" parameterType="String">
 		UPDATE tb_event
@@ -69,10 +76,16 @@
 			, e.stored_image_path
 			, e.stored_banner_path
 			, t.state_name
+			, e.store_code
+			, s.store_name
+
 		FROM tb_event AS e
 			LEFT JOIN 
 			tb_statement AS t
-			ON e.state_code = t.state_code		
+			ON e.state_code = t.state_code
+			LEFT JOIN
+			tb_store_info as s
+			ON e.store_code = s.store_code		
 		<where>
 			<if test="stateCode != null">
 				state_code = #{stateCode}
