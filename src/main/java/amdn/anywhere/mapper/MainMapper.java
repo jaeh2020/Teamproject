@@ -5,10 +5,23 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import amdn.anywhere.domain.SearchKeyword;
 import amdn.anywhere.domain.Store;
 
 @Mapper
 public interface MainMapper {
+	
+	
+	
+	//선호도별 매장조회 선호도3
+	public List<Store> getStoreLikeList3(String userId);
+	//선호도별 매장조회 선호도2
+	public List<Store> getStoreLikeList2(String userId);
+	//선호도별 매장조회 선호도1
+	public List<Store> getStoreLikeList(String userId);
+	
+	//실시간검색현황 조회
+	public SearchKeyword getSearchKeyword();
 	
 	//검색어토탈 쌓기
 	public int addSearchTotal(Map<String, Object> paramMap);

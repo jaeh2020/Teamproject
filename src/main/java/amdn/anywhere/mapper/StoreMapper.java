@@ -26,7 +26,7 @@ public interface StoreMapper {
 	public int modifyStoreCancel(Map<String, String> paramMap);
 	
 	//입점취소신청 리스트 조회
-	public List<StoreCancel> getStoreCancelList();
+	public List<StoreCancel> getStoreCancelList(Map<String, String> paramMap);
 	
 	//나의 입점취소현황 조회
 	public List<StoreCancel> getmyCancelStoreList(String bizId);

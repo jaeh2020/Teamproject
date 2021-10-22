@@ -39,8 +39,8 @@ public class StoreService {
 	}
 	
 	//취소현황 리스트 조회
-	public List<StoreCancel> getStoreCancelList(){
-		List<StoreCancel> storeCancelList = storeMapper.getStoreCancelList();
+	public List<StoreCancel> getStoreCancelList(Map<String, String> paramMap){
+		List<StoreCancel> storeCancelList = storeMapper.getStoreCancelList(paramMap);
 		return storeCancelList;
 	}
 	

@@ -17,6 +17,7 @@ public class Store {
 	private int storeOccupancy;
 	private Waiting waiting;
 	private FoodMainCate foodMainCate;
+	private MemberUserLike memberUserLike;
 	public String getStoreCode() {
 		return storeCode;
 	}
@@ -113,6 +114,12 @@ public class Store {
 	public void setFoodMainCate(FoodMainCate foodMainCate) {
 		this.foodMainCate = foodMainCate;
 	}
+	public MemberUserLike getMemberUserLike() {
+		return memberUserLike;
+	}
+	public void setMemberUserLike(MemberUserLike memberUserLike) {
+		this.memberUserLike = memberUserLike;
+	}
 	@Override
 	public String toString() {
 		return "Store [storeCode=" + storeCode + ", storeName=" + storeName + ", bizCode=" + bizCode + ", bizId="
@@ -120,8 +127,10 @@ public class Store {
 				+ ", mainCateCode=" + mainCateCode + ", mainCateCode2=" + mainCateCode2 + ", storeHoliday="
 				+ storeHoliday + ", storeTasteAgree=" + storeTasteAgree + ", storeExposAgree=" + storeExposAgree
 				+ ", storeTableNum=" + storeTableNum + ", storeOccupancy=" + storeOccupancy + ", waiting=" + waiting
-				+ ", foodMainCate=" + foodMainCate + "]";
+				+ ", foodMainCate=" + foodMainCate + ", memberUserLike=" + memberUserLike + "]";
 	}
+	
+	
 	
 	
 	
