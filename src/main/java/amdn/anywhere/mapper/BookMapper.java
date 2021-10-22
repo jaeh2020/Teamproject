@@ -14,6 +14,13 @@ import amdn.anywhere.domain.Store;
 @Mapper
 public interface BookMapper {
 	
+	
+	//예약취소테이블 insert
+	public int addBookCancel(Map<String, String> paramMap);
+	
+	//예약취소코드 자동증가
+	public String getNewbookCancelCode();
+	
 	//주문내역 리스트
 	public List<Order> getOrderAllList(Map<String, Object> paramMap);
 	
