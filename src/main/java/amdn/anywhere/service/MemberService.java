@@ -10,7 +10,10 @@ import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.MemberLogin;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
+import amdn.anywhere.domain.Point;
 import amdn.anywhere.mapper.MemberMapper;
+import amdn.anywhere.mapper.MessageMapper;
+import amdn.anywhere.mapper.PointMapper;
 
 @Service
 public class MemberService {
@@ -125,7 +128,7 @@ public class MemberService {
 	}
 	
 	//소비자 추가정보 등록
-	public int addMember03(MemberUser memberUser) {
+	public int addMember03(MemberUser memberUser) {	
 		return memberMapper.addMember03(memberUser);
 	}
 	

@@ -27,7 +27,7 @@
 	</resultMap>
 	
 	<!-- 포인트 소멸 개인조회 -->
-	<!-- 포인트 소멸 전체조회 -->
+	
 	
 	<!-- 포인트 적립 -->
 	<insert id="addPoint">
@@ -61,6 +61,32 @@
 									 FROM
 										tb_point as p))
 			, (point_add + before_point_history)
+			, DATE_ADD(point_save_time, INTERVAL 90 DAY))
+	</insert>
+	
+	<!-- 가입 시 포인트 적립 -->
+	<insert id="addJoinPoint">
+		INSERT INTO tb_point
+			(point_num
+			, user_id
+			, o_total
+			, point_save
+			, point_contents
+			, point_save_time
+			, point_add
+			, before_point_history
+			, after_point_history
+			, pred_del_time
+		)VALUES (
+			  #{pointNum}
+			, #{userId}
+			, #{oTotal}
+			, #{pointSave}
+			, #{pointContents}
+			, NOW()
+			, #{pointAdd}
+			, #{beforePointHistory}
+			, #{afterPointHistory}
 			, DATE_ADD(point_save_time, INTERVAL 90 DAY))
 	</insert>
 	

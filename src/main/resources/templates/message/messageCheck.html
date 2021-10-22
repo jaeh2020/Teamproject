@@ -22,6 +22,7 @@
 	                <strong class="card-title">알림 설정</strong>
 	            </div>
 	            <div class="card-body">
+	            <p>주문, 결제, 대기 예약 알림은 필수 알림입니다.</p>
 	           		<form th:action="@{/message/messageCheck}" method="get">
 						<input type="hidden" id="memberId" name="memberId" th:value="${session.SID}">
 						<table class="table table-hover ">
@@ -29,19 +30,19 @@
 			                    <tr>
 			                        <td>주문</td>
 			                        <td>
-			                        	<input type="checkbox" name="mcheck" value="orderResevation">
+			                        	<input type="checkbox" name="mcheck" value="orderResevation" checked="checked" readonly="readonly">
 									</td>
 			                    </tr>
 			                    <tr>
 			                        <td>결제</td>
 			                        <td>
-			                        	<input type="checkbox" name="mcheck" value="messagePay">
+			                        	<input type="checkbox" name="mcheck" value="messagePay" checked="checked" readonly="readonly">
 									</td>
 			                    </tr>
 			                    <tr>
 			                        <td>대기</td>
 			                        <td>
-			                        	<input type="checkbox" name="mcheck" value="messageWaiting">
+			                        	<input type="checkbox" name="mcheck" value="messageWaiting" checked="checked" readonly="readonly">
 									</td>
 			                    </tr>
 			                    <tr>

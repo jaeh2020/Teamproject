@@ -21,6 +21,11 @@ public class PointService {
 		return pointMapper.addPoint(point);
 	}
 	
+	//가입 시 포인트 적립
+	public int addJoinPoint(Point point) {
+		return pointMapper.addJoinPoint(point);
+	}
+	
 	//포인트 적립코드 자동증가
 	public String getPointCode() {
 		return pointMapper.getPointCode();
