@@ -248,7 +248,7 @@ FROM
 <!-- 게시판 신고 목록 -->
 <select id="getReportBoardList" resultMap="ReportBoardMap">
 	SELECT
-	r.rep_code
+	 r.rep_code
 	,r.rep_cate_code
 	,c.rep_cate
 	,r.board_num

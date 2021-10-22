@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿OCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/default}">
@@ -49,17 +49,23 @@
 					<div class="card">
 						<div class="card-body"> 
 							<p>
-								<font style="font-weight: bold; font-size: 20px;"><i class="fa fa-check"></i> 가게명 : </font>
+								<font style="font-weight: bold; font-size: 20px;"><i class="fa fa-check"></i> 가게명 : [[${book[0].storeSearch.storeName}]] </font>
 							</p>
 							<p>
-								<font style="font-weight: bold; font-size: 20px;"><i class="fa fa-cutlery"></i> 주문한 음식 : </font>
+								<font style="font-weight: bold; font-size: 20px;"><i class="fa fa-cutlery"></i> 주문한 음식 : [[${book[0].menu.menuName}]] ,  [[${book[1].menu.menuName}]]</font>
 							</p>
 						 </div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<form name="reviewForm" method="post">
+		<form th:action="@{/review/reviewWrite}" role="form" id="reviewForm" method="post">
+			<!-- 히든영역 -->
+			<input type="hidden" name="stateCode" th:value="${statement.stateCode}">
+			<input type="hidden" name="bookCode" th:value="${bookList.bookCode}">
+			<input type="hidden" name="storeCode" th:value="${bookList.storeCode}">
+			<input type="hidden" name="payComTime" value="2021-10-19 00:04:27">
+			
 			<div class="row">
 				<div class="col-lg-6 offset-lg-3 mr-auto lg-auto" style="padding-top: 20px;">
 					<div class="row">
@@ -85,7 +91,7 @@
 							<span class="text-danger">*</span> 상품에 만족하셨나요?
 						</div>
 						<div style="font-size: 45px; text-align: center;" >
-							<div class="star-rating space-x-4 mx-auto">
+							<div class="star-rating space-x-4 mx-auto" >
 								<input type="radio" id="5-stars" name="scoreCode" value="sc_5" />
 									<label for="5-stars" class="star pr-4">★</label>
 								<input type="radio" id="4-stars" name="scoreCode" value="sc_4" />
@@ -135,24 +141,11 @@
 				<div class="col-lg-6 offset-lg-3 mr-auto lg-auto">
 					<div class="row">
 						<div class="col-lg-6 col-xs-6">
-							<button type="button" class="btn btn-secondary btn-lg btn-block" style="font-weight: bold; font-size: 18px; margin-bottom: 30px;" onclick = 'alertFn()'>취소</button>
-								
-								<script type="text/javascript">
-									function alertFn(){
-										var isAction = confirm('﻿정말 삭제하시겠습니까? 삭제 이후에는 해당 서비스를 이용하실 수 없습니다.')
-											if(isAction){
-											//처리코드
-											alert('삭제가 완료되었습니다.');
-											location.href = '<%= request.getContextPath() %>/move/order_list.jsp';
-										}else{
-											location.href = '<%= request.getContextPath() %>/index.jsp';
-										}
-									}
-								</script>
+							<a th:href="@{/book/bookMyOrderList}"class="btn btn-secondary btn-lg btn-block" style="font-weight: bold; font-size: 18px; margin-bottom: 30px;" >취소</a>
 						</div>
 		
 						<div class="col-lg-6 col-xs-6">
-							<button type="button" class="btn btn-secondary btn-lg btn-block" onclick="mySubmit1()" style="font-weight: bold; font-size: 18px;">작성완료</button>
+							<button type="button" class="btn btn-secondary btn-lg btn-block"  style="font-weight: bold; font-size: 18px;" id="reviewComBtn">작성완료</button>
 						</div>
 					</div>
 				</div>
@@ -167,28 +160,25 @@
 	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
     <script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->
 	<script type="text/javascript">
-		function mySubmit1() {
-			var form = reviewForm;
-
-			if(form.userName.value == ''){
-				alert('작성자 명을 입력해주세요.')
-				form.userName.focus();
-				return;
-			}
-			if(form.rating.value == ''){
-				alert('평점을 입력해주세요')
-				form.rating.focus();
-				return;
-			}
-			if (form.review_con.value == '') {
+	$(function(){
+      	$('#reviewComBtn').on('click',function(){
+      		
+      		var scoreCode = $('[name=scoreCode]')
+      		var reviewContents = $('[name=reviewContents]')
+     
+      		if(scoreCode.val() == ''){
+				alert('평점을 등록해주세요.')
+				scoreCode.focus();
+      			return false;
+      		}else if(reviewContents.val() == ''){
 				alert('리뷰를 작성해주세요.')
-				form.review_con.focus();
-				return;
-			}
-			form.action = '../storyboard/move/review_list.jsp';
-			alert('리뷰작성완료!')
-			form.submit();
-		}
+				reviewContents.focus();
+	  			return false;
+      		}	
+		  		alert('리뷰를 등록하시겠습니까?')
+	      		$('#reviewForm').submit();
+      	});	
+	});
 	</script>
 
     

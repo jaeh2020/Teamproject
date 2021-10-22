@@ -46,7 +46,6 @@ public interface BoardMapper {
 	 //게시물 삭제 처리 (paramMap)
 	 public int commentdel(Map<String, String> paramMap);
 	 
-	 
 	 //게시물 삭제 처리
 	 public int boardDelete(Map<String, String> paramMap);
 	
@@ -58,7 +57,6 @@ public interface BoardMapper {
 	 
 	 //상태코드 가져오기
 	 public Statement getboardStatement(String boardStatementCode);
-	 
 	
 	 //회원목록 조회 ajax
 	 public List<Member> getMemberList();
