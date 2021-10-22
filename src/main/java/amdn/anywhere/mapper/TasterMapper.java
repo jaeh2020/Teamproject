@@ -16,7 +16,7 @@ public interface TasterMapper {
 	//평가단 나이 정보 가져오기
 	public List<Integer> getTastersAge(String surveyCode);
 	//평가단 정보 수정
-	public int updateTaster(Map<String, String> paramMap);
+	public int updateTaster(Map<String, Object> paramMap);
 	//평가단 추가
 	public int addTaster(Taster taster);
 	//평가단코드생성

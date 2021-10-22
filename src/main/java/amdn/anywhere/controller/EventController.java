@@ -1,17 +1,12 @@
 package amdn.anywhere.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -23,15 +18,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import amdn.anywhere.domain.Event;
+import amdn.anywhere.domain.Store;
 import amdn.anywhere.service.EventService;
+import amdn.anywhere.service.StoreService;
 
 @Controller
 @RequestMapping("/event")
 public class EventController {
 	
 	private EventService eventService;
-	public EventController(EventService eventService) {
+	private final StoreService storeService;
+	public EventController(EventService eventService, StoreService storeService) {
 		this.eventService = eventService;
+		this.storeService = storeService;
+	}
+	//7. 이벤트 등록할 때 매장 검색하기
+	@GetMapping("/searchStore")
+	public String searchStore(Model model) {
+		//매장 리스트 가져오기
+		List<Store> storeList= storeService.getStoreList();
+		model.addAttribute("storeList", storeList);
+		return "/event/searchStore";
 	}
 	//6. 이벤트 등록 프로세스
 	@PostMapping("/addEventProcess")

@@ -5,8 +5,7 @@
 <th:block layout:fragment="customCss">
 	<style type="text/css">
 		.titleCss {
-			background-color: #5c4ac7;
-			color: white;   
+			background-color: #b8b6b08a;
 		}
 		.cateCss {
 			background-color: #f8f9fa;
@@ -67,13 +66,13 @@
 			                        	<td class="cateCss" colspan="10"><strong>설문 정보</strong></td>
 			                        </tr>
 			                    	<tr>
-			                    		<td class="titleCss" colspan="4">제목</td>
+			                    		<td class="titleCss" colspan="4"><strong>제목</strong></td>
 			                    		<td th:text="${recruitInfo.surveyTitle}" colspan="6"></td>
 			                    	</tr>
 			                        <tr>
-										<td class="titleCss" colspan="3">매장명</td>
+										<td class="titleCss" colspan="3"><strong>매장명</strong></td>
 			                            <td colspan="2" th:text="${recruitInfo.storeInfo.storeName}"></td>
-			                            <td colspan="2" class="titleCss">메뉴명</td>
+			                            <td colspan="2" class="titleCss"><strong>메뉴명</strong></td>
 			                            <td colspan="3" th:text="${recruitInfo.menu.menuName}"></td>    
 			                        </tr>
 			                        <tr>

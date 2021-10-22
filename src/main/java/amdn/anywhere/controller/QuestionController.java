@@ -131,14 +131,15 @@ public class QuestionController{
 			}
 			questionAnswerList.add(qAnswer);
 		}
+		 Map<String, Object> map = new HashMap<String, Object>();
 		//insert처리
 		int result = questionService.addQuestionAnswer(questionAnswerList);
 		if(result > 0) {
 			//평가단 정보 -> 설문 참여완료로 상태 업뎃.
-			paramMap.clear();
-			paramMap.put("userId", id);
-			paramMap.put("recruitBCode", recruitBCode);
-			tasterService.updateTaster(paramMap);
+			map.put("userId", id);
+			map.put("recruitBCode", recruitBCode);
+			map.put("state", "com");
+			tasterService.updateTaster(map);
 			
 			//설문지 정보 -> 참여인원 업뎃.
 			questionService.updateServey(recruitBCode);

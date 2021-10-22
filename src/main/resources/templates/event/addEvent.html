@@ -17,9 +17,11 @@
 			color: #FCFBFB!important;
 		}
 		button{
-			width: 150px;
-			float: right;
-		}	
+			width: 200px;
+		}
+		.aa{
+			padding-left: 700px
+		}
 	</style>
 </th:block>
 	<th:block layout:fragment="customJs">
@@ -52,10 +54,18 @@
 				<div class="card">
 					<div class="card-body form-validation">
 						<form class=".form-valide" id="eventForm" method="post" th:action="@{/event/addEventProcess}" enctype="multipart/form-data">
+						 	<label><span class="text-danger">*</span><code class="m-b-14 f-s-11"> 필수항목입니다.</code></label>
 						 	<div class="form-group row">
 	                             <label class="col-lg-4 col-form-label" for="eventName">이벤트명<span class="text-danger">*</span></label>
 	                             <div class="col-lg-7">
 									<input type="text" class="form-control" id="eventName" name="eventName" placeholder="이벤트명을 입력하세요..">
+	                             </div> 
+	                         </div>
+	                         <div class="form-group row">
+	                             <label class="col-lg-4 col-form-label" >관련 매장</label>
+	                             <div class="col-lg-7">
+									<input type="text" class="form-control" id="searchStore" name="storeCode" placeholder="매장 검색">
+									<input type="text" class="form-control" id="storeName" name="storeName" hidden="hidden">
 	                             </div> 
 	                         </div>
 	                         <div class="form-group row">
@@ -90,7 +100,9 @@
 	                             </div> 
 	      	           		</div>
 	      	           		<div class="form-group row">
-	           	            	<button type="submit" class="btn btn-outline-danger"><i class="bi bi-check-circle-fill"></i> 등록</button>
+	      	           			<div class="aa">
+		           	            	<button type="submit" class="btn btn-outline-danger"><i class="bi bi-check-circle-fill"></i> 등록</button>
+	      	           			</div>
     						</div>
            	            </form> 
 	                </div>
@@ -101,25 +113,37 @@
 
 <th:block layout:fragment="customJsLib">
 	<script type="text/javascript">
-	//날짜 통제 : 오늘날짜부터 선택가능하기
-	$(function(){
-		var today = new Date();
-		var dd = today.getDate();
-		var mm = today.getMonth()+1; 
-		var yyyy = today.getFullYear();
-		if(dd<10){
-			  dd='0'+dd;
-			} 
-		if(mm<10){
-			  mm='0'+mm;
-			} 
-
-		today = yyyy+'-'+mm+'-'+dd;
-		$('input[type=date]').attr("min", today);
-	});
+		function searchStore(storeCode, storeName){
+			console.log(storeCode, storeName);
+			$('#searchStore').val(storeCode);
+			$('#storeName').val(storeName);
+		}
+		//매장 검색 이벤트
+		$(function(){
+			$('#searchStore').on("click", function(){
+				var openOption ='width = 600, height=500, left=50, top=50, scrollbars=no';
+				open("searchStore",'매장검색', openOption);
+			});
+		});
+		//날짜 통제 : 오늘날짜부터 선택가능하기
+		$(function(){
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth()+1; 
+			var yyyy = today.getFullYear();
+			if(dd<10){
+				  dd='0'+dd;
+				} 
+			if(mm<10){
+				  mm='0'+mm;
+				} 
 	
-	
-	//유효성검사
+			today = yyyy+'-'+mm+'-'+dd;
+			$('input[type=date]').attr("min", today);
+		});
+		
+		
+		//유효성검사
 	    $("#eventForm").validate({
 	    	 ignore: [],
 	         errorClass: "invalid-feedback animated fadeInDown",

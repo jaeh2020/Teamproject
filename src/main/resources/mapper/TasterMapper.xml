@@ -35,7 +35,12 @@
 	<update id="updateTaster" parameterType="map">
 		UPDATE tb_taster_apply
 			SET 
-				visit_feedback_state = 'state_taster_com'
+				<if test="state == 'com'">
+					visit_feedback_state = 'state_taster_com'
+				</if>
+				<if test="state == 'cancel'">
+					visit_feedback_state = 'state_taster_cancel'
+				</if>
 		WHERE
 		       user_id = #{userId}
 		       AND
@@ -89,9 +94,11 @@
 			<if test="recruitBCode != null">
 				t.recruit_taster_biz_code = #{recruitBCode}
 			</if>
-			<if test="userId != null">
-				t.user_id = #{userId}
-			</if>
+			<trim prefix="AND ">
+				<if test="userId != null">
+					t.user_id = #{userId}
+				</if>
+			</trim>	
 		</where>
 	</select>
 	<select id="getStoreList" parameterType="String" resultType="Store">

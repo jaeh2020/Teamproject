@@ -14,6 +14,8 @@ public class Event {
 	private String regTime;
 	private String adminId;
 	private String stateName;
+	private String storeCode;
+	private String storeName;
 	public String getEventCode() {
 		return eventCode;
 	}
@@ -92,14 +94,26 @@ public class Event {
 	public void setStateName(String stateName) {
 		this.stateName = stateName;
 	}
+	public String getStoreCode() {
+		return storeCode;
+	}
+	public void setStoreCode(String storeCode) {
+		this.storeCode = storeCode;
+	}
+	public String getStoreName() {
+		return storeName;
+	}
+	public void setStoreName(String storeName) {
+		this.storeName = storeName;
+	}
+	
 	@Override
 	public String toString() {
 		return "Event [eventCode=" + eventCode + ", eventName=" + eventName + ", eventImgName=" + eventImgName
 				+ ", imgStoredPath=" + imgStoredPath + ", eventBannerName=" + eventBannerName + ", bannerStoredPath="
 				+ bannerStoredPath + ", eventStr=" + eventStr + ", eventFin=" + eventFin + ", eventDetail="
 				+ eventDetail + ", stateCode=" + stateCode + ", regTime=" + regTime + ", adminId=" + adminId
-				+ ", stateName=" + stateName + "]";
+				+ ", stateName=" + stateName + ", storeCode=" + storeCode + ", storeName=" + storeName + "]";
 	}
-	
 	
 }

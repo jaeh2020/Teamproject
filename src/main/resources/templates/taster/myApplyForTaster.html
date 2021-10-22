@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default2}">
+<th:block layout:fragment="customCss">
+	<style type="text/css">
+		.badge{
+		    text-align: center;
+		    font-size: small;
+		}
+		tbody tr:hover {
+			cursor: pointer;
+		}
+	</style>
+</th:block>
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+	            <div>
+	            	<p class="text-muted m-b-15">
+                        <i class="bi bi-arrow-down-right-square"></i> 내가 신청한 <code> 평가단모집 </code> 에 대한 정보가 보여집니다. 클릭시 모집 상세 정보페이지로 이동됩니다.
+                    </p>
+	            </div>
+	            <div class="card-body">
+	            	<div class="table-responsive">
+	                    <table class="table table-hover">
+	                        <thead>
+	                            <tr>
+	                                <th>#</th>
+	                                <th>신청공고</th>
+	                                <th>매장</th>
+	                                <th>신청일시</th>
+	                                <th>상태</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                        	<th:block th:if="${#lists.size(applyInfo) != 0}" th:each="i : ${applyInfo}">
+		                            <tr class="detail" th:id="${i.recruitBCode}">
+		                                <th scope="row" th:text="${iStat.count}"></th>
+		                                <td th:text="${i.recruitTasterByBiz.recruitTitle}"></td>
+		                                <td th:text="${i.storeName}"></td>
+		                                <td th:text="${i.applyTime}"></td>
+		                                <td class="color-primary" >
+		                                	<span th:if="${i.state == 'state_taster_com'}" class="badge badge-primary">[[${i.stateName}]]</span>
+		                                	<span th:unless="${i.state == 'state_taster_com'}" class="badge badge-warning">[[${i.stateName}]]</span>
+		                                </td>
+		                            </tr>
+		                    	</th:block>
+		                    	<tr th:unless="${#lists.size(applyInfo) != 0}">
+	                            	<td colspan="5"> 등록된 신청결과가 없습니다.</td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                </div>
+	            </div>
+	        </div>
+		</div>
+	</div>
+</th:block>
+<!-- End PAge Content -->
+			
+ <!--Custom JavaScript -->
+<th:block layout:fragment="customJsLib">
+	<script type="text/javascript">
+		$(function(){
+			$('.detail').on("click", function(){
+				var recruitCode = $(this).attr('id');
+			
+					window.location.href = "/taster/recruitDetail?recruitCode=" + recruitCode;
+					
+			});
+		});
+	</script>
+</th:block>    
+</body>
+</html>
