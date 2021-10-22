@@ -17,6 +17,42 @@
 		<result property="choice5" column="choice5"/>
 		<result property="recruitBBCode" column="recruit_taster_biz_code"/>
 	</resultMap>
+	<resultMap type="SurveyStatisticForCate" id="statForCateResultMap">
+		<result property="cateCode" column="question_cate_code"/>
+		<result property="cateName" column="cate_name"/>
+		<result property="percentage" column="percentage"/>
+	</resultMap>
+	<select id="getPercentageForCate" resultMap="statForCateResultMap" parameterType="String">
+		SELECT
+			 b.cate_name
+			,b.question_cate_code
+			,ROUND(SUM(b.c1+b.c2+b.c3+b.c4+b.c5)*100/(b.totalNum*5*COUNT(b.cate_name)), 1) AS 'percentage'
+		from			(SELECT
+								r.question_create_code
+								,a.recruit_taster_biz_code
+								,c.question_cate_code
+								,c.cate_name
+								,SUM(if(a.tasters_choice = 'q_choice_01', 1,0 ))*1 AS 'c1'
+								,sum(if(a.tasters_choice = 'q_choice_02', 1,0 ))*2 AS 'c2'
+								,sum(if(a.tasters_choice = 'q_choice_03', 1,0 ))*3 AS 'c3'
+								,sum(if(a.tasters_choice = 'q_choice_04', 1,0 ))*4 AS 'c4'
+								,sum(if(a.tasters_choice = 'q_choice_05', 1,0 ))*5 AS 'c5'
+								,COUNT(*) AS 'totalNum' 
+							FROM
+								tb_question_answer AS a
+								INNER JOIN 
+								tb_questionnaire AS q
+								ON a.question_code = q.question_code
+								INNER JOIN 
+								tb_question_cate AS c
+								ON q.question_cate_code = c.question_cate_code
+								INNER JOIN 
+								tb_question_create AS r
+								ON r.recruit_taster_biz_code = a.recruit_taster_biz_code
+							WHERE r.question_create_code = #{surveyCode}
+							GROUP BY a.question_code) AS b
+		GROUP BY b.cate_name					
+	</select>
 	<select id="getResultForSurvey" parameterType="Map" resultMap="surveyRResultMap">
 		SELECT
 			r.question_create_code

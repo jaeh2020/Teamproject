@@ -60,13 +60,8 @@
 	function radarChart(data){
 		console.log(data);
 		var totalScore =data[0].numOfParti;
-		var r1=0;
-		var r2=0;
-		var r3=0;
-		var r4=0;
-		var r5=0;
-		var r6=0;
-		var r7=0;
+		var r1,r2,r3,r4,r5,r6,r7,r8;
+
 		for(var i=0; i<data.length; i++){
 			if(data[i].qCode == 'food_007') r1= data[i].avg;
 			if(data[i].qCode == 'food_008') r2= data[i].avg;
@@ -77,54 +72,54 @@
 			if(data[i].qCode == 'food_013') r7= data[i].avg;
 			if(data[i].qCode == 'food_014') r8= data[i].avg;
 		}
-		 var dom = document.getElementById("foodTotal");
-		    var rdChart = echarts.init(dom);
+		var dom = document.getElementById("foodTotal");
+	    var rdChart = echarts.init(dom);
 
-		    var app = {};
-		    option = null;
-		    option = {
-		        color: ['#4aa9e9'],
-		        tooltip : {
-		            trigger: 'axis'
-		        },
-		        legend: {
-		            orient : 'vertical',
-		            x : 'left',
-		            y : 0,
-		            data:['my store']
-		        },
-		        polar : [
-		            {
-		                indicator : [
-		                    { text: '맵다', max: totalScore},
-		                    { text: '짜다', max: totalScore},
-		                    { text: '달다', max: totalScore},
-		                    { text: '시다', max: totalScore},
-		                    { text: '음식 양', max: totalScore},
-		                    { text: '바삭하다', max: totalScore},
-		                    { text: '잘 구워졌다', max: totalScore},
-		                    { text: '신선하다', max: totalScore},
-		                ]
-		            }
-		        ],
-		        calculable : true,
-		        series : [
-		            {
-		                name: 'my store',
-		                type: 'radar',
-		                data : [
-		                    {
-		                        value : [r1, r2, r3, r4, r5, r6, r7, r8],
-		                        name : 'my store'
-		                    }
-		                ]
-		            }
-		        ]
-		    };
+	    var app = {};
+	    option = null;
+	    option = {
+	        color: ['#4aa9e9'],
+	        tooltip : {
+	            trigger: 'axis'
+	        },
+	        legend: {
+	            orient : 'vertical',
+	            x : 'left',
+	            y : 0,
+	            data:['my store']
+	        },
+	        polar : [
+	            {
+	                indicator : [
+	                    { text: '맵다', max: totalScore},
+	                    { text: '짜다', max: totalScore},
+	                    { text: '달다', max: totalScore},
+	                    { text: '시다', max: totalScore},
+	                    { text: '음식 양', max: totalScore},
+	                    { text: '바삭하다', max: totalScore},
+	                    { text: '잘 구워졌다', max: totalScore},
+	                    { text: '신선하다', max: totalScore},
+	                ]
+	            }
+	        ],
+	        calculable : true,
+	        series : [
+	            {
+	                name: 'my store',
+	                type: 'radar',
+	                data : [
+	                    {
+	                        value : [r1, r2, r3, r4, r5, r6, r7, r8],
+	                        name : 'my store'
+	                    }
+	                ]
+	            }
+	        ]
+	    };
 
-		    if (option && typeof option === "object") {
-		        rdChart.setOption(option, false);
-		    }
+	    if (option && typeof option === "object") {
+	        rdChart.setOption(option, false);
+	    }
 
 	}
 	
@@ -260,7 +255,7 @@
 					}); 
 				});
 			});
-		//참여자 연령대 정보 가져오는 ajax 
+		//연령대 및 백분율 정보 가져오는 ajax 
 		$(function(){
 			$('#surveyCode').on("change", function(){
 				var surveyCode = $('#surveyCode option:selected');
@@ -299,15 +294,20 @@
 						 }
 							qCate = qCateCode;
 					 }
-					 //연령대별 참여현황 차트
+					 //차트 2개 그려주기
 					 var defaultInfo ='';
-					 defaultInfo += '<div class="tab-pane active" id="'+ i + '" role="tabpanel">';
-					 defaultInfo +='	<div class="p-20">';
-					 defaultInfo +='		<div class="card-title">';
-					 defaultInfo +='			<h4>참여인원: ' + data.surveyResult[0].numOfParti+ '명</h4>';
-					 defaultInfo +='		</div>';
+					 defaultInfo += '<div class="tab-pane active row" id="'+ i + '" role="tabpanel">';
+					 defaultInfo +='	<div class="col-md-6 p-20">';
+					 defaultInfo +='		<p class="m-b-15"><i class="bi bi-arrow-down-right-square"></i><code> 연령대별 참여자 수</code>가 보여집니다.</p>';
+					 defaultInfo +='		<h5>참여인원: ' + data.surveyResult[0].numOfParti+ '명</h5>';
 					 defaultInfo +='		<div class="card-content">';
-					 defaultInfo +='			<div id="age-Pie" style="height: 370px"></div>';
+					 defaultInfo +='			<div id="age-chart" style="height: 370px"></div>';
+					 defaultInfo +='		</div>';
+					 defaultInfo +='  	</div>';
+					 defaultInfo +='	<div class="col-md-6 p-20">';
+					 defaultInfo +='		<p class="m-b-15"><i class="bi bi-arrow-down-right-square"></i><code> 항목별 백분율 </code>이 보여집니다.</p>';
+					 defaultInfo +='		<div class="card-content">';
+					 defaultInfo +='			<div id="cate-chart" style="height: 370px"></div>';
 					 defaultInfo +='		</div>';
 					 defaultInfo +='  	</div>';	
 					 defaultInfo +='</div>'; 
@@ -319,48 +319,111 @@
 					 var age30 = data.age30; 	
 					 var age40 = data.age40; 	
 					 var age50 = data.age50;
-			
-					 	var dom = document.getElementById("age-Pie");
-					    var bpChart = echarts.init(dom);
-	
-					    var app = {};
-					    option = null;
-					    option = {
-					        color: ['#62549a','#4aa9e9', '#ff6c60','#eac459', '#25c3b2' ],
-					        tooltip : {
-					            trigger: 'item',
-					            formatter: '{a} <br/>{b} : {c} ({d}%)'
-					        },
-					        legend: {
-					            orient : 'vertical',
-					            x : 'left',
-					            data:['10대','20대','30대','40대','50대 이상']
-					        },
-					        calculable : true,
-					        series : [
-					            {
-					                name:'Source',
-					                type:'pie',
-					                radius : '55%',
-					                center: ['50%', '60%'],
-					                data:[
-					                    {value: age10, name:'10대'},
-					                    {value: age20, name:'20대'},
-					                    {value: age30, name:'30대'},
-					                    {value: age40, name:'40대'},
-					                    {value: age50, name:'50대 이상'}
+					
+					 /**** 연령대 차트에 세팅 ****/
+					var dom = document.getElementById("age-chart");
+					var rainChart = echarts.init(dom);
+
+					var app = {};
+					option = null;
+					option = {
+					    color: ['#4aa9e9'],
+					    tooltip : {
+					        trigger: 'axis'
+					    },
+					    legend: {
+					        data:['myStore']
+					    },
+					    calculable : true,
+					    xAxis : [
+					        {
+					            type : 'category',
+					            data : ['10대','20대','30대','40대','50대 이상']
+					        }
+					    ],
+					    yAxis : [
+					        {
+					            type : 'value'
+					        }
+					    ],
+					    series : [
+					        {
+					            name:'myStore',
+					            type:'bar',
+					            data:[age10, age20, age30, age40, age50],
+					            markPoint : {
+					                data : [
+					                    {type : 'max', name: 'Max'},
+					                    {type : 'min', name: 'Min'}
 					                ]
 					            }
-					        ]
-					    };
-	
-					    if (option && typeof option === "object") {
-					        bpChart.setOption(option, false);
-					    }
-					 
-				});
-				 
+					        }
+					    ]
+					};
 					
+					if (option && typeof option === "object") {
+					    rainChart.setOption(option, false);
+					}
+					/**** 항목 백분율 데이터 해체 ****/
+					var ind = [];
+					
+					var val = [];
+					var list = data.percentForCateList;
+					console.log('list: ', list);
+					for(var i=0 ; i < list.length ; i ++){
+						var ind2 = new Object();
+						ind2.text = list[i].cateName;
+						ind2.max = 100 ;
+						ind.push(ind2);
+						val.push(list[i].percentage);
+					}
+					console.log('ind : ', ind);
+					console.log('val : ', val);
+					
+					
+					/**** 항목 백분율 차트에 세팅 ****/
+					var dom = document.getElementById("cate-chart");
+				    var rdChart = echarts.init(dom);
+			
+				    var app = {};
+				    option = null;
+				    option = {
+				        color: ['#4aa9e9'],
+				        tooltip : {
+				            trigger: 'axis'
+				        },
+				        legend: {
+				            orient : 'vertical',
+				            x : 'left',
+				            y : 0,
+				            data:['my store']
+				        },
+				        polar : [
+				            {
+				                indicator : ind
+				            }
+				        ],
+				        calculable : true,
+				        series : [
+				            {
+				                name: 'my store',
+				                type: 'radar',
+				                data : [
+				                    {
+				                        value : val,
+				                        name : 'my store'
+				                    }
+				                ]
+				            }
+				        ]
+				    };
+			
+				    if (option && typeof option === "object") {
+				        rdChart.setOption(option, false);
+				    }
+								
+					
+				});
 				 request.fail(function( jqXHR, textStatus){
 						alert( "Request failed: " + textStatus );
 					}); 

@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import amdn.anywhere.domain.Age;
 import amdn.anywhere.domain.SurveyResult;
+import amdn.anywhere.domain.SurveyStatisticForCate;
 import amdn.anywhere.mapper.AgeMapper;
+import amdn.anywhere.mapper.QuestionAnswerMapper;
 import amdn.anywhere.mapper.TasterMapper;
 
 @Service
@@ -17,10 +19,16 @@ import amdn.anywhere.mapper.TasterMapper;
 public class SurveyResultService {
 	private AgeMapper ageMapper;
 	private TasterMapper tasterMapper;
+	private QuestionAnswerMapper questionAnswerMapper;
 	
-	public SurveyResultService(AgeMapper ageMapper, TasterMapper tasterMapper) {
+	public SurveyResultService(AgeMapper ageMapper, TasterMapper tasterMapper, QuestionAnswerMapper questionAnswerMapper) {
 		this.ageMapper = ageMapper;
 		this.tasterMapper = tasterMapper;
+		this.questionAnswerMapper = questionAnswerMapper;
+	}
+	//3. 항목별 백분율 값 가져오기
+	public List<SurveyStatisticForCate> getPercentageForCate(String surveyCode){
+		return questionAnswerMapper.getPercentageForCate(surveyCode);
 	}
 	//2. 설문결과에서 문항별 평균값 구하기
 	public List<SurveyResult> getAvgForCate(List<SurveyResult> resultList){
