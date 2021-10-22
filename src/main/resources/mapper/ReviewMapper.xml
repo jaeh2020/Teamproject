@@ -4,48 +4,183 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="amdn.anywhere.mapper.ReviewMapper">
-<resultMap type="Order" id="orderResultMap">
-		<result property="oCode"				column="o_code"/>
-		<result property="bookCode"				column="b_o_code"/>
-		<result property="userId"				column="user_id"/>
-		<result property="storeCode"			column="store_code"/>
-		<result property="menuCode"				column="menu_code"/>
-		<result property="oCount"				column="o_count"/>
-		<result property="menuTotalPrice"		column="menu_total_price"/>
-		<result property="oRequest"				column="o_request"/>
-		<result property="payGroCode"			column="pay_gro_code"/>
-		<result property="oTotalPrice"			column="o_total_price"/>
-		<result property="orderSignTime"		column="order_sign_time"/>
-		<result property="orderCompTime"		column="order_comp_time"/>
-		<result property="orderStateCode"		column="order_state_code"/>
-		<result property="storeTableCode"		column="store_table_code"/>
-		<association property="book" javaType="Book">
-			<id property="bookCode" 			column="b_o_code"/>
-			<result property="storeCode"		column="store_code"/>
-			<result property="userId"			column="user_id"/>
-			<result property="bookUserName"		column="book_user_name"/>
-			<result property="bookUserPhone"	column="book_user_phone"/>
-			<result property="bookPeoNum"		column="book_peo_num"/>
-			<result property="bookSignTime"		column="book_sign_time"/>
-			<result property="bookCompTime"		column="book_comp_time"/>
-			<result property="bookCallAgree"	column="book_call_agree"/>
-			<result property="stateCode"		column="state_code"/>
-			<result property="bookPickup"		column="book_pickup"/>
+<resultMap type="Book" id="bookResultMap">
+		<result property="bookCode"			column="b_o_code"/>
+		<result property="storeCode"		column="store_code"/>
+		<result property="userId"			column="user_id"/>
+		<result property="bookUserName"		column="book_user_name"/>
+		<result property="bookUserPhone"	column="book_user_phone"/>
+		<result property="bookPeoNum"		column="book_peo_num"/>
+		<result property="bookSignTime"		column="book_sign_time"/>
+		<result property="bookCompTime"		column="book_comp_time"/>
+		<result property="bookCallAgree"	column="book_call_agree"/>
+		<result property="stateCode"		column="state_code"/>
+		<result property="bookPickup"		column="book_pickup"/>
+		<association property="storeSearch" javaType="StoreSearch">
+			<id property="storeCode" 			column="store_code"/>
+			<result property="storeName"		column="store_name"/>
+			<result property="bizCode"			column="biz_code"/>
+			<result property="bizId"		column="biz_id"/>
+			<result property="storeLocation"	column="store_location"/>
+			<result property="storeTime"		column="store_time"/>
+			<result property="storePhone"		column="store_phone"/>
+			<result property="mainCateCode"		column="main_cate_code"/>
+			<result property="storeHoliday"	column="store_holiday"/>
+			<result property="storeTasteAgree"		column="store_taste_agree"/>
+			<result property="storePhoto"		column="store_expos_agree"/>
+			<result property="storeTableNum"		column="store_table_num"/>
+			<result property="storeOccupancy"		column="store_occupancy"/>
+		</association>
+		<association property="menu" javaType="Menu">
+			<id property="menuCode" 			column="menu_code"/>
+			<result property="bizId"		column="biz_id"/>
+			<result property="storeCode"			column="store_code"/>
+			<result property="mainCateCode"		column="main_cate_code"/>
+			<result property="menuCateCode"	column="menu_cate_code"/>
+			<result property="menuName"		column="menu_name"/>
+			<result property="menuPrice"		column="menu_price"/>
+			<result property="menuDetail"		column="menu_detail"/>
+			<result property="menuRegTime"	column="menu_reg_time"/>
+			<result property="menuUsing"		column="menu_using"/>
 		</association>
 </resultMap>
-	
-<!-- 방문음식점이름 가져오기 -->
-<select id="getStoreName" resultMap="orderResultMap">
+
+<resultMap type="Review" id="reviewResultMap">
+		<result property="reviewNum"			column="review_num"/>
+		<result property="reviewContents"		column="review_contents"/>
+		<result property="reviewPhoto"			column="review_photo"/>
+		<result property="payComTime"		column="pay_com_time"/>
+		<result property="reviewComTime"	column="review_com_time"/>
+		<result property="scoreCode"		column="score_code"/>
+		<result property="storeCode"		column="store_code"/>
+		<result property="bookCode"		column="b_o_code"/>
+		<result property="stateCode"	column="state_code"/>
+		<result property="memberId"		column="member_id"/>
+		<association property="reviewScore" javaType="ReviewScore">
+			<id property="scoreCode" 			column="score_code"/>
+			<result property="starCount"		column="star_count"/>
+			<result property="reviewScore"			column="review_score"/>
+		</association>
+		<association property="storeSearch" javaType="StoreSearch">
+			<id property="storeCode" 			column="store_code"/>
+			<result property="storeName"		column="store_name"/>
+			<result property="bizCode"			column="biz_code"/>
+			<result property="bizId"		column="biz_id"/>
+			<result property="storeLocation"	column="store_location"/>
+			<result property="storeTime"		column="store_time"/>
+			<result property="storePhone"		column="store_phone"/>
+			<result property="mainCateCode"		column="main_cate_code"/>
+			<result property="storeHoliday"	column="store_holiday"/>
+			<result property="storeTasteAgree"		column="store_taste_agree"/>
+			<result property="storePhoto"		column="store_expos_agree"/>
+			<result property="storeTableNum"		column="store_table_num"/>
+			<result property="storeOccupancy"		column="store_occupancy"/>
+		</association>
+</resultMap>
+
+
+
+<!-- 리뷰작성 -->
+<insert id="reviewAdd" parameterType="Review">
+	INSERT INTO tb_review
+		(review_num
+		, review_contents
+		, review_photo
+		, pay_com_time
+		, review_com_time
+		, score_code
+		, store_code
+		, b_o_code
+		, state_code
+		, member_id)
+	VALUES 
+		( #{reviewNum}
+		, #{reviewContents}
+		, #{reviewPhoto}
+		, #{payComTime}
+		, NOW()
+		, #{scoreCode}
+		, #{storeCode}
+		, #{bookCode}
+		, #{stateCode}
+		, #{memberId});
+</insert>
+
+
+<!-- 예약 정보 가져오기 -->
+<select id="getBookList" resultMap="bookResultMap" parameterType="map">
 	SELECT
-		s.store_name AS storeName
+		 b_o_code 
+		,store_code 
+		,book_comp_time 
+	FROM
+		tb_book 
+	WHERE
+		b_o_code = #{bookCode};
+</select>
+
+<!-- 자동증가 리뷰 번호 -->
+<select id="getNewReviewNum" resultType="String">
+	SELECT
+		CASE
+		WHEN COUNT(1) = 0 THEN 'res_001'
+		ELSE
+		   CONCAT('res_', LPAD(MAX(CAST(SUBSTRING(review_num,5,6)AS DECIMAL)+1),3,0))
+		END AS reviewNum
+	FROM
+		tb_review;
+	
+</select>
+
+<!-- 리뷰등록상태코드가져오기 -->
+<select id="getreviewStatement" resultType="Statement" parameterType="String">
+	SELECT
+		state_code AS stateCode
+	FROM
+		tb_statement
+	WHERE
+		state_code = 'state_board_com';
+</select>
+
+
+<!-- 방문음식점 ,음식이름 가져오기 -->
+<select id="getStoreName" resultMap="bookResultMap" parameterType="map">
+	SELECT
+		s.store_name
+		,m.menu_name
 	FROM
 		tb_book AS b
 		INNER join
 		tb_store_info AS s
 		on
 		b.store_code = s.store_code
+		INNER join
+		tb_store_menu AS m
+		on
+		s.store_code = m.store_code
 	WHERE
 		b.b_o_code = #{bookCode};
+</select>
+
+<!-- 총 리뷰 목록 -->
+<select id="getreviewList" resultMap="reviewResultMap" >
+	 SELECT
+		r.review_num
+		,n.store_name
+		,r.member_id
+		,s.review_score
+		,r.review_com_time
+		,r.state_code
+	FROM
+		tb_review AS r
+		INNER join
+		tb_review_score AS s
+		on
+		r.score_code = s.score_code
+		INNER join
+		tb_store_info AS n
+		on
+		r.store_code = n.store_code;
 </select>
 
 

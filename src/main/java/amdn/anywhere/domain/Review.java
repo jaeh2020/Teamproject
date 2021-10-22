@@ -11,6 +11,8 @@ public class Review {
 	private String bookCode;
 	private String stateCode;
 	private String memberId;
+	private ReviewScore reviewScore;
+	private Storesearch storeSearch;
 	public String getReviewNum() {
 		return reviewNum;
 	}
@@ -71,14 +73,24 @@ public class Review {
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
+	public ReviewScore getReviewScore() {
+		return reviewScore;
+	}
+	public void setReviewScore(ReviewScore reviewScore) {
+		this.reviewScore = reviewScore;
+	}
+	public Storesearch getStoreSearch() {
+		return storeSearch;
+	}
+	public void setStoreSearch(Storesearch storeSearch) {
+		this.storeSearch = storeSearch;
+	}
 	@Override
 	public String toString() {
 		return "Review [reviewNum=" + reviewNum + ", reviewContents=" + reviewContents + ", reviewPhoto=" + reviewPhoto
 				+ ", payComTime=" + payComTime + ", reviewComTime=" + reviewComTime + ", scoreCode=" + scoreCode
 				+ ", storeCode=" + storeCode + ", bookCode=" + bookCode + ", stateCode=" + stateCode + ", memberId="
-				+ memberId + "]";
+				+ memberId + ", reviewScore=" + reviewScore + ", storeSearch=" + storeSearch + "]";
 	}
-	
-	
 	
 }

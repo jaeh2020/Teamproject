@@ -424,6 +424,7 @@ public class BoardController {
 	  // 소비자 게시글 목록
 	@GetMapping("/boardList")
 	public String boardList(Model model) {
+		
 		List<Board> boardList = boardService.getBoardList();
 		
 		
