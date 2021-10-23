@@ -25,7 +25,7 @@
 	<div class="row">
 		<div class="col-12">
 			 <div class="card">
-			 	<form th:action="@{/review/reviewList}" method="post" id="reviewListForm">
+			 	<form th:action="@{/review/reviewDelete}" method="post" id="reviewDeleteForm">
 		                       <div class="card-body">
 		                <div class="table-responsive m-t-40">
 		                    <table id="myTable" class="table table-bordered table-striped">
@@ -47,7 +47,7 @@
 			                            <td th:text="${r.storeSearch.storeName}"></td>
 			                            <td th:text="${r.memberId}"></td>
 			                            <td th:text="${r.ReviewScore.reviewScore}"></td>
-			                            <td><a type="button" class="btn btn-dark btn-outline ti-search" th:href="@{/review/reviewView(reviewNum=${r.reviewNum})}"></a></td>
+			                            <td><a  class="btn btn-dark btn-outline ti-search" th:href="@{/review/reviewView(reviewNum=${r.reviewNum})}"></a></td>
 			                            <td th:text="${r.reviewComTime}"></td>
 			                            <td th:text="${r.stateCode}"></td>        
 			                            <td><a href="#none;" class="deleteBtn btn btn-danger btn-outline ti-trash text-white" id="reviewDelBtn" th:onclick="reviewDel([[${r.reviewNum}]]);"></a></td>
@@ -65,7 +65,7 @@
 <th:block layout:fragment="customJsLib">
 	<Script type="text/javascript">
 		//삭제버튼 alert창
-	   function reviewDelBtn(reviewNum){
+	   function reviewDel(reviewNum){
 	   		if(confirm("정말 삭제하시겠습니까?")){
 	   			location.href = '/review/reviewDelete?reviewNum='+reviewNum;
 	   			return true;

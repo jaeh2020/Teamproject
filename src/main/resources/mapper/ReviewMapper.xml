@@ -79,6 +79,14 @@
 </resultMap>
 
 
+<!-- 총 리뷰 삭제처리 -->
+<delete id="reviewDelete" parameterType="String">
+	DELETE
+	FROM
+		tb_review
+	WHERE 
+		review_num = #{reviewNum};
+</delete>
 
 <!-- 리뷰작성 -->
 <insert id="reviewAdd" parameterType="Review">
