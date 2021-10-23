@@ -154,7 +154,7 @@ public class QuestionController{
 	public String doSurvey(Model model
 				,@RequestParam(value="recruitCode", required = false) String recruitCode) {
 		
-		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitCode, null).get(0);
+		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitCode, null, null).get(0);
 		String[] cateList = recruitInfo.getStrCateList().split(",");
 		int length = cateList.length;
 		List<Questionnaire> questionList = new ArrayList<Questionnaire>();

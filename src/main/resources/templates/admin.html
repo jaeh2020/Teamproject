@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default2}">
+<th:block layout:fragment="customCss">
+	<style type="text/css">
+		.bi {
+			font-size: 30px;
+			text-align: center;
+		}
+		.bi-box-arrow-in-right::before{
+			width: 60px;
+		}
+		.bi:hover{
+			color: white!important;
+		}
+		.moveA {
+			padding: 0px!important;
+			width: 60px;
+    		float: right;
+		}
+	</style> 
+</th:block>
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	  <div class="row">
+	    <div class="col-md-3">
+	        <div class="card">
+	        	<span class="m-b-10">주문 건수</span>
+	            <div class="media">
+	                <div class="media-left meida media-middle">
+	                    <span><i class="fa fa-usd f-s-40 color-primary"></i></span>
+	                </div>
+	                <div class="media-body media-text-right">
+	                    <h2>568120</h2>
+	                    <p class="m-b-0">총 주문 건수</p>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="col-md-3">
+	        <div class="card">
+	        	<span class="m-b-10">입점 매장</span>
+	            <div class="media">
+	                <div class="media-left meida media-middle">
+	                    <span><i class="fa fa-shopping-cart f-s-40 color-success"></i></span>
+	                </div>
+	                <div class="media-body media-text-right">
+	                    <h2 th:text="${paramMap.storeNum}"></h2>
+	                    <p class="m-b-0">총 입점 매장 수</p>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="col-md-3">
+	        <div class="card">
+	        	<span class="m-b-10">평가단 모집 현황</span>
+	            <div class="media">
+	                <div class="media-left meida media-middle">
+	                    <span><i class="fa fa-shopping-cart f-s-40 color-success"></i></span>
+	                </div>
+	                <div class="media-body media-text-right">
+	                    <h2>1178</h2>
+	                    <p class="m-b-0">Sales</p>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="col-md-3">
+	        <div class="card">
+	        	<span class="m-b-10">진행중인 이벤트</span>
+	            <div class="media">
+	                <div class="media-left meida media-middle">
+	                    <span><i class="fa fa-shopping-cart f-s-40 color-success"></i></span>
+	                </div>
+	                <div class="media-body media-text-right">
+	                    <h2>1178</h2>
+	                    <p class="m-b-0">Sales</p>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div class="row">
+		 <div class="col-md-6">
+	         <div class="card">
+	         	 <div class="card-title">
+                     <h4>입점 신청 매장 </h4>
+                 </div>
+                 <div class="card-body">
+                     <div class="table-responsive">
+                         <table class="table"></table>
+                     </div>
+                 </div>        
+         	</div>
+	     </div>
+	     <div class="col-md-6">
+	         <div class="card">
+	         	<div class="card-title">
+                     <h4>평가단 모집 요청</h4>
+                     <a class="btn btn-outline-success moveA"><i class="bi bi-box-arrow-in-right color-info"></i></a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                        	<thead>
+                            <tr>
+                            	<th>#</th>
+                                <th>매장명</th>
+                                <th>요청자</th>	                               
+                                <th>요청시각</th>
+                                <th>모집현황</th>
+                                <th>상태</th>
+                                <th>담당자</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="l : ${tasterRecruit}">
+                                <td th:text="${lStat.count}"></td>
+                                <td th:text="${l.storeInfo.storeName}"></td>
+                                <td th:text="${l.bizId}"></td>
+                                <td th:text="${l.requestTime}"></td>
+                                <td><code>[[${l.recruitNumNow}]]</code> / [[${l.recruitNumTotal}]]</td>
+                                <td> 
+                                	<span th:if="${stateCode == 'state_confirm_com'}"class="badge badge-success">[[${l.stateName}]]</span>
+                                	<span th:unless="${stateCode == 'state_confirm_com'}"class="badge badge-warning">[[${l.stateName}]]</span>
+                                </td>
+                                <td th:if="${l.adminId} neq null" th:text="${l.adminId}"></td>
+                                <td th:unless="${l.adminId} neq null" th:text="배정전"></td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>    
+	         </div>
+         </div>
+	</div>
+</th:block>
+
+<th:block layout:fragment="customJsLib">
+	<script th:src="@{/js/lib/owl-carousel/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/lib/owl-carousel/owl.carousel-init.js}"></script>
+    <script type="text/javascript">
+    </script>
+</th:block>
+</html>

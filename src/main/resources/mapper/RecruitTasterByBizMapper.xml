@@ -147,6 +147,10 @@
 			</if>
 		</where>
 		GROUP BY t.recruit_taster_biz_code
+		<if test="admin != null">
+			ORDER BY t.request_date DESC
+			LIMIT 5;
+		</if>
 	</select>
 	
 	

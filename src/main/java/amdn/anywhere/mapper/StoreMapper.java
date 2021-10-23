@@ -18,6 +18,8 @@ import amdn.anywhere.domain.Waiting;
 public interface StoreMapper {
 	
 
+	//특정 키워드로 매장코드, 매장명 조회
+	public List<Store> searchStore(String searchKey);
 	
 	//승인버튼시 매장 delete
 	public int deleteStore(String storeCode);

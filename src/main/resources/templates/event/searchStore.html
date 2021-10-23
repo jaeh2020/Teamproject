@@ -21,6 +21,7 @@
     <!-- All bootstrap.min.js -->
     <script th:src="@{/js/lib/bootstrap/js/popper.min.js}"></script>
     <script th:src="@{/js/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/lib/form-validation/jquery.validate.min.js}"></script>
 
 	<style type="text/css">
 		p {
@@ -28,6 +29,9 @@
 		}
 		.btn{
 			height: 42px;
+		}
+		thead{
+			background-color: aliceblue;
 		}
 		tbody tr:hover {
 			cursor: pointer;
@@ -37,17 +41,17 @@
 </head>
 	<body>
 		<div class="basic-form">
-	        <form>
+	        <form method="post" th:action="@{/event/searchStore}">
 	            <div class="form-group">
 	                <div class="input-group input-group-flat">
-	                    <input type="text" placeholder="검색어를 입력하세요 " name="Search" class="form-control">
+	                    <input type="text" placeholder="검색어를 입력하세요 " name="searchKey" id="searchKey" class="form-control">
 	                    <span class="input-group-btn"><button class="btn btn-primary btn-group-right" type="submit"><i class="ti-search"></i></button></span>
 	                </div>
 	                 <p class="text-muted m-b-15 f-s-12"><span class="text-danger">*</span><code> 매장 코드 </code> 또는 <code> 매장명 </code> 으로 검색이 가능합니다. </p>
 	            </div>
 	        </form>
 		</div>
-		<div>
+		<div class="card">
 			 <div class="table-responsive m-t-40">
 			        <table id="myTable" class="table table-hover">
 			            <thead>
@@ -55,18 +59,23 @@
 			                   <th>#</th>
 			                   <th>매장코드</th>
 			                   <th>매장명</th>
-			                   <th>사업자코드</th>
 			                   <th>사업자아이디</th>
+			                   <th>사업자이름</th>
 			               </tr>
 			           </thead>
 			           <tbody>
-			           	<th:block th:each="l : ${storeList}">
+			           	<th:block th:if="${#lists.size(storeList) != 0}" th:each="l : ${storeList}">
 				           	<tr class="tr" th:id="${l.storeCode}">
 				           		<td th:text="${lStat.count}"></td>
 				           		<td th:text="${l.storeCode}"></td>
 				           		<td th:text="${l.storeName}" class="storeName"></td>
-				           		<td th:text="${l.bizCode}"></td>
 				           		<td th:text="${l.bizId}"></td>
+				           		<td th:text="${l.bizName}"></td>
+				           	</tr>
+		           		</th:block>
+		           		<th:block th:unless="${#lists.size(storeList) != 0}">
+				           	<tr >
+				           		<td colspan="5" ><span>검색결과가 없습니다.</span></td>
 				           	</tr>
 		           		</th:block>
 					</tbody>
@@ -76,6 +85,36 @@
 	</body>
 	
 	<script type="text/javascript">
+	//유효성검사
+	$(function(){
+	    $('form').validate({
+	    	 ignore: [],
+	         errorClass: "invalid-feedback animated fadeInDown",
+	         errorElement: "div",
+	         errorPlacement: function(e, a) {
+	             jQuery(a).parents(".form-group > div").append(e)
+	         },
+	         highlight: function(e) {
+	             jQuery(e).closest(".form-group").removeClass("is-invalid").addClass("is-invalid")
+	         },
+	         success: function(e) {
+	             jQuery(e).closest(".form-group").removeClass("is-invalid"), jQuery(e).remove()
+	         },
+	         rules: {
+	         	"searchKey": {
+	         		required: !0,
+	         		minlength: 2
+	         	}
+	         },
+	         messages: {
+	         	"searchKey": {
+	         		required: "검색어를 입력해주세요!",
+	         		minlength:"두 글자 이상 입력해주세요!"
+	         	}
+	         }
+	     });
+	});
+	
 		$(function(){
 			$('.tr').on("click", function(){
 				var storeCode = $(this).attr('id');
