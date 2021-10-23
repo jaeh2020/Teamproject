@@ -28,6 +28,58 @@
 	
 	<!-- 포인트 소멸 개인조회 -->
 	
+	<!-- 포인트 소멸 -->
+	<insert id="addPointDel">
+		INSERT INTO tb_point_del
+			(point_del_num
+			, user_id
+			, point_num
+			, point_del_time
+			, point_del_contents
+			, del_point
+			, remain_point
+			)VALUES (
+			  #{pointDelNum}
+			, #{userId}
+			, (SELECT
+					point_num
+				FROM
+					tb_point
+				WHERE
+					user_id = #{userId}
+				ORDER BY
+					point_save_time ASC LIMIT 1)
+			, NOW()
+			, '소멸'
+			, (SELECT
+					point_add
+				FROM
+					tb_point
+				WHERE
+					user_id = #{userId}
+				ORDER BY
+					point_save_time ASC LIMIT 1)
+			, (SELECT
+					after_point_history
+				FROM
+					tb_point
+				WHERE
+					user_id = #{userId}
+				ORDER BY
+					point_save_time DESC LIMIT 1) - del_point)
+	</insert>
+	
+	<!-- 포인트 소멸코드 자동증가 -->
+	<select id="getPointDelCode" resultType="String">
+		SELECT
+		CASE
+		WHEN COUNT(1) = 0 THEN 'p_del_001'
+		ELSE
+			CONCAT('p_del_', LPAD(MAX(CAST(SUBSTRING(point_del_num,7,3)AS DECIMAL)+1),3,0))
+		END AS pointDelNum
+		FROM
+			tb_point_del;
+	</select>
 	
 	<!-- 포인트 적립 -->
 	<insert id="addPoint">
