@@ -81,7 +81,7 @@ public class TasterController {
 	@GetMapping("/myRecruitList")
 	public String myRecruitList(Model model, HttpSession session) {
 		String id = (String)session.getAttribute("SID");
-		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null, id);
+		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null, id, null);
 
 		model.addAttribute("title", "모집 신청 현황");
 		model.addAttribute("location", "모집 신청 현황");
@@ -144,7 +144,7 @@ public class TasterController {
 		paramMap.put("recruitBCode", recruitBCode);		
 		tasterService.updateRecruitBBiz(paramMap);
 		//모집코드로 공고내용 가져오기
-		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitBCode, null).get(0);
+		RecruitTasterByBiz recruitInfo = tasterService.getRecruitBBList(recruitBCode, null, null).get(0);
 		
 		//세션아이디가 이미 신청자일 경우 신청하기 버튼 대신 알림 문구 보이기
 		paramMap.clear();
@@ -171,7 +171,7 @@ public class TasterController {
 	//모집공고 페이지 이동
 	@GetMapping("/recruitNotice")
 	public String recruitNotice(Model model) {
-		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null, null);
+		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null, null, null);
 		model.addAttribute("recruitList", recruitList);
 		model.addAttribute("title", "평가단 모집 공고");
 		model.addAttribute("location", "모집 공고");
@@ -205,7 +205,7 @@ public class TasterController {
 	@GetMapping("/recruitList")
 	public String recruitList(Model model) {
 		
-		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null, null);
+		List<RecruitTasterByBiz> recruitList = tasterService.getRecruitBBList(null, null, null);
 
 		model.addAttribute("title", "평가단 모집 관리");
 		model.addAttribute("location", "모집 관리");

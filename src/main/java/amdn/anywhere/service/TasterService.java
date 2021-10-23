@@ -146,13 +146,15 @@ public class TasterService {
 	}
 	
 	//1. 모집 리스트
-	public List<RecruitTasterByBiz> getRecruitBBList(String recruitCode, String bizId){
+	public List<RecruitTasterByBiz> getRecruitBBList(String recruitCode, String bizId, String adminPg){
 		Map<String, String> paramMap = new HashMap<String, String>();
 		if(recruitCode != null) {
 			paramMap.put("recruitCode", recruitCode);
 		}
 		if(bizId != null) {
 			paramMap.put("bizId", bizId);		
+		}if(adminPg != null) {
+			paramMap.put("admin", adminPg);		
 		}
 		
 		//연령코드 String 을 분할한 다음 연령대명 조회 후 세팅하기
