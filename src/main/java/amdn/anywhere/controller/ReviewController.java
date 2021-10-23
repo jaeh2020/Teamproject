@@ -34,8 +34,17 @@ public class ReviewController {
 	 
 	
 	  
-	  
-	  
+	//총 리뷰 삭제처리
+	@GetMapping("/reviewDelete")
+	public String reviewDelete(Review review
+								,@RequestParam(name = "reviewNum" , required = false)String reviewNum) {
+		
+		System.out.println("review" + review);
+		
+		reviewService.reviewDelete(reviewNum);
+	
+		return "redirect:/review/reviewList";
+	}
 	  
 	  
 	//리뷰작성처리
@@ -52,8 +61,7 @@ public class ReviewController {
 		
 		return  "redirect:/";
 	}
-	  
-	  
+	    
 	//리뷰작성하기
 	@GetMapping("/reviewWrite")
 	public String reviewWrite(Model model

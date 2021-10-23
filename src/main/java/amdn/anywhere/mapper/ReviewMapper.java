@@ -16,6 +16,9 @@ import amdn.anywhere.domain.Statement;
 @Mapper
 public interface ReviewMapper {
 	
+	//총 리뷰 삭제처리
+	public int reviewDelete(String reviewNum);
+	
 	//리뷰등록
 	public int reviewAdd(Review review);
 	
