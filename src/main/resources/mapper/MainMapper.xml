@@ -83,7 +83,8 @@
 			on
 			l.like_id = #{userId}
 			AND
-			l.user_like_key_3 = f.main_cate_name;
+			l.user_like_key_3 = f.main_cate_name
+		limit 2;
 		</select>
 	
 	<!-- 선호도별 매장조회 선호도2-->
@@ -112,7 +113,8 @@
 			on
 			l.like_id = #{userId}
 			AND
-			l.user_like_key_2 = f.main_cate_name;
+			l.user_like_key_2 = f.main_cate_name
+		limit 2;
 		</select>
 	
 	<!-- 선호도별 매장조회 선호도1-->
@@ -141,7 +143,8 @@
 			on
 			l.like_id = #{userId}
 			AND
-			l.user_like_key_1 = f.main_cate_name;
+			l.user_like_key_1 = f.main_cate_name
+		limit 2;
 		</select>
 		
 		

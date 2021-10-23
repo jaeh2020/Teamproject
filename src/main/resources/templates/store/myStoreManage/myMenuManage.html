@@ -83,9 +83,8 @@
 						</a>
 					</td>
 					<td>
-						<a th:href="@{/store/myStoreManage/deleteMyMenu(menuCode=${m.menuCode})}">
-						<button type="button" id="deleteMenuBtn" class="deleteMenuBtn btn btn-danger btn-outline ti-trash text-white"></button>
-						</a>
+						<button type="button" id="menuDelBtn" class="menuDelBtn btn btn-danger btn-outline ti-trash text-white" th:onclick="menuDel([[${m.menuCode}]])"></button>
+						
 					</td>
 				</tr>
 			</tbody>
@@ -101,17 +100,19 @@
     <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
 
 	
-	<!-- 유효성검사 -->
+	
     <script type="text/javascript">
-    $(function(){
-    		$('.deleteMenuBtn').on("click", function(){
-      		var result = confirm('삭제 후 복구가 불가능합니다. 정말 삭제하시겠습니까?');
-			if(result){
-				return true;
-				}
-				else return false;
-      		});
-	});
+    
+    /* 삭제버튼 alert */
+    function menuDel(menuCode){
+	   		if(confirm("삭제 후 복구가 불가능합니다. 정말 삭제하시겠습니까?")){
+	   			location.href = 'deleteMyMenu?menuCode='+menuCode;
+	   			return true;
+	   		}else{
+	   			return false;
+	   		}
+	   		
+	   	}
 	</script>
 
 </th:block>

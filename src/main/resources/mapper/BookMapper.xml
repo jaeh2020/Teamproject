@@ -197,6 +197,7 @@
 				date(o.order_sign_time) BETWEEN #{dateBefore} and #{dateAfter}
 				</if>
 			</where>
+			GROUP BY o.b_o_code;
 		</select>
 	
 	
