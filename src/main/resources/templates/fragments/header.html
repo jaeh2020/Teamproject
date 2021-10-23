@@ -28,11 +28,14 @@
 						<label>||[[${session.SID}]] || [[${session.SNAME}]] 님이 로그인!!!!!!!</label>
 					</li>
 	
+	
                       <!-- Search -->
-                      <li class="nav-item hidden-sm-down search-box"> <a class="nav-link hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-search"></i></a>
+                     <!--  <li class="nav-item hidden-sm-down search-box"> <a class="nav-link hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-search"></i></a>
                           <form class="app-search">
                               <input type="text" class="form-control" placeholder="Search here"> <a class="srh-btn"><i class="ti-close  f-s-25"></i></a> </form>
-                      </li>
+                      </li> -->
+                      
+                      
                       <!-- 회원가입-->
                       <li class="nav-item dropdown">
                           <a th:if="${session.SID == null}" th:href="@{/member/addMember01}" class="nav-link dropdown-toggle text-muted text-muted  " aria-haspopup="true" aria-expanded="false">
@@ -49,9 +52,9 @@
                       <!-- End 로그인 -->
 
                       <!-- 프로필 -->
-                      <li th:if="${session.SID != null}" class="nav-item dropdown" >
+                      <li th:if="${session.SID != null}" class="nav-item dropdown" style="cursor:pointer;">
                           <a class="nav-link dropdown-toggle text-muted"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          	<i class="fa fa-user f-s-25"></i>
+                          	<i class="fa fa-user f-s-25 color-dark"></i>
                           </a>
                           <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                               <ul class="dropdown-user">
@@ -64,9 +67,9 @@
                       </li>
                       <!-- 프로필 끝 -->
                       <!-- 주문내역 -->
-                      <li th:if="${session.SLEVEL == 'level_user' or session.SLEVEL == 'level_admin'}" class="nav-item dropdown" >
+                      <li th:if="${session.SLEVEL == 'level_user' or session.SLEVEL == 'level_admin'}" class="nav-item dropdown" style="cursor:pointer;">
                           <a class="nav-link dropdown-toggle text-muted"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          	<i class="fa fa-shopping-cart f-s-25"></i>
+                          	<i class="fa fa-suitcase f-s-25 color-dark"></i>
                           </a>
                           <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                               <ul class="dropdown-user">

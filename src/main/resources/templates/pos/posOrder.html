@@ -91,12 +91,14 @@
 						</td>
 						<td th:text="${o.orderSignTime}" id="orderSignTime"></td>
 						<td th:text="${o.orderCompTime}" id="orderCompTime"></td>
-						<td th:text="${o.statement.StateName}" class="orderStateName"></td>
+						<td th:text="${o.statement.stateName}" class="orderStateName"></td>
 						<td>
-							<button type="button" class="orderConBtn btn btn-dark btn-sm m-b-10 m-l-5">
+							<button type="button" class="orderConBtn btn btn-dark btn-sm m-b-10 m-l-5"
+												  th:onclick="orderConBtn([[${o.bookCode}]],[[${o.statement.stateName}]])">
 								<i class="ti-check-box"> 주문승인</i>
 							</button>
-							<button type="button" class="watingConBtn btn btn-dark btn-sm m-b-10 m-l-5">
+							<button type="button" class="watingConBtn btn btn-dark btn-sm m-b-10 m-l-5"
+											 	  th:onclick="watingConBtn([[${o.bookCode}]],[[${o.statement.stateName}]],[[${o.store.storeCode}]],[[${o.userId}]])">
 								<i class="ti-time"> 웨이팅승인</i>
 							</button>
 						</td>
@@ -111,7 +113,8 @@
 							</select>
 						</td>
 						<td>
-							<button type="button" class="bookCancelBtn btn btn-danger btn-outline ti-trash text-white"></button>
+							<button type="button" class="bookCancelBtn btn btn-danger btn-outline ti-trash text-white"
+												  th:onclick="bookCancelBtn([[${o.bookCode}]],[[${o.statement.stateName}]],[[${o.store.storeCode}]],[[${o.userId}]])"></button>
 						</td>
 					</tr>
 				</tbody>
@@ -131,92 +134,57 @@
 	document.getElementById('dateAfter').valueAsDate = new Date();
     
 	
-	//주문승인버튼 클릭시
-	$(function(){
-		$('.orderConBtn').on("click", function(){
-			var bookCode = $(this).parent().parent().find('.bookCode').text();
-			var orderStateName = $(this).parent().parent().find('.orderStateName').text();
-			
-			if(orderStateName == '주문완료'){
-				alert('이미 주문이 완료된 건 입니다.');
-				return false
-				
-			}else if(orderStateName == '결제완료'){
-				alert('결제가 완료된 주문건은 상태변경이 불가합니다.');
-				return false
-				
-			}else if(orderStateName == '입장대기'){
-				alert('입장대기는 테이블/웨이팅 POS화면에서 처리가능합니다.');
-				return false
-				
-			}else if(orderStateName == '결제전 취소완료'){
-				alert('취소가 완료된 주문건입니다.');
-				return false
-				
-			}else{
-				if (confirm('승인처리하시겠습니까?')) {
-					location.href = "/pos/posOrderChangeState?bookCode="+ bookCode + "&state=주문승인";
-			    }
-			}
-		});
-	});
 	
-	//웨이팅승인버튼 클릭시
-	$(function(){
-		$('.watingConBtn').on("click", function(){
-			var bookCode = $(this).parent().parent().find('.bookCode').text();
-			var storeCode = $(this).parent().parent().find('.storeCode').text();
-			var orderStateName = $(this).parent().parent().find('.orderStateName').text();
-			var userId = $(this).parent().parent().find('.userId').text();
+	//주문승인버튼 클릭시
+	function orderConBtn(bookCode, stateName){
+		
+		if(stateName != '주문대기'){
+			alert('주문대기 상태에서만 주문승인이 가능합니다.');
+			return false
 			
-			if(orderStateName == '입장대기'){
-				alert('이미 입장대기로 상태가 변경된 주문건 입니다.');
-				return false
-				
-			}else if(orderStateName == '결제완료'){
-				alert('결제가 완료된 주문건은 상태변경이 불가합니다.');
-				return false
-				
-			}else if(orderStateName == '주문완료'){
-				alert('이미 주문이 완료된 건 입니다.');
-				return false
-				
-			}else if(orderStateName == '결제전 취소완료'){
-				alert('취소가 완료된 주문건입니다.');
-				return false
-				
-			}else{
-				if (confirm('승인처리하시겠습니까?')) {
-					location.href = "/pos/posOrderChangeState?bookCode="+ bookCode + "&state=웨이팅승인&storeCode=" + storeCode + "&userId=" + userId;
-			    }
-			}
-		});
-	});
+		}else{
+			if (confirm('주문 승인처리하시겠습니까?')) {
+				location.href = "/pos/posOrderChangeState?bookCode="+ bookCode + "&state=주문승인";
+		    }
+		}
+   		
+   	};
+ 	
+   	
+	//웨이팅승인버튼 클릭시  	
+	function watingConBtn(bookCode, stateName, storeCode, userId){
+		
+		if(stateName != '주문대기'){
+			alert('주문대기 상태에서만 웨이팅 승인이 가능합니다.');
+			return false
+			
+		}else{
+			if (confirm('웨이팅 대기열에 추가 하시겠습니까?')) {
+				location.href = "/pos/posOrderChangeState?bookCode="+ bookCode + "&state=웨이팅승인&storeCode=" + storeCode + "&userId=" + userId;
+		    }
+		}
+   		
+   	};
 	
 	
 	//예약취소버튼 클릭시
-	$(function(){
-		$('.bookCancelBtn').on("click", function(){
-			var bookCode = $(this).parent().parent().find('.bookCode').text();
-			var storeCode = $(this).parent().parent().find('.storeCode').text();
-			var orderStateName = $(this).parent().parent().find('.orderStateName').text();
-			var userId = $(this).parent().parent().find('.userId').text();
+	function bookCancelBtn(bookCode, stateName, storeCode, userId){
+		
+		if(stateName == '결제완료'){
+			alert('결제완료건은 취소가 불가합니다. 환불처리를 진행하세요.');
+			return false;
 			
-			console.log(orderStateName);
+		}else if(stateName == '결제전 취소완료'){
+			alert('이미 예약취소가 완료되었습니다.');
+			return false;
 			
-			if(orderStateName == '결제완료'){
-				alert('결제완료건은 취소가 불가합니다. 환불처리를 진행하세요.');
-				return false
-				
-			}else{
-				if (confirm('예약을 취소하시겠습니까?')) {
-					location.href = "/book/bookCancel?bookCode="+ bookCode + "&storeCode=" + storeCode + "&state=예약취소&userId=" + userId;
-			    }
-			}
-		});
-	});
-	
-	
+		}else{
+			if (confirm('주문을 취소하시겠습니까?')) {
+				location.href = "/book/bookCancel?bookCode="+ bookCode + "&storeCode=" + storeCode + "&state=예약취소&userId=" + userId;
+		    }
+		}
+   		
+   	};
 	
 	
 	//테이블번호 select 선택시
