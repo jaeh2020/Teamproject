@@ -53,7 +53,7 @@
                    	<table id="myTable" class="table table-bordered table-striped">
 						<thead>
                             <tr>
-                                <th></th>
+                                <th>로그인 번호</th>
                                 <th>회원 아이디</th>
                                 <th>회원 구분</th>
                                 <th>마지막 로그인 시간</th>
@@ -62,8 +62,8 @@
                         </thead>
 						<tbody th:id="memberList">
 		                    <tr th:each="l : ${memberList}">
-		                    	<td><label><input type="checkbox"></label></td>
 		                    	<td th:text="${l.memberLogin.loginNum}"></td> 
+		                    	<td th:text="${l.memberId}"></td> 
 		                    	<td th:text="${l.memberLevel.levelName}"></td>
 		                    	<td th:text="${l.memberLogin.loginTime}"></td> 
 		                    	<td th:text="${l.memberLogin.logoutTime}"></td> 

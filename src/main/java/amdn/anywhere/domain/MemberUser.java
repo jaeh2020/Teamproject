@@ -10,7 +10,7 @@ public class MemberUser {
 	private int reportScore;
 	private Membership membership;
 	private MemberUserLike memberUserLike;
-	
+	private Point point;
 	public String getUserId() {
 		return userId;
 	}
@@ -47,7 +47,6 @@ public class MemberUser {
 	public void setReportScore(int reportScore) {
 		this.reportScore = reportScore;
 	}
-	
 	public Membership getMembership() {
 		return membership;
 	}
@@ -60,11 +59,17 @@ public class MemberUser {
 	public void setMemberUserLike(MemberUserLike memberUserLike) {
 		this.memberUserLike = memberUserLike;
 	}
+	public Point getPoint() {
+		return point;
+	}
+	public void setPoint(Point point) {
+		this.point = point;
+	}
 	@Override
 	public String toString() {
 		return "MemberUser [userId=" + userId + ", msCode=" + msCode + ", userOrderTotal=" + userOrderTotal
 				+ ", userPoint=" + userPoint + ", userEvaluator=" + userEvaluator + ", reportScore=" + reportScore
-				+ ", membership=" + membership + ", memberUserLike=" + memberUserLike + "]";
+				+ ", membership=" + membership + ", memberUserLike=" + memberUserLike + ", point=" + point + "]";
 	}
 	
 	
