@@ -9,7 +9,10 @@ import amdn.anywhere.domain.PointDel;
 
 @Mapper
 public interface PointMapper {
-
+	
+	//포인트 소멸 시간 찾기
+	public String pointDelTime(String userId);
+	
 	//포인트 소멸 등록
 	public int addPointDel(PointDel pointDel);
 	

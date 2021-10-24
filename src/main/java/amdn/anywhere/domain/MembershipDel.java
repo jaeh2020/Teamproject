@@ -1,6 +1,6 @@
 package amdn.anywhere.domain;
 
-public class MemberShipDel {
+public class MembershipDel {
 
 	private String msDelCode;
 	private String userId;

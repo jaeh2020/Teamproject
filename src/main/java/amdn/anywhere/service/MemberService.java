@@ -10,6 +10,7 @@ import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.MemberLogin;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
+import amdn.anywhere.domain.MembershipDel;
 import amdn.anywhere.domain.Point;
 import amdn.anywhere.mapper.MemberMapper;
 import amdn.anywhere.mapper.MessageMapper;
@@ -24,6 +25,7 @@ public class MemberService {
 		this.memberMapper = memberMapper;
 	}
 	
+
 	//로그아웃 내역 업데이트
 	public int modifyLogout(MemberLogin memberLogin) {
 		return memberMapper.modifyLogout(memberLogin);

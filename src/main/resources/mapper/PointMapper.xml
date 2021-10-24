@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+
 <mapper namespace="amdn.anywhere.mapper.PointMapper">
 	<resultMap type="Point" id="pointResultMap">
 		<result property="pointNum" column="point_num"/>
@@ -28,6 +28,20 @@
 	
 	<!-- 포인트 소멸 개인조회 -->
 	
+	
+	<!-- 소멸시간 찾기~ -->
+	<select id="pointDelTime" resultType="String">
+		SELECT
+			DATE_FORMAT(pred_del_time, "%Y-%m-%d")
+		FROM
+			tb_point
+		WHERE
+			user_id = #{userId} AND DATE_FORMAT(pred_del_time, "%Y-%m-%d") = CURDATE();
+	</select>
+	
+	
+	
+	
 	<!-- 포인트 소멸 -->
 	<insert id="addPointDel">
 		INSERT INTO tb_point_del
@@ -38,27 +52,23 @@
 			, point_del_contents
 			, del_point
 			, remain_point
-			)VALUES (
-			  #{pointDelNum}
+		)VALUES (
+			#{pointDelNum}
 			, #{userId}
 			, (SELECT
-					point_num
-				FROM
-					tb_point
-				WHERE
-					user_id = #{userId}
-				ORDER BY
-					point_save_time ASC LIMIT 1)
+						point_num
+					FROM
+						tb_point
+					WHERE
+						user_id = #{userId} AND DATE_FORMAT(pred_del_time, "%Y-%m-%d") = CURDATE())
 			, NOW()
 			, '소멸'
 			, (SELECT
-					point_add
-				FROM
-					tb_point
-				WHERE
-					user_id = #{userId}
-				ORDER BY
-					point_save_time ASC LIMIT 1)
+						point_add
+					FROM
+						tb_point
+					WHERE
+						user_id = #{userId} AND DATE_FORMAT(pred_del_time, "%Y-%m-%d") = CURDATE())
 			, (SELECT
 					after_point_history
 				FROM
@@ -66,7 +76,7 @@
 				WHERE
 					user_id = #{userId}
 				ORDER BY
-					point_save_time DESC LIMIT 1) - del_point)
+					point_save_time DESC LIMIT 1) - del_point);
 	</insert>
 	
 	<!-- 포인트 소멸코드 자동증가 -->
@@ -183,7 +193,7 @@
 		WHERE
 			p.user_id = #{userId}
 		ORDER BY
-			p.point_save_time desc;
+			p.point_save_time DESC;
 	</select>
 	
 	<!-- 포인트 적립 전체 조회  -->
