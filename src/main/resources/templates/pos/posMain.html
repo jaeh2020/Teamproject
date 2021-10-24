@@ -39,6 +39,8 @@
 						<hr class="m-t-0 m-b-40">
 						<button type="button" class="posOrderMoveBtn btn btn-danger btn-rounded m-b-10 m-l-5">주문내역 및 주문확인 POS</button>
 						<button type="button" class="posTableWaitMoveBtn btn btn-dark btn-rounded m-b-10 m-l-5">테이블/예약대기 실시간 현황 POS</button>
+						<br>
+						<button type="button" class="posBookMoveBtn btn btn-primary btn-rounded m-b-10 m-l-5">미예약 고객 주문</button>
 					</div>
 				</div>
 			</div>
@@ -70,6 +72,15 @@
 		location.href='/pos/posTableWait?storeCode=' + storeCode;
 	});
     
+    
+	/* 미예약고객 주문 버튼 */
+	$(document).on('click','.posBookMoveBtn',function(){
+		//셀렉트박스 현재 값 
+		var storeName = $('#selectMyStore option:selected').text().trim();
+		
+		location.href='/book/addBookMember?storeName=' + storeName;
+	});
+    
 	
     
     /* 유효성검사 */
@@ -85,6 +96,18 @@
 		});
 	});
     
+	$(function(){
+		$('.posBookMoveBtn').click(function(){
+			
+			var selectMyStore = $('[name=selectMyStore]');
+			
+			if(selectMyStore.val().trim() == ''){
+				alert('매장을 선택해주세요');
+				return false;
+			}
+		});
+	});
+	
 	$(function(){
 		$('.posTableWaitMoveBtn').click(function(){
 			
