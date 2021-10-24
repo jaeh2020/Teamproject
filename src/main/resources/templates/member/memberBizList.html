@@ -11,27 +11,10 @@
 	.btn{
 		margin : 5px;
 		color: #505050;
-		float: left;
-	}
-	.topBtn{
-		float: right;
-	}
-	.btn-success{
-		padding-top : 6px;
+		background-color: #50508C;
 		color: #fff;
+		width: 100px;
 	}
-	ul a{
-		display:block;
-	}
-	.all{
-		color: #000;
-	}
-	#messageList{
-		cursor: pointer;
-	}
-	.clicked {
-        color: gold;
-    }
     #memberBiz td{
     	cursor: pointer;
     }
@@ -72,7 +55,7 @@
                         </thead>
 						<tbody th:id="memberBiz">
 		                    <tr th:each="l : ${memberBizList}">
-		                    	<td th:text="${l.bizCode}" th:id="${l.bizCode}" class="modiSelect"></td>
+		                    	<td th:text="${l.bizCode}" th:id="${l.bizCode}" class="btn btn-pink modiSelect"></td>
 		                    	<td th:text="${l.memberId}"></td> 
 		                    	<td th:text="${l.bizNum}"></td> 
 		                    	<td th:text="${l.bizFileAtt}"></td> 
