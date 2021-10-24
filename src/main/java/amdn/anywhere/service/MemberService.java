@@ -7,9 +7,13 @@ import org.springframework.stereotype.Service;
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.MemberBiz;
+import amdn.anywhere.domain.MemberLogin;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
+import amdn.anywhere.domain.Point;
 import amdn.anywhere.mapper.MemberMapper;
+import amdn.anywhere.mapper.MessageMapper;
+import amdn.anywhere.mapper.PointMapper;
 
 @Service
 public class MemberService {
@@ -18,6 +22,21 @@ public class MemberService {
 	
 	public MemberService(MemberMapper memberMapper) {
 		this.memberMapper = memberMapper;
+	}
+	
+	//로그아웃 내역 업데이트
+	public int modifyLogout(MemberLogin memberLogin) {
+		return memberMapper.modifyLogout(memberLogin);
+	}
+	
+	//로그인내역 입력
+	public int addLogin(MemberLogin memberLogin) {
+		return memberMapper.addLogin(memberLogin);
+	}
+	
+	//로그인 내역 코드 자동증가
+	public String getLoginCode() {
+		return memberMapper.getLoginCode();
 	}
 	
 	//전체 회원 탈퇴
@@ -109,7 +128,7 @@ public class MemberService {
 	}
 	
 	//소비자 추가정보 등록
-	public int addMember03(MemberUser memberUser) {
+	public int addMember03(MemberUser memberUser) {	
 		return memberMapper.addMember03(memberUser);
 	}
 	

@@ -15,6 +15,7 @@
             <!-- Container fluid  -->
             <div class="container-fluid">
 	                <!-- Start Page Content -->
+	                <input type="hidden" th:value="${session.SLEVEL}" name="level">
 	                <div class="row">
 	                    <div class="col-lg-12">
 	                        <div class="card card-outline-primary">
@@ -156,6 +157,7 @@
 				var bookUserPhone = $('[name=bookUserPhone]');
 				var bookPeoNum = $('[name=bookPeoNum]');
 				var userId = $('[name=userId]');
+				var level = $('[name=level]').val();
 				
 				if(bookUserName.val().trim() == ''){
 					alert('예약자 성함을 입력해주세요.');
@@ -178,6 +180,15 @@
 				}else if(userId.val().trim() == ''){
 					alert('로그인 후 이용해주세요');
 					return false;
+					
+				}else if(level == 'level_admin'){
+					alert('소비자 외에 주문이 불가능합니다.');
+					return false;
+					
+				}else if(level == 'level_biz'){
+					alert('소비자 외에 주문이 불가능합니다.');
+					return false;
+					
 				}
 				
 				alert('주문정보 입력 화면으로 이동됩니다.')

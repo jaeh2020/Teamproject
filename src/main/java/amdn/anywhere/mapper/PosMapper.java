@@ -51,7 +51,7 @@ public interface PosMapper {
 	public List<Statement> getPosStateList();
 
 	//나의매장 주문pos list조회
-	public List<Order> getPosOrderList(String storeCode);
+	public List<Order> getPosOrderList(Map<String, String> paramMap);
 
 
 }

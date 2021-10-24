@@ -8,9 +8,9 @@
 	
 <!-- css -->
 <style type= "text/css">
-	.col-lg-9{
+	/* .col-lg-9{
 		margin: 0;
-	}
+	} */
 	.col-lg-1{
 		padding: 0;
 	}
@@ -31,10 +31,10 @@
 		color: #585858;
 		font-weight: bold;
 	}
-	.col-lg-2{
+	/* .col-lg-2{
 		padding: 0;
 		margin: 10px;
-	}
+	} */
 	.btn{
 		width: 80px;
 	}
@@ -63,6 +63,10 @@
 	.bi-person-x{
 		color: #FFDFDC
 	}
+	.card{
+		/* background-color: #585858; */
+		
+	}
 </style>
 </th:block>
 
@@ -70,16 +74,20 @@
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 		<!-- 왼쪽부분 -->
-	<div class="card">
-		<div class="row">
-			<div class="col-lg-3">		
-		        <h4>[[${session.SNAME}]] 님의 </h4>
-		        <h3>회원등급은 <span class="level">[[${memberUser.membership.msLevel}]]</span><sup><i class="bi bi-chat-dots f-s-28"></i></sup> 입니다.</h3>
-            </div>
-            			 		
-            <div class="col-lg-9">
-            	<div class="row">
-            		<div class="col-lg-3"></div>
+	<div class="row">
+	<div class="col-lg-2">
+	<div class="card">	
+		        <h1>[[${session.SNAME}]] 님 </h1>
+		        <h4>안녕하세요! </h4>
+	</div>
+    </div>
+    <div class="col-lg-10">
+    <div class="card"> 
+    <div class="row">
+    				<div class="col-lg-3">
+		        <h3>회원등급 ></h3>
+		        <h1><span class="level">[[${memberUser.membership.msLevel}]]</span><sup><i class="bi bi-chat-dots f-s-28"></i></sup></h1>
+    				</div>			 		
 					<div class="col-lg-2">
 	   			 		<div class="wrap">
 	    			 		<h4>주문건수</h4>
@@ -89,7 +97,7 @@
 	            	<div class="col-lg-1"><hr></div>
           			 	<div class="col-lg-2">
           			 		<div class="wrap">
-          			 		<a th:href="@{/point/userPointList(userId=${session.SID})}">
+          			 		<a th:href="@{/point/userAddPointList(userId=${session.SID})}">
 	           			 		<h4>POINT</h4>
 	           			 		<p><span>[[${memberUser.userPoint}]]</span> P</p>
 	           			 	</a>
@@ -102,10 +110,11 @@
            			 		<p>[[${memberUser.userEvaluator}]]</p>
            			 	</div>
           			 	</div>
-			</div>
-	        </div>
-		</div>
+          			 	</div>
 	</div>
+	</div>
+	</div>
+
 		
 		<div class="card card-outline-primary" >
     		<!-- 프로필 하단 -->

@@ -248,7 +248,7 @@ FROM
 <!-- 게시판 신고 목록 -->
 <select id="getReportBoardList" resultMap="ReportBoardMap">
 	SELECT
-	r.rep_code
+	 r.rep_code
 	,r.rep_cate_code
 	,c.rep_cate
 	,r.board_num
@@ -258,7 +258,6 @@ FROM
 	,r.member_id
 	,r.rep_confi_time
 	,r.state_code
-	,s.state_name
 FROM
 	tb_report AS r
 	INNER join

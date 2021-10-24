@@ -5,6 +5,7 @@ public class Store {
 	private String storeName;
 	private String bizCode;
 	private String bizId;
+	private String bizName;
 	private String storeLocation;
 	private String storeTime;
 	private String storePhone;
@@ -17,6 +18,7 @@ public class Store {
 	private int storeOccupancy;
 	private Waiting waiting;
 	private FoodMainCate foodMainCate;
+	private MemberUserLike memberUserLike;
 	public String getStoreCode() {
 		return storeCode;
 	}
@@ -113,16 +115,26 @@ public class Store {
 	public void setFoodMainCate(FoodMainCate foodMainCate) {
 		this.foodMainCate = foodMainCate;
 	}
+	public MemberUserLike getMemberUserLike() {
+		return memberUserLike;
+	}
+	public void setMemberUserLike(MemberUserLike memberUserLike) {
+		this.memberUserLike = memberUserLike;
+	}
+	public String getBizName() {
+		return bizName;
+	}
+	public void setBizName(String bizName) {
+		this.bizName = bizName;
+	}
 	@Override
 	public String toString() {
 		return "Store [storeCode=" + storeCode + ", storeName=" + storeName + ", bizCode=" + bizCode + ", bizId="
-				+ bizId + ", storeLocation=" + storeLocation + ", storeTime=" + storeTime + ", storePhone=" + storePhone
-				+ ", mainCateCode=" + mainCateCode + ", mainCateCode2=" + mainCateCode2 + ", storeHoliday="
-				+ storeHoliday + ", storeTasteAgree=" + storeTasteAgree + ", storeExposAgree=" + storeExposAgree
-				+ ", storeTableNum=" + storeTableNum + ", storeOccupancy=" + storeOccupancy + ", waiting=" + waiting
-				+ ", foodMainCate=" + foodMainCate + "]";
+				+ bizId + ", bizName=" + bizName + ", storeLocation=" + storeLocation + ", storeTime=" + storeTime
+				+ ", storePhone=" + storePhone + ", mainCateCode=" + mainCateCode + ", mainCateCode2=" + mainCateCode2
+				+ ", storeHoliday=" + storeHoliday + ", storeTasteAgree=" + storeTasteAgree + ", storeExposAgree="
+				+ storeExposAgree + ", storeTableNum=" + storeTableNum + ", storeOccupancy=" + storeOccupancy
+				+ ", waiting=" + waiting + ", foodMainCate=" + foodMainCate + ", memberUserLike=" + memberUserLike
+				+ "]";
 	}
-	
-	
-	
 }

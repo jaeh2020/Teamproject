@@ -9,7 +9,7 @@
 <!-- css -->
 <style type= "text/css">
 	.btn{
-		margin : 5px;
+		margin : 10px 0 0 200px;
 		color: #505050;
 		float: left;
 	}
@@ -29,9 +29,10 @@
 	#messageList{
 		cursor: pointer;
 	}
-	.clicked {
-        color: gold;
-      }
+	.btn{
+		background-color: #84799F;
+		color: #fff;
+	}
 </style>
 </th:block>
 
@@ -48,6 +49,7 @@
 	                <h4 class="m-b-0 text-white">회원 목록</h4>
 	            </div>
 	            <div class="card-body"  id="list">
+	            	<a th:href="@{/member/loginList}" class="btn btn-pink">회원 로그인 내역</a>            
 	            	<div class="table-responsive m-t-40">
                    	<table id="myTable" class="table table-bordered table-striped">
 						<thead>
@@ -67,7 +69,7 @@
 						<tbody th:id="memberList">
 		                    <tr th:each="l : ${memberList}">
 		                    	<td><label><input type="checkbox"></label></td>
-		                    	<td th:text="${l.levelCode}"></td>
+		                    	<td th:text="${l.memberLevel.levelName}"></td>
 		                    	<td th:text="${l.memberId}"></td> 
 		                    	<td th:text="${l.memberPw}"></td> 
 		                    	<td th:text="${l.memberName}"></td> 

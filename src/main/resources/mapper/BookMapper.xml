@@ -121,8 +121,40 @@
 	</resultMap>
 	
 	
+	<!-- 예약취소테이블 insert -->
+	<insert id="addBookCancel" parameterType="map">
+		INSERT INTO tb_book_cancel
+			(c_code
+			,b_o_code
+			,store_code
+			,user_id
+			,c_apply_time
+		)
+		VALUES(
+			#{cCode}
+			,#{bookCode}
+			,#{storeCode}
+			,#{userId}
+			,CURTIME()
+			);
+	</insert>
 	
-<!-- 주문내역 리스트 -->
+	
+	
+	<!-- 예약취소코드 자동증가 getNewbookCancelCode  -->
+	<select id="getNewbookCancelCode" resultType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN 'c_001'
+			ELSE
+			CONCAT('c_', LPAD(MAX(CAST(SUBSTRING(c_code,3,3)AS DECIMAL)+1),3,0))
+			END AS cCode
+		FROM
+			tb_book_cancel;
+	</select>
+	
+	
+	<!-- 주문내역 리스트 -->
 	<select id="getOrderAllList" resultMap="orderResultMap" parameterType="map">
 		SELECT
 			o.o_code
@@ -165,6 +197,7 @@
 				date(o.order_sign_time) BETWEEN #{dateBefore} and #{dateAfter}
 				</if>
 			</where>
+			GROUP BY o.b_o_code;
 		</select>
 	
 	

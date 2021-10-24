@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+	
+<!-- css -->
+<style type= "text/css">
+	.btn{
+		margin : 5px;
+		color: #505050;
+		float: left;
+	}
+	.topBtn{
+		float: right;
+	}
+	.btn-success{
+		padding-top : 6px;
+		color: #fff;
+	}
+	ul a{
+		display:block;
+	}
+	.all{
+		color: #000;
+	}
+	#messageList{
+		cursor: pointer;
+	}
+	.clicked {
+        color: gold;
+      }
+</style>
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+
+	
+	<div class="row">
+
+		<div class="col-lg-12 ">
+			<div class="card card-outline-primary">
+	            <div class="card-header">
+	                <h4 class="m-b-0 text-white">회원 목록</h4>
+	            </div>
+	            <div class="card-body"  id="list">
+	            	<a th:href="@{/member/loginList}" class="btn btn-pink">회원 로그인 내역</a>            
+	            	<div class="table-responsive m-t-40">
+                   	<table id="myTable" class="table table-bordered table-striped">
+						<thead>
+                            <tr>
+                                <th>로그인 번호</th>
+                                <th>회원 아이디</th>
+                                <th>회원 구분</th>
+                                <th>마지막 로그인 시간</th>
+                                <th>마지막 로그아웃 시간</th>
+                            </tr>
+                        </thead>
+						<tbody th:id="memberList">
+		                    <tr th:each="l : ${memberList}">
+		                    	<td th:text="${l.memberLogin.loginNum}"></td> 
+		                    	<td th:text="${l.memberId}"></td> 
+		                    	<td th:text="${l.memberLevel.levelName}"></td>
+		                    	<td th:text="${l.memberLogin.loginTime}"></td> 
+		                    	<td th:text="${l.memberLogin.logoutTime}"></td> 
+
+		                    </tr>
+	               		</tbody>
+	            	</table>
+	        	</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</th:block>
+
+
+<th:block layout:fragment="customJsLib">
+	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
+    <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
+	<script type="text/javascript">
+
+	
+
+	</script>
+</th:block>
+</html>

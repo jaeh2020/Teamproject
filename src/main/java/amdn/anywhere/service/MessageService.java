@@ -20,6 +20,11 @@ public class MessageService {
 		this.messageMapper = messageMapper;
 	}
 	
+	//메세지 삭제
+	public int deleteMessage(String messageNum) {
+		return messageMapper.deleteMessage(messageNum);
+	}
+	
 	//알림메세지 체크 수정화면
 	public int modifyMsgCheck(MessageCheck messageCheck) {
 		return messageMapper.modifyMsgCheck(messageCheck);
@@ -46,6 +51,11 @@ public class MessageService {
 	//addmessage...
 	public int addMessage(Message message) {
 		return messageMapper.addMessage(message);
+	}
+	
+	//메세지 코드 자동증가
+	public String getMessageCode() {
+		return messageMapper.getMessageCode();
 	}
 	
 	//공통 메시지 조회

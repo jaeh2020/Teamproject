@@ -17,6 +17,10 @@ import amdn.anywhere.domain.Waiting;
 @Mapper
 public interface StoreMapper {
 	
+
+	//특정 키워드로 매장코드, 매장명 조회
+	public List<Store> searchStore(String searchKey);
+	
 	//승인버튼시 매장 delete
 	public int deleteStore(String storeCode);
 	
@@ -24,7 +28,7 @@ public interface StoreMapper {
 	public int modifyStoreCancel(Map<String, String> paramMap);
 	
 	//입점취소신청 리스트 조회
-	public List<StoreCancel> getStoreCancelList();
+	public List<StoreCancel> getStoreCancelList(Map<String, String> paramMap);
 	
 	//나의 입점취소현황 조회
 	public List<StoreCancel> getmyCancelStoreList(String bizId);

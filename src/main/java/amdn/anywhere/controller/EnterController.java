@@ -65,14 +65,20 @@ public class EnterController {
 	//취소신청 현황리스트 조회
 	@GetMapping("/cancelStoreManage")
 	public String cancelStoreManage(Model model
-									,HttpSession session) {
+									,HttpSession session
+									,@RequestParam(name = "dateBefore", required = false) String dateBefore
+								  	,@RequestParam(name = "dateAfter", required = false) String dateAfter) {
 		
 		//세션아이디(로그인되어있는 아이디) 
 		String memberId = (String) session.getAttribute("SID");
 		
 		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("dateBefore", dateBefore);
+		paramMap.put("dateAfter", dateAfter);
+		
 		//취소신청 현황리스트 조회
-		List<StoreCancel> storeCancelList = storeService.getStoreCancelList();
+		List<StoreCancel> storeCancelList = storeService.getStoreCancelList(paramMap);
 		
 		
 		model.addAttribute("memberId", memberId);

@@ -92,19 +92,23 @@
                                 <h4>추가 정보 입력</h4>
                                 <form method="post" onload="getId()">
                                 	<!-- 앞에서 입력한 아이디값 hidden으로 가져오기 -->
-                                    <input type="hidden" name="userId" id="userId">
+                                    <input type="text" name="userId" id="userId">
                                     <input type="hidden" name="msCode" value="ms_bronze">
                                     <input type="hidden" name="userOrderTotal" th:value="0">
                                     <input type="hidden" name="userPoint" th:value="1000">
                                     <input type="hidden" name="userEvaluator" th:value="n">
                                     <input type="hidden" name="reportScore" th:value="0">
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
+                                   
+                                    <!-- 포인트 최초 등록 -->
+                                    <input type="hidden" name="pointNum" value="0">                              
+                                    <input type="hidden" name="oTotal">
+                                    <input type="hidden" name="pointSave" value="0">
+                                    <input type="hidden" name="pointContents" value="가입 축하 적립">
+                                    <input type="hidden" name="pointSaveTime">
+                                    <input type="hidden" name="pointAdd" value="1000">
+                                    <input type="hidden" name="beforePointHistory" value="0">
+                                    <input type="hidden" name="afterPointHistory" value="1000">
+                                    <input type="hidden" name="predDelTime">                                    
                                     
                                 	<input type="hidden" name="userLikeCode" id="userLikeCode">
                                 	<input type="hidden" name="likeId" id="likeId">

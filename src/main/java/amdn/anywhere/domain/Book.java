@@ -14,6 +14,9 @@ public class Book {
 	private String bookCallAgree;
 	private String stateCode;
 	private String bookPickup;
+	private Storesearch storeSearch;
+	private Order order;
+	private Menu menu;
 	public String getBookCode() {
 		return bookCode;
 	}
@@ -80,15 +83,32 @@ public class Book {
 	public void setBookPickup(String bookPickup) {
 		this.bookPickup = bookPickup;
 	}
+	public Storesearch getStoreSearch() {
+		return storeSearch;
+	}
+	public void setStoreSearch(Storesearch storeSearch) {
+		this.storeSearch = storeSearch;
+	}
+	public Order getOrder() {
+		return order;
+	}
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+	public Menu getMenu() {
+		return menu;
+	}
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
 	@Override
 	public String toString() {
 		return "Book [bookCode=" + bookCode + ", storeCode=" + storeCode + ", userId=" + userId + ", bookUserName="
 				+ bookUserName + ", bookUserPhone=" + bookUserPhone + ", bookPeoNum=" + bookPeoNum + ", bookSignTime="
 				+ bookSignTime + ", bookCompTime=" + bookCompTime + ", bookCallAgree=" + bookCallAgree + ", stateCode="
-				+ stateCode + ", bookPickup=" + bookPickup + "]";
+				+ stateCode + ", bookPickup=" + bookPickup + ", storeSearch=" + storeSearch + ", order=" + order
+				+ ", menu=" + menu + "]";
 	}
-	
-	
-	
+
 	
 }

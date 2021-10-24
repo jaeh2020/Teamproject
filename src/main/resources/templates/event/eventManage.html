@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default}">
+	  layout:decorate="~{layout/default2}">
 <th:block layout:fragment="customCss">
 		<style type="text/css">
 			.btn-outline-danger{
@@ -9,6 +9,9 @@
 			}
 			.btn-outline-danger:hover {
 				color: #FCFBFB!important;
+			}
+			.badge {
+				font-size: small;
 			}
 		</style>
 </th:block>
@@ -40,8 +43,9 @@
 	                    <table id="myTable" class="table table-bordered table-striped">
 	                        <thead>
 	                            <tr>
-	                                <th>이벤트코드</th>
+	                                <th>#</th>
 	                                <th>이벤트명</th>                               	                               
+	                                <th>이벤트매장</th>                               	                               
 	                                <th>시작일시</th>
 	                                <th>종료일시</th>
 	                                <th>등록일시</th>
@@ -54,13 +58,17 @@
 	                        </thead>
 	                        <tbody>
 	                        	<tr th:each="l : ${eventList}">
-		                            <td th:text="${l.eventCode}"></td>
+		                            <td th:text="${lStat.count}" th:id="${l.eventCode}"></td>
 		                            <td th:text="${l.eventName}"></td>
+		                            <td th:text="${l.storeName}"></td>
 		                            <td th:text="${l.eventStr}"></td>
 		                            <td th:text="${l.eventFin}"></td>
 		                            <td th:text="${l.regTime}"></td>
 		                            <td th:text="${l.adminId}"></td>
-		                            <td th:text="${l.stateName}"></td>
+		                            <td>
+		                            	<span th:if="${l.stateCode=='state_event_ing'}" class="badge badge-success">[[${l.stateName}]]</span>
+		                            	<span th:unless="${l.stateCode=='state_event_ing'}" class="badge badge-warning">[[${l.stateName}]]</span>
+		                            </td>
 		                            <td><a type="button" th:href="@{/event/eventDetail(eventCode=${l.eventCode})}" class="btn btn-success btn-outline ti-search text-white" ></a></td>
 		                            <td><button type="button" class="btn btn-success btn-outline ti-search text-white" th:onclick="viewFn([[${l.eventName}]], [[${l.eventDetail}]])"></button></td>
 		                            <td><a type="button" th:onclick="finFn([[${l.stateCode}]],[[${l.eventCode}]])" class="finBtn btn btn-danger btn-outline ti-trash text-white" ></a></td>
@@ -77,9 +85,8 @@
 </th:block>
 
 <th:block layout:fragment="customJsLib">
-    th:href = "@{/event/finishEvent(eventCode=${l.eventCode})}"  
     <script type="text/javascript">
- 
+ 		
     	function finFn(stateCode, eventCode){
    			if(stateCode == 'state_event_end'){
    				alert('이미 종료된 이벤트입니다.');

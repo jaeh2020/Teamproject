@@ -57,6 +57,7 @@
 		                  <thead>
 		                      <tr>
 		                      	<th>매장 코드</th>
+		                      	<th>매장 명</th>
 								<th>테이블 코드</th>
 								<th>테이블 번호</th>
 								<th data-orderable="false">테이블 삭제</th>
@@ -64,13 +65,12 @@
 		                  </thead>
 		                 <tbody>
 		                 <tr th:each="t : ${tableList}">
+						 <td th:text="${t.storeCode}"></td>
 						 <td th:text="${t.store.storeName}"></td>
 						 <td th:text="${t.storeTableCode}"></td>
 						 <td th:text="${t.tableNum}"></td>
 						 <td>
-							 <a th:href="@{/store/myStoreManage/deleteMyTable(storeTableCode=${t.storeTableCode})}">
-							 <button type="button" class="deleteMyTableBtn btn btn-danger btn-outline ti-trash text-white"></button>
-							 </a>
+							 <button type="button" class="deleteBtn btn btn-danger btn-outline ti-trash text-white" id="tableDelBtn" th:onclick="tableDel([[${t.storeTableCode}]],[[${t.storeCode}]])"></button>
 						</td>
 		  					</tr>
 		 				</tbody>
@@ -88,17 +88,19 @@
     
     
     <script type="text/javascript">
-    
- 	/* 삭제버튼 alert */
-    $(function(){
-      		$('.deleteMyTableBtn').on("click", function(){
-      			var result = confirm('정말 삭제하시겠습니까?');
-				if(result){
-					return true;
-					}
-					else return false;
-      		});
-	});
+  
+	function tableDel(storeTableCode, storeCode){
+   		if(confirm("정말 삭제하시겠습니까?")){
+   			location.href = 'deleteMyTable?storeTableCode='+storeTableCode+"&storeCode="+storeCode;
+   			return true;
+   		}else{
+   			return false;
+   		}
+   		
+   	};
+ 	
+ 	
+ 	
 	</script>
    
 </th:block>

@@ -13,7 +13,7 @@ public interface RecruitTasterByBizMapper {
 	public List<RecruitTasterByBiz> selectRecruitBB(Map<String, String> paramMap); 
 	
 	//모집리스트 (상태:state, 조회수:view, 현재모집인원:nowNum) 업데이트
-	public int updateRecruitBBiz(Map<String, String> paramMap);
+	public int updateRecruitBBiz(Map<String, Object> paramMap);
 	//모집코드 생성
 	public String createRecruitCode();
 	//모집 신청

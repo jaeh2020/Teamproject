@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default}">
+	  layout:decorate="~{layout/default2}">
 <th:block layout:fragment="customCss">
 </th:block>
 <th:block layout:fragment="customTitle">
@@ -55,7 +55,7 @@
 	                                <td th:text="${l.requestTime}"></td>
 	                                <td> [[${l.recruitNumNow}]] / [[${l.recruitNumTotal}]]</td>
 	                                <td th:text="${l.recruitFinTime}"></td>
-	                                <td th:text="${l.stateName}" class = "stateName" ></td>
+	                                <td th:text="${l.stateName}" class = "stateName"></td>
 	                                <td>
 	                                	<a class="confirmBtn btn btn-success text-white">승인</a>
 	                                	<a class="cancelBtn btn btn-danger text-white" >거절</a>

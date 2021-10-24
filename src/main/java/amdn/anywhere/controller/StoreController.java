@@ -1,5 +1,6 @@
 package amdn.anywhere.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,8 @@ import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Menu;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.domain.Table;
+import amdn.anywhere.domain.Waiting;
+import amdn.anywhere.service.PosService;
 import amdn.anywhere.service.StoreService;
 
 
@@ -26,8 +29,11 @@ public class StoreController {
 	
 
 	private final StoreService storeService;
-	public StoreController(StoreService storeService) {
+	private final PosService posService;
+	public StoreController(StoreService storeService
+						  ,PosService posService) {
 		this.storeService = storeService;
+		this.posService = posService;
 	}
 	
 	
@@ -35,7 +41,8 @@ public class StoreController {
 	@PostMapping("/myStoreManage/addMyTable")
 	public String addMyTable(Table table
 							,@RequestParam(name="storeCode", required = false) String storeCode
-							,HttpSession session) {
+							,HttpSession session
+							,Waiting waiting) {
 		
 		//세션아이디(로그인되어있는 아이디)
 		String bizId = (String) session.getAttribute("SID");
@@ -50,6 +57,13 @@ public class StoreController {
 			table.setTableNum(newTableNum);
 			storeService.addMyTable(table);
 		}
+		
+		//waiting테이블 현황 변경
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("state", "테이블추가");
+		paramMap.put("storeCode", storeCode);
+		posService.modifyWaitingNum(paramMap);
+		
 		
 		return "redirect:/store/myStoreManage/myTableManage";
 	}
@@ -78,9 +92,17 @@ public class StoreController {
 	@GetMapping("/myStoreManage/deleteMyTable")
 	public String deleteMyTable(Table table
 								,@RequestParam(name="storeTableCode", required = false) String storeTableCode
+								,@RequestParam(name="storeCode", required = false) String storeCode
 								,HttpSession session) {
 		
 		storeService.deleteMyTable(storeTableCode);
+		
+		//waiting테이블 현황 변경
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("state", "테이블삭제");
+		paramMap.put("storeCode", storeCode);
+		posService.modifyWaitingNum(paramMap);
+
 		
 		String redirect = "";
 		if(session.getAttribute("SLEVEL").equals("level_admin")) {
@@ -363,6 +385,12 @@ public class StoreController {
 				table.setTableNum(newTableNum);
 				storeService.addMyTable(table);
 			}
+			
+			//waiting테이블 현황 변경
+			Map<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put("state", "테이블추가");
+			paramMap.put("storeCode", storeCode);
+			posService.modifyWaitingNum(paramMap);
 			
 			return "redirect:/store/storeTableManage";
 		}

@@ -28,25 +28,203 @@
 			<result property="stoUseTab"	column="sto_use_tab"/>
 			<result property="waitNum"		column="wait_num"/>
 		</association>
+		<association property="foodMainCate" javaType="FoodMainCate">
+			<id property="mainCateCode"			column="main_cate_code"/>
+			<result property="mainCateName"		column="main_cate_name"/>
+			<result property="mainCateName2"	column="main_cate_name2"/>
+		</association>
+		<association property="memberUserLike" javaType="MemberUserLike">
+			<id property="likeId" column="like_id"/>
+			<result property="userLikeCode" column="user_like_code"/>
+			<result property="userLikeKey1" column="user_like_key_1"/>
+			<result property="userLikeKey2" column="user_like_key_2"/>
+			<result property="userLikeKey3" column="user_like_key_3"/>
+			<result property="userUnlikeKey1" column="user_unlike_key_1"/>
+			<result property="userUnlikeKey2" column="user_unlike_key_2"/>
+			<result property="userUnlikeKey3" column="user_unlike_key_3"/>
+		</association>
 	</resultMap>
 	
-	<!--  실시간 웨이팅 리스트 조회 -->
+	
+	<resultMap type="SearchKeyword" id="searchKeywordMap">
+		<result property="searchCurCode"		column="search_curCode"/>
+		<result property="searchUpdateTime"		column="search_update_time"/>
+		<result property="searchDate"			column="search_date"/>
+		<result property="searchRank1"			column="search_rank_1"/>
+		<result property="searchRank2"			column="search_rank_2"/>
+		<result property="searchRank3"			column="search_rank_3"/>
+	</resultMap>
+	
+	
+	
+	<!-- 선호도별 매장조회 선호도3-->
+	<select id="getStoreLikeList3" resultMap="storeResultMap" parameterType="String">
+		SELECT 
+			i.store_name
+			,i.store_phone
+			,w.wait_num
+			,i.main_cate_code
+			,i.main_cate_code2
+			,f.main_cate_name
+		FROM
+			tb_store_info AS i
+			inner join
+			tb_store_waiting AS w
+			ON 
+			i.store_code = w.store_code
+			INNER join
+			tb_food_main_cate AS f
+			on
+			i.main_cate_code = f.main_cate_code 
+			or
+			i.main_cate_code2 = f.main_cate_code
+			INNER join
+			tb_member_user_like AS l
+			on
+			l.like_id = #{userId}
+			AND
+			l.user_like_key_3 = f.main_cate_name
+		limit 2;
+		</select>
+	
+	<!-- 선호도별 매장조회 선호도2-->
+	<select id="getStoreLikeList2" resultMap="storeResultMap" parameterType="String">
+		SELECT 
+			i.store_name
+			,i.store_phone
+			,w.wait_num
+			,i.main_cate_code
+			,i.main_cate_code2
+			,f.main_cate_name
+		FROM
+			tb_store_info AS i
+			inner join
+			tb_store_waiting AS w
+			ON 
+			i.store_code = w.store_code
+			INNER join
+			tb_food_main_cate AS f
+			on
+			i.main_cate_code = f.main_cate_code 
+			or
+			i.main_cate_code2 = f.main_cate_code
+			INNER join
+			tb_member_user_like AS l
+			on
+			l.like_id = #{userId}
+			AND
+			l.user_like_key_2 = f.main_cate_name
+		limit 2;
+		</select>
+	
+	<!-- 선호도별 매장조회 선호도1-->
+	<select id="getStoreLikeList" resultMap="storeResultMap" parameterType="String">
+		 SELECT 
+			i.store_name
+			,i.store_phone
+			,w.wait_num
+			,i.main_cate_code
+			,i.main_cate_code2
+			,f.main_cate_name
+		FROM
+			tb_store_info AS i
+			inner join
+			tb_store_waiting AS w
+			ON 
+			i.store_code = w.store_code
+			INNER join
+			tb_food_main_cate AS f
+			on
+			i.main_cate_code = f.main_cate_code 
+			or
+			i.main_cate_code2 = f.main_cate_code
+			INNER join
+			tb_member_user_like AS l
+			on
+			l.like_id = #{userId}
+			AND
+			l.user_like_key_1 = f.main_cate_name
+		limit 2;
+		</select>
+		
+		
+		
+		<!-- 실시간검색현황조회 -->
+		<select id="getSearchKeyword" resultMap="searchKeywordMap">
+			SELECT
+				search_rank_1
+				,search_rank_2
+				,search_rank_3
+				,search_update_time
+				,search_date
+			FROM
+				tb_search_keyword
+			WHERE
+				DATE(search_date) = DATE(CURDATE())
+			ORDER BY search_update_time DESC
+			LIMIT 1;
+	</select>
+	
+	
+	<!-- 검색어토탈 쌓기 -->
+	<insert id="addSearchTotal" parameterType="map">
+		INSERT INTO tb_search_total
+			(
+			search_code
+			,search_key
+			,search_time
+			)
+		VALUES (
+			 #{searchCode}
+			,#{searchKey}
+			,CURTIME()
+		);
+	</insert>
+	
+	
+	
+	<!--  검색어코드 자동증가  -->
+	<select id="getNewSearchCode" resultType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN 'sk_00001'
+			ELSE
+			CONCAT('sk_', LPAD(MAX(CAST(SUBSTRING(search_code,4,5)AS DECIMAL)+1),5,0))
+			END AS searchCode
+		FROM
+			tb_search_total;
+	</select>
+	
+	
+	
+
 	<!-- 상점목록 조회 -->
 	<select id="getMainList" resultMap="storeResultMap" parameterType="map">
 		SELECT 
 			i.store_name
+			,i.store_code
+			,f.main_cate_name
 			,i.store_phone
 			,i.store_code
 			,i.store_holiday
 			,i.store_location
 			,i.store_time
 			,w.wait_num
+			,m.menu_name
 		FROM 
 			tb_store_info as i
 			inner join
-			tb_store_waiting as w
+			tb_store_waiting AS w
 			ON 
 			i.store_code = w.store_code
+			inner JOIN
+			tb_store_menu AS m
+			on
+			i.store_code = m.store_code
+			INNER JOIN
+			tb_food_main_cate AS f
+			ON
+			i.main_cate_code = f.main_cate_code
 		<where>
 			<if test="placeInput != null and mainCateCode != null">
 				i.store_location LIKE CONCAT('%',#{placeInput},'%')
@@ -54,6 +232,14 @@
 				i.main_cate_code = #{mainCateCode}
 				OR
 				i.main_cate_code2 = #{mainCateCode})
+			</if>
+			<if test="placeInput != null and searchKey != null and mainCateCode == null">
+				i.store_location LIKE CONCAT('%',#{placeInput},'%')
+				AND
+				(
+				f.main_cate_name = #{searchKey}
+				OR
+				m.menu_name LIKE CONCAT('%',#{searchKey},'%'))
 			</if>
 		</where>
 	</select>

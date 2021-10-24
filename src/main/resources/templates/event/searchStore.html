@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap Core CSS -->
+    <link th:href="@{/css/lib/bootstrap/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link th:href="@{/css/lib/owl.theme.default.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/helper.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"  rel="stylesheet" >
+
+    <!-- All Jquery -->
+    <script th:src="@{/js/lib/jquery/jquery.min.js}"></script>
+    <!-- All bootstrap.min.js -->
+    <script th:src="@{/js/lib/bootstrap/js/popper.min.js}"></script>
+    <script th:src="@{/js/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/lib/form-validation/jquery.validate.min.js}"></script>
+
+	<style type="text/css">
+		p {
+			padding-left: 10px;
+		}
+		.btn{
+			height: 42px;
+		}
+		thead{
+			background-color: aliceblue;
+		}
+		tbody tr:hover {
+			cursor: pointer;
+		}
+	</style>
+<title>매장 검색하기</title>
+</head>
+	<body>
+		<div class="basic-form">
+	        <form method="post" th:action="@{/event/searchStore}">
+	            <div class="form-group">
+	                <div class="input-group input-group-flat">
+	                    <input type="text" placeholder="검색어를 입력하세요 " name="searchKey" id="searchKey" class="form-control">
+	                    <span class="input-group-btn"><button class="btn btn-primary btn-group-right" type="submit"><i class="ti-search"></i></button></span>
+	                </div>
+	                 <p class="text-muted m-b-15 f-s-12"><span class="text-danger">*</span><code> 매장 코드 </code> 또는 <code> 매장명 </code> 으로 검색이 가능합니다. </p>
+	            </div>
+	        </form>
+		</div>
+		<div class="card">
+			 <div class="table-responsive m-t-40">
+			        <table id="myTable" class="table table-hover">
+			            <thead>
+			            	<tr>
+			                   <th>#</th>
+			                   <th>매장코드</th>
+			                   <th>매장명</th>
+			                   <th>사업자아이디</th>
+			                   <th>사업자이름</th>
+			               </tr>
+			           </thead>
+			           <tbody>
+			           	<th:block th:if="${#lists.size(storeList) != 0}" th:each="l : ${storeList}">
+				           	<tr class="tr" th:id="${l.storeCode}">
+				           		<td th:text="${lStat.count}"></td>
+				           		<td th:text="${l.storeCode}"></td>
+				           		<td th:text="${l.storeName}" class="storeName"></td>
+				           		<td th:text="${l.bizId}"></td>
+				           		<td th:text="${l.bizName}"></td>
+				           	</tr>
+		           		</th:block>
+		           		<th:block th:unless="${#lists.size(storeList) != 0}">
+				           	<tr >
+				           		<td colspan="5" ><span>검색결과가 없습니다.</span></td>
+				           	</tr>
+		           		</th:block>
+					</tbody>
+				</table>
+			</div>     
+		</div>
+	</body>
+	
+	<script type="text/javascript">
+	//유효성검사
+	$(function(){
+	    $('form').validate({
+	    	 ignore: [],
+	         errorClass: "invalid-feedback animated fadeInDown",
+	         errorElement: "div",
+	         errorPlacement: function(e, a) {
+	             jQuery(a).parents(".form-group > div").append(e)
+	         },
+	         highlight: function(e) {
+	             jQuery(e).closest(".form-group").removeClass("is-invalid").addClass("is-invalid")
+	         },
+	         success: function(e) {
+	             jQuery(e).closest(".form-group").removeClass("is-invalid"), jQuery(e).remove()
+	         },
+	         rules: {
+	         	"searchKey": {
+	         		required: !0,
+	         		minlength: 2
+	         	}
+	         },
+	         messages: {
+	         	"searchKey": {
+	         		required: "검색어를 입력해주세요!",
+	         		minlength:"두 글자 이상 입력해주세요!"
+	         	}
+	         }
+	     });
+	});
+	
+		$(function(){
+			$('.tr').on("click", function(){
+				var storeCode = $(this).attr('id');
+				var storeName = $(this).children('.storeName').text();
+				select(storeCode, storeName);
+			});
+		});
+		function select(data1, data2){
+			opener.searchStore(data1, data2);
+			window.close();
+		}
+	</script>
+</html>

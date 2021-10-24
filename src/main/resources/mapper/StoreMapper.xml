@@ -20,6 +20,7 @@
 		<result property="storeExposAgree"	column="store_expos_agree"/>
 		<result property="storeTableNum"	column="store_table_num"/>
 		<result property="storeOccupancy"	column="store_occupancy"/>
+		<result property="bizName"	column="member_name"/>
 		<association property="foodMainCate" javaType="FoodMainCate">
 			<id property="mainCateCode"			column="main_cate_code"/>
 			<result property="mainCateName"		column="main_cate_name"/>
@@ -131,6 +132,21 @@
 			</association>
 	</resultMap>
 	
+	<!-- 특정 키워드로 매장코드, 매장 검색하는 select -->
+	<select id="searchStore" resultMap="storeResultMap" parameterType="String">
+		SELECT
+			s.store_code
+			,s.store_name
+			,s.biz_id
+			,m.member_name
+		FROM
+			tb_store_info AS s
+			INNER JOIN
+			tb_member AS m
+			ON s.biz_id = m.member_id
+		WHERE s.store_code LIKE CONCAT('%',#{searchKey},'%') OR s.store_name LIKE CONCAT('%',#{searchKey},'%')
+	</select>
+	
 	
 	
 	<!-- 입점취소 승인버튼시  delete -->
@@ -165,7 +181,7 @@
 	
 	
 	<!-- 입점취소신청 리스트 조회 -->
-	<select id="getStoreCancelList" resultMap="storeCancelResultMap">
+	<select id="getStoreCancelList" resultMap="storeCancelResultMap" parameterType="map">
 		SELECT
 			c.store_cancel_code
 			,c.biz_id
@@ -182,7 +198,12 @@
 			INNER join
 			tb_statement AS s
 			ON
-			c.state_code = s.state_code;
+			c.state_code = s.state_code
+		<where>
+			<if test="dateBefore != null and dateAfter != null">
+					date(c.cancel_time) BETWEEN #{dateBefore} and #{dateAfter}
+			</if>
+		</where>
 	</select>
 	
 	
@@ -201,7 +222,7 @@
 		FROM
 			tb_store_cancel
 		WHERE
-			store_code = #{storeCode};
+			store_code = #{storeCode}
 	</select>
 	
 	
@@ -225,7 +246,7 @@
 			ON
 			c.state_code = s.state_code
 		WHERE
-			c.biz_id = #{bizId};
+			c.biz_id = #{bizId}
 	</select>
 	
 
@@ -303,7 +324,7 @@
 			,#{storeCode}
 			,#{bizId}
 			,0
-			,#{stoEmpTab}
+			,0
 			,0
 		);
 	</insert>
@@ -863,21 +884,25 @@
 	<!-- 전체매장 리스트 조회 (조건x)-->
 	<select id="getStoreList" resultMap="storeResultMap">
 		SELECT
-			biz_code
-			,biz_id
-			,main_cate_code
-			,store_code
-			,store_holiday
-			,store_location
-			,store_name
-			,store_occupancy
-			,store_phone
-			,store_table_num
-			,store_taste_agree
-			,store_expos_agree
-			,store_time
+			s.biz_code
+			,s.biz_id
+			,s.main_cate_code
+			,s.store_code
+			,s.store_holiday
+			,s.store_location
+			,s.store_name
+			,s.store_occupancy
+			,s.store_phone
+			,s.store_table_num
+			,s.store_taste_agree
+			,s.store_expos_agree
+			,s.store_time
+			,m.member_name
 		FROM
-			tb_store_info;
+			tb_store_info AS s
+			INNER JOIN
+			tb_member AS m
+			ON s.biz_id = m.member_id
 	</select>
 
 

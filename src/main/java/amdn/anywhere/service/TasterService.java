@@ -15,9 +15,11 @@ import amdn.anywhere.domain.QuestionCate;
 import amdn.anywhere.domain.RecruitTasterByBiz;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.domain.Taster;
+import amdn.anywhere.domain.TasterCancel;
 import amdn.anywhere.mapper.AgeMapper;
 import amdn.anywhere.mapper.QuestionsMapper;
 import amdn.anywhere.mapper.RecruitTasterByBizMapper;
+import amdn.anywhere.mapper.TasterCancelMapper;
 import amdn.anywhere.mapper.TasterMapper;
 
 @Service
@@ -27,16 +29,32 @@ public class TasterService {
 	private QuestionsMapper questionsMapper;
 	private RecruitTasterByBizMapper recruitTasterByBizMapper;
 	private AgeMapper ageMapper;
+	private TasterCancelMapper tasterCancelMapper;
 	
-	public TasterService(
-				TasterMapper tasterMapper
-				, QuestionsMapper questionsMapper
-				, RecruitTasterByBizMapper recruitTasterByBizMapper
-				, AgeMapper ageMapper) {
+	public TasterService(TasterMapper tasterMapper, QuestionsMapper questionsMapper, RecruitTasterByBizMapper recruitTasterByBizMapper, AgeMapper ageMapper, TasterCancelMapper tasterCancelMapper) {
 		this.recruitTasterByBizMapper = recruitTasterByBizMapper;
 		this.questionsMapper = questionsMapper;
 		this.tasterMapper = tasterMapper;
 		this.ageMapper = ageMapper;
+		this.tasterCancelMapper = tasterCancelMapper;
+	}
+	//12 회원별 평가단 취소 횟수 조회
+	public int checkCancelTimes(String userId) {
+		int result = tasterCancelMapper.checkCancelTimes(userId);
+		System.out.println(result);
+		return result;
+	}
+	//11 평가단 취소 처리하기
+	public int cancelTaster (Map<String, Object> paramMap) {
+		int result = 0;
+		//취소 테이블에 등록
+		result = tasterCancelMapper.cancelTaster(paramMap);
+
+		return result;
+	}
+	//10 취소자 명단 가져오기
+	public List<TasterCancel> getTasterCancelList(Map<String, Object> paramMap){
+		return tasterCancelMapper.getTasterCancelList(paramMap); 
 	}
 	//9 평가단 생년월일로 나이 추출하기
 	public int getAgeFromBirth(String memberBirth) {
@@ -46,7 +64,8 @@ public class TasterService {
 		return age;
 	}
 	//8 평가단 상태 업테이트
-	public int updateTaster(Map<String, String> paramMap) {
+	public int updateTaster(Map<String, Object> paramMap) {
+
 		return tasterMapper.updateTaster(paramMap);
 	}
 	//7 평가단 신청 처리
@@ -122,18 +141,20 @@ public class TasterService {
 		return paramMap;
 	}
 	//2. 모집 (상태:state, 조회수:view, 현재모집인원:nowNum) 업데이트
-	public int updateRecruitBBiz(Map<String, String> paramMap) {
+	public int updateRecruitBBiz(Map<String, Object> paramMap) {
 		return recruitTasterByBizMapper.updateRecruitBBiz(paramMap);
 	}
 	
 	//1. 모집 리스트
-	public List<RecruitTasterByBiz> getRecruitBBList(String recruitCode, String bizId){
+	public List<RecruitTasterByBiz> getRecruitBBList(String recruitCode, String bizId, String adminPg){
 		Map<String, String> paramMap = new HashMap<String, String>();
 		if(recruitCode != null) {
 			paramMap.put("recruitCode", recruitCode);
 		}
 		if(bizId != null) {
 			paramMap.put("bizId", bizId);		
+		}if(adminPg != null) {
+			paramMap.put("admin", adminPg);		
 		}
 		
 		//연령코드 String 을 분할한 다음 연령대명 조회 후 세팅하기

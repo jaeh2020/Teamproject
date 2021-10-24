@@ -182,19 +182,26 @@ public class PosController {
 		}
 		
 		
-		return "redirect:/pos/posMain";
+		return "redirect:/pos/posOrder?storeCode=" + storeCode;
 	}
 
 	
 	@GetMapping("/posOrder")
 		public String getPosOrder(Model model
-								,@RequestParam(name = "storeCode" , required = false) String storeCode) {
+								,@RequestParam(name = "storeCode" , required = false) String storeCode
+								,@RequestParam(name = "dateBefore", required = false) String dateBefore
+							  	,@RequestParam(name = "dateAfter", required = false) String dateAfter) {
 		
 		//나의매장 테이블번호 조회
 		List<Table> posTableList = posService.getPosTableList(storeCode);
 		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("dateBefore", dateBefore);
+		paramMap.put("dateAfter", dateAfter);
+		paramMap.put("storeCode", storeCode);
+		
 		//나의매장 주문pos List조회
-		List<Order> myPosOrderList = posService.getPosOrderList(storeCode);
+		List<Order> myPosOrderList = posService.getPosOrderList(paramMap);
 		
 		
 		model.addAttribute("posTableList", posTableList);

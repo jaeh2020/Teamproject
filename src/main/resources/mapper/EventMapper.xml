@@ -6,19 +6,56 @@
 	<resultMap type="Event" id="eventResultMap">
 		<result property="eventCode" column="event_code" />
 		<result property="eventName" column="event_name" />
-		<result property="eventImg" column="event_img" />
-		<result property="eventBanner" column="event_banner_img" />
+		<result property="eventImgName" column="img_original_name" />
+		<result property="eventBannerName" column="banner_original_name" />
 		<result property="eventStr" column="start_time" />
 		<result property="eventFin" column="end_time" />
 		<result property="eventDetail" column="detail" />
 		<result property="stateCode" column="state_code" />
 		<result property="regTime" column="reg_time" />
 		<result property="adminId" column="admin_id" />
+		<result property="imgStoredPath" column="stored_image_path" />
+		<result property="bannerStoredPath" column="stored_banner_path" />
 		<result property="stateName" column="state_name" />
+		<result property="storeCode" column="store_code" />
+		<result property="storeName" column="store_name" />
 	</resultMap>
 	
+	<insert id="addEvent" parameterType="Event">
+		INSERT INTO tb_event
+			(event_code
+			, event_name
+			, img_original_name
+			, banner_original_name
+			, start_time
+			, end_time
+			, detail
+			, state_code
+			, reg_time
+			, admin_id
+			, stored_image_path
+			, stored_banner_path
+			, store_code
+			, store_name)
+		VALUES (
+			sf_new_event_code()
+			, #{eventName}
+			, #{eventImgName}
+			, #{eventBannerName}
+			, #{eventStr}
+			, #{eventFin}
+			, #{eventDetail}
+			, #{stateCode}
+			, NOW()
+			, #{adminId}
+			, #{imgStoredPath}
+			, #{bannerStoredPath}
+			, #{storeCode}
+			, #{storeName})
+
+	</insert>
 	<update id="finishEvent" parameterType="String">
-		UPDATE tb_event_list
+		UPDATE tb_event
 			SET 
 				state_code= 'state_event_end'
 		WHERE event_code = #{eventCode}
@@ -28,19 +65,27 @@
 		SELECT 
 			e.event_code
 			, e.event_name
-			, e.event_img
-			, e.event_banner_img
+			, e.img_original_name
+			, e.banner_original_name
 			, e.start_time
 			, e.end_time
 			, e.detail
 			, e.state_code
 			, e.reg_time
 			, e.admin_id
+			, e.stored_image_path
+			, e.stored_banner_path
 			, t.state_name
-		FROM tb_event_list AS e
+			, e.store_code
+			, s.store_name
+
+		FROM tb_event AS e
 			LEFT JOIN 
 			tb_statement AS t
-			ON e.state_code = t.state_code		
+			ON e.state_code = t.state_code
+			LEFT JOIN
+			tb_store_info as s
+			ON e.store_code = s.store_code		
 		<where>
 			<if test="stateCode != null">
 				state_code = #{stateCode}

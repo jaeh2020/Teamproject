@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import amdn.anywhere.domain.Point;
+import amdn.anywhere.domain.PointDel;
 import amdn.anywhere.mapper.PointMapper;
 
 @Service
@@ -16,9 +17,24 @@ public class PointService {
 		this.pointMapper = pointMapper;
 	}
 	
+	//포인트 소멸 등록
+	public int addPointDel(PointDel pointdel) {
+		return pointMapper.addPointDel(pointdel);
+	}
+	
+	//포인트 소멸코드 자동증가
+	public String getPointDelCode() {
+		return pointMapper.getPointDelCode();
+	}
+	
 	//포인트 적립 등록
 	public int addPoint(Point point) {
 		return pointMapper.addPoint(point);
+	}
+	
+	//가입 시 포인트 적립
+	public int addJoinPoint(Point point) {
+		return pointMapper.addJoinPoint(point);
 	}
 	
 	//포인트 적립코드 자동증가

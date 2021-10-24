@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default}">
+	  layout:decorate="~{layout/default2}">
 <th:block layout:fragment="customCss">
+	<style type="text/css">
+		.badge{
+		    text-align: center;
+		    font-size: small;
+		}
+	</style>
 </th:block>
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
 </th:block>
 <th:block layout:fragment="customJs">
-
 	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
     <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
     <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
@@ -18,6 +23,7 @@
     <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js}"></script>
     <script th:src="@{/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js}"></script>
     <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
+
     
 </th:block>
 <!-- contents layout:fragment 정의 -->
@@ -26,36 +32,83 @@
 		<div class="col-12">
 			 <div class="card">
 	            <div class="card-body">
-	                <h4 class="card-title">평가단 관리</h4>
-	                <h6 class="card-subtitle">...</h6>
-	                <div class="table-responsive m-t-40">
-	                    <table id="myTable" class="table table-bordered table-striped">
-	                        <thead>
-	                            <tr>
-	          						<th>신청코드</th>
-	          						<th>아이디</th>
-	          						<th>이름</th>
-	          						<th>모집코드</th>
-	          						<th>신청매장</th>
-	          						<th>신청시각</th>
-	          						<th>상태</th>
-	                            </tr>
-	                        </thead>
-	                        <tbody>
-	                            <tr th:each="l : ${tasterList}">
-	                        		<td th:text="${l.applyCode}"></td>
-	                        		<td th:text="${l.userId}"></td>
-	                        		<td th:text="${l.userName}"></td>
-	                        		<td>
-	                        			<a th:href="@{/taster/recruitDetail(recruitCode=${l.recruitBCode})}" class="color-primary">[[${l.recruitBCode}]]</a>
-	                        		</td>
-	                        		<td th:text="${l.storeName}"></td>
-	                        		<td th:text="${l.applyTime}"></td>
-	                        		<td th:text="${l.stateName}"></td>
-	                            </tr>
-	                        </tbody>
-	                    </table>
-	                </div>
+	            	 <ul class="nav nav-tabs customtab2" role="tablist">
+	                     <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#taster" role="tab"><span class="hidden-xs-down">평가단</span></a> </li>
+	                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#cancel" role="tab" id="cancelTab"><span class="hidden-xs-down">취소자</span></a> </li>
+	                 </ul>
+	                 <!-- Tab panes -->
+	                 <div class="tab-content">
+	                     <div class="tab-pane active" id="taster" role="tabpanel">
+							<div class="table-responsive m-t-40">
+								<table id="myTable" class="table table-bordered table-striped">
+							        <thead>
+							            <tr>
+							            	<th>#</th>
+											<th>신청코드</th>
+											<th>아이디</th>
+											<th>이름</th>
+											<th>모집코드</th>
+											<th>신청매장</th>
+											<th>신청시각</th>
+											<th>상태</th>
+							            </tr>
+							        </thead>
+							        <tbody>
+							            <tr th:each="l : ${tasterList}">
+							        		<td th:text="${lStat.count}"></td>
+							        		<td th:text="${l.applyCode}"></td>
+							        		<td th:text="${l.userId}"></td>
+							        		<td th:text="${l.userName}"></td>
+							        		<td>
+							        			<a th:href="@{/taster/recruitDetail(recruitCode=${l.recruitBCode})}" class="color-primary">[[${l.recruitBCode}]]</a>
+							        		</td>
+							        		<td th:text="${l.storeName}"></td>
+							        		<td th:text="${l.applyTime}"></td>
+							        		<td>
+							        			<span th:if="${l.state=='state_taster_com'}" class="badge badge-success">[[${l.stateName}]]</span>
+							                	<span th:unless="${l.state=='state_taster_com'}" class="badge badge-warning">[[${l.stateName}]]</span>
+							        		</td>
+								    	</tr>
+									</tbody>
+								</table>
+	                         </div>
+	                     </div>
+	                     <div class="tab-pane  p-20" id="cancel" role="tabpanel">
+							<div class="table-responsive m-t-40">
+							    <table id="calcelTb" class="table table-bordered table-striped">
+							        <thead>
+							            <tr>
+							            	<th>#</th>
+											<th>취소코드</th>
+											<th>평가단코드</th>
+											<th>아이디</th>
+											<th>이름</th>
+											<th>모집코드</th>
+											<th>평가단신청일시</th>
+											<th>취소일시</th>
+											<th>누적횟수</th>
+							            </tr>
+							        </thead>
+							        <tbody>
+							            <tr th:each="l : ${cancelList}">
+							        		<td th:text="${lStat.count}"></td>
+							        		<td th:text="${l.cancelCode}"></td>
+							        		<td th:text="${l.tasterApplyCode}"></td>
+							        		<td th:text="${l.userId}"></td>
+							        		<td th:text="${l.userName}"></td>
+							        		<td th:text="${l.recruitBCode}"></td>
+							        		<td th:text="${l.tasterApplyDate}"></td>
+							        		<td th:text="${l.cancelDate}"></td>
+							        		<td>
+							        			<span class="badge badge-danger">[[${l.numOfCancel}]]</span>
+							        		</td>
+							            </tr>
+							        </tbody>
+							    </table>
+							</div>
+	                     </div>
+	                 </div>
+	
 	            </div>
 	        </div>
 		</div>
@@ -68,6 +121,12 @@
  <!--Custom JavaScript -->
 <th:block layout:fragment="customJsLib">
 	<script type="text/javascript">	
+		$(function(){
+			$('#cancelTab').on("click", function(){
+				$('#cancelTb').DataTable();
+				console.log('z크릭');
+			});
+		});
 	</script>
 </th:block>
     

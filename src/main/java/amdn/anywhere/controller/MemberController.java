@@ -18,19 +18,36 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.MemberBiz;
+import amdn.anywhere.domain.MemberLogin;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
+import amdn.anywhere.domain.Point;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.service.MemberService;
+import amdn.anywhere.service.PointService;
 
 
 @Controller
 public class MemberController {
 
 	private final MemberService memberService;
+	private final PointService pointService;
 	
-	public MemberController(MemberService memberService) {
+	public MemberController(MemberService memberService, PointService pointService) {
 		this.memberService = memberService;
+		this.pointService = pointService;
+	}
+	
+	//회원 전체 로그인 내역 조회
+	@GetMapping("/member/loginList")
+	public String getLoginList(Model model) {
+		List<Member> memberList = memberService.getMemberList();
+		
+		model.addAttribute("title", "로그인 내역 조회");
+		model.addAttribute("location", "로그인 내역 조회");
+		model.addAttribute("memberList", memberList);
+		
+		return "/member/loginList";
 	}
 	
 	//선호도 수정 ajax
@@ -243,7 +260,7 @@ public class MemberController {
 	
 	@GetMapping("/member/modifyMyInfo")
 	public String modifyMyInfo( @RequestParam(name = "memberId", required = false) String memberId
-						 ,Model model) {
+						 		,Model model) {
 		
 		Member member = memberService.getMemberInfoById(memberId);
 		
@@ -270,7 +287,13 @@ public class MemberController {
 	
 	//로그아웃
 	@GetMapping("/logout")
-	public String logout(HttpSession session) {
+	public String logout(@RequestParam(name = "memberId", required = false) String memberId
+						,MemberLogin memberLogin
+						,HttpSession session) {
+		
+		//로그아웃 시간 업데이트
+		memberService.modifyLogout(memberLogin);
+		//세션종료
 		session.invalidate();
 		return "redirect:/";
 	}
@@ -281,7 +304,8 @@ public class MemberController {
 						,@RequestParam(name = "memberPw", required = false) String memberPw
 						, HttpSession session
 						, RedirectAttributes redirecAttr
-						, MemberBiz memberBiz) {
+						, MemberBiz memberBiz
+						, MemberLogin memberLogin) {
 		//1 회원이 있다
 		if(memberId != null && !"".equals(memberId) &&
 			memberPw != null && !"".equals(memberPw)) {
@@ -293,7 +317,13 @@ public class MemberController {
 					session.setAttribute("SID", memberId);
 					session.setAttribute("SLEVEL", member.getLevelCode());
 					session.setAttribute("SNAME", member.getMemberName());
-									
+					
+					//로그인내역남기기
+					memberLogin.setLoginNum(memberService.getLoginCode());
+					memberLogin.setLevelCode(member.getLevelCode());
+					memberService.addLogin(memberLogin);					
+					System.out.println("memberLogin::::"+memberLogin);
+					
 					return "redirect:/member/myPageBiz?memberId="+memberBiz.getMemberId();
 				}
 			}else {
@@ -301,6 +331,12 @@ public class MemberController {
 					session.setAttribute("SID", memberId);
 					session.setAttribute("SLEVEL", member.getLevelCode());
 					session.setAttribute("SNAME", member.getMemberName());
+					
+					//로그인내역남기기
+					memberLogin.setLoginNum(memberService.getLoginCode());
+					memberLogin.setLevelCode(member.getLevelCode());
+					memberService.addLogin(memberLogin);					
+					System.out.println("memberLogin::::"+memberLogin);
 					
 					return "redirect:/";
 				}
@@ -364,14 +400,17 @@ public class MemberController {
 	
 	//추가정보입력
 	@PostMapping("/member/addMember03")
-	public String addMember03(MemberUser memberUser) {
+	public String addMember03(MemberUser memberUser
+							, Point point) {
 		System.out.println("멤버유저 : " + memberUser);		
 		
-		//소비자 추가정보 입력
-		if(memberUser != null) memberService.addMember03(memberUser);
-		//포인트 최초 등록
-		
-		//메세지 알림 체크 등록
+		if(memberUser != null) {
+			//소비자 추가정보 입력
+			memberService.addMember03(memberUser);
+			//포인트 최초 등록
+			point.setPointNum(pointService.getPointCode());
+			pointService.addJoinPoint(point);
+		}
 		
 		return "redirect:/member/addMember05";
 	}
