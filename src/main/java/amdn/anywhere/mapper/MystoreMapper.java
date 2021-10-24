@@ -20,4 +20,7 @@ public interface MystoreMapper {
 	
 	public List<Store> getMystore();
 	
+	public List<Store> getMystoreSearch(String storeCode);
+	
+	public List<Mystore> getMystoreExpense(String storeCode);
 }
