@@ -13,7 +13,7 @@
 		<div class="col-lg-12">
 			<div class="box box-primary">
 				<div class="card-header" >
-					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i>  내 매장 관리  </h4>
+					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 내 매장 관리  </h4>
 				</div>
 				
 				<div class="card">
@@ -137,7 +137,7 @@
 				                    <div class="col-sm-2">
 				                        <!-- text input -->
 				                        <div class="form-group">
-				                            <button type="button" class="btn btn-block btn-outline-success btn-md" id="storeSearch" style="height: 42px; font-weight:bold; text-align: center;">검색</button>
+				                            <button type="button" class="btn btn-block btn-outline-success" id="storeSearch" style="height: 42px; font-weight:bold; text-align: center;">검색</button>
 				                        </div>
 				                    </div>
 				                    <!-- <div class="col-sm-5">
@@ -163,8 +163,11 @@
 		                	<div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
 						<div class="row">
 							<div class="col-sm-12">
+								<div>
+									<h2 style="font-weight:bold; color: blue;"><i class="fa fa-check"></i>  매출 테이블</h2>
+									<a th:href="@{/account/salesList}" class="btn btn-outline-danger float-right" type="button" style="width: 200px; margin-bottom: 15px;"><i class="ti-search"></i> 매출 상세 조회 </a>
+								</div>
 								<table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
-								<h2 style="font-weight:bold; color: red;"><i class="fa fa-check"></i>  매출 테이블</h2>
 									<thead>
 										<tr role="row">
 		                  					<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=": activate to sort column descending">No.</th>
@@ -189,8 +192,11 @@
 						<br><br>
 						<div class="row">
 							<div class="col-sm-12">
+								<div>
+									<h2 style="font-weight:bold; color: blue;"><i class="fa fa-check"></i>  지출 테이블</h2>
+									<a th:href="@{/account/expenseList}" class="btn btn-outline-danger float-right" type="button" style="width: 200px; margin-bottom: 15px;"><i class="ti-search"></i> 지출 상세 조회 </a>
+								</div>	
 								<table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
-								<h2 style="font-weight:bold; color: blue;"><i class="fa fa-check"></i>  지출 테이블</h2>
 									<thead>
 										<tr role="row">
 		                  					<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=": activate to sort column descending">No.</th>
@@ -199,6 +205,7 @@
 							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="내용: activate to sort column ascending">지출 금액</th>
 							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="상호명: activate to sort column ascending">해당 월</th>
 										</tr>
+										
 		                  			</thead>
 		                  			<tbody id="expenseStatisticsTbody">
 										<tr>
@@ -470,12 +477,13 @@
          		console.log(result);
          	});
             */
-		 });
-         request.fail(function( jqXHR, textStatus){
-             alert( "권한이 없습니다." );
+			});
+				request.fail(function( jqXHR, textStatus){
+				alert( "권한이 없습니다." );
              
-         }); 
-	 });
+        	}); 
+		});
+    		
     });
     </script> 
     
