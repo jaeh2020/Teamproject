@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import amdn.anywhere.domain.Book;
+import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Review;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.service.ReviewService;
@@ -74,8 +75,8 @@ public class ReviewController {
 		
 		//리뷰작성 아이디 가져오기
 		String memberId = (String)session.getAttribute("SID");
-		 //음식점 이름 가져오기
-		 List<Book> book = reviewService.getStoreName(paramMap);
+		//음식점 이름 가져오기
+		List<Order> order = reviewService.getStoreName(paramMap);
 		//리뷰상태코드가져오기
 		Statement statement = reviewService.getreviewStatement(reviewStatementCode);
 		//예약정보가져오기
@@ -85,7 +86,7 @@ public class ReviewController {
 		model.addAttribute("title", "리뷰작성");
 		model.addAttribute("location", "리뷰작성");
 		model.addAttribute("memberId", memberId);
-		model.addAttribute("book", book);
+		model.addAttribute("order", order);
 		model.addAttribute("statement", statement);
 		model.addAttribute("bookList", bookList);
 		

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import amdn.anywhere.domain.Book;
+import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Review;
 import amdn.anywhere.domain.Statement;
 
@@ -32,7 +33,7 @@ public interface ReviewMapper {
 	public Statement getreviewStatement(String reviewStatementCode);
 	
 	//방문음식점 ,음식이름 가져오기
-	public List<Book> getStoreName(Map<String, String> paramMap);
+	public List<Order> getStoreName(Map<String, String> paramMap);
 	
 	//총 리뷰 목록
 	public List<Review> getreviewList();
