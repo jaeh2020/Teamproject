@@ -379,7 +379,8 @@
 			FROM 
 				tb_board_management
 			where
-				b_cate_code = 'a_notic';
+				b_cate_code = 'a_notic'
+			ORDER BY board_num DESC;
 		</select>
 	
 	<!-- 소상공인 게시판 리스트 -->
@@ -393,7 +394,8 @@
 			FROM 
 				tb_board_management
 			where
-				b_cate_code = 'b_board';
+				b_cate_code = 'b_board'
+			ORDER BY board_num DESC;
 		</select>
 		
 	<!-- 게시판 리스트 -->
@@ -407,6 +409,7 @@
 			FROM 
 				tb_board_management
 			where
-				b_cate_code = 'u_board';
+				b_cate_code = 'u_board'
+			ORDER BY board_num DESC;
 		</select>
 </mapper>
