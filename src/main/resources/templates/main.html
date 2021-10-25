@@ -22,6 +22,13 @@
 	.card-header{
 		font-family: 'Gowun Batang', serif;
 	}
+	.btn-link{
+		background-color:transparent;
+		font-family: 'Gowun Batang', serif;
+		font-color: black;
+		font-size: 14px;
+		padding-bottom: 1px;
+	}
 	
 	
 </style>
@@ -200,23 +207,36 @@
 													</div>
 													<div class="card-body">
 														<div class="mx-auto d-block">
-															<!-- <img class="rounded-circle mx-auto d-block" src="images/admin.jpg" alt="상점이미지"> -->
-															<h5 class="text-sm-center mt-2 mb-1" th:text="${l.storePhone}">전화번호</h5>
 															
+															<!-- 주소,전화번호 -->
+															<div class="location text-sm-center">
+																	<i class="fa fa-map-marker"></i>
+																	<button type="button" class="btn btn-link btn-sm" th:text="${l.storeLocation}" disabled="disabled">주소 </button>
+															</div>
+															<div class="location text-sm-center">
+																	<i class="fa fa-phone"></i>
+																	<button type="button" class="btn btn-link btn-sm" th:text="${l.storePhone}" disabled="disabled">주소 </button>
+															</div>
 															
-																<div class="location text-sm-center">
-																		<i class="fa fa-star"></i> 
-																		4.5
-																</div>
-														<hr>		
-																<div class="card-text text-sm-center">
-																	<i class="ti-user" style="color: pink;"></i><p>
-																	<h6> 현재 대기인원은 </h6>
-																	<h6 class="text-sm-center mt-2 mb-1" th:text="${l.waiting.waitNum + ' 명입니다'}">대기인원</h6>
-																	
-																</div>
-														</div>
+																<!-- 리뷰 버튼 -->
+															<div class="location text-sm-center">
+																	<button type="button" class="btn btn-outline-warning btn-xs"> 
+																	<i class="fa fa-lightbulb-o"></i> 리뷰 확인 
+																	</button>
+															</div>
+																
 														<hr>
+														
+															<div class="card-text text-sm-center">
+																<i class="ti-user" style="color: pink;"></i><p>
+																<h6> 현재 대기인원은 </h6>
+																<h6 class="text-sm-center mt-2 mb-1" th:text="${l.waiting.waitNum + ' 명입니다'}">대기인원</h6>
+															</div>
+															
+														</div>
+														
+														<hr>
+														
 														<div class="card-text text-sm-center">
 															<a th:href="@{/book/addBookMember(storeName=${l.storeName})}">
 															<button type="button" class="btn btn-outline-danger btn-sm bookBtn">예약/주문하기</button>
