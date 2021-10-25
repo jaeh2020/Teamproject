@@ -31,9 +31,9 @@
                      <li class="nav-label">게시판 관리 / 김채연</li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-file-text-o"></i><span class="hide-menu">게시판 관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a  th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/board/boardNoticeList}">공지사항</a></li>
-                             <li><a  th:if="${session.SLEVEL == 'level_user'}" th:href="@{/board/boardList}">소비자 게시판</a></li>
-                             <li><a  th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/board/boardBizList}">소상공인 게시판</a></li>
+                             <li><a th:href="@{/board/boardNoticeList}">공지사항</a></li>
+                             <li><a  th:if="${session.SLEVEL == 'level_user' || session.SLEVEL == 'level_admin'}" th:href="@{/board/boardList}">소비자 게시판</a></li>
+                             <li><a  th:if="${session.SLEVEL == 'level_biz' || session.SLEVEL == 'level_admin'}" th:href="@{/board/boardBizList}">소상공인 게시판</a></li>
                          </ul>
                      </li>
 					           <li class="nav-label">신고 관리 / 김채연</li>

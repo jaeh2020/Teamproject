@@ -4,18 +4,21 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="amdn.anywhere.mapper.ReviewMapper">
-<resultMap type="Book" id="bookResultMap">
-		<result property="bookCode"			column="b_o_code"/>
-		<result property="storeCode"		column="store_code"/>
+<resultMap type="Order" id="orderResultMap">
+		<result property="oCode"			column="o_code"/>
+		<result property="bookCode"		column="b_o_code"/>
 		<result property="userId"			column="user_id"/>
-		<result property="bookUserName"		column="book_user_name"/>
-		<result property="bookUserPhone"	column="book_user_phone"/>
-		<result property="bookPeoNum"		column="book_peo_num"/>
-		<result property="bookSignTime"		column="book_sign_time"/>
-		<result property="bookCompTime"		column="book_comp_time"/>
-		<result property="bookCallAgree"	column="book_call_agree"/>
-		<result property="stateCode"		column="state_code"/>
-		<result property="bookPickup"		column="book_pickup"/>
+		<result property="storeCode"		column="store_code"/>
+		<result property="menuCode"	column="menu_code"/>
+		<result property="oCount"		column="o_count"/>
+		<result property="oRequest"		column="o_request"/>
+		<result property="payGroCode"		column="pay_gro_code"/>
+		<result property="oTotalPrice"	column="o_total_price"/>
+		<result property="orderSignTime"		column="order_sign_time"/>
+		<result property="orderCompTime"		column="order_comp_time"/>
+		<result property="orderStateCode"		column="order_state_code"/>
+		<result property="storeTableCode"		column="store_table_code"/>
+		<result property="tabelStateCode"		column="book_pickup"/>
 		<association property="storeSearch" javaType="StoreSearch">
 			<id property="storeCode" 			column="store_code"/>
 			<result property="storeName"		column="store_name"/>
@@ -152,22 +155,22 @@
 
 
 <!-- 방문음식점 ,음식이름 가져오기 -->
-<select id="getStoreName" resultMap="bookResultMap" parameterType="map">
-	SELECT
-		s.store_name
-		,m.menu_name
-	FROM
-		tb_book AS b
-		INNER join
-		tb_store_info AS s
-		on
-		b.store_code = s.store_code
-		INNER join
-		tb_store_menu AS m
-		on
-		s.store_code = m.store_code
-	WHERE
-		b.b_o_code = #{bookCode};
+<select id="getStoreName" resultMap="orderResultMap" parameterType="map">
+   SELECT
+      s.store_name
+      ,m.menu_name
+   FROM
+      tb_order AS o
+      INNER join
+      tb_store_info AS s
+      on
+      o.store_code = s.store_code
+      INNER join
+      tb_store_menu AS m
+      on
+      o.menu_code = m.menu_code
+   WHERE
+      o.b_o_code = #{bookCode};
 </select>
 
 <!-- 총 리뷰 목록 -->
