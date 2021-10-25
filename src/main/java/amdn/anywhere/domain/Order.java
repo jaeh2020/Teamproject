@@ -20,6 +20,7 @@ public class Order {
 	private Menu menu;
 	private Store store;
 	private Book book;
+	private Payment payment;
 	private Storesearch storeSearch;
 	private Statement statement;
 	public String getoCode() {
@@ -130,6 +131,12 @@ public class Order {
 	public void setBook(Book book) {
 		this.book = book;
 	}
+	public Payment getPayment() {
+		return payment;
+	}
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
 	public Storesearch getStoreSearch() {
 		return storeSearch;
 	}
@@ -149,10 +156,9 @@ public class Order {
 				+ oRequest + ", payGroCode=" + payGroCode + ", oTotalPrice=" + oTotalPrice + ", orderSignTime="
 				+ orderSignTime + ", orderCompTime=" + orderCompTime + ", orderStateCode=" + orderStateCode
 				+ ", storeTableCode=" + storeTableCode + ", tabelStateCode=" + tabelStateCode + ", menu=" + menu
-				+ ", store=" + store + ", book=" + book + ", storeSearch=" + storeSearch + ", statement=" + statement
-				+ "]";
+				+ ", store=" + store + ", book=" + book + ", payment=" + payment + ", storeSearch=" + storeSearch
+				+ ", statement=" + statement + "]";
 	}
-	
-	
+
 	
 }
