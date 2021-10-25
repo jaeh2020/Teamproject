@@ -371,7 +371,7 @@ public class MemberController {
 			}
 		}
 		//2 회원이 없다면 result -> 등록된 정보가 없습니다.
-		redirecAttr.addAttribute("result", "등록된 정보가 없습니다.");
+		//redirecAttr.addAttribute("result", "등록된 정보가 없습니다.");
 		return "redirect:/member/login";
 	};
 	

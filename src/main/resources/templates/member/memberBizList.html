@@ -10,10 +10,9 @@
 <style type= "text/css">
 	.btn{
 		margin : 5px;
-		color: #505050;
-		background-color: #50508C;
+		background-color: #CC1D80;
 		color: #fff;
-		width: 100px;
+		width: 70px;
 	}
     #memberBiz td{
     	cursor: pointer;
@@ -49,18 +48,20 @@
                                 <th>소상공인 확인서</th>
                                 <th>승인자 아이디</th>
                                 <th>승인 요청 일시</th>
+                                <th>승인</th>
                                 <th>승인 상태</th>
                                 <th>승인 완료 일시</th>
                             </tr>
                         </thead>
 						<tbody th:id="memberBiz">
 		                    <tr th:each="l : ${memberBizList}">
-		                    	<td th:text="${l.bizCode}" th:id="${l.bizCode}" class="btn btn-pink modiSelect"></td>
+		                    	<td th:text="${l.bizCode}" th:id="${l.bizCode}" class="modiSelect"></td>
 		                    	<td th:text="${l.memberId}"></td> 
 		                    	<td th:text="${l.bizNum}"></td> 
 		                    	<td th:text="${l.bizFileAtt}"></td> 
 		                    	<td th:text="${l.confirmId}"></td> 
 		                    	<td th:text="${l.bizReTime}"></td> 
+		                    	<td class="btn btn-pink">승인</td>
 		                    	<td th:text="${l.statement.stateName}"></td> 
 		                    	<td th:text="${l.bizCompTime}"></td>
 		                    </tr>
@@ -82,6 +83,12 @@
     <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
 	<script type="text/javascript">
 		$(function(){
+			$('.btn-pink').on('click', function(){
+				var a = $(this).parent().parent().find('.modiSelect').text();
+			            
+			    console.log("배열에 담긴 값 : "+a);
+			})
+			
 		 	$('.modiSelect').on('click',function(){		 		
 		 		var bizCode = $(this).attr("id");
 		 		sessionStorage.setItem("bizCode", bizCode);
