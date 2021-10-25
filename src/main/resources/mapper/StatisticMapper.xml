@@ -3,11 +3,45 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="amdn.anywhere.mapper.StatisticMapper">
+	<resultMap type="Store" id="storeResultMap">
+		<result property="bizId"			column="biz_id"/>
+		<result property="bizName"	column="member_name"/>
+		<result property="storeCode"		column="store_code"/>
+		<result property="storeName"		column="store_name"/>
+		<result property="storeTasteAgree"	column="store_taste_agree"/>
+		<result property="storeExposAgree"	column="store_expos_agree"/>
+		<association property="foodMainCate" javaType="FoodMainCate">
+			<id property="mainCateCode"			column="main_cate_code"/>
+			<result property="mainCateName"		column="main_cate_name"/>
+			<result property="mainCateName2"	column="main_cate_name2"/>
+		</association>
+	</resultMap>
 	<select id="getTotalStore" resultType="integer">
 		SELECT
 			COUNT(1) AS totalStorNum
 		FROM
 			tb_store_info
 	
+	</select>
+	
+	<select id="getRecentStoreList" resultMap="storeResultMap">
+		SELECT
+			s.biz_id
+			,m.member_name
+			,s.store_code
+			,s.store_name
+			,f.main_cate_name
+			,s.store_taste_agree
+			,s.store_expos_agree	
+		FROM
+			tb_store_info AS s
+			INNER JOIN
+			tb_member AS m
+			ON s.biz_id = m.member_id
+			INNER JOIN 
+			tb_food_main_cate AS f
+			ON f.main_cate_code = s.main_cate_code
+		ORDER BY s.store_code DESC
+		LIMIT 5
 	</select>
 </mapper>

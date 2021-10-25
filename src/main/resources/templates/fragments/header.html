@@ -51,7 +51,12 @@
                           </a>
                       </li>
                       <!-- End 로그인 -->
-
+					  <!-- 관리자 메인페이지  -->
+					  <li class="nav-item dropdown">
+                          <a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/admin}" class="nav-link dropdown-toggle text-muted text-muted " aria-haspopup="true" aria-expanded="false">
+                         	 관리자페이지
+                          </a>
+                      </li>
                       <!-- 프로필 -->
                       <li th:if="${session.SID != null}" class="nav-item dropdown" style="cursor:pointer;">
                           <a class="nav-link dropdown-toggle text-muted"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

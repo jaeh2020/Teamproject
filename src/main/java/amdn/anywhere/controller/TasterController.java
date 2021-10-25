@@ -157,7 +157,7 @@ public class TasterController {
 				if(taster.getState().equals("state_taster_cancel"))model.addAttribute("apply", "n");
 				else model.addAttribute("apply", "y");
 			}
-		}   else model.addAttribute("apply", "n");
+		}else model.addAttribute("apply", "n");
 		
 		model.addAttribute("title", "평가단 모집 공고");
 		model.addAttribute("location1URL", "/taster/recruitNotice");
