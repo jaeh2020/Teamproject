@@ -365,8 +365,8 @@ public class MemberController {
 					memberLogin.setLevelCode(member.getLevelCode());
 					memberService.addLogin(memberLogin);					
 					System.out.println("memberLogin::::"+memberLogin);
-					
-					return "redirect:/";
+					if(member.getLevelCode().equals("level_admin")) return "redirect:/admin";
+					else return "redirect:/";
 				}
 			}
 		}
