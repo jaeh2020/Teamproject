@@ -20,8 +20,8 @@ public class Order {
 	private Menu menu;
 	private Store store;
 	private Book book;
+	private Storesearch storeSearch;
 	private Statement statement;
-	private Payment	payment;
 	public String getoCode() {
 		return oCode;
 	}
@@ -130,17 +130,17 @@ public class Order {
 	public void setBook(Book book) {
 		this.book = book;
 	}
+	public Storesearch getStoreSearch() {
+		return storeSearch;
+	}
+	public void setStoreSearch(Storesearch storeSearch) {
+		this.storeSearch = storeSearch;
+	}
 	public Statement getStatement() {
 		return statement;
 	}
 	public void setStatement(Statement statement) {
 		this.statement = statement;
-	}
-	public Payment getPayment() {
-		return payment;
-	}
-	public void setPayment(Payment payment) {
-		this.payment = payment;
 	}
 	@Override
 	public String toString() {
@@ -149,8 +149,10 @@ public class Order {
 				+ oRequest + ", payGroCode=" + payGroCode + ", oTotalPrice=" + oTotalPrice + ", orderSignTime="
 				+ orderSignTime + ", orderCompTime=" + orderCompTime + ", orderStateCode=" + orderStateCode
 				+ ", storeTableCode=" + storeTableCode + ", tabelStateCode=" + tabelStateCode + ", menu=" + menu
-				+ ", store=" + store + ", book=" + book + ", statement=" + statement + ", payment=" + payment + "]";
+				+ ", store=" + store + ", book=" + book + ", storeSearch=" + storeSearch + ", statement=" + statement
+				+ "]";
 	}
+	
 	
 	
 }

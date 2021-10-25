@@ -10,7 +10,7 @@ public class Book {
 	private String bookUserPhone;
 	private int bookPeoNum;
 	private Date bookSignTime;
-	private Date bookCompTime;
+	private String bookCompTime;
 	private String bookCallAgree;
 	private String stateCode;
 	private String bookPickup;
@@ -59,10 +59,10 @@ public class Book {
 	public void setBookSignTime(Date bookSignTime) {
 		this.bookSignTime = bookSignTime;
 	}
-	public Date getBookCompTime() {
+	public String getBookCompTime() {
 		return bookCompTime;
 	}
-	public void setBookCompTime(Date bookCompTime) {
+	public void setBookCompTime(String bookCompTime) {
 		this.bookCompTime = bookCompTime;
 	}
 	public String getBookCallAgree() {
