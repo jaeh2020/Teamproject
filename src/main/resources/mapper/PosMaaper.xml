@@ -419,7 +419,7 @@
 				</if>
 		</where>
 		GROUP BY o.b_o_code
-		ORDER BY o.order_sign_time DESC;
+		ORDER BY o.b_o_code DESC;
 	</select>
 	
 	

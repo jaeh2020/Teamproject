@@ -178,6 +178,7 @@
 			,i.store_name
 			,s.state_name
 			,m.menu_name
+			,IFNULL(p.pm_com_time, '') AS pm_com_time
 		FROM
 			tb_order AS o
 			INNER join
@@ -196,6 +197,10 @@
 			tb_store_menu AS m
 			on
 			o.menu_code = m.menu_code
+			left join
+			tb_payment AS p
+			on
+			p.pm_gro_code = o.pay_gro_code
 			<where>
 				<if test="dateBefore != null and dateAfter != null">
 				date(o.order_sign_time) BETWEEN #{dateBefore} and #{dateAfter}
@@ -229,6 +234,7 @@
 			,b.book_pickup
 			,i.store_name
 			,m.menu_name
+			,IFNULL(p.pm_com_time, '') AS pm_com_time
 		FROM
 			tb_order AS o
 			INNER join
@@ -243,6 +249,10 @@
 			tb_store_menu AS m
 			on
 			o.menu_code = m.menu_code
+			left join
+			tb_payment AS p
+			on
+			p.pm_gro_code = o.pay_gro_code
 		WHERE
 			o.b_o_code = #{bookCode};
 	</select> 
@@ -250,7 +260,7 @@
 	
 	
 
-<!-- 주문내역리스트 조회 -->
+<!-- 나의 주문내역리스트 조회 -->
 	<select id="getOrderUserInfoById" resultMap="orderResultMap" parameterType="map">
 		SELECT
 			o.o_code
@@ -270,7 +280,7 @@
 			,i.store_name
 			,s.state_name
 			,m.menu_name
-			,p.pm_com_time
+			,IFNULL(p.pm_com_time, '') AS pm_com_time
 		FROM
 			tb_order AS o
 			INNER join

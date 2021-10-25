@@ -87,19 +87,12 @@
 						<td th:text="${o.orderSignTime}" id="orderSignTime"></td>
 						<td th:text="${o.orderCompTime}" id="orderCompTime"></td>
 						<td th:text="${o.statement.stateName}" class="stateName"></td>
-						
-						<td class="pmComTime"></td>
-						
-						
-						<!-- <td th:text="${o.payment.pmComTime}" class="pmComTime"></td> -->
-						
-						
-							<!-- <th:block th:unless="${#strings.isEmpty(o.payment.pmComTime)}">
-								<td th:text="${o.payment.pmComTime}" class="pmComTime"></td>
-							</th:block>
-								<th:block th:if="${#strings.isEmpty(o.payment.pmComTime)}">
-								<td>ㅇ</td>
-							</th:block> -->
+						<th:block th:unless="${#strings.isEmpty(o.payment.pmComTime)}">
+							<td th:text="${o.payment.pmComTime}" class="pmComTime"></td>
+						</th:block>
+							<th:block th:if="${#strings.isEmpty(o.payment.pmComTime)}">
+							<td></td>
+						</th:block>
 							
 							
 							
