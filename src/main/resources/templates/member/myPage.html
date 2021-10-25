@@ -8,14 +8,14 @@
 	
 <!-- css -->
 <style type= "text/css">
-	.col-lg-9{
-		margin: 0;
-	}
 	.col-lg-1{
 		padding: 0;
 	}
+	.col-lg-2{
+		padding: 30px;
+	}
 	hr{
-		height: 70px;
+		height: 150px;
 		width: 0px;
 		border : 1px solid #d2d2d2	;
 		background-color: #d2d2d2	;
@@ -31,12 +31,12 @@
 		color: #585858;
 		font-weight: bold;
 	}
-	.col-lg-2{
-		padding: 0;
-		margin: 10px;
-	}
 	.btn{
-		width: 80px;
+		margin : 5px;
+		color: #505050;
+		background-color: #50508C;
+		color: #fff;
+		width: 120px;
 	}
 	.listWrap{
 		text-align: center;
@@ -46,10 +46,12 @@
 		width: 200px;
 		height: 200px;
 		margin: 20px;
+		padding: 40px;
 	}
 	.level{
-		color: #64D2D2;
+		color: #46649B;
 		font-weight: bold;
+		margin-top: 10px;
 	}
 	.bi-emoji-sunglasses{
 		color: #FF9E9B;
@@ -63,6 +65,21 @@
 	.bi-person-x{
 		color: #FFDFDC
 	}
+	.card1{
+	    
+	    background-color: #BECDFF;
+	}
+	.card2{
+		padding-bottom: 20px;
+	}
+	h1{
+    	cursor: pointer;
+    	text-align: center;
+	}
+	h4{
+		cursor: pointer;
+		margin-bottom: 50px;
+	}
 </style>
 </th:block>
 
@@ -70,16 +87,22 @@
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 		<!-- 왼쪽부분 -->
-	<div class="card">
-		<div class="row">
-			<div class="col-lg-3">		
-		        <h4>[[${session.SNAME}]] 님의 </h4>
-		        <h3>회원등급은 <span class="level">[[${memberUser.membership.msLevel}]]</span><sup><i class="bi bi-chat-dots f-s-28"></i></sup> 입니다.</h3>
-            </div>
-            			 		
-            <div class="col-lg-9">
-            	<div class="row">
-            		<div class="col-lg-3"></div>
+	<input type="hidden" id="SID" th:value="${session.SID}">
+	<div class="row">
+	<div class="col-lg-3">
+	<div class="card card1">	
+				<h1><i class="bi bi-person-square"></i></h1>
+		        <h1>[[${session.SNAME}]] 님 </h1>
+		        <h4>안녕하세요!</h4>
+	</div>
+    </div>
+    <div class="col-lg-9">
+    <div class="card card2"> 
+    <div class="row">
+    			<div class="col-lg-3">
+		        <h4 class="membership">멤버쉽 변경 이력 ></h4>
+		        <h1><span class="level">[[${memberUser.membership.msLevel}]]</span></h1>
+    				</div>			 		
 					<div class="col-lg-2">
 	   			 		<div class="wrap">
 	    			 		<h4>주문건수</h4>
@@ -102,11 +125,13 @@
            			 		<p>[[${memberUser.userEvaluator}]]</p>
            			 	</div>
           			 	</div>
-			</div>
-	        </div>
-		</div>
+          			 	</div>
 	</div>
-		
+	</div>
+	</div>
+		<!-- 여기에 멤버쉽 변경이력 나타남 -->
+			<div id="membershipDel"></div>
+		<!-- 끄으으읕 -->
 		<div class="card card-outline-primary" >
     		<!-- 프로필 하단 -->
    			 <div class="listWrap">
@@ -126,7 +151,7 @@
 	<script type="text/javascript">
 		$(function(){
     	
-			$('.bi-chat-dots').click(function(){
+			$('.level').click(function(){
 
 				var level= '';
 				
@@ -146,6 +171,42 @@
 
 				Swal.fire(level);
 				
+			});
+			
+			//멤버쉽 누르면 변경이력 나타남
+			$('.membership').click(function(){
+				
+				var userId = $('#SID').val();
+				console.log(userId)
+				
+				var request =  $.ajax({
+					  url: "/membershipDel", //요청 주소
+					  method: "GET", //요청 방식
+					  data: { userId : userId },
+					  dataType: "json" //받아올 포맷방식
+				});	
+				request.done(function(data){
+					console.log(data);
+					
+					var table= '';
+   					
+					table += '<div class="card card-outline-primary"><table class="table table-hover">';
+					table += '<thead style="background-color: #585858; color: #fff; font-weight:bold;"><tr><td>멤버쉽 초기화 코드</td><td>초기화 전 총 누적횟수</td><td>초기화 전 멤버쉽 등급</td><td>초기화 일시</td></tr></thead>';
+					table += '<tbody><tr>';            		
+					table += '<td>' +data.membershipDel.msDelCode+ '</td>';        		
+					table += '<td>' +data.membershipDel.delBeforeCount+ '</td>';
+					table += '<td>' +data.membership.msLevel+ '</td>';
+					table += '<td>' +data.membershipDel.resetTime+ '</td>';
+					table += '</tr></tbody>';
+			        table += '</table></div>';
+   				
+			      console.log(table,'table')
+   					$('#membershipDel').html(table);	
+				});
+				//응답 실패
+				request.fail(function(request,status,error){
+			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			    });
 			});
 			
 		});

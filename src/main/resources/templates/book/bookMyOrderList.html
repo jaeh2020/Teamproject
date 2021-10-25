@@ -46,7 +46,6 @@
 		
 		<!-- 히든영역 -->
 		<input type="hidden" name="userId" th:value="${session.SID}">
-		
 		<!-- 나의 주문 리스트 뿌려주기 -->
 		<div class="card">
 			<div style="font-family: 'Gowun Batang', serif">
@@ -59,10 +58,11 @@
 	                	<th style="display:none;">매장코드</th>
 	                	<th>주문 매장명</th>
 	                	<th>아이디</th>
-	                	<th data-orderable="false">주문예약정보 상세</th>
+	                	<th data-orderable="false">주문예약 상세</th>
 						<th>총 결제금액</th>
 						<th data-orderable="false">영수증 출력</th>
 						<th>주문등록일시</th>
+						<th>주문승인일시</th>
 						<th>주문상태</th>
            				<th>결제완료일시</th>
 						<th>예약취소</th>
@@ -82,11 +82,27 @@
 						</td>
 						<td th:text="${o.oTotalPrice}"></td>
 						<td>
-							<button type="button" class="printBtn btn btn-dark btn-outline fa fa-print"></button>
+							<button type="button" class="printBtn btn btn-dark btn-outline fa fa-print" th:onclick="printBtn([[${o.bookCode}]],[[${o.statement.stateName}]])"></button>
 						</td>
 						<td th:text="${o.orderSignTime}" id="orderSignTime"></td>
-						<td th:text="${o.statement.StateName}" class="stateName"></td>
 						<td th:text="${o.orderCompTime}" id="orderCompTime"></td>
+						<td th:text="${o.statement.stateName}" class="stateName"></td>
+						
+						<td class="pmComTime"></td>
+						
+						
+						<!-- <td th:text="${o.payment.pmComTime}" class="pmComTime"></td> -->
+						
+						
+							<!-- <th:block th:unless="${#strings.isEmpty(o.payment.pmComTime)}">
+								<td th:text="${o.payment.pmComTime}" class="pmComTime"></td>
+							</th:block>
+								<th:block th:if="${#strings.isEmpty(o.payment.pmComTime)}">
+								<td>ㅇ</td>
+							</th:block> -->
+							
+							
+							
 						<td>
 							<button type="button" class="cancelBtn btn btn-dark btn-outline">예약취소</button>
 						</td>
@@ -140,24 +156,16 @@
 	
 	
 	/* 영수증 출력 유효성검사 */
-	$(function(){
-		$('.printBtn').click(function(){
-			
-			var stateName = $(this).parent().parent().find('.stateName').text().trim();
-			var bookCode = $(this).parent().parent().find('.bookCode').text().trim();
-			
-			console.log(stateName);
-			console.log(bookCode);
-			
-			if(stateName == '결제완료'){
-				alert('영수증 출력 화면으로 이동됩니다.');
-				location.href = "/book/orderReceipt?bookCode=" + bookCode;
-			}else{
-				alert('결제완료시에만 영수증 출력이 가능합니다.');
-				return false;
-			}
-		});
-	});
+	 function printBtn(bookCode, stateName){
+	
+		if(stateName == '결제완료'){
+			alert('영수증 출력 화면으로 이동됩니다.');
+			location.href = "/book/orderReceipt?bookCode=" + bookCode;
+		}else{
+			alert('결제완료시에만 영수증 출력이 가능합니다.');
+			return false;
+	   	}
+	};
 	
 	/* 리뷰화면 이동 유효성검사 */
 	$(function(){

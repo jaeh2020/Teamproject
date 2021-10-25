@@ -70,9 +70,7 @@
 						 <td th:text="${t.storeTableCode}"></td>
 						 <td th:text="${t.tableNum}"></td>
 						 <td>
-							 <a th:href="@{/store/myStoreManage/deleteMyTable(storeTableCode=${t.storeTableCode},storeCode=${t.storeCode})}">
-							 <button type="button" class="deleteMyTableBtn btn btn-danger btn-outline ti-trash text-white"></button>
-							 </a>
+							 <button type="button" class="deleteBtn btn btn-danger btn-outline ti-trash text-white" id="tableDelBtn" th:onclick="tableDel([[${t.storeTableCode}]],[[${t.storeCode}]])"></button>
 						</td>
 		  					</tr>
 		 				</tbody>
@@ -90,17 +88,19 @@
     
     
     <script type="text/javascript">
-    
- 	/* 삭제버튼 alert */
-    $(function(){
-      		$('.deleteMyTableBtn').on("click", function(){
-      			var result = confirm('정말 삭제하시겠습니까?');
-				if(result){
-					return true;
-					}
-					else return false;
-      		});
-	});
+  
+	function tableDel(storeTableCode, storeCode){
+   		if(confirm("정말 삭제하시겠습니까?")){
+   			location.href = 'deleteMyTable?storeTableCode='+storeTableCode+"&storeCode="+storeCode;
+   			return true;
+   		}else{
+   			return false;
+   		}
+   		
+   	};
+ 	
+ 	
+ 	
 	</script>
    
 </th:block>

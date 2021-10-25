@@ -112,6 +112,10 @@
 			<result property="menuRegTime"		column="menu_reg_time"/>
 			<result property="menuUsing"		column="menu_using"/>
 		</association>
+		<association property="payment"		javaType="Payment">
+			<id property="pCode" 				column="p_code"/>
+			<result property="pmComTime"		column="pm_com_time"/>
+		</association>
 	</resultMap>
 	
 	<resultMap type="Statement" id="statementResultMap">
@@ -197,6 +201,7 @@
 				date(o.order_sign_time) BETWEEN #{dateBefore} and #{dateAfter}
 				</if>
 			</where>
+			GROUP BY o.b_o_code;
 		</select>
 	
 	
@@ -265,6 +270,7 @@
 			,i.store_name
 			,s.state_name
 			,m.menu_name
+			,p.pm_com_time
 		FROM
 			tb_order AS o
 			INNER join
@@ -283,6 +289,10 @@
 			tb_store_menu AS m
 			on
 			o.menu_code = m.menu_code
+			left join
+			tb_payment AS p
+			on
+			p.pm_gro_code = o.pay_gro_code
 		<where>
 			<if test="userId != null and dateBefore == null and dateAfter == null">
 				o.user_id = #{userId}

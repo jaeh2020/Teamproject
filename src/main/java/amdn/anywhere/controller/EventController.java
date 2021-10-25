@@ -37,7 +37,16 @@ public class EventController {
 		this.eventService = eventService;
 		this.storeService = storeService;
 	}
-	//7. 이벤트 등록할 때 매장 검색하기
+	//8. 이벤트 등록시 매장검색 프로세스
+	@PostMapping("/searchStore")
+	public String searchStore(@RequestParam(value="searchKey", required = false) String searchKey, Model model){
+		System.out.println(searchKey);
+		List<Store> storeList = storeService.searchStore(searchKey);
+		model.addAttribute("storeList", storeList);
+		return "/event/searchStore";
+	}
+
+	//7. 이벤트 등록할 때 매장 검색화면 띄우기
 	@GetMapping("/searchStore")
 	public String searchStore(Model model) {
 		//매장 리스트 가져오기

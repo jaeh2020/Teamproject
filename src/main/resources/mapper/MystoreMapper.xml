@@ -19,11 +19,18 @@
 	<result property="storePhoto"		column="store_photo"></result>
 	<result property="storeTableNum"	column="store_table_num"></result>
 	<result property="storeOccupancy"	column="store_occupancy"></result>
+	<result property="menuName"			column="menu_name"></result>
+	<result property="menuCode"			column="sales_item"></result>
+	<result property="menuPrice"		column="sales_price"></result>
+	<result property="month"			column="month_code"></result>
 </resultMap>
 
-
-
-
+<resultMap type="Mystore" id="MyStoreMap2">
+	<result property="storeCode"		column="store_code"></result>
+	<result property="expenseItem"		column="expense_item"></result>
+	<result property="expenseDetail"		column="expense_detail"></result>
+	<result property="expensePrice"		column="expense_price"></result>
+</resultMap>
 <select id="getMystore" resultType="Mystore">
       SELECT 
          store_name AS storeName
@@ -88,6 +95,36 @@
 	         tb_store_info
 	      WHERE
 	         store_name = #{storeName}
+	   </select>
+	   <select id="getMystoreSearch" resultMap="MystoreResultMap" parameterType="String">
+			SELECT
+				S.store_code, 
+				M.menu_name,
+				S.sales_item,
+				S.sales_price,
+				S.month_code
+			FROM
+				tb_store_info AS I
+			INNER JOIN
+				tb_store_menu AS M
+			ON
+				I.store_code = M.store_code
+			INNER JOIN 
+				tb_account_sales AS S
+			ON
+				I.store_code = S.store_code
+			WHERE M.store_code = #{storeCode}
+	   </select>
+	   
+	   <select id="getMystoreExpense" resultMap="MyStoreMap2" parameterType="String">
+   		   	SELECT DISTINCT
+				E.store_code,
+				E.expense_item,
+				E.expense_detail,
+				E.expense_price
+			FROM
+				tb_account_expense AS E
+			WHERE E.store_code = #{storeCode}
 	   </select>
 
 </mapper>

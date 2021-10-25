@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import amdn.anywhere.domain.Mystore;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.mapper.ExpenseMapper;
 import amdn.anywhere.mapper.MystoreMapper;
@@ -43,17 +44,23 @@ public class AccountService {
 		return mystoreList;
    }   
 	
-	public List<Store> getstoreSearch(String storeSearchKey, String searchStartDate, String searchEndDate){
-
-		if("storeCode".equals(storeSearchKey)) 	storeSearchKey = "storeCode";
-		if("storeName".equals(storeSearchKey)) 	storeSearchKey = "storeName";
-		if("bizName".equals(storeSearchKey))	storeSearchKey = "bizName";
-		
-		List<Store> storeSearch = storeSearchMapper.getstoreSearch(storeSearchKey, searchStartDate, searchEndDate );
-		
-		log.info("LTService 검색된 리스트: {}", storeSearch);
+	public List<Store> getMystoreList(String storeCode, String searchStartDate, String searchEndDate){
+		List<Store> storeSearch = mysyotrMapper.getMystoreSearch(storeCode);
+		log.info("Service 검색된 리스트: {}", storeSearch);
 		
 		return storeSearch;
 	}
+	
+	public List<Mystore> getMystoreExpense(String storeCode, String searchStartDate, String searchEndDate){
+		List<Mystore> storeSearch = mysyotrMapper.getMystoreExpense(storeCode);
+		log.info("Service 검색된 리스트: {}", storeSearch);
+		return storeSearch;
+	}
+	
+	/*
+	 * public List<Mystore> getMySales(String storeCode){ List<Mystore> storeSearch
+	 * = salesMapper.getSalesList(storeCode); log.info("SalesList 검색된 리스트: {}",
+	 * storeSearch); return storeSearch; }
+	 */
 	
 }

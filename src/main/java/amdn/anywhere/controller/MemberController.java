@@ -21,6 +21,7 @@ import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.MemberLogin;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
+import amdn.anywhere.domain.MembershipDel;
 import amdn.anywhere.domain.Point;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.service.MemberService;
@@ -36,6 +37,18 @@ public class MemberController {
 	public MemberController(MemberService memberService, PointService pointService) {
 		this.memberService = memberService;
 		this.pointService = pointService;
+	}
+	
+	//소비자회원 멤버쉽 초기화 조회
+	@GetMapping("/member/membershipDelList")
+	public String membershipDelList(Model model) {
+		List<MemberUser> membershipDelList = memberService.getMemberUserList();
+		
+		model.addAttribute("title", "멤버쉽 초기화 내역 조회");
+		model.addAttribute("location", "멤버쉽 초기화 내역 조회");
+		model.addAttribute("membershipDelList", membershipDelList);
+		
+		return "/member/membershipDelList";
 	}
 	
 	//회원 전체 로그인 내역 조회
@@ -231,6 +244,21 @@ public class MemberController {
 		return "/member/myPageBiz";
 	}
 	
+	//mypage 멤버쉽 변경이력 ajax
+	@GetMapping(value="/membershipDel", produces = "application/json")
+	@ResponseBody
+	public MemberUser membershipDel(@RequestParam(value = "userId") String userId) {
+		
+		System.out.println("userId : " + userId);
+		
+		MemberUser memberUser = memberService.getMemberUserInfoById(userId);
+		memberUser.setUserId(userId);
+		System.out.println("memberUser??? : " + memberUser);
+		
+		return memberUser;
+	}
+	
+	
 	//마이페이지 myPage
 	@GetMapping("/member/myPage")
 	public String myPage(@RequestParam(name = "userId", required = false) String userId
@@ -364,8 +392,8 @@ public class MemberController {
 	public String getMemberList(Model model) {
 		List<Member> memberList = memberService.getMemberList();
 		
-		model.addAttribute("title", "회원목록조회");
-		model.addAttribute("location", "회원목록조회");
+		model.addAttribute("title", "전체회원목록조회");
+		model.addAttribute("location", "전체회원목록조회");
 		model.addAttribute("memberList", memberList);
 		
 		return "/member/memberList";

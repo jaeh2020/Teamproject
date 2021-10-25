@@ -21,7 +21,7 @@
 			<th:block layout:fragment="customLocation">
 	            <div class="row page-titles">
 	                <div class="col-md-5 align-self-center">
-	                    <h3 th:text="${location}"></h3></div>
+	                    <h3><span th:text="${location}"></span></h3></div>
 	                <div class="col-md-7 align-self-center">
 	                    <ol class="breadcrumb">
 	                        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
@@ -44,13 +44,7 @@
 			<footer th:replace="fragments/footer :: footerFragment"></footer>
 			<!-- End footer -->
 	</div>
-
-	
-	
-
     <!-- Bootstrap tether Core JavaScript -->
-    
-    
     <!-- slimscrollbar scrollbar JavaScript -->
 <!--     <script th:src="@{/js/lib/bootstrap/js/bootstrap.min.js}"></script> -->
 	<script th:src="@{/js/jquery.slimscroll.js}"></script>

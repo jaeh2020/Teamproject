@@ -24,10 +24,9 @@
 		}
 	</style>
 </th:block>
-	<th:block layout:fragment="customJs">
-	    <script th:src="@{/js/lib/form-validation/jquery.validate.min.js}"></script>
-   
-	</th:block>	  
+<th:block layout:fragment="customJs">
+    <script th:src="@{/js/lib/form-validation/jquery.validate.min.js}"></script>
+</th:block>	  
 <th:block layout:fragment="customTitle">
 	<title th:text="${title}"></title>
 </th:block>
@@ -65,8 +64,8 @@
 	                         <div class="form-group row">
 	                             <label class="col-lg-4 col-form-label" >관련 매장</label>
 	                             <div class="col-lg-7">
-									<input type="text" class="form-control" id="searchStore" name="storeCode" placeholder="매장 검색">
-									<input type="text" class="form-control" id="storeName" name="storeName" hidden="hidden">
+									<input type="text" class="form-control" id="searchStore" name="storeName" placeholder="매장 검색">
+									<input type="text" class="form-control" id="storeCode" name="storeCode" hidden="hidden">
 	                             </div> 
 	                         </div>
 	                         <div class="form-group row">
@@ -117,9 +116,8 @@
 	<script type="text/javascript">
 
 		function searchStore(storeCode, storeName){
-			console.log(storeCode, storeName);
-			$('#searchStore').val(storeCode);
-			$('#storeName').val(storeName);
+			$('#searchStore').val(storeName);
+			$('#storeCode').val(storeCode);
 		}
 		//매장 검색 이벤트
 		$(function(){
@@ -191,6 +189,5 @@
 	         }
 	     });
     </script>
-<script th:src="@{/js/lib/form-validation/jquery.validate-init2.js}"></script>    
 </th:block>
 </html>

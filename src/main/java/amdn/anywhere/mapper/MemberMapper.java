@@ -10,10 +10,12 @@ import amdn.anywhere.domain.MemberBiz;
 import amdn.anywhere.domain.MemberLogin;
 import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.MemberUserLike;
+import amdn.anywhere.domain.MembershipDel;
 
 @Mapper
 public interface MemberMapper {
 
+	
 	//로그아웃 내역 업데이트
 	public int modifyLogout(MemberLogin memberLogin);
 	

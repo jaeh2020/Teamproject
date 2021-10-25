@@ -26,7 +26,10 @@ public class StoreService {
 		this.storeMapper = storeMapper;
 	}
 	
-	
+	//특정 키워드로 매장코드, 매장명 select
+	public List<Store> searchStore(String searchKey){
+		return storeMapper.searchStore(searchKey);
+	}
 	
 	//승인버튼시 매장delete
 	public int deleteStore(String storeCode) {

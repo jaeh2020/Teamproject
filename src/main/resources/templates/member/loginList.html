@@ -45,15 +45,14 @@
 		<div class="col-lg-12 ">
 			<div class="card card-outline-primary">
 	            <div class="card-header">
-	                <h4 class="m-b-0 text-white">회원 목록</h4>
+	                <h4 class="m-b-0 text-white">회원 로그인 내역</h4>
 	            </div>
-	            <div class="card-body"  id="list">
-	            	<a th:href="@{/member/loginList}" class="btn btn-pink">회원 로그인 내역</a>            
+	            <div class="card-body"  id="list">        
 	            	<div class="table-responsive m-t-40">
                    	<table id="myTable" class="table table-bordered table-striped">
 						<thead>
                             <tr>
-                                <th></th>
+                                <th>로그인 번호</th>
                                 <th>회원 아이디</th>
                                 <th>회원 구분</th>
                                 <th>마지막 로그인 시간</th>
@@ -62,8 +61,8 @@
                         </thead>
 						<tbody th:id="memberList">
 		                    <tr th:each="l : ${memberList}">
-		                    	<td><label><input type="checkbox"></label></td>
 		                    	<td th:text="${l.memberLogin.loginNum}"></td> 
+		                    	<td th:text="${l.memberId}"></td> 
 		                    	<td th:text="${l.memberLevel.levelName}"></td>
 		                    	<td th:text="${l.memberLogin.loginTime}"></td> 
 		                    	<td th:text="${l.memberLogin.logoutTime}"></td> 

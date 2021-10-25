@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import amdn.anywhere.domain.Mystore;
 import amdn.anywhere.domain.Store;
 import amdn.anywhere.service.AccountService;
 
@@ -36,6 +37,12 @@ public class AccountController {
 		
 	}
 	
+	@GetMapping("/salesList")
+	public String salesList() {
+		return "/account/salesList";
+		
+	}
+	
 	//ajax (내 매장 정보) -- 확인
    @GetMapping(value="/mystoreList", produces = "application/json")
    @ResponseBody
@@ -44,21 +51,45 @@ public class AccountController {
       return accountService.getMystoreList(storeCode);
    }
 
-   //ajax (매장 리스트 조회)
-   @RequestMapping(value="/storeSearch", method= RequestMethod.POST, produces = "application/json")
+      
+   @RequestMapping(value="/myStoreSalesStatistics", method= RequestMethod.POST, produces = "application/json")
    @ResponseBody
-   public List<Store> getstoreSearch( @RequestParam(value="storeSearchKey", required = false) String storeSearchKey
+   public List<Store> myStoreSalesStatistics(@RequestParam(name="storeCode", required = false) String storeCode
 		   ,@RequestParam(value="searchStartDate", required = false) String searchStartDate
 		   ,@RequestParam(value="searchEndDate", required = false) String searchEndDate){
 	   
-	   log.info("레벨테스트신청리스트 검색 옵션 : {}", storeSearchKey);
-	   log.info("레벨테스트신청리스트 검색 옵션 : {}", searchStartDate);
-	   log.info("레벨테스트신청리스트 검색 옵션 : {}", searchEndDate);
+	   log.info("검색 옵션 : {}", storeCode);
+		
+		  log.info("검색 옵션 : {}", searchStartDate); log.info("검색 옵션 : {}",
+		  searchEndDate);
+		 
 	   
-	   List<Store> storeSearch = accountService.getstoreSearch(storeSearchKey, searchStartDate, searchEndDate);
+	   List<Store> storeSearch = accountService.getMystoreList(storeCode, searchStartDate, searchEndDate);
 	   
+	   log.info("storeSearch[sales] : {}", storeSearch);
 	   return storeSearch;
    }
+   
+   
+   @RequestMapping(value="/myStoreExpenseStatistics", method= RequestMethod.POST, produces = "application/json")
+   @ResponseBody
+   public List<Mystore> myStoreExpenseStatistics(@RequestParam(name="storeCode", required = false) String storeCode
+		   ,@RequestParam(value="searchStartDate", required = false) String searchStartDate
+		   ,@RequestParam(value="searchEndDate", required = false) String searchEndDate){
+	   
+	   log.info("검색 옵션 : {}", storeCode);
+		
+		  log.info("검색 옵션 : {}", searchStartDate); log.info("검색 옵션 : {}",
+		  searchEndDate);
+		
+	   
+	   List<Mystore> storeSearch = accountService.getMystoreExpense(storeCode, searchStartDate, searchEndDate);
+	   
+	   log.info("storeSearch[expense] : {}", storeSearch);
+	   return storeSearch;
+   }
+   
+   
    
     // Sales (매출파트)    
 	@GetMapping("/addSales")
@@ -75,11 +106,20 @@ public class AccountController {
 		
 		return "redirect:/account/salesList";
 	}
+	// 매출리스트 ajax
+	@GetMapping("/jsonCall")
+	public String jsonCall() {
+		return "jsonCall";
+	}
 	
-	@GetMapping("/salesList")
-	public String salesList() {
-		return "/account/salesList";		
-	}	
+	/*
+	 * @GetMapping( value = "/myJson", produces = "application/json")
+	 * 
+	 * @ResponseBody public SalesList myJson() { SalesList salesList = new
+	 * SalesList(); salesList.setStoreName("홍길동포차"); salesList.setBizCode("s_001");
+	 * salesList.setMenuName("순두부찌개"); salesList.setMenuPrice("1244000"); return
+	 * salesList; }
+	 */
 	
 	// Expense (비용파트)
 	
@@ -113,5 +153,4 @@ public class AccountController {
 		return "/account/close";
 		
 	}
-	
 }

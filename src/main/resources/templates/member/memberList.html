@@ -10,26 +10,7 @@
 <style type= "text/css">
 	.btn{
 		margin : 10px 0 0 200px;
-		color: #505050;
-		float: left;
-	}
-	.topBtn{
 		float: right;
-	}
-	.btn-success{
-		padding-top : 6px;
-		color: #fff;
-	}
-	ul a{
-		display:block;
-	}
-	.all{
-		color: #000;
-	}
-	#messageList{
-		cursor: pointer;
-	}
-	.btn{
 		background-color: #84799F;
 		color: #fff;
 	}
@@ -54,7 +35,6 @@
                    	<table id="myTable" class="table table-bordered table-striped">
 						<thead>
                             <tr>
-                                <th></th>
                                 <th>회원 구분</th>
                                 <th>회원 아이디</th>
                                 <th>회원 비밀번호</th>
@@ -68,7 +48,6 @@
                         </thead>
 						<tbody th:id="memberList">
 		                    <tr th:each="l : ${memberList}">
-		                    	<td><label><input type="checkbox"></label></td>
 		                    	<td th:text="${l.memberLevel.levelName}"></td>
 		                    	<td th:text="${l.memberId}"></td> 
 		                    	<td th:text="${l.memberPw}"></td> 
