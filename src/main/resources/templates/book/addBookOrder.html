@@ -26,8 +26,8 @@
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 
-			<!-- [[${book}]] -->
-	
+			<input type="hidden" th:value="${session.SLEVEL}" name="level">
+			
             <!-- Container fluid  -->
             <div class="container-fluid">
 	                <!-- Start Page Content -->
@@ -328,9 +328,16 @@
 							});
 				request.done(function(data){
 					console.log(data);
-					if(data == 'success'){
+					
+					var level = $('[name=level]').val();
+					
+					if(data == 'success' && level == 'level_user'){
+						alert('주문이 완료되었습니다. \n결제는 현장에서 진행되며, \n상세 주문내역은 상단의 "나의 주문내역" 에서 확인 가능합니다.')
 						location.href='/book/bookMyOrderList';
-					}
+					}else if(data == 'success' && level == 'level_biz'){
+						alert('주문이 완료되었습니다. pos에서 해당 주문내역을 확인한 후 상태변경 처리 하세요.')
+						location.href='/pos/posMain';
+					} 
 				});
 				/*
 				alert('주문이 완료되었습니다. \n결제는 현장에서 진행되며, \n상세 주문내역은 상단의 "나의 주문내역" 에서 확인 가능합니다.')

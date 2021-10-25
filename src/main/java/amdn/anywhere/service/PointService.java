@@ -2,6 +2,7 @@ package amdn.anywhere.service;
 
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import amdn.anywhere.domain.Point;
@@ -15,6 +16,16 @@ public class PointService {
 	
 	public PointService(PointMapper pointMapper) {
 		this.pointMapper = pointMapper;
+	}
+	
+	@Scheduled(cron = "*/1 * * * * *")
+	public void sampleScheduler1() {
+		System.out.println("테스트");
+	}
+	
+	//포인트 소멸시간 찾기
+	public String pointDelTime(String userId) {
+		return pointMapper.pointDelTime(userId);
 	}
 	
 	//포인트 소멸 등록

@@ -11,10 +11,30 @@
 	.btn{
 		margin : 5px;
 		color: #505050;
-		background-color: #50508C;
-		color: #fff;
-		width: 120px;
+		float: left;
 	}
+	.topBtn{
+		float: right;
+	}
+	.btn-success{
+		padding-top : 6px;
+		color: #fff;
+	}
+	ul a{
+		display:block;
+	}
+	.all{
+		color: #000;
+	}
+	#messageList{
+		cursor: pointer;
+	}
+	.clicked {
+        color: gold;
+    }
+    #memberUserList td{
+    	cursor: pointer;
+    }
     p{
     	margin: 0;
     	text-align: end;
@@ -31,7 +51,7 @@
 		<div class="col-lg-12 ">
 			<div class="card card-outline-primary">
 	            <div class="card-header">
-	                <h4 class="m-b-0 text-white">소비자 회원 목록</h4>
+	                <h4 class="m-b-0 text-white">멤버쉽 초기화 내역</h4>
 	            </div>
 	            <div class="card-body">
 	            	<div class="table-responsive m-t-40">
@@ -39,22 +59,20 @@
                    	<table id="myTable" class="table table-bordered table-striped">
 						<thead>
                             <tr>
-                                <th style="width: 100px;">소비자 아이디</th>
-                                <th>멤버쉽</th>
-                                <th>주문 누적 횟수</th>
-                                <th>누적 포인트</th>
-                                <th>평가단 뱃지 부여 여부</th>
-                                <th>신고 누적 벌점</th>
+                                <th>멤버쉽 초기화 코드</th>
+                                <th>소비자 아이디</th>
+                                <th>초기화 전 총 누적횟수</th>
+                                <th>초기화 전 멤버쉽 등급명</th>
+                                <th>초기화 일시</th>
                             </tr>
                         </thead>
 						<tbody th:id="memberUserList">
 		                    <tr th:each="l : ${memberUserList}">
-		                    	<td th:text="${l.userId}" th:id="${l.userId}" class="btn btn-pink like"></td>
-		                    	<td th:text="${l.membership.msLevel}"></td> 
-		                    	<td th:text="${l.userOrderTotal}"></td> 
-		                    	<td th:text="${l.userPoint}"></td> 
-		                    	<td th:text="${l.userEvaluator}"></td> 
-		                    	<td th:text="${l.reportScore}"></td>            	
+		                    	<td th:text="${l.membershipDel.msDelCode}"></td> 
+		                    	<td th:text="${l.userId}" th:id="${l.userId}" class="like"></td>
+		                    	<td th:text="${l.membershipDel.delBeforeCount}"></td> 
+		                    	<td th:text="${l.membershipDel.delBeforeName}"></td> 
+		                    	<td th:text="${l.membershipDel.resetTime}"></td>                   	
 		                    </tr>
 	               		</tbody>
 	            	</table>

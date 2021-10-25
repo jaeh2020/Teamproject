@@ -1,8 +1,10 @@
 package amdn.anywhere.controller;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,36 +28,43 @@ public class PointController {
 		this.messageService = messageService;
 	}
 
-	/*
-	 * //포인트 소멸
-	 * 
-	 * @PostMapping("/point/addPointDel") public String addPointDel( PointDel
-	 * pointDel ,Message message ,Model model ,@RequestParam(name = "userId",
-	 * required = false) String userId) { System.out.println("포인트포인트 : " +pointDel);
-	 * 
-	 * LocalDate now = LocalDate.now(); // 결과 출력 System.out.println(now+"현재시간");
-	 * 
-	 * List<Point> point = pointService.getPointListInfoById(userId);
-	 * 
-	 * System.out.println(point.getPredDelTime()+"소멸시간");
-	 * 
-	 * String pointDelCode = pointService.getPointCode();
-	 * 
-	 * if(point.getPredDelTime().equals(now)) {
-	 * pointDel.setPointDelNum(pointDelCode); pointDel.setUserId(point.getUserId());
-	 * pointDel.setPointNum(point.getPointNum());
-	 * pointDel.setPointDelTime(point.getPredDelTime());
-	 * 
-	 * pointDel.setPointDelContents("소멸"); pointDel.setDelPoint(null)
-	 * pointDel.setRemainPoint(null)
-	 * 
-	 * pointService.addPointDel(pointDel); }
-	 * 
-	 * System.out.println("message포인트적립 " + message);
-	 * model.addAttribute("pointList", point);
-	 * 
-	 * return "redirect:/point/pointList"; }
-	 */
+	@Scheduled(cron = "0 * * * * *")
+	public void test() {
+		System.out.println("실행실행실행!!!!!!!!!!!!!!!!!!!!!!!!!!!!");;
+	}
+	
+	//포인트 소멸
+	//@Scheduled(cron="0 0 0 * * *")
+	@PostMapping("/point/addPointDel")
+	public String addPointDel(Point point, PointDel pointDel) {
+		System.out.println("포인트포인트 : " + point);
+	
+		//자동증가코드
+		String pointDelCode = pointService.getPointDelCode();
+		
+		//오늘 날짜 String으로 변경하기
+		LocalDate date = LocalDate.now(); //오늘 날짜 LocalDate 객체 생성
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String today = date.format(dateTimeFormatter); //LocalDate 객체를 String 객체로 바꿈
+		
+		// 결과 출력 
+		System.out.println(today+"현재시간");
+		System.out.println(pointService.pointDelTime(point.getUserId())+"testt");
+		System.out.println(pointService.pointDelTime(point.getUserId()).equals(today)+"뭐니!!");
+		
+		//오늘 날짜랑 소멸날짜가 같으면 소멸테이블에 입력
+		if(pointService.pointDelTime(point.getUserId()).equals(today) == true) {
+			
+			pointDel.setPointDelNum(pointDelCode);
+			pointDel.setUserId(point.getUserId());
+			pointDel.setPointNum(point.getPointNum());
+			pointDel.setPointDelTime(point.getPredDelTime());
+			pointService.addPointDel(pointDel);
+		}
+		
+
+		return "redirect:/point/pointDelList";
+	}
 
 	// 포인트 소멸(나중에는 페이지 없이 주문하면 바로 적립되게 하기)
 	@GetMapping("/point/addPointDel")
@@ -74,40 +83,40 @@ public class PointController {
 		// 자동증가코드
 		String pointCode = pointService.getPointCode();
 		String messageCode = messageService.getMessageCode();
-		if (point != null) {
-			point.setPointNum(pointCode);
-			pointService.addPoint(point);
+		
+		//포인트 적립 + 메세지 전송
+		point.setPointNum(pointCode);
+		pointService.addPoint(point);
 
-			message.setMessageNum(messageCode);
-			message.setMemberId(point.getUserId());
-			message.setMessageCode("msg_point_collect");
-			messageService.addMessage(message);
+		message.setMessageNum(messageCode);
+		message.setMemberId(point.getUserId());
+		message.setMessageCode("msg_point_collect");
+		messageService.addMessage(message);
 			
-			// 포인트 소멸
-			//자동증가코드
-			String pointDelCode = pointService.getPointCode();
-			LocalDate now = LocalDate.now(); 
-			// 결과 출력 
-			System.out.println(now+"현재시간");
-			System.out.println(point.getPredDelTime()+"디비시간");
-			String a = "2021-10-23";
-			
-				pointDel.setPointDelNum(pointDelCode);
-				pointDel.setUserId(point.getUserId());
-				pointDel.setPointNum(point.getPointNum());
-				pointDel.setPointDelTime(point.getPredDelTime());
-				/*
-				 * pointDel.setPointDelContents("소멸"); pointDel.setDelPoint(null)
-				 * pointDel.setRemainPoint(null)
-				 */
-				pointService.addPointDel(pointDel);
-			
-
-		}
+		// 포인트 소멸
+	
+		//자동증가코드
+		String pointDelCode = pointService.getPointDelCode();
+		LocalDate now = LocalDate.now(); 
+		// 결과 출력 
+		System.out.println(now+"현재시간");
+		System.out.println(point.getPredDelTime()+"디비시간");
+		String a = "2021-10-23";
+		
+			pointDel.setPointDelNum(pointDelCode);
+			pointDel.setUserId(point.getUserId());
+			pointDel.setPointNum(point.getPointNum());
+			pointDel.setPointDelTime(point.getPredDelTime());
+			/*
+			 * pointDel.setPointDelContents("소멸"); pointDel.setDelPoint(null)
+			 * pointDel.setRemainPoint(null)
+			 */
+			pointService.addPointDel(pointDel);
+		
 
 		
-		System.out.println(pointCode);
-		System.out.println("message포인트적립 " + message);
+		//System.out.println(pointCode);
+		//System.out.println("message포인트적립 " + message);
 		return "redirect:/point/pointList";
 	}
 
