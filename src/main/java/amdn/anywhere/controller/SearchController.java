@@ -34,7 +34,8 @@ public class SearchController {
 							,HttpSession session
 							,@RequestParam(name = "userLikeKey1", required = false) String userLikeKey1
 							,@RequestParam(name = "userLikeKey2", required = false) String userLikeKey2
-							,@RequestParam(name = "userLikeKey3", required = false) String userLikeKey3) {
+							,@RequestParam(name = "userLikeKey3", required = false) String userLikeKey3
+							,@RequestParam(name = "plaInp", required = false) String plaInp) {
 		
 		
 		System.out.println(userLikeKey1 + "<-----------------userLikeKey1");
@@ -42,15 +43,20 @@ public class SearchController {
 		//세션아이디(로그인되어있는 아이디)
 		String userId = (String) session.getAttribute("SID");
 		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("placeInput", plaInp);
+		paramMap.put("userId", userId);
+		
 		//선호도 조회
 		MemberUser memberUser = memberService.getMemberUserInfoById(userId);
 		
 		//선호도1
-		List<Store> storeLikeList = mainService.getStoreLikeList(userId);
+		List<Store> storeLikeList = mainService.getStoreLikeList(paramMap);
 		//선호도2
-		List<Store> storeLikeList2 = mainService.getStoreLikeList2(userId);
+		List<Store> storeLikeList2 = mainService.getStoreLikeList2(paramMap);
 		//선호도3
-		List<Store> storeLikeList3 = mainService.getStoreLikeList3(userId);
+		List<Store> storeLikeList3 = mainService.getStoreLikeList3(paramMap);
+		
 		
 		model.addAttribute("storeLikeList3", storeLikeList3);
 		model.addAttribute("storeLikeList2", storeLikeList2);

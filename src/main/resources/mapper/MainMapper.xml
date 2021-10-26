@@ -115,7 +115,7 @@
 	
 	
 	<!-- 선호도별 매장조회 선호도3-->
-	<select id="getStoreLikeList3" resultMap="storeResultMap" parameterType="String">
+	<select id="getStoreLikeList3" resultMap="storeResultMap" parameterType="map">
 		SELECT 
 			i.store_name
 			,i.store_phone
@@ -140,12 +140,14 @@
 			on
 			l.like_id = #{userId}
 			AND
-			l.user_like_key_3 = f.main_cate_name
+			(l.user_like_key_3 = f.main_cate_name
+			AND
+			i.store_location LIKE CONCAT('%',#{placeInput},'%'))
 		limit 2;
 		</select>
 	
 	<!-- 선호도별 매장조회 선호도2-->
-	<select id="getStoreLikeList2" resultMap="storeResultMap" parameterType="String">
+	<select id="getStoreLikeList2" resultMap="storeResultMap" parameterType="map">
 		SELECT 
 			i.store_name
 			,i.store_phone
@@ -170,12 +172,14 @@
 			on
 			l.like_id = #{userId}
 			AND
-			l.user_like_key_2 = f.main_cate_name
+			(l.user_like_key_2 = f.main_cate_name
+			AND
+			i.store_location LIKE CONCAT('%',#{placeInput},'%'))
 		limit 2;
 		</select>
 	
 	<!-- 선호도별 매장조회 선호도1-->
-	<select id="getStoreLikeList" resultMap="storeResultMap" parameterType="String">
+	<select id="getStoreLikeList" resultMap="storeResultMap" parameterType="map">
 		 SELECT 
 			i.store_name
 			,i.store_phone
@@ -200,7 +204,9 @@
 			on
 			l.like_id = #{userId}
 			AND
-			l.user_like_key_1 = f.main_cate_name
+			(l.user_like_key_1 = f.main_cate_name
+			AND
+			i.store_location LIKE CONCAT('%',#{placeInput},'%'))
 		limit 2;
 		</select>
 		

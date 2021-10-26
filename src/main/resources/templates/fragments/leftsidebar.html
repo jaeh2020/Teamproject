@@ -46,19 +46,19 @@
                          </ul>
                      </li>
                       <li class="nav-label">입점 관리</li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-check"></i><span class="hide-menu">입점 관리</span></a>
+                     <li> <a class="has-arrow" href="#" aria-expanded="false" th:if="${session.SLEVEL == 'level_biz' || session.SLEVEL == 'level_admin'}"><i class="fa fa-check"></i><span class="hide-menu">입점 관리</span></a>
                          <ul aria-expanded="false" class="collapse">
 
                              <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/enter/addStore}">입점 등록 / 김지아</a></li>
-                             <li><a th:href="@{/enter/cancelMyStore}">입점 취소 신청 / 김지아</a></li>
-                             <li><a th:href="@{/enter/cancelStoreManage}">입점 취소 관리(관리자) / 김지아</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/enter/cancelMyStore}">입점 취소 신청 / 김지아</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/enter/cancelStoreManage}">입점 취소 관리(관리자) / 김지아</a></li>
                          </ul>
                      </li>
                       <li class="nav-label">매장 관리 / 김지아</li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery"></i><span class="hide-menu">매장 관리</span></a>
+                     <li> <a class="has-arrow  " href="#" aria-expanded="false" th:if="${session.SLEVEL == 'level_biz' || session.SLEVEL == 'level_admin'}"><i class="fa fa-cutlery"></i><span class="hide-menu">매장 관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/store/storeManage}">매장관리(관리자) / 김지아</a></li>
-                             <li><a href="#" class="has-arrow">내 매장 관리 / 김지아 <span class="label label-rouded label-warning pull-right">3</span></a>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/store/storeManage}">매장관리(관리자) / 김지아</a></li>
+                             <li><a href="#" class="has-arrow" th:if="${session.SLEVEL == 'level_biz'}">내 매장 관리 / 김지아 <span class="label label-rouded label-warning pull-right">3</span></a>
                                  <ul aria-expanded="false" class="collapse">
 
 
@@ -136,8 +136,8 @@
                              <li><a th:href="@{/badWords/commonBadWords}">금지어 목록 / 김채연</a></li>
                          </ul>
                      </li>
-                       <li class="nav-label">POS가정(소상공인)</li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa ti-hand-point-up"></i><span class="hide-menu">POS</span></a>
+                       <li class="nav-label" >POS가정(소상공인)</li>
+                     <li> <a class="has-arrow" href="#" aria-expanded="false" th:if="${session.SLEVEL == 'level_biz'}"><i class="fa ti-hand-point-up"></i><span class="hide-menu">POS</span></a>
                          <ul aria-expanded="false" class="collapse">
                              <li><a th:href="@{/pos/posMain}">POS화면 (pos가정)/김지아</a></li>
                          </ul>

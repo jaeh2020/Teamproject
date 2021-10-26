@@ -83,7 +83,7 @@
 	<div class="row">
 	<div class="col-12">
 	<small style="color: red;"> * 매칭결과가 3개 이상일경우 랜덤 2개의 매장으로 검색되어 노출됩니다.</small><br>
-	<small style="color: red;"> * 매칭결과의 매장주소는 회원정보에 등록된 주소(시/군/구)기준으로 검색됩니다.</small>
+	<small style="color: red;"> * 매칭결과는 메인페이지에서 입력 하신 주소(시/군/구)기준으로 검색됩니다.</small>
 	</div>
 	</div>
 	
@@ -135,6 +135,14 @@
 					</div>
 				</th:block>
 				
+				<th:block th:if="${#lists.size(storeLikeList) == 0}">
+					<div class="card-content">
+						<div class="card">
+						검색된 결과가 없습니다.
+						</div>
+					</div>
+				</th:block>
+					
 			</div>
 		</div>
 
@@ -183,7 +191,15 @@
 							</div>
 						</div>
 					</div>
-				</th:block>			
+				</th:block>
+				
+				<th:block th:if="${#lists.size(storeLikeList2) == 0}">
+					<div class="card-content">
+						<div class="card">
+						검색된 결과가 없습니다.
+						</div>
+					</div>
+				</th:block>		
 			
 			</div>
 		</div>
@@ -233,7 +249,15 @@
 							</div>
 						</div>
 					</div>
-				</th:block>		
+				</th:block>
+				
+				<th:block th:if="${#lists.size(storeLikeList3) == 0}">
+					<div class="card-content">
+						<div class="card">
+						검색된 결과가 없습니다.
+						</div>
+					</div>
+				</th:block>
 				
 			</div>
 		</div>
