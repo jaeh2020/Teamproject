@@ -26,7 +26,17 @@ public class ReviewService {
 	  public ReviewService(ReviewMapper reviewMapper) { 
 		  this.reviewMapper = reviewMapper;
 	 }
-	  
+	
+	//리뷰수정처리
+		public int reviewModify(Review review) {
+			return reviewMapper.reviewModify(review);
+		};
+		
+	//리뷰정보가져오기(수정)
+	public Review getReviewInfoByCode(String reviewNum) {
+		return reviewMapper.getReviewInfoByCode(reviewNum);
+	};
+	   
 	//게시물 조회 수 증가
 	public int updateReviewCnt(String reviewNum) {
 		return reviewMapper.updateReviewCnt(reviewNum);

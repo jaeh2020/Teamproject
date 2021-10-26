@@ -34,14 +34,49 @@ public class ReviewController {
 	  		this.reviewService = reviewService; 
 	  }
 	 
+	//리뷰수정처리
+	@PostMapping("reviewModify")
+	public String reviewModify(Review review
+							  ,@RequestParam(name = "storeName" , required = false) String storeName) {
+		
+		System.out.println("review 수정화면 값" + review);
+		
+		reviewService.reviewModify(review);
+		
+		return "redirect:/review/reviewConfirm";
+	}
 	
-	//소비자 리뷰 상세보기
+	  
+	// 리뷰수정
+	@GetMapping("reviewModify")
+	public String reviewModify(Model model
+							   ,@RequestParam(name = "reviewNum" , required = false)String reviewNum
+							   ,@RequestParam(name = "storeName" , required = false)String storeName) {
+		
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("storeName", storeName);
+		
+		//리뷰정보가져오기(수정)
+		Review review = reviewService.getReviewInfoByCode(reviewNum);
+		//해당 매장 이름 가져오기
+		Storesearch stroeSearch = reviewService.getReviewStoreName(paramMap);
+		
+		model.addAttribute("title", "리뷰수정");
+		model.addAttribute("review", review);
+		model.addAttribute("stroeSearch", stroeSearch);
+		
+		return "/review/reviewModify";
+	}
+	  
+	  //소비자 리뷰 상세보기
 	@GetMapping("/reviewUserView")
 	public String reviewUserView(Model model
 								,@RequestParam(name = "reviewNum" ,required = false)String reviewNum
 								,HttpSession session) {
 		
 
+		
 		
 		//현재 로그인 아이디 가져오기
 		String memberId = (String)session.getAttribute("SID");
@@ -55,12 +90,11 @@ public class ReviewController {
 		model.addAttribute("review", review);
 		model.addAttribute("reviewCnt", reviewCnt);
 		model.addAttribute("memberId", memberId);
-
 		return "/review/reviewUserView";
 	}
 	  
-	  
-	  
+	 
+	
 	//소비자 리뷰 목록
 	@GetMapping("/reviewConfirm")
 	public String reviewConfirm(Model model
@@ -100,7 +134,7 @@ public class ReviewController {
 		return "/review/reviewView";
 	}
 	  
-	//총 리뷰 삭제처리
+	//운영사 리뷰 삭제처리
 	@GetMapping("/reviewDelete")
 	public String reviewDelete(Review review
 								,@RequestParam(name = "reviewNum" , required = false)String reviewNum) {
@@ -158,7 +192,7 @@ public class ReviewController {
 		return "/review/reviewWrite";
 	}
 	
-	//총 리뷰 목록
+	//운영사 리뷰 목록
 	@GetMapping("/reviewList")
 	public String reviewList(Model model) {
 		
