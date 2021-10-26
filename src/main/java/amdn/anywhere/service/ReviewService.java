@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import amdn.anywhere.domain.Book;
+import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Review;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.mapper.ReviewMapper;
@@ -52,11 +53,11 @@ public class ReviewService {
 		   
 
 	//방문음식점 ,음식이름 가져오기
-	public List<Book> getStoreName(Map<String, String> paramMap) {
+	public List<Order> getStoreName(Map<String, String> paramMap) {
 		
-		List<Book> book = reviewMapper.getStoreName(paramMap);
+		List<Order> order = reviewMapper.getStoreName(paramMap);
 		
-		return book;
+		return order;
 	};
 	
 	//총 리뷰 목록

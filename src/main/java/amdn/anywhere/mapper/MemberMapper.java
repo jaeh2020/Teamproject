@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import amdn.anywhere.domain.BizEvalAgreeChange;
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.MemberBiz;
@@ -34,6 +35,15 @@ public interface MemberMapper {
 	//선호-비선호 선택 등록
 	public int modifyUserLike(MemberUserLike memberUserLike);
 	
+	//소상공인 평가동의 승인 상태 승인자 변경
+	public int modifyBizEvalConfirm(BizEvalAgreeChange bizEvalAgreeChange);
+	
+	//소상공인 승인신청 개인 조회(code)
+	public BizEvalAgreeChange getBizEvalInfoByCode(String eAgreeCode);
+	
+	//소상공인 평가동의 승인신청 목록
+	public List<BizEvalAgreeChange> getBizEvalList();
+
 	//소상공인 승인 상태, 승인자 아이디 변경
 	public int modifyBizConfirm(MemberBiz memberBiz);
 	

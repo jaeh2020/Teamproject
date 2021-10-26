@@ -100,13 +100,13 @@
 		            <div class="row">
 		            	<div class="col-md-8"></div>
 		            	<div class="col-md-4">
-		            		<th:block th:if="${recruitInfo.recruitNumNow} < ${recruitInfo.recruitNumTotal} and ${apply =='n'}">
+		            		<th:block th:if="${recruitInfo.recruitNumNow < recruitInfo.recruitNumTotal} and ${recruitInfo.recruitFinTime >= #dates.format(#dates.createToday(), 'yyyy-MM-dd')} and ${apply =='n'}">
 			            		<form method="post">
 			            			<input type="hidden" name="recruitBCode" th:value="${recruitInfo.recruitTBizCode}">
-				            		<button type="button" id="applyBtn" class="btn btn-success btn-block ">평가단 신청하기</button>		            	
+				            		<button type="button" id="applyBtn" class="btn btn-success btn-block ">평가단 신청하기 </button>		            	
 		    	        		</form>
 		            		</th:block>
-		            		<th:block th:if="${recruitInfo.recruitNumNow == recruitInfo.recruitNumTotal} or ${recruitInfo.recruitFinTime < #dates.format(#dates.createToday(), 'yyyy-MM-dd')} or ${apply =='y'}">
+		            		<th:block th:unless="${recruitInfo.recruitNumNow < recruitInfo.recruitNumTotal} and ${recruitInfo.recruitFinTime >= #dates.format(#dates.createToday(), 'yyyy-MM-dd')} and ${apply =='n'}">
 		            			<div th:if="${apply =='y'}" class="alert alert-light">
 	            					<span class="color-danger"><i class="bi bi-exclamation-circle-fill"></i> 이미 신청한 공고 입니다.</span>
 		            			</div>

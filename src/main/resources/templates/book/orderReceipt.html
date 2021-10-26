@@ -69,7 +69,7 @@
 									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}"></td>
 									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}">결제완료일시 : </td>
 									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}"
-										th:text="${o.orderCompTime}"></td>
+										th:text="${o.payment.pmComTime}"></td>
 									<td th:if="${status.index == 0}" th:rowspan="${#lists.size(orderDetail)}"></td>
 								</tr>
 							</tbody>

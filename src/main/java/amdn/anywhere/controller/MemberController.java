@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import amdn.anywhere.domain.BizEvalAgreeChange;
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.MemberBiz;
@@ -37,6 +38,43 @@ public class MemberController {
 	public MemberController(MemberService memberService, PointService pointService) {
 		this.memberService = memberService;
 		this.pointService = pointService;
+	}
+	
+	//소상공인평가동의 승인 ajax
+		@GetMapping(value="/modifyBizEvalConfirm", produces = "application/json")
+		@ResponseBody
+		public String modifyBizEvalConfirm(	@RequestParam(value = "eAgreeCode") String eAgreeCode
+										,@RequestParam(value = "memberId") String memberId
+										,@RequestParam(value = "eStateCode") String eStateCode) {
+			
+			System.out.println("eAgreeCode : " + eAgreeCode);
+			System.out.println("memberId : " + memberId);
+			System.out.println("eStateCode : " + eStateCode);
+			
+			BizEvalAgreeChange bizEvalAgreeChange = memberService.getBizEvalInfoByCode(eAgreeCode);
+					
+			bizEvalAgreeChange.setConfirmId(memberId);
+			bizEvalAgreeChange.seteStateCode(eStateCode);
+			
+			System.out.println("modifyBizEvalConfirm 수정완료? : " + bizEvalAgreeChange);
+			
+			memberService.modifyBizEvalConfirm(bizEvalAgreeChange);
+			
+
+			return "bizEvalAgreeChange";
+		}
+	
+	//소상공인회원 평가 동의 조회
+	@GetMapping("/member/memberBizEvalAgreeList")
+	public String memberBizEvalAgreeList(Model model) {
+		
+		List<BizEvalAgreeChange> bizEvalList = memberService.getBizEvalList();
+		
+		model.addAttribute("title", "평가 동의 조회");
+		model.addAttribute("location", "평가 동의 조회");
+		model.addAttribute("bizEvalList", bizEvalList);
+		
+		return "/member/memberBizEvalAgreeList";
 	}
 	
 	//소비자회원 멤버쉽 초기화 조회
@@ -365,13 +403,13 @@ public class MemberController {
 					memberLogin.setLevelCode(member.getLevelCode());
 					memberService.addLogin(memberLogin);					
 					System.out.println("memberLogin::::"+memberLogin);
-					
-					return "redirect:/";
+					if(member.getLevelCode().equals("level_admin")) return "redirect:/admin";
+					else return "redirect:/";
 				}
 			}
 		}
 		//2 회원이 없다면 result -> 등록된 정보가 없습니다.
-		redirecAttr.addAttribute("result", "등록된 정보가 없습니다.");
+		//redirecAttr.addAttribute("result", "등록된 정보가 없습니다.");
 		return "redirect:/member/login";
 	};
 	

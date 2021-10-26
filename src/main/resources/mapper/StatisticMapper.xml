@@ -3,11 +3,130 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="amdn.anywhere.mapper.StatisticMapper">
+	<resultMap type="Board" id="bordResultMap">
+		<result property="boardNum"		 column="board_num"></result>
+		<result property="boardTitle"	 column="board_title"></result>
+		<result property="boardRegTime"	 column="board_time"></result>
+		<result property="memberId"		 column="member_id"></result>
+		<result property="boardCateName" column="b_cate_name"></result>
+		<result property="boardCateCode" column="b_cate_code"></result>
+		<result property="numOfRep"		 column="numOfRep"></result>
+	</resultMap>
+	<resultMap type="Store" id="storeResultMap">
+		<result property="bizId"			column="biz_id"/>
+		<result property="bizName"	column="member_name"/>
+		<result property="storeCode"		column="store_code"/>
+		<result property="storeName"		column="store_name"/>
+		<result property="storeTasteAgree"	column="store_taste_agree"/>
+		<result property="storeExposAgree"	column="store_expos_agree"/>
+		<association property="foodMainCate" javaType="FoodMainCate">
+			<id property="mainCateCode"			column="main_cate_code"/>
+			<result property="mainCateName"		column="main_cate_name"/>
+			<result property="mainCateName2"	column="main_cate_name2"/>
+		</association>
+	</resultMap>
+	<resultMap type="Report" id="reportBoardResultMap">
+		<result property="reportCode"		    column="rep_code"></result>
+		<result property="reportCateCode"		column="rep_cate_code"></result>
+		<result property="boardNum"		        column="board_num"></result>
+		<result property="reportContents"		column="rep_contents"></result>
+		<result property="reportRegTime"		column="rep_time"></result>
+		<result property="reportId"		        column="report_id"></result>
+		<result property="reportApplyId"		column="report_apply_id"></result>
+			<association property="reportCate" 		javaType="ReportCate">
+				<result property="reportCate"		column="rep_cate"/>
+			</association>
+	</resultMap>
+	<select id="getNumOfMember" resultType="NumberOfMember">
+		SELECT
+			m.level_code         AS levelCode
+			,COUNT(m.member_id)  AS number
+		FROM
+			tb_member AS m
+		GROUP BY m.level_code
+	</select>
+	<select id="getTotalPrice" resultType="integer">
+		SELECT
+			sum(total) AS totalPrice
+		from (SELECT
+					o.pay_gro_code
+					,o.o_total_price AS total
+				FROM
+					tb_order AS o
+				GROUP BY o.pay_gro_code) AS t
+	</select>
+	<select id="getTotalCountsOfOrder" resultType="integer">
+		SELECT
+			COUNT(DISTINCT o.pay_gro_code)
+		FROM
+			tb_order AS o;
+	</select>
+	<select id="getRecentReport" resultMap="reportBoardResultMap">
+		SELECT
+			r.board_num
+			,c.rep_cate
+			,r.rep_contents
+			,r.report_id
+			,r.report_apply_id
+			,r.rep_time
+		FROM
+			tb_report AS r
+			INNER JOIN 
+			tb_report_cate AS c
+			ON r.rep_cate_code = c.rep_cate_code
+		ORDER BY r.rep_time DESC
+		LIMIT 5;
+	
+	</select>
+	<select id="getRecentBoardList" resultMap="bordResultMap">
+		SELECT 
+			b.board_num
+			,c.b_cate_name
+			,b.b_cate_code
+			,b.board_title
+			,b.board_time
+			,COUNT(r.b_reply_code) AS numOfRep
+			, b.member_id 
+		FROM
+			tb_board_management AS b
+			INNER JOIN 
+			tb_board_cate AS c
+			ON b.b_cate_code = c.b_cate_code
+			LEFT JOIN 
+			tb_board_reply AS r
+			ON r.board_num = b.board_num 
+		GROUP BY b.board_num
+		ORDER BY b.board_time DESC
+		LIMIT 5;
+	
+	</select>
+	
 	<select id="getTotalStore" resultType="integer">
 		SELECT
 			COUNT(1) AS totalStorNum
 		FROM
 			tb_store_info
 	
+	</select>
+	
+	<select id="getRecentStoreList" resultMap="storeResultMap">
+		SELECT
+			s.biz_id
+			,m.member_name
+			,s.store_code
+			,s.store_name
+			,f.main_cate_name
+			,s.store_taste_agree
+			,s.store_expos_agree	
+		FROM
+			tb_store_info AS s
+			INNER JOIN
+			tb_member AS m
+			ON s.biz_id = m.member_id
+			INNER JOIN 
+			tb_food_main_cate AS f
+			ON f.main_cate_code = s.main_cate_code
+		ORDER BY s.store_code DESC
+		LIMIT 5
 	</select>
 </mapper>

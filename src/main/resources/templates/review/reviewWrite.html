@@ -49,10 +49,10 @@
 					<div class="card">
 						<div class="card-body"> 
 							<p>
-								<font style="font-weight: bold; font-size: 20px;"><i class="fa fa-check"></i> 가게명 : [[${book[0].storeSearch.storeName}]] </font>
+								<font style="font-weight: bold; font-size: 20px;"><i class="fa fa-check"></i> 가게명 : [[${order[0].storeSearch.storeName}]] </font>
 							</p>
 							<p>
-								<font style="font-weight: bold; font-size: 20px;"><i class="fa fa-cutlery"></i> 주문한 음식 : [[${book[0].menu.menuName}]] ,  [[${book[1].menu.menuName}]]</font>
+								<font style="font-weight: bold; font-size: 20px;"><i class="fa fa-cutlery"></i> 주문한 음식 : [[${order[0].menu.menuName}]]..</font>
 							</p>
 						 </div>
 					</div>
@@ -64,7 +64,7 @@
 			<input type="hidden" name="stateCode" th:value="${statement.stateCode}">
 			<input type="hidden" name="bookCode" th:value="${bookList.bookCode}">
 			<input type="hidden" name="storeCode" th:value="${bookList.storeCode}">
-			<input type="text" name="payComTime" value="2021-10-19 00:04:27">
+			<input type="hidden" name="payComTime" th:value="${bookList.bookCompTime}">
 			
 			<div class="row">
 				<div class="col-lg-6 offset-lg-3 mr-auto lg-auto" style="padding-top: 20px;">
@@ -91,7 +91,7 @@
 							<span class="text-danger">*</span> 상품에 만족하셨나요?
 						</div>
 						<div style="font-size: 45px; text-align: center;" >
-							<div class="star-rating space-x-4 mx-auto" >
+							<div class="star-rating space-x-4 mx-auto">
 								<input type="radio" id="5-stars" name="scoreCode" value="sc_5" />
 									<label for="5-stars" class="star pr-4">★</label>
 								<input type="radio" id="4-stars" name="scoreCode" value="sc_4" />

@@ -77,7 +77,7 @@
 						<td th:text="${o.userId}" class="userId"></td>
 						<td>
 							<a th:href="@{/book/orderDetail(bookCode=${o.bookCode})}">
-							<button type="button" class="btn btn-dark btn-outline ti-search"></button>
+							<button type="button" class="sangseBtn btn btn-dark btn-outline ti-search"></button>
 							</a>
 						</td>
 						<td th:text="${o.oTotalPrice}"></td>
@@ -87,19 +87,12 @@
 						<td th:text="${o.orderSignTime}" id="orderSignTime"></td>
 						<td th:text="${o.orderCompTime}" id="orderCompTime"></td>
 						<td th:text="${o.statement.stateName}" class="stateName"></td>
-						
-						<td class="pmComTime"></td>
-						
-						
-						<!-- <td th:text="${o.payment.pmComTime}" class="pmComTime"></td> -->
-						
-						
-							<!-- <th:block th:unless="${#strings.isEmpty(o.payment.pmComTime)}">
-								<td th:text="${o.payment.pmComTime}" class="pmComTime"></td>
-							</th:block>
-								<th:block th:if="${#strings.isEmpty(o.payment.pmComTime)}">
-								<td>ㅇ</td>
-							</th:block> -->
+						<th:block th:unless="${#strings.isEmpty(o.payment.pmComTime)}">
+							<td th:text="${o.payment.pmComTime}" class="pmComTime"></td>
+						</th:block>
+							<th:block th:if="${#strings.isEmpty(o.payment.pmComTime)}">
+							<td></td>
+						</th:block>
 							
 							
 							
@@ -107,7 +100,7 @@
 							<button type="button" class="cancelBtn btn btn-dark btn-outline">예약취소</button>
 						</td>
 			            <td>
-			              	<a th:href="@{/review/reviewWrite(bookCode=${o.bookCode})}" class="btn btn-dark btn-outline fa fa-thumbs-up"></a>
+			              	<button type="button" class="reviewBtn btn btn-dark btn-outline fa fa-thumbs-up"></button>
 			            </td>
 					</tr>
 				</tbody>
@@ -166,6 +159,27 @@
 			return false;
 	   	}
 	};
+	
+	
+	/* 리뷰화면 이동 유효성검사 */
+	$(function(){
+		$('.reviewBtn').click(function(){
+			
+			var stateName = $(this).parent().parent().find('.stateName').text().trim();
+			var bookCode = $(this).parent().parent().find('.bookCode').text().trim();
+			
+			console.log(stateName);
+			console.log(bookCode);
+			
+			if(stateName == '결제완료'){
+				alert('리뷰페이지로 이동합니다.');
+				location.href = "/review/reviewWrite?bookCode=" + bookCode;
+			}else{
+				alert('결제완료시에만 리뷰작성이 가능합니다.');
+				return false;
+			}
+		});
+	});
 	
 	
 	//예약취소버튼 클릭시

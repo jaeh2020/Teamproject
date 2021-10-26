@@ -88,7 +88,20 @@
 			<result property="stateName" column="state_name"/>
 		</association>
 	</resultMap>
-
+	
+	<!-- 소상공인 평가동의 -->
+	<resultMap type="BizEvalAgreeChange" id="BizEvalAgreeChangeMap">
+		<result property="eAgreeCode"		column="e_agree_code"/>
+		<result property="bizId"			column="biz_id"/>
+		<result property="StoreCode"	column="store_code"/>
+		<result property="eAgreeBefore"	column="e_agree_before"/>
+		<result property="eAgreeAfter"	column="e_agree_after"/>
+		<result property="eAgreeTime"	column="e_apply_time"/>
+		<result property="confirmId"	column="confirm_id"/>
+		<result property="eStateCode"	column="e_state_code"/>
+		<result property="eConfirmTime"	column="e_confirm_time"/>
+	</resultMap>
+	
 	
 	<!-- memberUser 포인트 업데이트(소멸되거나 사용할 때마다) -->
 	<update id="modifyPointDel">
@@ -203,6 +216,62 @@
 		WHERE 
 			user_like_code = #{userLikeCode};
 	</update>
+	
+	<!-- 소상공인 평가동의 승인 상태, 승인자 아이디 변경 -->
+	<update id="modifyBizEvalConfirm">
+		UPDATE tb_member_eval_agree_change
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="eStateCode != null and eStateCode != ''.toString()">
+				e_state_code = #{eStateCode},
+			</if>
+			<if test="confirmId != null and confirmId != ''.toString()">
+				confirm_id = #{confirmId},
+			</if>
+			<if test="eConfirmTime != null and eConfirmTime != ''.toString()">
+				e_confirm_time = NOW(),
+			</if>
+		</trim>
+		WHERE
+			e_agree_code = #{eAgreeCode};
+	</update>
+	
+	
+	<!-- 소상공인 평가 승인 신청 개인!조회(code) -->
+	<select id="getBizEvalInfoByCode" resultMap="BizEvalAgreeChangeMap">
+		SELECT
+			e_agree_code
+			, biz_id
+			, store_code
+			, e_agree_before
+			, e_agree_after
+			, e_apply_time
+			, confirm_id
+			, e_state_code
+			, e_confirm_time
+		FROM
+			tb_member_eval_agree_change
+		WHERE
+			e_agree_code = #{eAgreeCode};
+	</select>
+	
+	<!-- 소상공인 평가 승인 신청 !관리자! 조회 -->
+	<select id="getBizEvalList" resultMap="BizEvalAgreeChangeMap">
+		SELECT
+			e_agree_code
+			, biz_id
+			, store_code
+			, e_agree_before
+			, e_agree_after
+			, e_apply_time
+			, confirm_id
+			, e_state_code
+			, e_confirm_time
+		FROM
+			tb_member_eval_agree_change;
+	</select>
+	
+	<!--구분구분구분구분구분구분-->	
+	
 	<!-- 소상공인 승인 상태, 승인자 아이디 변경 -->
 	<update id="modifyBizConfirm">
 		UPDATE tb_member_biz
@@ -269,7 +338,7 @@
 			biz_code = #{bizCode};
 	</select>
 	
-	<!-- 소상공인 승인 신청 관리자가!!조회 -->
+	<!-- 소상공인 승인 신청 !!관리자가!!조회 -->
 	<select id="getMemberBizList" resultMap="memberBizResultMap">
 		SELECT 
 			biz_code

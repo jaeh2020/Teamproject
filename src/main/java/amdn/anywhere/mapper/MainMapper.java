@@ -12,13 +12,15 @@ import amdn.anywhere.domain.Store;
 public interface MainMapper {
 	
 	
+	//1시간마다 count한 실시간 검색어현황 insert
+	public int addSearchScheduler();
 	
 	//선호도별 매장조회 선호도3
-	public List<Store> getStoreLikeList3(String userId);
+	public List<Store> getStoreLikeList3(Map<String, Object> paramMap);
 	//선호도별 매장조회 선호도2
-	public List<Store> getStoreLikeList2(String userId);
+	public List<Store> getStoreLikeList2(Map<String, Object> paramMap);
 	//선호도별 매장조회 선호도1
-	public List<Store> getStoreLikeList(String userId);
+	public List<Store> getStoreLikeList(Map<String, Object> paramMap);
 	
 	//실시간검색현황 조회
 	public SearchKeyword getSearchKeyword();

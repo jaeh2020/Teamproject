@@ -21,19 +21,25 @@ public class MainService {
 		 this.mainMapper = mainMapper; 
 	}
 	
+	//1시간마다 count한 실시간 검색어현황 insert
+	public int addSearchScheduler() {
+		return mainMapper.addSearchScheduler();
+	}
+	
+	
 	//선호도별 매장 조회 선호도3
-	public List<Store> getStoreLikeList3(String userId){
-		List<Store> storeLikeList3 = mainMapper.getStoreLikeList3(userId);
+	public List<Store> getStoreLikeList3(Map<String, Object> paramMap){
+		List<Store> storeLikeList3 = mainMapper.getStoreLikeList3(paramMap);
 		return storeLikeList3;
 	}
 	//선호도별 매장 조회 선호도2
-	public List<Store> getStoreLikeList2(String userId){
-		List<Store> storeLikeList2 = mainMapper.getStoreLikeList2(userId);
+	public List<Store> getStoreLikeList2(Map<String, Object> paramMap){
+		List<Store> storeLikeList2 = mainMapper.getStoreLikeList2(paramMap);
 		return storeLikeList2;
 	}
 	//선호도별 매장 조회 선호도1
-	public List<Store> getStoreLikeList(String userId){
-		List<Store> storeLikeList = mainMapper.getStoreLikeList(userId);
+	public List<Store> getStoreLikeList(Map<String, Object> paramMap){
+		List<Store> storeLikeList = mainMapper.getStoreLikeList(paramMap);
 		return storeLikeList;
 	}
 	

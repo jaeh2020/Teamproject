@@ -18,11 +18,6 @@ public class PointService {
 		this.pointMapper = pointMapper;
 	}
 	
-	@Scheduled(cron = "*/1 * * * * *")
-	public void sampleScheduler1() {
-		System.out.println("테스트");
-	}
-	
 	//포인트 소멸시간 찾기
 	public String pointDelTime(String userId) {
 		return pointMapper.pointDelTime(userId);
