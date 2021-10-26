@@ -243,9 +243,6 @@
 			state_code = 'state_board_com';
 	</select>
 	
-
-	
-	
 	<!-- ajax 회원정보 보여주기-->
 	<select id="getMemberList" resultMap="memberMap">
 		SELECT

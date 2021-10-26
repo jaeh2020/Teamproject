@@ -27,8 +27,8 @@
 						<div class="boardTitle" style="padding-top: 20px; font-weight: bold; font-size: 15px;">
 							<i class="fa fa-pencil "></i> 제목 : [[${board.boardTitle}]] 
 						</div>
-						<div class="userId" style=" padding-top: 10px; font-weight: bold; font-size: 15px;">
-							<i class="fa fa-user f-s-20 color-blueviolet"></i>  작성자 : [[${board.memberId}]] 
+						<div class="memberId" style=" padding-top: 10px; font-weight: bold; font-size: 15px;">
+							<i class="fa fa-user f-s-20 color-blueviolet"></i> [[${board.memberId}]] 
 						</div>
 						<hr>
 						<div class="box-body" style=" height: 700px;  padding-top: 20px;  font-size: 15px;">
@@ -79,8 +79,8 @@
 						</div>
 				</div>
 				<div class="pull-right">
-					<a th:href="@{/board/boardModify(boardNum=${board.boardNum})}" class="btn btn-warning modBtn" id="boardModiBtn"><i class="fa fa-edit"></i> 수정</a>
-					<button type="button" class="btn btn-danger delBtn" id="baordDelBtn" ><i class="fa fa-trash"></i> 삭제</button>
+					<button type="button" class="boardModiBtn btn btn-warning modBtn" id="boardModiBtn"><i class="fa fa-edit"></i> 수정</button>
+					<button type="button" class="baordDelBtn btn btn-danger delBtn"><i class="fa fa-trash"></i> 삭제</button>
 				</div>
 			</div>	
 		</div>
@@ -118,17 +118,42 @@
 	      	});	
 		});
 	   	
-	 //삭제버튼 클릭시
+	 
+		 /* 수정,삭제 화면 이동 유효성검사 */
 		$(function(){
-			$('#baordDelBtn').on("click", function(){
-				var boardNum = $(this).parent().parent().find('.card-header').text();
+			$('.boardModiBtn').click(function(){
+				
+				var	memberId = $(this).parent().parent().find('.memberId').text().trim();
+				var boardNum = $(this).parent().parent().find('.card-header').text().trim();
+				
+				console.log(memberId);
 				console.log(boardNum);
 				
-				confirm('삭제처리하시겠습니까?')
-				location.href = "/board/boardDelete?boardNum="+ boardNum;
-				  
+				if( memberId == '[[${memberId}]]'){
+					alert('게시판 수정페이지로 이동합니다.');
+					location.href = "/board/boardModify?boardNum=" + boardNum;
+				}else{
+					alert('수정 권한이 없습니다.');
+					return false;
+				}
+			});
+			
+			$('.baordDelBtn').click(function(){
 				
-			}); 
+				var	memberId = $(this).parent().parent().find('.memberId').text().trim();
+				var boardNum = $(this).parent().parent().find('.card-header').text().trim();
+				
+				console.log(memberId);
+				console.log(boardNum);
+				
+				if( memberId == '[[${memberId}]]'){
+					alert('정말로 삭제하시겠습니까?');
+					location.href = "/board/boardDelete?boardNum="+ boardNum;
+				}else{
+					alert('삭제 권한이 없습니다.');
+					return false;
+				}
+			});
 		});
    </script>
 </th:block>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="card card-outline-primary">
+		<div class="col-lg-12">
+				<div class="box box-primary">
+					<div class="box box-content" style="outline: solid 1px #D5D5D5; height: 600px;">
+						<div class="card-header">
+							<h4 class="m-b-0 text-white" id="reviewNum"><i class="ti-menu"></i>
+								 [[${review.reviewNum}]]
+							</h4>
+						</div>
+						<div class="memberId" style=" padding-top: 10px; font-weight: bold; font-size: 15px;">
+							<i class="fa fa-user f-s-20 color-blueviolet"></i> [[${review.memberId}]] 
+						</div>
+						<div class="reviewComTime" style="padding-top: 20px; font-weight: bold; font-size: 15px;">
+							[[${review.reviewComTime}]]
+						</div>
+						<hr>
+						<div class="box-body" style=" height: 700px;  padding-top: 20px;  font-size: 15px;">
+							[[${review.reviewContents}]]
+						</div>
+						</div>
+					
+					<h3 class="box-title m-t-40"></h3>
+						<form th:action="@{/review/reviewUserView(reviewNum=${review.reviewNum})}" method="post" id="reviewcommentForm">
+							<!-- Reply List {s}-->
+							<h5 class="border-bottom pb-2 mb-0"><i class="ti-menu"></i> Reply list</h5>
+							<br>
+							<div class="my-3 p-3 bg-white rounded shadow-sm" th:if="${reviewCommentList ne null and #lists.size(reviewCommentList) > 0}" th:each=" rc : ${reviewCommentList}">
+								<!-- 히든 된 데이터 -->
+								<!-- <input type="hidden" name="boardReplyCode"  class="boardReplyCode">  -->
+								
+								<div class="commentId" ></div>
+								<br>
+								<div class="comment-content"></div>
+								<br>
+								<div class="comment-date"  style="display: inline;"></div> 
+								<div style="float: right;">
+									<a href="#none;" th:onclick="delReply([[${rc.reviewReplyCode}]],[[${bc.boardNum}]]);" id="delComment">삭제</a>
+								</div>
+								<hr>
+							</div> 
+							<!-- Reply List {e}-->
+							<div class="row">
+								<div class="col-md-12 ">
+									<div class="form-group">
+										<label style="font-weight: bold;">댓글</label>
+										<input type="text" class="form-control" style="height: 100px;" name="boardReplyContents">
+										<button type="button" class="btn btn-inverse" style="margin-top: 10px; float: right;" id="commentBtn">등록</button>
+									</div>
+								</div>
+							</div>
+						</form>
+						<hr>
+				<div class="box-footer" style="margin-top: 20px;">
+					<div class="pull-left">
+						<a href="#none;" class="btn btn-primary listBtn" style="display: inline;" th:onclick="reviewListBtn([[${review.storeSearch.storeName}]]);">
+								<i class="fa fa-list"></i> 목록
+							</a>	
+						</div>
+				</div>
+				<div class="pull-right">
+					<button type="button" class="reviewModiBtn btn btn-warning modBtn" ><i class="fa fa-edit"></i> 수정</button>
+					<button type="button" class="reviewDelBtn btn btn-danger delBtn"><i class="fa fa-trash"></i> 삭제</button>
+				</div>
+			</div>	
+		</div>
+	</div>
+</th:block>
+
+<th:block layout:fragment="customJsLib">
+	<script type="text/javascript">
+	
+		/* 목록화면이동 유효성 검사 */
+	   function reviewListBtn(storeName){
+	   		if(confirm("목록으로 돌아가시겠습니까?")){
+	   			location.href = '/review/reviewConfirm?storeName=' + storeName;
+	   			return true;
+	   		}else{
+	   			return false;
+	   		}
+	   		
+	   	}
+	
+	   /* 수정,삭제 화면 이동 유효성검사 */
+		$(function(){
+			$('.reviewModiBtn').click(function(){
+				
+				var	memberId = $(this).parent().parent().find('.memberId').text().trim();
+				var reviewNum = $(this).parent().parent().find('#reviewNum').text().trim();
+				
+				console.log(memberId);
+				console.log(reviewNum);
+				
+				if( memberId == '[[${memberId}]]'){
+					alert('리뷰수정페이지로 이동합니다.');
+					location.href = "/review/reviewModify?reviewNum=" + reviewNum;
+				}else{
+					alert('수정 권한이 없습니다.');
+					return false;
+				}
+			});
+			
+			$('.reviewDelBtn').click(function(){
+				
+				var	memberId = $(this).parent().parent().find('.memberId').text().trim();
+				var reviewNum = $(this).parent().parent().find('#reviewNum').text().trim();
+				
+				console.log(memberId);
+				console.log(reviewNum);
+				
+				if( memberId == '[[${memberId}]]'){
+					alert('정말로 삭제하시겠습니까?');
+					location.href = "/review/reviewUserDelete?reviewNum=" + reviewNum;
+				}else{
+					alert('삭제 권한이 없습니다.');
+					return false;
+				}
+			});
+		});
+	</script>
+
+	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+	<script src="js/lib/owl-carousel/owl.carousel-init.js"></script>	     -->
+
+
+</th:block>
+
+
+
+</html>
