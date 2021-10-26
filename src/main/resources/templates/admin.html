@@ -4,20 +4,26 @@
 	  layout:decorate="~{layout/default2}">
 <th:block layout:fragment="customCss">
 	<style type="text/css">
-		.bi {
+		.moveI {
 			font-size: 30px;
 			text-align: center;
 		}
 		.bi-box-arrow-in-right::before{
 			width: 60px;
 		}
-		.bi:hover{
+		.moveI:hover{
 			color: white!important;
 		}
 		.moveA {
 			padding: 0px!important;
 			width: 60px;
     		float: right;
+		}
+		thead{
+			background-color: #e6e6e6a8;
+		}
+		.badge{
+			font-size: small;
 		}
 	</style> 
 </th:block>
@@ -33,11 +39,25 @@
 	        	<span class="m-b-10">주문 건수</span>
 	            <div class="media">
 	                <div class="media-left meida media-middle">
+	                    <span><i class="fa fa-shopping-cart f-s-40 color-success"></i></span>
+	                </div>
+	                <div class="media-body media-text-right">
+	                    <h2>[[${paramMap.orderNum}]]</h2>
+	                    <p class="m-b-0">총 주문 건수</p>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="col-md-3">
+	        <div class="card">
+	        	<span class="m-b-10">주문 금액</span>
+	            <div class="media">
+	                <div class="media-left meida media-middle">
 	                    <span><i class="fa fa-usd f-s-40 color-primary"></i></span>
 	                </div>
 	                <div class="media-body media-text-right">
-	                    <h2>568120</h2>
-	                    <p class="m-b-0">총 주문 건수</p>
+	                    <h2>[[${paramMap.totalPrice}]]</h2>
+	                    <p class="m-b-0">총 주문 금액</p>
 	                </div>
 	            </div>
 	        </div>
@@ -47,7 +67,7 @@
 	        	<span class="m-b-10">입점 매장</span>
 	            <div class="media">
 	                <div class="media-left meida media-middle">
-	                    <span><i class="fa fa-shopping-cart f-s-40 color-success"></i></span>
+	                    <span><i class="fa fa-archive f-s-40 color-pink"></i></span>
 	                </div>
 	                <div class="media-body media-text-right">
 	                    <h2 th:text="${paramMap.storeNum}"></h2>
@@ -58,28 +78,18 @@
 	    </div>
 	    <div class="col-md-3">
 	        <div class="card">
-	        	<span class="m-b-10">평가단 모집 현황</span>
+	        	<span class="m-b-10">회원</span>
 	            <div class="media">
 	                <div class="media-left meida media-middle">
-	                    <span><i class="fa fa-shopping-cart f-s-40 color-success"></i></span>
+	                    <span><i class="bi bi-people-fill f-s-40 color-danger"></i></span>
 	                </div>
 	                <div class="media-body media-text-right">
-	                    <h2>1178</h2>
-	                    <p class="m-b-0">Sales</p>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	    <div class="col-md-3">
-	        <div class="card">
-	        	<span class="m-b-10"></span>
-	            <div class="media">
-	                <div class="media-left meida media-middle">
-	                    <span><i class="fa fa-shopping-cart f-s-40 color-success"></i></span>
+	                    <h2 >[[${paramMap.numOfMember[2].number}]]</h2>
+	                    <p class="m-b-0">소비자</p>
 	                </div>
 	                <div class="media-body media-text-right">
-	                    <h2>1178</h2>
-	                    <p class="m-b-0">Sales</p>
+	                    <h2 >[[${paramMap.numOfMember[1].number}]]</h2>
+	                    <p class="m-b-0">소상공인</p>
 	                </div>
 	            </div>
 	        </div>
@@ -90,7 +100,7 @@
 	         <div class="card">
 	         	 <div class="card-title">
                      <h4>최근 입점 매장 </h4>
-                      <a th:href="@{/store/storeManage}" class="btn btn-outline-success moveA"><i class="bi bi-box-arrow-in-right color-info"></i></a>
+                      <a th:href="@{/store/storeManage}" class="btn btn-outline-success moveA"><i class="bi bi-box-arrow-in-right color-info moveI"></i></a>
                  </div>
                  <div class="card-body">
                      <div class="table-responsive">
@@ -131,8 +141,8 @@
 	     <div class="col-md-6">
 	         <div class="card">
 	         	<div class="card-title">
-                     <h4>평가단 모집 요청</h4>
-                     <a th:href="@{/taster/recruitList}" class="btn btn-outline-success moveA"><i class="bi bi-box-arrow-in-right color-info"></i></a>
+                     <h4>최근 평가단 모집</h4>
+                     <a th:href="@{/taster/recruitList}" class="btn btn-outline-success moveA"><i class="bi bi-box-arrow-in-right color-info moveI"></i></a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -156,13 +166,94 @@
                                 <td th:text="${l.requestTime}"></td>
                                 <td><code>[[${l.recruitNumNow}]]</code> / [[${l.recruitNumTotal}]]</td>
                                 <td> 
-                                	<span th:if="${stateCode == 'state_confirm_com'}"class="badge badge-success">[[${l.stateName}]]</span>
-                                	<span th:unless="${stateCode == 'state_confirm_com'}"class="badge badge-warning">[[${l.stateName}]]</span>
+                                	<span th:if="${l.stateCode == 'state_confirm_com'}"class="badge badge-info">[[${l.stateName}]]</span>
+                                	<span th:unless="${l.stateCode == 'state_confirm_com'}"class="badge badge-warning">[[${l.stateName}]]</span>
                                 </td>
                                 <td th:if="${l.adminId} neq null" th:text="${l.adminId}"></td>
                                 <td th:unless="${l.adminId} neq null" th:text="배정전"></td>
                             </tr>
                         </tbody>
+                        </table>
+                    </div>
+                </div>    
+	         </div>
+         </div>
+	</div>
+	<div class="row">
+		 <div class="col-md-6">
+	         <div class="card">
+	         	 <div class="card-title">
+                     <h4>최근 게시글 </h4>
+                 </div>
+                     <p class="text-muted m-b-10">
+                        <i class="bi bi-arrow-down-right-square "></i> 클릭시<code> 해당 게시글로 </code> 이동합니다.
+                    </p>
+                 <div class="card-body">
+                     <div class="table-responsive">
+                         <table class="table">
+                         	<thead>
+	                        	<tr>
+	                                <th>카테고리</th>
+	                                <th>제목</th>	                               
+	                                <th>작성일시</th>
+	                                <th>답변수</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                        	<th:block th:each="l : ${boardList}">
+		                            <tr>
+		                                <td>
+		                                	<a th:if="${l.boardCateCode} == 'a_notic'" th:href="@{/board/boardNoticeList}">[[${l.boardCateName}]]</a>
+		                                	<a th:if="${l.boardCateCode} == 'b_board'" th:href="@{/board/boardBizList}">[[${l.boardCateName}]]</a>
+		                                	<a th:if="${l.boardCateCode} == 'u_board'" th:href="@{/board/boardList}">[[${l.boardCateName}]]</a>
+		                                </td>
+		                                <td>
+		                                	<a th:if="${l.boardCateCode} == 'a_notic'" th:href="@{/board/boardNoticeView(boardNum=${l.boardNum})}">[[${l.boardTitle}]]</a>
+		                                	<a th:if="${l.boardCateCode} == 'b_board'" th:href="@{/board/boardBizView(boardNum=${l.boardNum})}">[[${l.boardTitle}]]</a>
+		                                	<a th:if="${l.boardCateCode} == 'u_board'" th:href="@{/board/boardView(boardNum=${l.boardNum})}">[[${l.boardTitle}]]</a>
+		                                </td>
+		                                <td th:text="${l.boardRegTime}"></td>
+		                                <td>
+		                                	<span th:if="${l.numOfRep}==0" class="badge badge-danger">[[${l.numOfRep}]]</span>
+		                                	<span th:unless="${l.numOfRep}==0" class="badge badge-info">[[${l.numOfRep}]]</span>
+		                                </td>
+		                            </tr>
+	                        	</th:block>
+	                        </tbody>
+                         </table>
+                     </div>
+                 </div>        
+         	</div>
+	     </div>
+	     <div class="col-md-6">
+	         <div class="card">
+	         	<div class="card-title">
+                     <h4>최근 들어온 신고</h4>
+                     <a th:href="@{/report/reportBoardList}" class="btn btn-outline-success moveA"><i class="bi bi-box-arrow-in-right color-info moveI"></i></a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                        	<thead>
+	                        	<tr>
+	                                <th>카테고리</th>
+	                                <th>신고내용</th>	                               
+	                                <th>신고자</th>
+	                                <th>신고대상</th>
+	                                <th>신고일시</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                        	<th:block th:each="l : ${reportList}">
+		                            <tr>
+		                            	<td th:text="${l.reportCate.reportCate}"></td>
+		                            	<td th:text="${l.reportContents}"></td>
+		                            	<td th:text="${l.reportId}"></td>
+		                            	<td th:text="${l.reportApplyId}"></td>
+		                            	<td th:text="${l.reportRegTime}"></td>
+		                            </tr>
+	                        	</th:block>
+	                        </tbody>
                         </table>
                     </div>
                 </div>    
@@ -175,6 +266,8 @@
 	<script th:src="@{/js/lib/owl-carousel/owl.carousel.min.js}"></script>
     <script th:src="@{/js/lib/owl-carousel/owl.carousel-init.js}"></script>
     <script type="text/javascript">
+    	
+    
     </script>
 </th:block>
 </html>

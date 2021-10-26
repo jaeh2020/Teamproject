@@ -3,11 +3,13 @@ package amdn.anywhere.domain;
 public class Board {
 	private String boardNum;
 	private String boardCateCode;
+	private String boardCateName;
 	private String boardTitle;
 	private String boardContents;
 	private String boardFile;
 	private int boardSecret;
 	private String boardRegTime;
+	private String numOfRep;
 	private int boardViews;
 	private String memberId;
 	private String stateCode;
@@ -72,16 +74,24 @@ public class Board {
 	public void setStateCode(String stateCode) {
 		this.stateCode = stateCode;
 	}
+	public String getBoardCateName() {
+		return boardCateName;
+	}
+	public void setBoardCateName(String boardCateName) {
+		this.boardCateName = boardCateName;
+	}
+	public String getNumOfRep() {
+		return numOfRep;
+	}
+	public void setNumOfRep(String numOfRep) {
+		this.numOfRep = numOfRep;
+	}
 	@Override
 	public String toString() {
-		return "Board [boardNum=" + boardNum + ", boardCateCode=" + boardCateCode + ", boardTitle=" + boardTitle
-				+ ", boardContents=" + boardContents + ", boardFile=" + boardFile + ", boardSecret=" + boardSecret
-				+ ", boardRegTime=" + boardRegTime + ", boardViews=" + boardViews + ", memberId=" + memberId
-				+ ", stateCode=" + stateCode + "]";
+		return "Board [boardNum=" + boardNum + ", boardCateCode=" + boardCateCode + ", boardCateName=" + boardCateName
+				+ ", boardTitle=" + boardTitle + ", boardContents=" + boardContents + ", boardFile=" + boardFile
+				+ ", boardSecret=" + boardSecret + ", boardRegTime=" + boardRegTime + ", numOfRep=" + numOfRep
+				+ ", boardViews=" + boardViews + ", memberId=" + memberId + ", stateCode=" + stateCode + "]";
 	}
-	
-	
-	
-	
 	
 }
