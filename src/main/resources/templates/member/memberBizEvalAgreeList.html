@@ -8,16 +8,10 @@
 	
 <!-- css -->
 <style type= "text/css">
-	.btn-sm{
+	.btn{
 		background-color: #5EA978;
 		color: #fff;
 		width: 70px;
-	}
-	.a{
-		margin : 10px 0 0 200px;
-		float: right;
-		background-color: #84799F;
-		color: #fff;
 	}
 </style>
 </th:block>
@@ -32,36 +26,35 @@
 		<div class="col-lg-12 ">
 			<div class="card card-outline-primary">
 	            <div class="card-header">
-	                <h4 class="m-b-0 text-white">소상공인 승인 목록</h4>
+	                <h4 class="m-b-0 text-white">평가 동의 목록</h4>
 	            </div>
 	            <div class="card-body">
-	            <a th:href="@{/member/memberBizEvalAgreeList}" class="btn btn-pink a">평가 동의 신청 내역</a>
 	            <div class="table-responsive m-t-40">
                 	<table id="myTable" class="table table-bordered table-striped">
                     	<thead>
                             <tr>
-                                <th>코드</th>
+                                <th>평가동의 변경코드</th>
                                 <th>소상공인 아이디</th>
-                                <th>사업자 번호</th>
-                                <th>소상공인 확인서</th>
-                                <th>승인자 아이디</th>
-                                <th>승인 요청 일시</th>
+                                <th>매장코드</th>
+                                <th>평가동의 변경 전</th>
+                                <th>평가동의 변경 후</th>
+                                <th>변경 신청 일시</th>
                                 <th data-orderable="false">승인</th>
                                 <th>승인 상태</th>
                                 <th>승인 완료 일시</th>
                             </tr>
                         </thead>
-						<tbody th:id="memberBiz">
-		                    <tr th:each="l : ${memberBizList}">
-		                    	<td th:text="${l.bizCode}" class="bizCode"></td>
-		                    	<td th:text="${l.memberId}"></td> 
-		                    	<td th:text="${l.bizNum}"></td> 
-		                    	<td th:text="${l.bizFileAtt}"></td> 
-		                    	<td th:text="${l.confirmId}"></td> 
-		                    	<td th:text="${l.bizReTime}"></td> 
-		                    	<td class="btn btn-pink btn-sm modifyConfirm">승인</td>
-		                    	<td th:text="${l.statement.stateName}" class="stateName"></td> 
-		                    	<td th:text="${l.bizCompTime}"></td>
+						<tbody th:id="bizEvalList">
+		                    <tr th:each="l : ${bizEvalList}">
+		                    	<td th:text="${l.eAgreeCode}" class="eAgreeCode"></td>
+		                    	<td th:text="${l.bizId}"></td> 
+		                    	<td th:text="${l.storeCode}"></td> 
+		                    	<td th:text="${l.eAgreeBefore}"></td> 
+		                    	<td th:text="${l.eAgreeAfter}"></td> 
+		                    	<td th:text="${l.eAgreeTime}"></td> 
+		                    	<td class="btn btn-pink btn-sm">승인</td>
+		                    	<td th:text="${l.eStateCode}" class="eStateCode"></td> 
+		                    	<td th:text="${l.eConfirmTime}"></td>
 		                    </tr>
 	               		</tbody>
 	            	</table>
@@ -81,14 +74,14 @@
     <script th:src="@{/js/lib/datatables/datatables-init.js}"></script>
 	<script type="text/javascript">
 		$(function(){
-		 	$('.modifyConfirm').on('click',function(){		 		
-		 		var bizCode = $(this).parent().find('.bizCode').text();
-		 		sessionStorage.setItem("bizCode", bizCode);
-		 		var stateName = $(this).parent().find('.stateName').text();
+		 	$('.btn-pink').on('click',function(){		 		
+		 		var eAgreeCode = $(this).parent().find('.eAgreeCode').text();
+		 		sessionStorage.setItem("eAgreeCode", eAgreeCode);
+		 		var eStateCode = $(this).parent().find('.eStateCode').text();
 		 		
-		 		if(stateName == '승인완료'){
+		 		if(eStateCode == '승인완료'){
 		 			alert('이미 승인이 완료된 신청건 입니다.');
-		 		}else if(stateName == '승인거절'){
+		 		}else if(eStateCode == '승인거절'){
 		 			alert('이미 승인이 거절된 신청건 입니다.');
 		 		}else{
 		 			
@@ -107,13 +100,13 @@
 				        function(isConfirm){
 				            if (isConfirm) {
 				            	var memberId = $('#SID').val();
-				            	var bizCode = sessionStorage.getItem("bizCode");
-								var state = "state_confirm_com";
+				            	var eAgreeCode = sessionStorage.getItem("eAgreeCode");
+								var eStateCode = "승인완료";
 					            
 					            var request = $.ajax({
-					    			  url: "/modifyBizConfirm", //요청 주소
+					    			  url: "/modifyBizEvalConfirm", //요청 주소
 					    			  method: "GET", //요청 방식
-					    			  data: {"memberId" : memberId, "bizCode" : bizCode, "state":state}, //전달 할 파라미터
+					    			  data: {"memberId" : memberId, "eAgreeCode" : eAgreeCode, "eStateCode":eStateCode}, //전달 할 파라미터
 					    			  dataType: "html" //받아 올 포맷방식
 				  				});
 					          //응답이 완료 되었을 경우 실행
@@ -128,13 +121,13 @@
 				            }
 				            else {
 				            	var memberId = $('#SID').val();
-				            	var bizCode = sessionStorage.getItem("bizCode");
-								var state = "state_confirm_rej";
+				            	var eAgreeCode = sessionStorage.getItem("eAgreeCode");
+								var eStateCode = "승인거절";
 					            
-					            var request = $.ajax({
-					    			  url: "/modifyBizConfirm", //요청 주소
+								var request = $.ajax({
+					    			  url: "/modifyBizEvalConfirm", //요청 주소
 					    			  method: "GET", //요청 방식
-					    			  data: {"memberId" : memberId, "bizCode" : bizCode, "state":state}, //전달 할 파라미터
+					    			  data: {"memberId" : memberId, "eAgreeCode" : eAgreeCode, "eStateCode":eStateCode}, //전달 할 파라미터
 					    			  dataType: "html" //받아 올 포맷방식
 				  				});
 					          //응답이 완료 되었을 경우 실행
