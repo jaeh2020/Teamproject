@@ -12,6 +12,8 @@ import amdn.anywhere.domain.Store;
 public interface MainMapper {
 	
 	
+	//1시간마다 count한 실시간 검색어현황 insert
+	public int addSearchScheduler();
 	
 	//선호도별 매장조회 선호도3
 	public List<Store> getStoreLikeList3(String userId);

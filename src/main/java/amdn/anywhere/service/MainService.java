@@ -21,6 +21,12 @@ public class MainService {
 		 this.mainMapper = mainMapper; 
 	}
 	
+	//1시간마다 count한 실시간 검색어현황 insert
+	public int addSearchScheduler() {
+		return mainMapper.addSearchScheduler();
+	}
+	
+	
 	//선호도별 매장 조회 선호도3
 	public List<Store> getStoreLikeList3(String userId){
 		List<Store> storeLikeList3 = mainMapper.getStoreLikeList3(userId);

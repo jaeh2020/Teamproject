@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,6 @@ import amdn.anywhere.service.StoreService;
 
 
 
-
 @Controller
 public class MainController {
 	private final MainService mainService;
@@ -35,10 +35,6 @@ public class MainController {
 		this.storeService = storeService;
 		this.memberService = memberService;
 	}
-	
-	
-
-	
 	
 	
 	//ajax
@@ -61,6 +57,7 @@ public class MainController {
 					) {
 		
 		
+
 		
 		//실시간검색현황 조회
 		SearchKeyword searchKeyword = mainService.getSearchKeyword();
