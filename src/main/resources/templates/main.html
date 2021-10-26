@@ -73,7 +73,7 @@
 				<div class="row">	
 					<div class="col-sm-4">
 					<div class="eventBtn card" OnClick="location.href='/event/eventList'"
-									  style="background-image: url('images/main/event.png'); 
+									  style="background-image: url('images/main/eventing.png'); 
 									  width: 100%; height: 0; padding-top: calc(500 / 500 * 100%); 
 									  background-repeat:no-repeat; background-size: cover; background-position: center;
 									  cursor:pointer;">
@@ -90,8 +90,9 @@
 					</div>
 					
 					<div class="col-sm-4">
-					<div class="survayBtn card"
-									  style="background-image: url('images/main/survay.png'); 
+					<div class="pointBtn card"
+									  onClick="pointBtn()"
+									  style="background-image: url('images/main/point.png'); 
 									  width: 100%; height: 0; padding-top: calc(500 / 500 * 100%); 
 									  background-repeat:no-repeat; background-size: cover; background-position: center;
 									  cursor:pointer;">
@@ -167,7 +168,8 @@
 		                                    	 <i class="ti-quote-left"></i>
 		                                    	 <button name="mainCateCode" type="button" class="mainCateBtn btn btn-pink" id="mainCateBtn"
 		                                    	  		 th:text="${c.mainCateName}" 
-														 th:data-mainCateCode="${c.mainCateCode}">
+														 th:data-mainCateCode="${c.mainCateCode}"
+														 th:data-mainCateName="${c.mainCateName}">
 												 </button>
 		                                	</li>
 		                                   	</th:block>
@@ -306,9 +308,10 @@
 				return false;
 			}
 			var mainCateCode = $(this).attr('data-mainCateCode');
+			var mainCateName = $(this).attr('data-mainCateName');
 			console.log(mainCateCode)
 			$('#searchForm').append($('<input/>', {type: 'hidden', name: 'mainCateCode', value:mainCateCode }));
-			
+			$('.searchKey').val(mainCateName);
 			$('#searchForm').submit();
 		});
 	});
@@ -388,8 +391,9 @@
 	/* 이벤트검색 유효성검사 */
 	function likeBtn() {
 		var level = $('[name=level]').val();
+		var plaInp = $('[name=placeInput]').val().trim();
 		
-		console.log(level);
+		console.log(plaInp);
 		
 			if(level == 'level_admin'){
 				alert('접근권한이 없습니다');
@@ -401,7 +405,26 @@
 				alert('로그인 후 이용해주세요');
 				return false
 			}
-			location.href = "/search/likeSearch";
+				if(plaInp == ''){
+					alert('정확한 추천검색을 위해 주소를 입력하신 후 배너를 클릭해주세요.');
+					return false
+				}
+				location.href = "/search/likeSearch?plaInp=" + plaInp;
+	};
+	
+	
+	
+	/* 회원가입홍보 배너 유효성검사 */
+	function pointBtn() {
+		var level = $('[name=level]').val();
+		
+		console.log(level);
+		
+			if(level != ''){
+				alert('이미 회원가입이 되어있습니다.');
+				return false
+			}
+			location.href = "/member/addMember01";
 	};
 	
     </script>
