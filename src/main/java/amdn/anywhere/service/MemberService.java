@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import amdn.anywhere.domain.BizEvalAgreeChange;
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.MemberBiz;
@@ -69,6 +70,22 @@ public class MemberService {
 	//소비자 추천/비추천 수정
 	public int modifyUserLike(MemberUserLike memberUserLike) {
 		return memberMapper.modifyUserLike(memberUserLike);
+	}
+	
+	//소상공인 평가동의 승인 상태, 승인자 아이디 변경
+	public int modifyBizEvalConfirm(BizEvalAgreeChange bizEvalAgreeChange) {
+		return memberMapper.modifyBizEvalConfirm(bizEvalAgreeChange);
+	}
+	
+	//소상공인 평가동의 승인 신청 개인조회(code)
+	public BizEvalAgreeChange getBizEvalInfoByCode(String eAgreeCode) {
+		return memberMapper.getBizEvalInfoByCode(eAgreeCode);
+	}
+	
+	//소상공인 평가 승인 목록
+	public List<BizEvalAgreeChange> getBizEvalList(){
+		List<BizEvalAgreeChange> getBizEvalList = memberMapper.getBizEvalList();
+		return getBizEvalList;
 	}
 	
 	//소상공인 승인 상태, 승인자 아이디 변경

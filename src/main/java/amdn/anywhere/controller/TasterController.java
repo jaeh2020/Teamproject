@@ -228,7 +228,9 @@ public class TasterController {
 		
 		//모집 추가 처리
 		tasterService.addRecruit(recruitByBiz);
-		return "redirect:/taster/recruitList";
+		
+		
+		return "redirect:/taster/myRecruitList";
 	}
 	
 	@GetMapping("/applyRecruit")
