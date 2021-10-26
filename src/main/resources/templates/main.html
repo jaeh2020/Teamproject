@@ -63,10 +63,7 @@
 			</div>
 		</div>
 		<!-- 주소검색 end -->
-		
-		
-		
-		
+
 		
 		<div class="row justify-content-center">
 			<div class="col-sm-8">
@@ -286,10 +283,7 @@
     <script th:src="@{/js/lib/owl-carousel/owl.carousel-init.js}"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c96f24708bcaeb6b92031a20b7e4b518&libraries=services"></script>
-    
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-
-    
         
     
     
@@ -421,7 +415,7 @@
 		console.log(level);
 		
 			if(level != ''){
-				alert('이미 회원가입이 되어있습니다.');
+				alert('이미 가입이 되어있는 회원입니다.');
 				return false
 			}
 			location.href = "/member/addMember01";
