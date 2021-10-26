@@ -97,6 +97,41 @@
 		<result property="bookPickup"		column="book_pickup"/>
 </resultMap>
 
+<!-- 리뷰 수정처리 -->
+<update id="reviewModify" parameterType="Review">
+	UPDATE 
+			tb_review
+	SET
+		  score_code = #{scoreCode}
+		, review_photo = #{reviewPhoto}
+		, review_contents = #{reviewContents}
+		, state_code = 'state_board_rev'
+	WHERE
+		review_num = #{reviewNum};
+</update>
+
+
+<!-- 리뷰정보가져오기(수정) -->
+<select id="getReviewInfoByCode" parameterType="String" resultMap="reviewResultMap">
+	SELECT
+		review_num
+		,review_contents
+		,review_photo
+		,pay_com_time
+		,review_com_time
+		,score_code
+		,store_code
+		,b_o_code
+		,state_code
+		,member_id
+		,review_views
+		,review_likes
+	FROM
+		tb_review 
+	WHERE
+		review_num = #{reviewNum};
+
+</select>
 
 <!-- 리뷰 조회 수 증가 -->
 <update id="updateReviewCnt" parameterType="String">
@@ -188,7 +223,9 @@
 		, store_code
 		, b_o_code
 		, state_code
-		, member_id)
+		, member_id
+		, review_views
+		, review_likes)
 	VALUES 
 		( #{reviewNum}
 		, #{reviewContents}
@@ -199,7 +236,9 @@
 		, #{storeCode}
 		, #{bookCode}
 		, #{stateCode}
-		, #{memberId});
+		, #{memberId}
+		, #{reviewViews}
+		, #{reviewLikes});
 </insert>
 
 
