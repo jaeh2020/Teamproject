@@ -15,6 +15,10 @@
 		<result property="storeCode" column="store_code" />
 		<result property="userName" column="member_name" />
 	</resultMap>
+	<delete id="deleteTaster" parameterType="map">
+		DELETE FROM tb_taster_apply
+		WHERE user_id = #{userId} AND recruit_taster_biz_code = #{recruitBCode};
+	</delete>
 	<select id="getTastersAge" parameterType="String" resultType="Integer">
 		SELECT
 			YEAR(NOW())-SUBSTRING(m.member_birth,1,4)+1
@@ -98,8 +102,14 @@
 				<if test="userId != null">
 					t.user_id = #{userId}
 				</if>
-			</trim>	
+			</trim>
+			<trim prefix="AND ">
+				<if test="exceptCancel != null">
+					t.visit_feedback_state !='state_taster_cancel'
+				</if>
+			</trim>		
 		</where>
+		ORDER BY t.apply_time DESC
 	</select>
 	<select id="getStoreList" parameterType="String" resultType="Store">
 		SELECT

@@ -11,6 +11,9 @@
 		tbody tr:hover {
 			cursor: pointer;
 		}
+		.contents2{
+			padding-top: 50px;	
+		}
 	</style>
 </th:block>
 <th:block layout:fragment="customTitle">
@@ -46,13 +49,50 @@
 		                                <td th:text="${i.storeName}"></td>
 		                                <td th:text="${i.applyTime}"></td>
 		                                <td class="color-primary" >
-		                                	<span th:if="${i.state == 'state_taster_com'}" class="badge badge-primary">[[${i.stateName}]]</span>
-		                                	<span th:unless="${i.state == 'state_taster_com'}" class="badge badge-warning">[[${i.stateName}]]</span>
+		                                	<span th:if="${i.state == 'state_taster_cancel'}" class="badge badge-warning">[[${i.stateName}]]</span>
+		                                	<span th:unless="${i.state == 'state_taster_cancel'}" class="badge badge-info">[[${i.stateName}]]</span>
 		                                </td>
 		                            </tr>
 		                    	</th:block>
 		                    	<tr th:unless="${#lists.size(applyInfo) != 0}">
 	                            	<td colspan="5"> 등록된 신청결과가 없습니다.</td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                </div>
+	            </div>
+	            <div class="contents2">
+	            	<p class="text-muted m-b-15">
+                        <i class="bi bi-arrow-down-right-square"></i> 취소한 평가단 목록에 대한 정보가 보여집니다. <code>취소 누적 3회 이상</code> 시 평가단 신청이 제한됩니다.
+                    </p>
+	            </div>
+	            <div class="card-body">
+	            	<div class="table-responsive">
+	                    <table class="table table-hover">
+	                        <thead>
+	                            <tr>
+	                                <th>#</th>
+	                                <th>신청공고</th>
+	                                <th>신청일시</th>
+	                                <th>취소일시</th>
+	                                <th>누적횟수</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                        	<th:block th:if="${#lists.size(cancelList) != 0}" th:each="c : ${cancelList}">
+		                            <tr>
+		                                <th scope="row" th:text="${cStat.count}"></th>
+		                                <td th:text="${c.recruitTitle}"></td>
+		                                <td th:text="${c.tasterApplyDate}"></td>
+		                                <td th:text="${c.cancelDate}"></td>
+		                                <td class="color-primary" >
+		                                	<span th:if="${c.numOfCancel == 0}" class="badge badge-info">[[${c.numOfCancel}]]</span>
+		                                	<span th:unless="${c.numOfCancel == 0}" class="badge badge-danger">[[${c.numOfCancel}]]</span>
+		                                </td>
+		                            </tr>
+		                    	</th:block>
+		                    	<tr th:unless="${#lists.size(cancelList) != 0}">
+	                            	<td colspan="5"> 취소 이력이 없습니다.</td>
 	                            </tr>
 	                        </tbody>
 	                    </table>

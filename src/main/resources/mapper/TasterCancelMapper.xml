@@ -12,10 +12,11 @@
 		<result property="numOfCancel" column="num_of_cancel_times"/>
 		<result property="tasterApplyDate" column="apply_time"/>
 		<result property="recruitBCode" column="recruit_taster_biz_code"/>
+		<result property="recruitTitle" column="recruit_title"/>
 	</resultMap>
 	<select id="checkCancelTimes" parameterType="String" resultType="int" >
 		SELECT
-			MAX(num_of_cancel_times)
+			IFNULL(MAX(num_of_cancel_times), 0 )
 		FROM
 			tb_taster_cancel
 		WHERE user_id = #{userId}
@@ -30,6 +31,7 @@
 			, m.member_name
 			, t.apply_time
 			, t.recruit_taster_biz_code
+			, b.recruit_title
 		FROM tb_taster_cancel as c
 			INNER JOIN 
 			tb_member AS m
@@ -37,6 +39,14 @@
 			INNER JOIN 
 			tb_taster_apply AS t
 			ON c.taster_apply_code = t.taster_apply_code
+			INNER JOIN
+			tb_taster_recruit_biz AS b
+			ON t.recruit_taster_biz_code = b.recruit_taster_biz_code
+		<where>
+			<if test="userId != null">
+				c.user_id = #{userId}
+			</if>
+		</where>
 	</select>
 	
 	<insert id="cancelTaster" parameterType="map">

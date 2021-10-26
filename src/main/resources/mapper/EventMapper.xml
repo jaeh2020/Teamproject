@@ -54,10 +54,16 @@
 			, #{storeName})
 
 	</insert>
-	<update id="finishEvent" parameterType="String">
+	<update id="updateEvent" parameterType="map">
 		UPDATE tb_event
 			SET 
-				state_code= 'state_event_end'
+				<if test="state == 'finish'">
+					state_code= 'state_event_end'
+					,end_time= CURDATE()
+				</if>
+				<if test="state == 'start'">
+					state_code= 'state_event_ing'
+				</if>  
 		WHERE event_code = #{eventCode}
 	</update>
 	
@@ -94,5 +100,6 @@
 				event_code = #{eventCode}
 			</if>
 		</where>
+		ORDER BY e.reg_time DESC
 	</select>
 </mapper>

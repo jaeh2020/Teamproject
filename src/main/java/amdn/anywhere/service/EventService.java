@@ -17,7 +17,7 @@ import amdn.anywhere.mapper.EventMapper;
 @Transactional
 public class EventService {
 	
-	private EventMapper eventMapper;
+	private final EventMapper eventMapper;
 	
 	public EventService(EventMapper eventMapper) {
 		this.eventMapper = eventMapper;
@@ -26,9 +26,9 @@ public class EventService {
 	public List<Event> getEventList(Map<String, Object> paramMap){
 		return eventMapper.getEventList(paramMap);
 	}
-	//2. 이벤트 종료하기
-	public int finishEvent(String eventCode) {
-		return eventMapper.finishEvent(eventCode);
+	//2. 이벤트 상태 변경
+	public int updateEvent(Map<String, String> paramMap) {
+		return eventMapper.updateEvent(paramMap);
 	}
 	//3. 이벤트 등록 
 	public int addEvent(Event event) {

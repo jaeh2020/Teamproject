@@ -17,9 +17,9 @@ import amdn.anywhere.mapper.TasterMapper;
 @Service
 @Transactional
 public class SurveyResultService {
-	private AgeMapper ageMapper;
-	private TasterMapper tasterMapper;
-	private QuestionAnswerMapper questionAnswerMapper;
+	private final AgeMapper ageMapper;
+	private final TasterMapper tasterMapper;
+	private final QuestionAnswerMapper questionAnswerMapper;
 	
 	public SurveyResultService(AgeMapper ageMapper, TasterMapper tasterMapper, QuestionAnswerMapper questionAnswerMapper) {
 		this.ageMapper = ageMapper;
