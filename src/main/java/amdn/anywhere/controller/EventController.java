@@ -31,7 +31,7 @@ import amdn.anywhere.service.StoreService;
 @RequestMapping("/event")
 public class EventController {
 	
-	private EventService eventService;
+	private final EventService eventService;
 	private final StoreService storeService;
 	public EventController(EventService eventService, StoreService storeService) {
 		this.eventService = eventService;
@@ -106,7 +106,10 @@ public class EventController {
 	//4. 이벤트 종료 프로세스
 	@GetMapping("/finishEvent")
 	public String finishEvent(@RequestParam(value="eventCode", required = false) String eventCode) {
-		eventService.finishEvent(eventCode);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("eventCode", eventCode);
+		paramMap.put("state", "finish");
+		eventService.updateEvent(paramMap);
 		return"redirect:/event/eventManage";
 	}
 	//3. 이벤트 관리 페이지

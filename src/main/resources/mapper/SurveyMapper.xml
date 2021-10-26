@@ -40,7 +40,7 @@
 			, recruit_taster_admin_code
 			, recruit_taster_biz_code
 			, num_of_parti
-			, state
+			, state_code
 			)
 		VALUES (
 			  #{createCode}
@@ -49,7 +49,7 @@
 			, null
 			, #{recruitBBCode}
 			, 0
-			, '진행중')
+			, 'state_survey_ing')
 	</insert>
 	
 	<select id="createSurveyCode" resultType="String">
@@ -88,7 +88,8 @@
 			<if test="storeCode != null">
 				c.store_code = #{storeCode}
 			</if>	
-		</where>	
+		</where>
+		ORDER BY c.reg_time DESC	
 	</select>
 	
 </mapper>

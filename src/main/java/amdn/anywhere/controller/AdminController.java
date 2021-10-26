@@ -20,9 +20,9 @@ import amdn.anywhere.service.TasterService;
 
 @Controller
 public class AdminController {
-	private StoreService storeService;
-	private TasterService tasterService;
-	private StatisticService statisticService;
+	private final StoreService storeService;
+	private final TasterService tasterService;
+	private final StatisticService statisticService;
 	public AdminController(TasterService tasterService,StoreService storeService,StatisticService statisticService
 						  ) {
 		this.storeService = storeService;

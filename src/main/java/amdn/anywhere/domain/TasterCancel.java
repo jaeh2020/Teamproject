@@ -9,6 +9,7 @@ public class TasterCancel {
 	private int numOfCancel;
 	private String tasterApplyDate;
 	private String recruitBCode;
+	private String recruitTitle;
 	public String getCancelCode() {
 		return cancelCode;
 	}
@@ -45,12 +46,6 @@ public class TasterCancel {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	@Override
-	public String toString() {
-		return "TasterCancel [cancelCode=" + cancelCode + ", tasterApplyCode=" + tasterApplyCode + ", userId=" + userId
-				+ ", userName=" + userName + ", cancelDate=" + cancelDate + ", numOfCancel=" + numOfCancel
-				+ ", tasterApplyDate=" + tasterApplyDate + ", recruitBCode=" + recruitBCode + "]";
-	}
 	public String getTasterApplyDate() {
 		return tasterApplyDate;
 	}
@@ -62,6 +57,19 @@ public class TasterCancel {
 	}
 	public void setRecruitBCode(String recruitBCode) {
 		this.recruitBCode = recruitBCode;
+	}
+	public String getRecruitTitle() {
+		return recruitTitle;
+	}
+	public void setRecruitTitle(String recruitTitle) {
+		this.recruitTitle = recruitTitle;
+	}
+	@Override
+	public String toString() {
+		return "TasterCancel [cancelCode=" + cancelCode + ", tasterApplyCode=" + tasterApplyCode + ", userId=" + userId
+				+ ", userName=" + userName + ", cancelDate=" + cancelDate + ", numOfCancel=" + numOfCancel
+				+ ", tasterApplyDate=" + tasterApplyDate + ", recruitBCode=" + recruitBCode + ", recruitTitle="
+				+ recruitTitle + "]";
 	}
 	
 }

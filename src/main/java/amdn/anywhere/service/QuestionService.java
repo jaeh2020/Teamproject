@@ -25,11 +25,11 @@ import amdn.anywhere.mapper.SurveyMapper;
 @Service
 @Transactional
 public class QuestionService {
-	private QuestionsMapper questionMapper;
-	private SurveyMapper surveyMapper;
-	private RecruitTasterByBizMapper recruitTasterByBizMapper;
-	private QuestionChoiceMapper questionChoiceMapper;
-	private QuestionAnswerMapper questionAnswerMapper;
+	private final QuestionsMapper questionMapper;
+	private final SurveyMapper surveyMapper;
+	private final RecruitTasterByBizMapper recruitTasterByBizMapper;
+	private final QuestionChoiceMapper questionChoiceMapper;
+	private final QuestionAnswerMapper questionAnswerMapper;
 	
 	public QuestionService(
 			QuestionsMapper questionMapper

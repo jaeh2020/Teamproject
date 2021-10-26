@@ -15,7 +15,7 @@ import amdn.anywhere.mapper.StatisticMapper;
 @Service
 @Transactional
 public class StatisticService {
-	private StatisticMapper statisticMapper;
+	private final StatisticMapper statisticMapper;
 	public StatisticService(StatisticMapper statisticMapper) {
 		this.statisticMapper = statisticMapper;
 	}

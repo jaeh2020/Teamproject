@@ -34,10 +34,10 @@ import amdn.anywhere.service.TasterService;
 @RequestMapping("/survey")
 public class QuestionController{
 
-	private TasterService tasterService;
-	private QuestionService questionService;
-	private StoreService storeService;
-	private SurveyResultService surveyResultService;
+	private final TasterService tasterService;
+	private final QuestionService questionService;
+	private final StoreService storeService;
+	private final SurveyResultService surveyResultService;
 	
 	public QuestionController(QuestionService questionService,TasterService tasterService, StoreService storeService, SurveyResultService surveyResultService){
 
@@ -186,6 +186,8 @@ public class QuestionController{
 		//세션아이디로 평가단조회
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("userId", id);//소비자 아이디 가정
+		paramMap.put("exceptCancel", "Y");//소비자 아이디 가정
+		
 		List<Taster> myList = tasterService.getTasterList(paramMap);
 
 			model.addAttribute("title", "내 설문조사");

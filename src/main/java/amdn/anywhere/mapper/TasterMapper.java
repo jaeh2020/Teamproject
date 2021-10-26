@@ -13,6 +13,8 @@ import amdn.anywhere.domain.Taster;
 
 @Mapper
 public interface TasterMapper {
+	//평가단 삭제
+	public int deleteTaster(Map<String, Object> paramMap);
 	//평가단 나이 정보 가져오기
 	public List<Integer> getTastersAge(String surveyCode);
 	//평가단 정보 수정
