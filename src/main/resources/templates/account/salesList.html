@@ -15,15 +15,9 @@
 				<div class="card-header" >
 					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 매출 현황  </h4>
 				</div>
-				
-				
-				
-				
-				
-				
 				<div class="card">
 					<div class="card-title" >
-						<h4>매출 검색</h4> 
+						<h4>''''''''''''''''''''''</h4> 
 					</div>
 					<div class="card-content">
 					<div class="basic-form">
@@ -36,12 +30,12 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<div class="input-group input-group-flat">
 									<input type="text" class="form-control" placeholder="문항을 입력하세요">
-									<a th:href="@{/account/salesList}" class="btn btn-primary" type="button"><i class="ti-search"></i>  검색</a>
+									<a th:href="@{/account/salesList}" class="btn btn-primary" type="button" id="salesBtn"><i class="ti-search"></i>검색</a>
 								</div>
-							</div>
+							</div> -->
 						</form>
 					</div>
 					</div>
@@ -59,66 +53,24 @@
 				
 				
 				
-				<div class="box-body" style="padding-top: 20px;">
-					<table class="table table-bordered">
+				<div class="box-body table-responsive m-t-40" style="padding-top: 20px;">
+					<table id="storeListTable" class="table table-bordered">
 						<thead>
-							<tr>
-								<th style="width: 30px; font-style: italic; font-weight: bold;">Check</th>
+							<tr role="row">
+                 				<th style="width: 50px; font-style: italic; font-weight: bold;"> Check </th>
 								<th style="width: 120px; font-weight: bold;">매장코드</th>
-								<th style="font-weight: bold;">내용</th>
-								<th style="width: 120px; font-weight: bold;">가격</th>
-								<th style="width: 150px;  font-weight: bold;">등록시간</th>
-								<th style="width: 150px;  font-weight: bold;">등록자</th>
+								<th style="width: 250px; font-weight: bold;">내용</th>
+								<th style="width: 150px;  font-weight: bold;">매출금액</th>
+								<th style="width: 80px; font-weight: bold;">마감여부</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:if="${#lists.size(salesList) > 0}" th:each=" s : ${salesList}">
-								<td> # </td>
+							<tr th:if="${#lists.size(storeList) > 0}" th:each=" s : ${storeList}">
+								<td> <input type="checkbox" name="chk_info" value="No"> </td>
 								<td th:text="${s.storeCode}"></td>
-								<td th:text="${s.salesName}"></td>
-								<td th:text="${s.salesPrice}"></td>
-								<td th:text="${s.salesRegTime}"></td>
-								<td th:text="${s.closeTime}"></td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" name="chk_info" value="No"></td>
-								<td>store01</td>
-								<td>짬뽕밥</td>
-								<td>15000</td>
-								<td>14:00</td>
-								<td>김경수</td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" name="chk_info" value="No"></td>
-								<td>store01</td>
-								<td>김치찜</td>
-								<td>1145000</td>
-								<td>14:00</td>
-								<td>김경수</td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" name="chk_info" value="No"></td>
-								<td>store01</td>
-								<td>계란후라이</td>
-								<td>112145000</td>
-								<td>14:00</td>
-								<td>김경수</td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" name="chk_info" value="No"></td>
-								<td>store01</td>
-								<td>판타지오</td>
-								<td>41450001</td>
-								<td>14:00</td>
-								<td>김경수</td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" name="chk_info" value="No"></td>
-								<td>store01</td>
-								<td>하이닉스</td>
-								<td>145645</td>
-								<td>14:00</td>
-								<td>김경수</td>
+								<td th:text="${s.menuName}"></td>
+								<td th:text="${s.menuPrice}"></td>
+								<td th:text="${''}"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -138,6 +90,22 @@
 			</div>
 		</div>
 	</div>
+	
+	
 </th:block>
-
+<th:block layout:fragment="customJsLib">
+	<script th:src="@{/js/lib/datatables/datatables.min.js}"></script>
+	<script th:src="@{js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js}"></script>
+    <script th:src="@{js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js}"></script>
+    <script th:src="@{js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js}"></script>
+    <script th:src="@{js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js}"></script>
+    <script th:src="@{js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js}"></script>
+    <script th:src="@{js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js}"></script>
+    <script th:src="@{js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js}"></script>
+    <script>
+    	$(function(){
+    		$('#storeListTable').DataTable();
+    	});
+    </script>
+</th:block>
 </html>
