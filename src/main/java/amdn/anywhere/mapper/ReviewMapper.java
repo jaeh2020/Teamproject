@@ -10,12 +10,25 @@ import amdn.anywhere.domain.Book;
 import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Review;
 import amdn.anywhere.domain.Statement;
+import amdn.anywhere.domain.Storesearch;
 
 
 
 
 @Mapper
 public interface ReviewMapper {
+	
+	//게시물 조회 수 증가
+	public int updateReviewCnt(String reviewNum);
+	
+	//음식점 이름 가져오기
+	public Storesearch getReviewStoreName(Map<String, String> paramMap);
+	
+	//각 매장 리뷰 목록
+	public List<Review> getreviewConfirmList(Map<String, String> paramMap);
+	
+	//관리자 리뷰 상세보기
+	public Review getreviewView(String reviewNum);
 	
 	//총 리뷰 삭제처리
 	public int reviewDelete(String reviewNum);

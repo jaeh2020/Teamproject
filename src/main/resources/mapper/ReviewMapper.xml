@@ -59,6 +59,8 @@
 		<result property="bookCode"		column="b_o_code"/>
 		<result property="stateCode"	column="state_code"/>
 		<result property="memberId"		column="member_id"/>
+		<result property="reviewViews"		column="review_views"/>
+		<result property="reviewLikes"		column="review_likes"/>
 		<association property="reviewScore" javaType="ReviewScore">
 			<id property="scoreCode" 			column="score_code"/>
 			<result property="starCount"		column="star_count"/>
@@ -95,6 +97,75 @@
 		<result property="bookPickup"		column="book_pickup"/>
 </resultMap>
 
+
+<!-- 리뷰 조회 수 증가 -->
+<update id="updateReviewCnt" parameterType="String">
+	UPDATE 
+		tb_review 
+	SET 
+		review_views = review_views + 1
+	WHERE 
+		review_num = #{reviewNum};
+</update>
+
+
+<!-- 매장이름가져오기 -->
+<select id="getReviewStoreName" resultType="Storesearch" >
+	SELECT
+		store_name AS storeName
+	FROM
+		tb_store_info
+	WHERE
+		store_name = #{storeName};
+</select>
+
+<!-- 각 매장 리뷰 목록 -->
+<select id="getreviewConfirmList" parameterType="map" resultMap="reviewResultMap">
+	SELECT
+		r.review_num
+		,r.member_id
+		,c.review_score
+		,r.review_views
+		,r.review_likes
+		,s.store_name
+	FROM	
+		tb_review AS r
+		INNER join
+		tb_store_info AS s
+		on
+		r.store_code = s.store_code
+		INNER join
+		tb_review_score AS c
+		on
+		r.score_code = c.score_code
+	WHERE
+		s.store_name = #{storeName}
+	ORDER BY review_num DESC;		
+</select>
+
+
+<!-- 관리자 리뷰 상세보기 -->
+<select id="getreviewView" resultMap="reviewResultMap" parameterType="String">
+	  SELECT
+		 r.member_id
+		,s.review_score
+		,r.review_contents
+		,r.review_com_time
+		,r.review_num
+		,i.store_name
+	FROM
+		tb_review AS r
+		INNER join
+		tb_review_score AS s
+		on
+		r.score_code = s.score_code
+		INNER join
+		tb_store_info AS i
+		on
+		r.store_code = i.store_code
+	where
+		r.review_num = #{reviewNum};
+</select>
 
 <!-- 총 리뷰 삭제처리 -->
 <delete id="reviewDelete" parameterType="String">
@@ -196,6 +267,7 @@
 		,s.review_score
 		,r.review_com_time
 		,r.state_code
+		,r.review_contents
 	FROM
 		tb_review AS r
 		INNER join
