@@ -11,6 +11,7 @@ import amdn.anywhere.domain.Book;
 import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Review;
 import amdn.anywhere.domain.Statement;
+import amdn.anywhere.domain.Storesearch;
 import amdn.anywhere.mapper.ReviewMapper;
 
 
@@ -25,6 +26,30 @@ public class ReviewService {
 	  public ReviewService(ReviewMapper reviewMapper) { 
 		  this.reviewMapper = reviewMapper;
 	 }
+	  
+	//게시물 조회 수 증가
+	public int updateReviewCnt(String reviewNum) {
+		return reviewMapper.updateReviewCnt(reviewNum);
+	};
+	  
+	//음식점 이름 가져오기
+	public Storesearch getReviewStoreName(Map<String, String> paramMap) {
+		return reviewMapper.getReviewStoreName(paramMap);
+	};
+  
+	//각 매장 리뷰 목록 가져오기
+	public List<Review> getreviewConfirmList(Map<String, String> paramMap) {
+		
+		List<Review> getreviewList = reviewMapper.getreviewConfirmList(paramMap);
+		
+		return getreviewList;
+	};
+	  
+	//관리자 리뷰 상세보기
+	public Review getreviewView(String reviewNum) {
+		return reviewMapper.getreviewView(reviewNum);
+	};
+	  
 	  
 	//총 리뷰 삭제처리
 	public int reviewDelete(String reviewNum) {

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="card card-outline-primary" >
+		<div class="col-lg-12">
+			<div class="box box-primary">
+				<div class="card-header" >
+					<h4 class="m-b-0 text-white" ><i class="fa fa-thumbs-up"></i> [[${stroeSearch.storeName}]]  리뷰 </h4>
+				</div>
+				<div class="box-body" style="padding-top: 20px;" >
+					<table class="table table-hover">
+						<thead>
+                            <tr>
+                                <th>No.</th>
+                                <th data-orderable="false">리뷰내용</th>
+                                <th>평점</th>
+                                <th>리뷰작성자</th>	                                                              	                              	                                                              	                                                                                         	                              	                                                              	                               
+                                <th><i class="fa fa-thumbs-up"></i> 좋아요</th>
+                                <th>조회수</th>
+                                <th data-orderable="false">신고</th>
+                            </tr>
+		                 </thead>
+		                 <tbody>
+	                        	<tr th:each="r : ${getreviewList}">
+		                            <td th:text="${r.reviewNum}"></td>
+		                            <td><a  class="btn btn-dark btn-outline ti-search" th:href="@{/review/reviewUserView(reviewNum=${r.reviewNum})}"></a></td>
+		                            <td th:text="${r.reviewScore.reviewScore}"></td>
+		                            <td th:text="${r.memberId}"></td>
+		                            <td th:text="${r.reviewLikes}"></td>
+		                            <td th:text="${r.reviewViews}"></td>        
+		                            <td><a href="#" class="btn btn-warning btn-flat btn-addon s-b-10 s-l-5"><i class="fa fa-exclamation-triangle"></i></a></td>
+	                            </tr>
+		                 </tbody>
+						</table>
+				</div>			
+				<div class="box-footer">
+					<div class="pull-right">
+						<a th:href="@{/}" class="btn btn-success btn-flat"  style="margin-top: 15px; "> 목록</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+<th:block layout:fragment="customJsLib">
+
+
+<script type="text/javascript">
+												
+    
+
+
+</script>
+	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+	<script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->	    
+</th:block>
+
+
+
+</html>

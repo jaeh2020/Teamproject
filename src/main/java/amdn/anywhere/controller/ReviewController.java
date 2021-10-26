@@ -17,6 +17,7 @@ import amdn.anywhere.domain.Book;
 import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Review;
 import amdn.anywhere.domain.Statement;
+import amdn.anywhere.domain.Storesearch;
 import amdn.anywhere.service.ReviewService;
 
 
@@ -34,6 +35,70 @@ public class ReviewController {
 	  }
 	 
 	
+	//소비자 리뷰 상세보기
+	@GetMapping("/reviewUserView")
+	public String reviewUserView(Model model
+								,@RequestParam(name = "reviewNum" ,required = false)String reviewNum
+								,HttpSession session) {
+		
+
+		
+		//현재 로그인 아이디 가져오기
+		String memberId = (String)session.getAttribute("SID");
+		//리뷰목록가져오기
+		Review review = reviewService.getreviewView(reviewNum);
+		//조회 수 증가
+		Integer reviewCnt = 0;
+		reviewCnt = reviewService.updateReviewCnt(reviewNum);
+		
+		model.addAttribute("title", "리뷰조회");
+		model.addAttribute("review", review);
+		model.addAttribute("reviewCnt", reviewCnt);
+		model.addAttribute("memberId", memberId);
+
+		return "/review/reviewUserView";
+	}
+	  
+	  
+	  
+	//소비자 리뷰 목록
+	@GetMapping("/reviewConfirm")
+	public String reviewConfirm(Model model
+								,@RequestParam(name = "storeName" , required = false)String storeName) {
+		
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("storeName", storeName);
+		
+		
+		//각 매장 리뷰목록가져오기
+		List<Review> getreviewList = reviewService.getreviewConfirmList(paramMap);
+		
+		//해당 매장 이름 가져오기
+		Storesearch stroeSearch = reviewService.getReviewStoreName(paramMap);
+		
+		
+		model.addAttribute("title", "리뷰조회");
+		model.addAttribute("getreviewList", getreviewList);
+		model.addAttribute("stroeSearch", stroeSearch);
+		
+		return "/review/reviewConfirm";
+	}
+	  
+	  
+	//운영사 리뷰 상세보기
+	@GetMapping("/reviewView")
+	public String reviewView(Model model
+							,@RequestParam(name = "reviewNum" ,required = false)String reviewNum) {
+		
+		//리뷰목록가져오기
+		Review review = reviewService.getreviewView(reviewNum);
+		
+		model.addAttribute("title", "리뷰상세보기");
+		model.addAttribute("review", review);
+		
+		return "/review/reviewView";
+	}
 	  
 	//총 리뷰 삭제처리
 	@GetMapping("/reviewDelete")

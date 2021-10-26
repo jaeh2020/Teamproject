@@ -4,6 +4,7 @@
 	  layout:decorate="~{layout/default}">
 
 <th:block layout:fragment="customTitle">
+	<!-- <link th:href="@{/css/lib/chartist/chartist.min.css}" rel="stylesheet"> -->
 	<title th:text="${title}"></title>
 </th:block>
 
@@ -165,7 +166,7 @@
 							<div class="col-sm-12">
 								<div>
 									<h2 style="font-weight:bold; color: blue;"><i class="fa fa-check"></i>  매출 테이블</h2>
-									<a th:href="@{/account/salesList}" class="btn btn-outline-danger float-right" type="button" style="width: 200px; margin-bottom: 15px;"><i class="ti-search"></i> 매출 상세 조회 </a>
+									<button id="salesListBtn" type="button" class="btn btn-outline-danger float-right" style="width: 200px; margin-bottom: 15px;"><i class="ti-search"></i> 매출 상세 조회 </button>
 								</div>
 								<table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
 									<thead>
@@ -199,11 +200,11 @@
 								<table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
 									<thead>
 										<tr role="row">
-		                  					<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=": activate to sort column descending">No.</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="No.: activate to sort column ascending">매장 코드</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="매장코드: activate to sort column ascending">지출 명</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="내용: activate to sort column ascending">지출 금액</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="상호명: activate to sort column ascending">해당 월</th>
+		                  					<th style="width: 10px;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=": activate to sort column descending">No.</th>
+							                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="No.: activate to sort column ascending">매장 코드</th>
+							                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="매장코드: activate to sort column ascending">지출 명</th>
+							                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="내용: activate to sort column ascending">지출 금액</th>
+							                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="상호명: activate to sort column ascending">해당 월</th>
 										</tr>
 										
 		                  			</thead>
@@ -242,14 +243,21 @@
 							</div>
 		                </div>
 					</div>
+					<br>
 	              <!-- /.card-body -->
+	               <div class="row">
+							<div class="col-sm-12">
+								<div>
+									<h2 style="font-weight:bold; color: blue;"><i class="fa fa-check"></i>  차트</h2>
+								</div>
+		                        <div class="ct-donute-chart"></div>
+							</div>
+					</div>
 	            </div>
 	            <!-- /.card -->
 	          </div>
 	          <!-- /.col -->
 	        </div>
-	        <!-- /.row -->
-	
 	
 	
 	<!-- Modal -->
@@ -276,6 +284,9 @@
 </th:block>
 
 <th:block layout:fragment="customJsLib">
+    <script th:src="@{js/lib/chartist/chartist.min.js}"></script>
+    <script th:src="@{js/lib/chartist/chartist-plugin-tooltip.min.js}"></script>
+    <script th:src="@{js/lib/chartist/chartist-custom.js}"></script>
     <script th:inline="javascript">
 	    /*<![CDATA[*/
 		var storeCode = [[${session.STCODE}]];
@@ -283,9 +294,19 @@
     </script> 
     
     
-    <script type="text/javascript">
-                                    
+    <script type="text/javascript">                              
     $(function(){
+
+      $(document).on('click', '#salesListBtn', function(){
+    	  var dataStoreCode = $(this).attr('data-storecode');
+    	  
+    	  if(dataStoreCode != null && dataStoreCode != undefined && dataStoreCode != ''){
+    		  location.href = '/account/salesList?storeCode=' + dataStoreCode;
+    	  }else{    		  
+	    	 alert('상품코드를 선택해주세요'); 
+    	  }
+      });
+    	
     	/* modal title내에 이름 입력  */
       $(document).on('click', '.storeBtn', function(){
     	 	var storeCode = $(this).text();
@@ -297,6 +318,7 @@
     		$('#menuCate').val($(this).parent().parent().find('[name=T4]').text());
     		Swal.close();
     		
+    		
     		//ajax호출 (매출)
     		var request =  $.ajax({
                 url: "/account/myStoreSalesStatistics", //요청 주소
@@ -306,6 +328,8 @@
             });
     		request.done(function(data){
     			
+    		$('#salesListBtn').attr('data-storeCode', data[0].storeCode);
+    		
     		console.log("매출"+JSON.stringify(data));
     		
     		
@@ -323,6 +347,7 @@
     			SalesStatisticsContent += '		<td>' + data[k].month + '</td>';
     			SalesStatisticsContent += '	</tr>';
            	}
+    		
     		$('#SalesStatisticsTbody').html(SalesStatisticsContent);
 		
                 var storeListLength = data.length;
@@ -486,7 +511,6 @@
     		
     });
     </script> 
-    
 </th:block>
 
 </html>
