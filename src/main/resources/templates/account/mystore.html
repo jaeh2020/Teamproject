@@ -191,6 +191,9 @@
 		              	<!-- /.card-header -->
 						<div class="card-body">
 		                	<div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+		                	
+		                	<!-- 그래프 부분 -->
+		                	
 		                	 <div class="row">
 								<div class="col-sm-12">
 									<div>
@@ -206,6 +209,7 @@
 			                        </div>
 								</div>
 							</div>
+							
 								<div class="row">
 									<div class="col-sm-12">
 										<div>
@@ -321,9 +325,6 @@
 </th:block>
 
 <th:block layout:fragment="customJsLib">
-    <script th:src="@{js/lib/chartist/chartist.min.js}"></script>
-    <script th:src="@{js/lib/chartist/chartist-plugin-tooltip.min.js}"></script>
-    <script th:src="@{js/lib/chartist/chartist-custom.js}"></script>
     <script th:inline="javascript">
 	    /*<![CDATA[*/
 		var storeCode = [[${session.STCODE}]];
@@ -554,9 +555,9 @@
       var myChart3 = new Chart(ctx, {
           type: 'pie',
           data: {
-              labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+              labels: ['인권비', '판관비', '관리비', '재료비', '매출', '순수익'],
               datasets: [{
-                  label: '# of Votes',
+                  label: '# 내 매장 관리',
                   data: [12, 19, 3, 5, 2, 3],
                   backgroundColor: [
                       'rgba(255, 99, 132, 0.2)',
@@ -586,6 +587,10 @@
                       }
                   }]
               },
+              
+              // 항상보이게 하기
+
+              
           }
       });
   </script>
@@ -596,8 +601,8 @@
           data: {
               labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
               datasets: [{
-                  label: '# of Votes',
-                  data: [12, 19, 3, 5, 2, 3, 5, 2, 3, 5, 2, 3],
+                  label: '전년 대비 성장률 그래프',
+                  data: [0, 1, 3, 2, 6, 7, 6, 8, 9, 13, 12, 16],
                   backgroundColor: [
                       'rgba(255, 99, 132, 0.2)',
                       'rgba(54, 162, 235, 0.2)',
@@ -638,6 +643,37 @@
                       }
                   }]
               },
+              
+              // 항상 보이게 하기
+              animation: {
+  				duration: 1,
+  				onComplete: function () {
+  					var chartInstance = this.chart,
+  						ctx = chartInstance.ctx;
+  					ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+  					ctx.fillStyle = 'purple';
+  					ctx.textAlign = 'center';
+  					ctx.textBaseline = 'bottom';
+
+  					this.data.datasets.forEach(function (dataset, i) {
+  						var meta = chartInstance.controller.getDatasetMeta(i);
+  						meta.data.forEach(function (bar, index) {
+  							var data = dataset.data[index];							
+  							ctx.fillText(data, bar._model.x, bar._model.y - 5);
+  						});
+  					});
+  				}
+  			},
+  			scales: {
+  				yAxes: [{
+  					ticks: {
+  						beginAtZero: true,
+  						stepSize : 2,
+  						fontSize : 14,
+  					}
+  				}]
+  			}
+
           }
       });
   </script>
