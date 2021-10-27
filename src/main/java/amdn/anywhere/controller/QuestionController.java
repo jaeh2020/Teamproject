@@ -69,6 +69,7 @@ public class QuestionController{
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("surveyCode", surveyCode);
 		List<SurveyResult> surveyResultList= questionService.getSurveyResult(paramMap);
+		
 		//연령대그룹 가져오기
 		paramMap.clear();
 		paramMap = surveyResultService.getTastersAge(surveyCode);
