@@ -40,7 +40,7 @@ public class Schedule {
 		}
 	
 	//하루에 한번 이벤트 기간 조회 및 update 하기
-	@Scheduled(cron = "* * 0 * * ?")
+	@Scheduled(cron = "0 0 0 * * ?")
 	public void checkEventPeriod() {
 		//매일 자정에 실행
 		//현재 날짜 가져오기
@@ -76,6 +76,7 @@ public class Schedule {
 		}
 	}
 	//평가단 모집 기간 조회 및 update
+	@Scheduled(cron = "0 0 0 * * ?")
 	public void checkTasterRecruitPeriod(){
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String today= df.format(new Date());

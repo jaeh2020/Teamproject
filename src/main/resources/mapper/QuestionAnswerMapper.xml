@@ -30,8 +30,8 @@
 		from			(SELECT
 								r.question_create_code
 								,a.recruit_taster_biz_code
-								,c.question_cate_code
-								,c.cate_name
+								,IFNULL(c.question_cate_code, qb.question_cate_code) AS 'question_cate_code'
+								,IFNULL(c.cate_name, qc.question_cate_name) AS 'cate_name'
 								,SUM(if(a.tasters_choice = 'q_choice_01', 1,0 ))*1 AS 'c1'
 								,sum(if(a.tasters_choice = 'q_choice_02', 1,0 ))*2 AS 'c2'
 								,sum(if(a.tasters_choice = 'q_choice_03', 1,0 ))*3 AS 'c3'
@@ -40,27 +40,33 @@
 								,COUNT(*) AS 'totalNum' 
 							FROM
 								tb_question_answer AS a
-								INNER JOIN 
+									LEFT JOIN 
 								tb_questionnaire AS q
 								ON a.question_code = q.question_code
-								INNER JOIN 
+									LEFT JOIN 
 								tb_question_cate AS c
 								ON q.question_cate_code = c.question_cate_code
-								INNER JOIN 
+									INNER JOIN 
 								tb_question_create AS r
 								ON r.recruit_taster_biz_code = a.recruit_taster_biz_code
+									LEFT JOIN 
+								tb_questionnaire_backup AS qb
+								ON qb.question_code = a.question_code_backup
+									LEFT JOIN 
+								tb_question_cate_backup AS qc
+								ON qc.question_cate_code = qb.question_cate_code
 							WHERE r.question_create_code = #{surveyCode}
-							GROUP BY a.question_code) AS b
+							GROUP BY a.question_code_backup) AS b
 		GROUP BY b.cate_name					
 	</select>
 	<select id="getResultForSurvey" parameterType="Map" resultMap="surveyRResultMap">
 		SELECT
 			r.question_create_code
 			,a.recruit_taster_biz_code
-			,a.question_code
-			,c.question_cate_code
-			,c.cate_name
-			,q.question_content
+			,a.question_code_backup AS 'question_code'
+			,IFNULL(c.question_cate_code, qb.question_cate_code) AS 'question_cate_code'
+			,IFNULL(c.cate_name, qc.question_cate_name) AS 'cate_name'
+			,IFNULL(q.question_content, qb.question_content) AS 'question_content'
 			,SUM(if(a.tasters_choice = 'q_choice_01', 1,0 )) AS 'choice1'
 			,sum(if(a.tasters_choice = 'q_choice_02', 1,0 )) AS 'choice2'
 			,sum(if(a.tasters_choice = 'q_choice_03', 1,0 )) AS 'choice3'
@@ -69,26 +75,30 @@
 			,COUNT(*) AS 'totalNum' 
 		FROM
 			tb_question_answer AS a
-			INNER JOIN 
+				LEFT JOIN 
 			tb_questionnaire AS q
 			ON a.question_code = q.question_code
-			INNER JOIN 
+				LEFT JOIN 
 			tb_question_cate AS c
 			ON q.question_cate_code = c.question_cate_code
-			INNER JOIN 
+				INNER JOIN 
 			tb_question_create AS r
 			ON r.recruit_taster_biz_code = a.recruit_taster_biz_code
+				LEFT JOIN 
+			tb_questionnaire_backup AS qb
+			ON qb.question_code = a.question_code_backup
+				LEFT JOIN 
+			tb_question_cate_backup AS qc
+			ON qc.question_cate_code = qb.question_cate_code
 		<where>
 			<if test="surveyCode != null">
 				r.question_create_code = #{surveyCode}
 			</if>
-			<trim prefix="AND ">
-				<if test="cateCode != null">
-					c.question_cate_code = #{cateCode}
-				</if>
-			</trim>
 		</where>	
-		GROUP BY a.question_code
+		GROUP BY a.question_code_backup
+		<if test="cateCode != null">
+			HAVING question_cate_code = #{cateCode}
+		</if>
 	</select>
 	<select id="createAnswerCode" resultType="String">
 		SELECT
@@ -109,6 +119,7 @@
 			, recruit_taster_biz_code
 			, user_id
 			, question_code
+			, question_code_backup
 			, tasters_choice
 			, reg_time
 		)
@@ -119,6 +130,7 @@
 				, NULL
 				, #{q.recruitBCode}
 				, #{q.userId}
+				, #{q.questionCode}
 				, #{q.questionCode}
 				, #{q.tasterChoice}
 				, NOW()

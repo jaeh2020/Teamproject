@@ -28,11 +28,10 @@ public class PointController {
 		this.messageService = messageService;
 	}
 
-	@Scheduled(cron = "0 * * * * *")
-	public void test() {
-		System.out.println("실행실행실행!!!!!!!!!!!!!!!!!!!!!!!!!!!!");;
-	}
-	
+	/*
+	 * @Scheduled(cron = "0 * * * * *") public void test() {
+	 * System.out.println("실행실행실행!!!!!!!!!!!!!!!!!!!!!!!!!!!!");; }
+	 */
 	//포인트 소멸
 	//@Scheduled(cron="0 0 0 * * *")
 	@PostMapping("/point/addPointDel")
