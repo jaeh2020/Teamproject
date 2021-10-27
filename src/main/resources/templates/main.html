@@ -29,7 +29,40 @@
 		font-size: 14px;
 		padding-bottom: 1px;
 	}
+	.storeList{
+		height:1500px;
+		overflow:auto;
+	}
+	.storeList::-webkit-scrollbar { 
+		width: 15px; /*스크롤바의 너비*/ 
+	} 
+	.storeList::-webkit-scrollbar-thumb { 
+		background-color: #eeeeee; /*스크롤바의 색상*/ 
+	} 
 	
+	.storeList::-webkit-scrollbar-track { 
+		background-color: white; /*스크롤바 트랙 색상*/ 
+	}
+	.storeList::-webkit-scrollbar-button {
+		background-color: #dddddd;
+	}
+    .slick-slide {
+    margin:0 20px;
+	}
+
+
+	.slick-prev:hover:before,
+	.slick-next:hover:before {
+	    color: #7e7e7e;
+	}
+	
+	.slick-prev,
+	.slick-next {
+	    color: #7e7e7e;
+	}
+
+ 
+
 	
 </style>
 	
@@ -63,88 +96,84 @@
 			</div>
 		</div>
 		<!-- 주소검색 end -->
-
 		
-		<div class="row justify-content-center">
-			<div class="col-sm-8">
-				<div class="row">	
-					<div class="col-sm-4">
-					<div class="eventBtn card" OnClick="location.href='/event/eventList'"
-									  style="background-image: url('images/main/eventing.png'); 
-									  width: 100%; height: 0; padding-top: calc(500 / 500 * 100%); 
-									  background-repeat:no-repeat; background-size: cover; background-position: center;
-									  cursor:pointer;">
-					</div>
-					</div>
-					
-					<div class="col-sm-4">
-					<div class="card" onClick="likeBtn()"
-									  style="background-image: url('images/main/keyword.png'); 
-									  width: 100%; height: 0; padding-top: calc(500 / 500 * 100%); 
-									  background-repeat:no-repeat; background-size: cover; background-position: center;
-									  cursor:pointer;">
-					</div>
-					</div>
-					
-					<div class="col-sm-4">
-					<div class="pointBtn card"
-									  onClick="pointBtn()"
-									  style="background-image: url('images/main/point.png'); 
-									  width: 100%; height: 0; padding-top: calc(500 / 500 * 100%); 
-									  background-repeat:no-repeat; background-size: cover; background-position: center;
-									  cursor:pointer;">
-					</div>
-					</div>
-				</div>
-			</div>
 		
-			
-			<!-- 실시간검색 -->
-			<div class="col-sm-3">
-				<div class="card">
-					<div class="input-group input-group-flat">
-						<input type="text" class="searchKey form-control" name="searchKey" placeholder="메뉴 or 키워드 검색" >
-						<button class="searchLiveBtn btn btn-dark btn-outline ti-search" type="submit"></button>
-					</div>
-					
-					<div class="card-header">
-					<h6 style="text-align: center;">
-						<i class="fa ti-timer f-s-20"></i>
-						<strong>실시간 인기 검색어</strong>
-						<i class="fa ti-timer f-s-20"></i>
-						<br>
-						<small>최근 업데이트 시간 : </small>
-						<small th:text="${searchKeyword.searchUpdateTime}"></small>
-					</h6>
-					</div>
-					
-					<table>
-						<tbody>
-							<tr style="margin: 5px;">
-								<td>
-								<button class="btn btn-pink btn-outline f-s-15" disabled> 1 </button>
-								</td>
-								<td th:text="${searchKeyword.searchRank1}"></td>
-							</tr>
-							<tr>
-								<td>
-								<button class="btn btn-pink btn-outline f-s-15" disabled> 2 </button>
-								</td>
-								<td th:text="${searchKeyword.searchRank2}"></td>
-							</tr>
-							<tr>
-								<td>
-								<button class="btn btn-pink btn-outline f-s-15" disabled> 3 </button>
-								</td>
-								<td th:text="${searchKeyword.searchRank3}"></td>
-							</tr>
-						</tbody>
-					</table>
-					
+	<!-- 슬라이드 -->
+	<div class="row justify-content-center">
+		<div class="col-sm-6">
+         		<div id="slider-div">
+           		<div class="eventBtn card" OnClick="location.href='/event/eventList'"
+								  style="background-image: url('images/main/eventing.png'); 
+								  width: 100%; height: 0; padding-top: calc(500 / 500 * 100%);
+								  background-repeat:no-repeat; background-size: cover; background-position: center;
+								  cursor:pointer;">
 				</div>
+         			<div class="card" onClick="likeBtn()"
+								  style="background-image: url('images/main/keyword.png'); 
+								  width: 100%; height: 0; padding-top: calc(500 / 500 * 100%); 
+								  background-repeat:no-repeat; background-size: cover; background-position: center;
+								  cursor:pointer;">
+				</div>
+          			<div class="pointBtn card"
+								  onClick="pointBtn()"
+								  style="background-image: url('images/main/point.png'); 
+								  width: 100%; height: 0; padding-top: calc(500 / 500 * 100%); 
+								  background-repeat:no-repeat; background-size: cover; background-position: center;
+								  cursor:pointer;">
+				</div>
+        		</div>
+   		</div>
+    
+    <!-- 실시간검색 -->
+    <div class="col-sm-3">
+			<div class="card">
+				<div class="input-group input-group-flat">
+					<input type="text" class="searchKey form-control" name="searchKey" placeholder="메뉴 or 키워드 검색" >
+					<button class="searchLiveBtn btn btn-dark btn-outline ti-search" type="submit"></button>
+				</div>
+				
+				<div class="card-header">
+				<h6 style="text-align: center;">
+					<i class="fa ti-timer f-s-20"></i>
+					<strong>실시간 인기 검색어</strong>
+					<i class="fa ti-timer f-s-20"></i>
+					<br>
+					<small>최근 업데이트 시간 : </small>
+					<small th:text="${searchKeyword.searchUpdateTime}"></small>
+				</h6>
+				</div>
+				
+				<table>
+					<tbody>
+						<tr style="margin: 5px;">
+							<td>
+							<button class="btn btn-pink btn-outline f-s-15" disabled> 1 </button>
+							</td>
+							<td th:text="${searchKeyword.searchRank1}"></td>
+						</tr>
+						<tr>
+							<td>
+							<button class="btn btn-pink btn-outline f-s-15" disabled> 2 </button>
+							</td>
+							<td th:text="${searchKeyword.searchRank2}"></td>
+						</tr>
+						<tr>
+							<td>
+							<button class="btn btn-pink btn-outline f-s-15" disabled> 3 </button>
+							</td>
+							<td th:text="${searchKeyword.searchRank3}"></td>
+						</tr>
+					</tbody>
+				</table>
+				
 			</div>
 		</div>
-		
+	</div>
+    
+    
+    
+
+		<!-- 슬라이드 -->
 	
 		<!-- start menu cate -->
 		
@@ -184,7 +213,7 @@
 		
 		
 		<!-- start store info -->
-			<div class="col-9">
+			<div class="storeList col-9">
 				<div class="card">
 					<div class="card-body">
 						<div class="row justify-content-between">
@@ -281,12 +310,16 @@
 <th:block layout:fragment="customJsLib">
 	<script th:src="@{/js/lib/owl-carousel/owl.carousel.min.js}"></script>
     <script th:src="@{/js/lib/owl-carousel/owl.carousel-init.js}"></script>
+    
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c96f24708bcaeb6b92031a20b7e4b518&libraries=services"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-        
-    
-    
+  
+  	<!-- Slick 불러오기 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+	
     <script type="text/javascript">
 
    
@@ -421,6 +454,47 @@
 			location.href = "/member/addMember01";
 	};
 	
+	
+	$(function(){
+		$('#slider-div').slick({
+			 slide: 'div',        //슬라이드 되어야 할 태그 ex) div, li 
+             infinite : true,     //무한 반복 옵션     
+             slidesToShow : 2,        // 한 화면에 보여질 컨텐츠 개수
+             slidesToScroll : 1,        //스크롤 한번에 움직일 컨텐츠 개수
+             speed : 100,     // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+             arrows : true,         // 옆으로 이동하는 화살표 표시 여부
+             dots : true,         // 스크롤바 아래 점으로 페이지네이션 여부
+             autoplay : true,            // 자동 스크롤 사용 여부
+             autoplaySpeed : 1500,         // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+             pauseOnHover : true,        // 슬라이드 이동    시 마우스 호버하면 슬라이더 멈추게 설정
+             vertical : false,        // 세로 방향 슬라이드 옵션
+             prevArrow : "<button type='button' class='slick-prev'>Previous</button>",        // 이전 화살표 모양 설정
+             nextArrow : "<button type='button' class='slick-next'>Next</button>",        // 다음 화살표 모양 설정
+
+
+             dotsClass : "slick-dots",     //아래 나오는 페이지네이션(점) css class 지정
+             draggable : true,     //드래그 가능 여부 
+             
+             responsive: [ // 반응형 웹 구현 옵션
+                 {  
+                     breakpoint: 300, //화면 사이즈 960px
+                     settings: {
+                         //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+                         slidesToShow:3 
+                     } 
+                 },
+                 { 
+                     breakpoint: 300, //화면 사이즈 768px
+                     settings: {    
+                         //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+                         slidesToShow:2 
+                     } 
+                 }
+             ]
+
+        });
+      })
+       
     </script>
 	
     
