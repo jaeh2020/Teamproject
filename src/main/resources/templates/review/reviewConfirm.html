@@ -36,7 +36,7 @@
 		                            <td th:text="${r.memberId}"></td>
 		                            <td th:text="${r.reviewLikes}"></td>
 		                            <td th:text="${r.reviewViews}"></td>        
-		                            <td><a href="#" class="btn btn-warning btn-flat btn-addon s-b-10 s-l-5"><i class="fa fa-exclamation-triangle"></i></a></td>
+		                            <td><a th:href=@{/review/reviewReport(reviewNum=${r.reviewNum})} class="btn btn-warning btn-flat btn-addon s-b-10 s-l-5"><i class="fa fa-exclamation-triangle"></i></a></td>
 	                            </tr>
 		                 </tbody>
 						</table>

@@ -97,6 +97,86 @@
 		<result property="bookPickup"		column="book_pickup"/>
 </resultMap>
 
+<resultMap type="ReportCate" id="reportCateMap">
+		<result property="reportCateCode"		column="rep_cate_code"></result>
+		<result property="reportCate"		column="rep_cate"></result>
+</resultMap>
+	
+<resultMap type="Report" id="ReportMap">
+	<result property="reportCode"		column="rep_code"></result>
+	<result property="reportCateCode"		column="rep_cate_code"></result>
+	<result property="boardNum"		column="board_num"></result>
+	<result property="reviewNum"		column="res_review_num"></result>
+	<result property="reportContents"		column="rep_contents"></result>
+	<result property="reportRegTime"		column="rep_time"></result>
+	<result property="reportConfirmTime"		column="rep_confi_time"></result>
+	<result property="reportId"		column="report_id"></result>
+	<result property="memberId"		column="member_id"></result>
+	<result property="reportApplyId"		column="report_apply_id"></result>
+	<result property="stateCode"		column="state_code"></result>
+</resultMap>
+
+<!-- 신고등록 -->
+	<insert id="reviewReport" parameterType="Report" >
+		INSERT INTO tb_report
+			(rep_code
+			, rep_cate_code
+			, board_num
+			, res_review_num
+			, rep_contents
+			, rep_time
+			, rep_confi_time
+			, report_id
+			, report_apply_id
+			, member_id
+			, state_code)
+			VALUES(
+			#{reportCode}
+			, NULL
+			, NULL
+			, #{reviewNum}
+			, #{reportContents}
+			, NOW()
+			, NULL
+			, #{reportId}
+			, #{reportApplyId}
+			, NULL
+			, #{stateCode});
+	</insert>
+
+
+<!-- 신고 자동증가 코드 -->
+	<select id="getNewReportNum" resultType="String">
+		SELECT
+			CASE
+			WHEN COUNT(1) = 0 THEN 'rep_001'
+			ELSE
+				CONCAT('rep_', LPAD(MAX(CAST(SUBSTRING(rep_code,5,6)AS DECIMAL)+1),3,0))
+			END AS reportCode
+		FROM
+		tb_report;
+	</select>
+
+<!-- 신고상태 가져오기 -->
+	<select id="getReportStatement" resultType="Statement"  parameterType="String" >
+		SELECT
+			state_code AS stateCode
+		FROM
+			tb_statement
+		WHERE
+			state_code = 'state_report_req';	
+	</select>
+
+<!-- 리뷰 삭제 처리 -->
+<delete id="reviewUserDelete" parameterType="String">
+	DELETE	
+	FROM
+		tb_review
+	WHERE 
+		review_num = #{reviewNum};
+</delete>
+
+
 <!-- 리뷰 수정처리 -->
 <update id="reviewModify" parameterType="Review">
 	UPDATE 
@@ -114,22 +194,27 @@
 <!-- 리뷰정보가져오기(수정) -->
 <select id="getReviewInfoByCode" parameterType="String" resultMap="reviewResultMap">
 	SELECT
-		review_num
-		,review_contents
-		,review_photo
-		,pay_com_time
-		,review_com_time
-		,score_code
-		,store_code
-		,b_o_code
-		,state_code
-		,member_id
-		,review_views
-		,review_likes
+		 r.review_num
+		,r.review_contents
+		,r.review_photo
+		,r.pay_com_time
+		,r.review_com_time
+		,r.score_code
+		,r.store_code
+		,r.b_o_code
+		,r.state_code
+		,r.member_id
+		,r.review_views
+		,r.review_likes
+		,s.store_name
 	FROM
-		tb_review 
+		tb_review AS r
+		INNER join
+		tb_store_info AS s
+		on
+		r.store_code = s.store_code
 	WHERE
-		review_num = #{reviewNum};
+		r.review_num = #{reviewNum};
 
 </select>
 

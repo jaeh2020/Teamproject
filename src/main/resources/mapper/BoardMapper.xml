@@ -175,7 +175,7 @@
 	</update>
 
 
-	
+	<!-- 댓글삭제 -->
 	<delete id="commentdel" parameterType="map">
 		DELETE
 		FROM

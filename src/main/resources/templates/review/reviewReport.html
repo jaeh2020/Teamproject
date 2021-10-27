@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="card">
+				<div class="card-title">
+					<label style="font-weight: bold; font-size: 22px;"><i class="fa fa-exclamation-triangle"></i> 게시판 신고</label>
+					<br>
+				</div>
+				<div class="card-body">
+					<div class="basic-elements">
+						<form th:action="@{/review/reviewReport}" role="form" id="reportForm" method="post">
+						<!-- 히든데이터 -->
+						<input type="text" name="stateCode" th:value="${reportStatement.stateCode}">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label>* 매장이름</label>
+										<input type="text" class="form-control" th:value="${review.storeSearch.storeName}" readonly/>
+									</div>
+									<div class="form-group">
+										<label>* 리뷰번호</label>
+										<input type="text" class="form-control" th:value="${review.reviewNum}" name="reviewNum" readonly/>
+									</div>
+									<div class="form-group">
+										<label>＊신고대상자</label>
+										<input type="text" class="form-control" th:value="${review.memberId}" name="memberId" readonly/>
+									</div>
+									<div class="form-group">
+										<label>＊신고자</label>
+										<input type="text" class="form-control" th:value="${reportId}" name="reportId" readonly/>
+									</div>
+									<div class="form-group">
+										<label>＊신고내용</label>
+										<textarea class="form-control" rows="3" placeholder="내용을 입력해주세요." style="resize: none; height: 200px;" name="reportContents" th:value="${reportContents}"></textarea>
+									</div>
+									<div class="box-footer">
+										<a href="#" class="btn btn-info"  th:onclick="reportCancel([[${review.storeSearch.storeName}]])"><span class="ti-close form-control-feedback"></span> 취소</a>
+										<div class="pull-right">
+											<button type="button" class="btn btn-danger boardSaveBtn" id="boardReportBtn"><i class="fa fa-save"></i> 신고하기</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+</th:block>
+
+<th:block layout:fragment="customJsLib">
+	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+   <script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->
+   <Script type="text/javascript">
+   
+	   //취소버튼 alert창
+	   function reportCancel(storeName){
+	   		if(confirm("작성을 그만 두시겠습니까?")){
+	   			location.href = '/review/reviewConfirm?storeName=' + storeName;
+	   			return true;
+	   		}else{
+	   			return false;
+	   		}
+	   		
+	   	}
+   
+	   //유효성 검사
+	   $(function(){
+		   $('#boardReportBtn').click(function(){
+			  var reportContents = $('[name=reportContents]');
+			  
+			  if(reportContents.val() == ''){
+				  alert('신고내용을 입력해주세요.');
+				  reportContents.focus();
+				  return false;
+			  }
+			  alert('신고가 접수 되었습니다!')
+			  $('#reportForm').submit();
+		   });
+	   });
+   </Script>
+   
+   
+</th:block>
+</html>

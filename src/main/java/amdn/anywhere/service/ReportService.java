@@ -94,6 +94,14 @@ public class ReportService {
 		  return reportMapper.getReportBoardCode(reportCode);
 	  }
 	  
+	  //게시판리뷰목록
+	  public List<Report> getReportReviewList(){
+		  
+		  List<Report> reportReviewList = reportMapper.getReportReviewList();
+		  
+		  return reportReviewList;
+	  }
+	  
 	  //게시판신고목록
 	  public List<Report> getReportBoardList(){
 		  

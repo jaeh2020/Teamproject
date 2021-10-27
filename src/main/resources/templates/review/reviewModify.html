@@ -45,12 +45,14 @@
 <th:block layout:fragment="customContents">
 		<form th:action="@{/review/reviewModify}" role="form" id="reviewModifyForm" method="post">
 			<!-- 히든영역 -->
-			<input type="hidden" name="stateCode" th:value="${review.stateCode}">
-			<input type="hidden" name="bookCode" th:value="${review.bookCode}">
-			<input type="hidden" name="storeCode" th:value="${review.storeSearch.storeCode}">
-			<input type="hidden" name="payComTime" th:value="${review.payComTime}">
-			<input type="hidden" name="reviewViews" th:value="${review.reviewViews}">
-			<input type="hidden" name="reviewLikes" th:value="${review.reviewLikes}">
+			<input type="text" name="stateCode" th:value="${review.stateCode}">
+			<input type="text" name="bookCode" th:value="${review.bookCode}">
+			<input type="text" name="storeCode" th:value="${review.storeSearch.storeCode}">
+			<input type="text" name="payComTime" th:value="${review.payComTime}">
+			<input type="text" name="reviewViews" th:value="${review.reviewViews}">
+			<input type="text" name="reviewLikes" th:value="${review.reviewLikes}">
+			<input type="text" name="reviewNum" th:value="${review.reviewNum}">
+			<input type="text" name="storeName" th:value="${review.storeSearch.storeName}">
 			
 			<div class="row">
 				<div class="col-lg-6 offset-lg-3 mr-auto lg-auto" style="padding-top: 20px;">
@@ -127,7 +129,7 @@
 				<div class="col-lg-6 offset-lg-3 mr-auto lg-auto">
 					<div class="row">
 						<div class="col-lg-6 col-xs-6">
-							<a th:href="@{/review/reviewConfirm(storeName=${stroeSearch.storeName})}"class="btn btn-secondary btn-lg btn-block" style="font-weight: bold; font-size: 18px; margin-bottom: 30px;" >취소</a>
+							<a th:href="@{/review/reviewConfirm(storeName=${review.storeSearch.storeName})}"class="btn btn-secondary btn-lg btn-block" style="font-weight: bold; font-size: 18px; margin-bottom: 30px;" >취소</a>
 						</div>
 		
 						<div class="col-lg-6 col-xs-6">
