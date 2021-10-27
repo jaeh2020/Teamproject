@@ -11,6 +11,8 @@ public class Review {
 	private String bookCode;
 	private String stateCode;
 	private String memberId;
+	private int reviewViews;
+	private int reviewLikes;
 	private ReviewScore reviewScore;
 	private Storesearch storeSearch;
 	public String getReviewNum() {
@@ -73,6 +75,18 @@ public class Review {
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
+	public int getReviewViews() {
+		return reviewViews;
+	}
+	public void setReviewViews(int reviewViews) {
+		this.reviewViews = reviewViews;
+	}
+	public int getReviewLikes() {
+		return reviewLikes;
+	}
+	public void setReviewLikes(int reviewLikes) {
+		this.reviewLikes = reviewLikes;
+	}
 	public ReviewScore getReviewScore() {
 		return reviewScore;
 	}
@@ -90,7 +104,9 @@ public class Review {
 		return "Review [reviewNum=" + reviewNum + ", reviewContents=" + reviewContents + ", reviewPhoto=" + reviewPhoto
 				+ ", payComTime=" + payComTime + ", reviewComTime=" + reviewComTime + ", scoreCode=" + scoreCode
 				+ ", storeCode=" + storeCode + ", bookCode=" + bookCode + ", stateCode=" + stateCode + ", memberId="
-				+ memberId + ", reviewScore=" + reviewScore + ", storeSearch=" + storeSearch + "]";
+				+ memberId + ", reviewViews=" + reviewViews + ", reviewLikes=" + reviewLikes + ", reviewScore="
+				+ reviewScore + ", storeSearch=" + storeSearch + "]";
 	}
+	
 	
 }

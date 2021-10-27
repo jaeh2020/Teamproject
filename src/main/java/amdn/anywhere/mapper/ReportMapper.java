@@ -48,6 +48,9 @@ public interface ReportMapper {
 	//게시판 신고 정보 가져오기
 	public Report getReportBoardCode(String reportCode);
 	
+	//리뷰신고목록
+	public List<Report> getReportReviewList();
+	
 	//게시판신고목록
 	public List<Report> getReportBoardList();
 	

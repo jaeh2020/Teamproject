@@ -38,7 +38,12 @@ public class AccountController {
 	}
 	
 	@GetMapping("/salesList")
-	public String salesList() {
+	public String salesList( @RequestParam(value="storeCode", required = false) String storeCode
+							,Model model) {
+		List<Store> storeList = accountService.getMystoreSearchList(storeCode);
+		
+		model.addAttribute("storeList", storeList);
+		
 		return "/account/salesList";
 		
 	}
@@ -62,9 +67,8 @@ public class AccountController {
 		
 		  log.info("검색 옵션 : {}", searchStartDate); log.info("검색 옵션 : {}",
 		  searchEndDate);
-		 
 	   
-	   List<Store> storeSearch = accountService.getMystoreList(storeCode, searchStartDate, searchEndDate);
+	   List<Store> storeSearch = accountService.getMystoreSearchList(storeCode);
 	   
 	   log.info("storeSearch[sales] : {}", storeSearch);
 	   return storeSearch;
@@ -83,7 +87,7 @@ public class AccountController {
 		  searchEndDate);
 		
 	   
-	   List<Mystore> storeSearch = accountService.getMystoreExpense(storeCode, searchStartDate, searchEndDate);
+	   List<Mystore> storeSearch = accountService.getMystoreExpense(storeCode);
 	   
 	   log.info("storeSearch[expense] : {}", storeSearch);
 	   return storeSearch;

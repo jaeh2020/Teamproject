@@ -44,14 +44,14 @@ public class AccountService {
 		return mystoreList;
    }   
 	
-	public List<Store> getMystoreList(String storeCode, String searchStartDate, String searchEndDate){
+	public List<Store> getMystoreSearchList(String storeCode){
 		List<Store> storeSearch = mysyotrMapper.getMystoreSearch(storeCode);
 		log.info("Service 검색된 리스트: {}", storeSearch);
 		
 		return storeSearch;
 	}
 	
-	public List<Mystore> getMystoreExpense(String storeCode, String searchStartDate, String searchEndDate){
+	public List<Mystore> getMystoreExpense(String storeCode){
 		List<Mystore> storeSearch = mysyotrMapper.getMystoreExpense(storeCode);
 		log.info("Service 검색된 리스트: {}", storeSearch);
 		return storeSearch;

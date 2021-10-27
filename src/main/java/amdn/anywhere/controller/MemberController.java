@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import amdn.anywhere.domain.BizEvalAgreeChange;
 import amdn.anywhere.domain.FoodMainCate;
 import amdn.anywhere.domain.Member;
 import amdn.anywhere.domain.MemberBiz;
@@ -37,6 +38,43 @@ public class MemberController {
 	public MemberController(MemberService memberService, PointService pointService) {
 		this.memberService = memberService;
 		this.pointService = pointService;
+	}
+	
+	//소상공인평가동의 승인 ajax
+		@GetMapping(value="/modifyBizEvalConfirm", produces = "application/json")
+		@ResponseBody
+		public String modifyBizEvalConfirm(	@RequestParam(value = "eAgreeCode") String eAgreeCode
+										,@RequestParam(value = "memberId") String memberId
+										,@RequestParam(value = "eStateCode") String eStateCode) {
+			
+			System.out.println("eAgreeCode : " + eAgreeCode);
+			System.out.println("memberId : " + memberId);
+			System.out.println("eStateCode : " + eStateCode);
+			
+			BizEvalAgreeChange bizEvalAgreeChange = memberService.getBizEvalInfoByCode(eAgreeCode);
+					
+			bizEvalAgreeChange.setConfirmId(memberId);
+			bizEvalAgreeChange.seteStateCode(eStateCode);
+			
+			System.out.println("modifyBizEvalConfirm 수정완료? : " + bizEvalAgreeChange);
+			
+			memberService.modifyBizEvalConfirm(bizEvalAgreeChange);
+			
+
+			return "bizEvalAgreeChange";
+		}
+	
+	//소상공인회원 평가 동의 조회
+	@GetMapping("/member/memberBizEvalAgreeList")
+	public String memberBizEvalAgreeList(Model model) {
+		
+		List<BizEvalAgreeChange> bizEvalList = memberService.getBizEvalList();
+		
+		model.addAttribute("title", "평가 동의 조회");
+		model.addAttribute("location", "평가 동의 조회");
+		model.addAttribute("bizEvalList", bizEvalList);
+		
+		return "/member/memberBizEvalAgreeList";
 	}
 	
 	//소비자회원 멤버쉽 초기화 조회
@@ -225,6 +263,46 @@ public class MemberController {
 		return "/member/addBizConfirm";
 	}
 	
+	//평가동의 변경신청!!
+	@PostMapping("/member/modifyEvalAgree")
+	public String addEvalAgree( @RequestParam(name = "memberId", required = false) String memberId
+								,Member member) {
+		System.out.println("화면에서 입력 : " + member);
+		
+		memberService.modifyMyInfo(member);
+		
+		return "redirect:/member/myPageBiz?bizId="+member.getMemberId();
+	}
+	
+	//평가동의 변경신청화면
+	@GetMapping("/member/modifyEvalAgree")
+	public String modifyEvalAgree(@RequestParam(value = "bizId") String bizId
+									,Model model) {
+		
+		BizEvalAgreeChange bEvalAgree = memberService.getBizEvalInfoById(bizId);
+		
+		System.out.println("bEvalAgree : " +bEvalAgree);
+		
+		model.addAttribute("title", "평가동의 변경신청");
+		model.addAttribute("location", "평가동의 변경신청");
+		model.addAttribute("bEvalAgree", bEvalAgree);
+		return "/member/modifyEvalAgree";
+	}
+	
+	//mypageBiz 평가동의 변경이력 ajax
+	@GetMapping(value="/evalChange", produces = "application/json")
+	@ResponseBody
+	public BizEvalAgreeChange evalChange(@RequestParam(value = "bizId") String bizId) {
+		
+		System.out.println("bizId : " + bizId);
+		
+		BizEvalAgreeChange bEvalAgree = memberService.getBizEvalInfoById(bizId);
+		bEvalAgree.setBizId(bizId);
+		System.out.println("bEvalAgree??? : " + bEvalAgree);
+		
+		return bEvalAgree;
+	}
+	
 	//마이페이지 myPageBiz
 	@GetMapping("/member/myPageBiz")
 	public String myPageBiz(@RequestParam(name = "memberId", required = false) String memberId
@@ -232,6 +310,7 @@ public class MemberController {
 							,Model model) {
 		
 		MemberBiz memberBiz = memberService.getMemberBizInfoById(memberId);
+		BizEvalAgreeChange bEvalAgree = memberService.getBizEvalInfoById(memberId);
 		System.out.println("memberBiz"+memberBiz);
 		if(memberBiz == null) {
 			return "redirect:/member/addBizConfirm";
@@ -240,6 +319,7 @@ public class MemberController {
 		model.addAttribute("title", "MYPAGE");
 		model.addAttribute("location", "MYPAGE");
 		model.addAttribute("memberBiz", memberBiz);
+		model.addAttribute("bEvalAgree", bEvalAgree);
 		
 		return "/member/myPageBiz";
 	}

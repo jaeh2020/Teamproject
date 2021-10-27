@@ -57,11 +57,8 @@
 									<label>메뉴 대분류 <span class="text-danger">*</span> </label>
 										<select class="form-control" id="selectMainCateCode" name="mainCateCode">
 				                        	<option value=""> : : : 선택  : : : </option>
-											<th:block th:each="f : ${storeList}">
-				                        	<option th:value="${f.foodMainCate.mainCateCode}"> [[${f.foodMainCate.mainCateName}]] </option>
-				                        	</th:block>
-											<th:block th:each="t : ${storeList2}">
-				                        	<option th:value="${t.foodMainCate.mainCateCode}"> [[${t.foodMainCate.mainCateName}]] </option>
+											<th:block th:each="m : ${mainCate}">
+				                        	<option th:value="${m.mainCateCode}"> [[${m.mainCateName}]] </option>
 				                        	</th:block>
 				                        	<option value="main_etc_cate"> 기타 </option>
 				                        </select>

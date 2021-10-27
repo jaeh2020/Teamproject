@@ -77,7 +77,7 @@
 						<td th:text="${o.userId}" class="userId"></td>
 						<td>
 							<a th:href="@{/book/orderDetail(bookCode=${o.bookCode})}">
-							<button type="button" class="btn btn-dark btn-outline ti-search"></button>
+							<button type="button" class="sangseBtn btn btn-dark btn-outline ti-search"></button>
 							</a>
 						</td>
 						<td th:text="${o.oTotalPrice}"></td>
@@ -100,7 +100,7 @@
 							<button type="button" class="cancelBtn btn btn-dark btn-outline">예약취소</button>
 						</td>
 			            <td>
-			              	<button type="button" class="btn btn-dark btn-outline fa fa-thumbs-up"></button>
+			              	<button type="button" class="reviewBtn btn btn-dark btn-outline fa fa-thumbs-up"></button>
 			            </td>
 					</tr>
 				</tbody>
@@ -160,9 +160,10 @@
 	   	}
 	};
 	
+	
 	/* 리뷰화면 이동 유효성검사 */
 	$(function(){
-		$('.btn').click(function(){
+		$('.reviewBtn').click(function(){
 			
 			var stateName = $(this).parent().parent().find('.stateName').text().trim();
 			var bookCode = $(this).parent().parent().find('.bookCode').text().trim();
@@ -201,6 +202,11 @@
 			    }
 			}
 		});
+	});
+	
+	 /* 내림차순 정렬 */
+	$("#myTable").DataTable({
+	    order: [ [ 0, "desc" ] ]
 	});
 	
 	</script>

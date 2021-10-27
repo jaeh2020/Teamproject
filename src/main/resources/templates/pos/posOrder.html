@@ -138,8 +138,8 @@
 	//주문승인버튼 클릭시
 	function orderConBtn(bookCode, stateName){
 		
-		if(stateName != '주문대기'){
-			alert('주문대기 상태에서만 주문승인이 가능합니다.');
+		if(stateName != '접수대기'){
+			alert('접수대기 상태에서만 주문승인이 가능합니다.');
 			return false
 			
 		}else{
@@ -154,8 +154,8 @@
 	//웨이팅승인버튼 클릭시  	
 	function watingConBtn(bookCode, stateName, storeCode, userId){
 		
-		if(stateName != '주문대기'){
-			alert('주문대기 상태에서만 웨이팅 승인이 가능합니다.');
+		if(stateName != '접수대기'){
+			alert('접수대기 상태에서만 웨이팅 승인이 가능합니다.');
 			return false
 			
 		}else{
@@ -208,6 +208,12 @@
 				
 			});
 		});
+	
+	
+	/* 내림차순 정렬 */
+	$("#myTable").DataTable({
+	    order: [ [ 1, "desc" ] ]
+	});
 	
     
 	</script>

@@ -38,21 +38,25 @@
                              <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/report/memberBlackList}">블랙리스트 목록</a></li>
                              <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/report/penaltyList}">벌점 목록</a></li>
                              <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/report/reportBoardList}">게시판 신고목록</a></li>
-                              <li><a th:if="${session.SLEVEL == 'level_admin'}" href="#">리뷰 신고목록</a></li>
+                              <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/report/reportReviewList}">리뷰 신고목록</a></li>
                          </ul>
                      </li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-check"></i><span class="hide-menu">입점 관리</span></a>
+
+                     <li> <a class="has-arrow" href="#" aria-expanded="false" th:if="${session.SLEVEL == 'level_biz' || session.SLEVEL == 'level_admin'}"><i class="fa fa-check"></i><span class="hide-menu">입점 관리</span></a>
+
                          <ul aria-expanded="false" class="collapse">
 
                              <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/enter/addStore}">입점 등록 / 김지아</a></li>
-                             <li><a th:href="@{/enter/cancelMyStore}">입점 취소 신청 / 김지아</a></li>
-                             <li><a th:href="@{/enter/cancelStoreManage}">입점 취소 관리(관리자) / 김지아</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/enter/cancelMyStore}">입점 취소 신청 / 김지아</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/enter/cancelStoreManage}">입점 취소 관리(관리자) / 김지아</a></li>
                          </ul>
                      </li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery"></i><span class="hide-menu">매장 관리</span></a>
+
+                     <li> <a class="has-arrow  " href="#" aria-expanded="false" th:if="${session.SLEVEL == 'level_biz' || session.SLEVEL == 'level_admin'}"><i class="fa fa-cutlery"></i><span class="hide-menu">매장 관리</span></a>
+
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/store/storeManage}">매장관리(관리자) / 김지아</a></li>
-                             <li><a href="#" class="has-arrow">내 매장 관리 / 김지아 <span class="label label-rouded label-warning pull-right">3</span></a>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/store/storeManage}">매장관리(관리자) / 김지아</a></li>
+                             <li><a href="#" class="has-arrow" th:if="${session.SLEVEL == 'level_biz'}">내 매장 관리 / 김지아 <span class="label label-rouded label-warning pull-right">3</span></a>
                                  <ul aria-expanded="false" class="collapse">
 
 
@@ -117,11 +121,12 @@
                          <ul aria-expanded="false" class="collapse">
                              <li><a th:href="@{/message/commonMessage}">공통메세지 / 문유미</a></li>
                              <li><a href="#">포인트 소멸기준</a></li>
-                             <li><a href="#">페널티 기준/ 김채연</a></li>
                              <li><a th:href="@{/badWords/commonBadWords}">금지어 목록 / 김채연</a></li>
                          </ul>
                      </li>
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa ti-hand-point-up"></i><span class="hide-menu">POS</span></a>
+
+                     <li> <a class="has-arrow" href="#" aria-expanded="false" th:if="${session.SLEVEL == 'level_biz'}"><i class="fa ti-hand-point-up"></i><span class="hide-menu">POS</span></a>
+
                          <ul aria-expanded="false" class="collapse">
                              <li><a th:href="@{/pos/posMain}">POS화면 (pos가정)/김지아</a></li>
                          </ul>

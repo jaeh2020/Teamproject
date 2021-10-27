@@ -72,18 +72,19 @@
 									<label>매장평가단 동의여부</label>
 									
 									<th:block th:if="${s.storeTasteAgree == 'Y'}">
-										<select class="form-control" id="selectTasteAgree" name="storeTasteAgree">
+										<select class="form-control" id="selectTasteAgree" name="storeTasteAgree" disabled>
 			                                      <option th:text="Y" th:value="Y" selected></option>
 			                                      <option th:text="N" th:value="N"></option>
 			                             </select>
 		                            </th:block>
 									<th:block th:unless="${s.storeTasteAgree == 'Y'}">
-										<select class="form-control" id="selectTasteAgree" name="storeTasteAgree">
+										<select class="form-control" id="selectTasteAgree" name="storeTasteAgree" disabled>
 			                                      <!-- <option value=""> : : : 선택  : : : </option> -->
 			                                      <option th:text="Y" th:value="Y"></option>
 			                                      <option th:text="N" th:value="N" selected></option>
 			                            </select>
 		                            </th:block>
+		                            <small class="form-control-feedback" style="color: red;"> 평가단동의여부는 승인을 통해 변경 가능합니다. </small>
 		                            
 								</div>
 								<div class="form-group">

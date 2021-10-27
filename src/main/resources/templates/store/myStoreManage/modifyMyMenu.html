@@ -46,13 +46,10 @@
 									<label>메뉴 대분류 <span class="text-danger">*</span> </label>
 										<select class="form-control" id="selectMainCateCode" name="mainCateCode">
 				                        	<option value=""> : : : 선택  : : : </option>
-											<th:block th:each="f : ${mainCateOnly}">
-				                        	<option th:value="${f.foodMainCate.mainCateCode}"
-				                        			th:selected="${#strings.toString(f.foodMainCate.mainCateCode) == #strings.toString(menu.mainCateCode)}"> 
-				                        			[[${f.foodMainCate.mainCateName}]]  </option>
-				                        	</th:block>
-											<th:block th:each="t : ${mainCateOnly2}">
-				                        	<option th:value="${t.foodMainCate.mainCateCode}"> [[${t.foodMainCate.mainCateName}]] </option>
+											<th:block th:each="m : ${mainCate}">
+				                        	<option th:value="${m.mainCateCode}"
+				                        			th:selected="${#strings.toString(m.mainCateCode) == #strings.toString(menu.mainCateCode)}"> 
+				                        			[[${m.mainCateName}]]  </option>
 				                        	</th:block>
 				                        	<option value="main_etc_cate"
 				                        			th:selected="${#strings.toString(menu.mainCateCode) == 'main_etc_cate'}">

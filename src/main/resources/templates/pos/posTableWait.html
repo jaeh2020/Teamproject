@@ -68,7 +68,7 @@
 		<div class="col-lg-8">
 			<div class="card">
 				<button type="button" class="btn btn-info" disabled="">웨이팅대기인원</button>
-				<table id="myTable" class="table table-bordered table-striped">
+				<table id="myTableWa" class="table table-bordered table-striped">
 		                  <thead>
 		                  	<tr>
 		                      	<th>매장코드</th>
@@ -180,6 +180,11 @@
 		});
 	});
     
+	
+	/* 내림차순 정렬 */
+	$("#myTableWa").DataTable({
+	    order: [ [ 2, "desc" ] ]
+	});
     
    
 	</script>

@@ -182,7 +182,7 @@ public class PosController {
 		}
 		
 		
-		return "redirect:/pos/posOrder?storeCode=" + storeCode;
+		return "redirect:/pos/posMain";
 	}
 
 	

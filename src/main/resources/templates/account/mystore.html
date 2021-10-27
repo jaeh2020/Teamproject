@@ -4,6 +4,13 @@
 	  layout:decorate="~{layout/default}">
 
 <th:block layout:fragment="customTitle">
+ <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+	<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+	<!-- <link th:href="@{/css/lib/chartist/chartist.min.css}" rel="stylesheet"> -->
 	<title th:text="${title}"></title>
 </th:block>
 
@@ -13,7 +20,7 @@
 		<div class="col-lg-12">
 			<div class="box box-primary">
 				<div class="card-header" >
-					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 내 매장 관리  </h4>
+					<h4 class="m-b-0 text-white"><i class="ti-menu"></i> 내 매장 관리  </h4>
 				</div>
 				
 				<div class="card">
@@ -92,8 +99,8 @@
 				</div> -->
 				<div class="box-footer">
 					<div class="pull-right">
-						<a th:href="@{/account/mystore}" class="btn btn-success btn-flat" style="margin-top: 15px;">
-							<i class="fa fa-pencil"></i> 재무관리
+						<a onclick="Confirm();" class="btn btn-success btn-flat" style="margin-top: 15px; color: white;">
+							<i class="fa fa-pencil"></i> 매출 관리
 							<script>
 							 alert( "매장이 확인되었습니다." );
 							</script>
@@ -101,7 +108,7 @@
 						
 					</div>
 					<div class="pull-left">
-						<a href="#" class="btn btn-primary" style="margin-top: 15px;">
+						<a onclick="Alert();" class="btn btn-primary" style="margin-top: 15px; color: white;">
 							<i class="fa fa-check"></i> 컨설팅요청
 						</a>
 					</div>
@@ -109,8 +116,32 @@
 			</div>
 		</div>
 	</div>
-	
-	<!-- 검색기능 -->
+<!-- <div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-body">
+				<div class="form-group row">
+					<label class="col-md-12 col-form-label" for="storeCode">매장을 선택해주세요 <span class="text-danger">*</span></label>
+						<div class="col-md-5 col-form-label">
+							<div style="width: 700px; height: 800px;">
+							차트가 그려질 부분
+							<canvas id="myChart"></canvas>
+							</div>
+						<div class="form-group row">
+							<div class="col-lg-5 col-form-label">
+							<div style="width: 700px; height: 800px;">
+						차트가 그려질 부분
+						<canvas id="myChart1"></canvas>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->
+				
 				<!-- Main content -->
 				<div class="row">
 					<div class="col-12">
@@ -161,34 +192,53 @@
 		              	<!-- /.card-header -->
 						<div class="card-body">
 		                	<div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-						<div class="row">
-							<div class="col-sm-12">
-								<div>
-									<h2 style="font-weight:bold; color: blue;"><i class="fa fa-check"></i>  매출 테이블</h2>
-									<a th:href="@{/account/salesList}" class="btn btn-outline-danger float-right" type="button" style="width: 200px; margin-bottom: 15px;"><i class="ti-search"></i> 매출 상세 조회 </a>
+							
+		                	<!-- 그래프 부분 -->
+		                	
+		                	 <div class="row">
+								<div class="col-sm-12">
+									<div>
+										<h2 style="font-weight:bold; color: black;"><i class="fa fa-check"></i>  차트</h2>
+									</div>
+			                        <div class="row">
+			                        	<div class="ct-gauge-chart col-md-6 float-center">
+			                        		<canvas id="myChart3" style="height:30vh; width:30vw; margin-left: 50px;"></canvas>
+			                        	</div>
+			                        	<div class="col-md-6 float-center">
+			                        	<canvas id="myChart2" style="height:30vh; width:30vw; margin-left: 50px; margin-bottom: 30px;"></canvas>
+			                        	</div>
+			                        </div>
 								</div>
-								<table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
-									<thead>
-										<tr role="row">
-		                  					<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=": activate to sort column descending">No.</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="No.: activate to sort column ascending">매장 코드</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="매장코드: activate to sort column ascending">매출 명</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="내용: activate to sort column ascending">매출 금액</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="상호명: activate to sort column ascending">해당 월</th>
-										</tr>
-		                  			</thead>
-		                  			<tbody id="SalesStatisticsTbody">
-										<tr>
-											<td><input type="checkbox" name="chk_info" value="No"></td>
-											<td>매장코드 입력</td>
-											<td>메뉴이름 입력</td>
-											<td>메뉴가격 입력</td>
-											<td>해당 월 입력</td>
-										</tr>	                  			
-		                  			</tbody>
-								</table>
 							</div>
-						</div>
+							
+								<div class="row">
+									<div class="col-sm-12">
+										<div>
+											<h2 style="font-weight:bold; color: red;"><i class="fa fa-check"></i>  매출 테이블</h2>
+											<button id="salesListBtn" type="button" class="btn btn-outline-danger float-right" style="width: 200px; margin-bottom: 15px;"><i class="ti-search"></i> 매출 상세 조회 </button>
+										</div>
+										<table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+											<thead>
+												<tr role="row">
+				                  					<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=": activate to sort column descending">No.</th>
+									                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="No.: activate to sort column ascending">매장 코드</th>
+									                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="매장코드: activate to sort column ascending">매출 명</th>
+									                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="내용: activate to sort column ascending">매출 금액</th>
+									                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="상호명: activate to sort column ascending">해당 월</th>
+												</tr>
+				                  			</thead>
+				                  			<tbody id="SalesStatisticsTbody">
+												<tr>
+													<td><input type="checkbox" name="chk_info" value="No"></td>
+													<td>매장코드 입력</td>
+													<td>메뉴이름 입력</td>
+													<td>메뉴가격 입력</td>
+													<td>해당 월 입력</td>
+												</tr>	                  			
+				                  			</tbody>
+										</table>
+									</div>
+								</div>
 						<br><br>
 						<div class="row">
 							<div class="col-sm-12">
@@ -199,11 +249,11 @@
 								<table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
 									<thead>
 										<tr role="row">
-		                  					<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=": activate to sort column descending">No.</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="No.: activate to sort column ascending">매장 코드</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="매장코드: activate to sort column ascending">지출 명</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="내용: activate to sort column ascending">지출 금액</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="상호명: activate to sort column ascending">해당 월</th>
+		                  					<th style="width: 10px;" class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=": activate to sort column descending">No.</th>
+							                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="No.: activate to sort column ascending">매장 코드</th>
+							                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="매장코드: activate to sort column ascending">지출 명</th>
+							                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="내용: activate to sort column ascending">지출 금액</th>
+							                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="상호명: activate to sort column ascending">해당 월</th>
 										</tr>
 										
 		                  			</thead>
@@ -242,14 +292,14 @@
 							</div>
 		                </div>
 					</div>
+					<br>
 	              <!-- /.card-body -->
+	              
 	            </div>
 	            <!-- /.card -->
 	          </div>
 	          <!-- /.col -->
 	        </div>
-	        <!-- /.row -->
-	
 	
 	
 	<!-- Modal -->
@@ -283,9 +333,19 @@
     </script> 
     
     
-    <script type="text/javascript">
-                                    
+    <script type="text/javascript">                              
     $(function(){
+
+      $(document).on('click', '#salesListBtn', function(){
+    	  var dataStoreCode = $(this).attr('data-storecode');
+    	  
+    	  if(dataStoreCode != null && dataStoreCode != undefined && dataStoreCode != ''){
+    		  location.href = '/account/salesList?storeCode=' + dataStoreCode;
+    	  }else{    		  
+	    	 alert('상품코드를 선택해주세요'); 
+    	  }
+      });
+    	
     	/* modal title내에 이름 입력  */
       $(document).on('click', '.storeBtn', function(){
     	 	var storeCode = $(this).text();
@@ -297,6 +357,7 @@
     		$('#menuCate').val($(this).parent().parent().find('[name=T4]').text());
     		Swal.close();
     		
+    		
     		//ajax호출 (매출)
     		var request =  $.ajax({
                 url: "/account/myStoreSalesStatistics", //요청 주소
@@ -306,6 +367,8 @@
             });
     		request.done(function(data){
     			
+    		$('#salesListBtn').attr('data-storeCode', data[0].storeCode);
+    		
     		console.log("매출"+JSON.stringify(data));
     		
     		
@@ -323,6 +386,7 @@
     			SalesStatisticsContent += '		<td>' + data[k].month + '</td>';
     			SalesStatisticsContent += '	</tr>';
            	}
+    		
     		$('#SalesStatisticsTbody').html(SalesStatisticsContent);
 		
                 var storeListLength = data.length;
@@ -487,6 +551,230 @@
     });
     </script> 
     
+        <script>
+      var ctx = document.getElementById('myChart3');
+      var myChart3 = new Chart(ctx, {
+          type: 'pie',
+          data: {
+              labels: ['매출', '판관비', '관리비', '재료비', '인권비', '순수익'],
+              datasets: [{
+                  label: '# 내 매장 관리',
+                  data: [12, 19, 3, 5, 2, 3],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 2
+              }]
+          },
+          options: {
+              responsive: false,
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              },
+              
+              // 항상보이게 하기
+
+              
+          }
+      });
+  </script>
+        <script>
+      var ctx = document.getElementById('myChart2');
+      var myChart2 = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+              datasets: [{
+                  label: '전년 대비 성장률 그래프',
+                  data: [0, 1, 3, 2, 6, 7, 6, 8, 9, 13, 12, 16],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 2
+              }]
+          },
+          options: {
+              responsive: false,
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              },
+              
+              // 항상 보이게 하기
+              animation: {
+  				duration: 1,
+  				onComplete: function () {
+  					var chartInstance = this.chart,
+  						ctx = chartInstance.ctx;
+  					ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+  					ctx.fillStyle = 'purple';
+  					ctx.textAlign = 'center';
+  					ctx.textBaseline = 'bottom';
+
+  					this.data.datasets.forEach(function (dataset, i) {
+  						var meta = chartInstance.controller.getDatasetMeta(i);
+  						meta.data.forEach(function (bar, index) {
+  							var data = dataset.data[index];							
+  							ctx.fillText(data, bar._model.x, bar._model.y - 5);
+  						});
+  					});
+  				}
+  			},
+  			scales: {
+  				yAxes: [{
+  					ticks: {
+  						beginAtZero: true,
+  						stepSize : 2,
+  						fontSize : 14,
+  					}
+  				}]
+  			}
+
+          }
+      });
+  </script>
+  
+  <!-- Sweetalert  -->
+  <!-- 컨설팅 요청 / 재무관리 요청 -->
+  <script type="text/javascript">
+	var alert = new function(msg, type) {
+		swal({
+			title : '',
+			text : msg,
+			type : type,
+			timer : 1500,
+			customClass : 'sweet-size',
+			showConfirmButton : false
+		});
+	}
+
+	var confirm = new function(msg, title, resvNum) {
+		Swal.fire({
+			  title: 'Submit your Github username',
+			  input: 'text',
+			  inputAttributes: {
+			    autocapitalize: 'off'
+			  },
+			  showCancelButton: true,
+			  confirmButtonText: 'Look up',
+			  showLoaderOnConfirm: true,
+			  preConfirm: (login) => {
+			    return fetch(`//api.github.com/users/${login}`)
+			      .then(response => {
+			        if (!response.ok) {
+			          throw new Error(response.statusText)
+			        }
+			        return response.json()
+			      })
+			      .catch(error => {
+			        Swal.showValidationMessage(
+			          `Request failed: ${error}`
+			        )
+			      })
+			  },
+			  allowOutsideClick: () => !Swal.isLoading()
+			}).then((result) => {
+			  if (result.isConfirmed) {
+			    Swal.fire({
+			      title: `${result.value.login}'s avatar`,
+			      imageUrl: result.value.avatar_url
+			    })
+			  }
+			})
+	}
+
+	function Alert() {
+		Swal.fire({
+			  position: 'center',
+			  icon: 'success',
+			  title: '컨설팅 요청이 완료되었습니다.',
+			  showConfirmButton: false,
+			  timer: 1500
+			})
+		}
+	function Confirm() {
+		const swalWithBootstrapButtons = Swal.mixin({
+			  customClass: {
+			    confirmButton: 'btn btn-success',
+			    cancelButton: 'btn btn-danger'
+			  },
+			  buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+			  title: '매출 마감 진행하시겠습니까?',
+			  text: "마감이 확정되면 수정이 불가능 합니다.!",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonText: '네, 마감하겠습니다!',
+			  cancelButtonText: '아니요, 확인하겠습니다!',
+			  reverseButtons: true
+			}).then((result) => {
+			  if (result.isConfirmed) {
+			    swalWithBootstrapButtons.fire(
+			      '매출 마감 성공!',
+			      '잠시만 기다려주세요',
+			      'success'
+			    )
+			  } else if (
+			    /* Read more about handling dismissals below */
+			    result.dismiss === Swal.DismissReason.cancel
+			  ) {
+			    swalWithBootstrapButtons.fire(
+			      '매출 관리 요청 실패',
+			      '매출 관리 요청시 매출 확정이 필요합니다. :)',
+			      'error'
+			    )
+			  }
+			})
+	}
+</script>
+        
 </th:block>
 
 </html>
