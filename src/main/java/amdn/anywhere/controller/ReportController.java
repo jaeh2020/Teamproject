@@ -216,6 +216,21 @@ public class ReportController {
 		return "report/reportBoardCom";
 	}
 	 
+	//리뷰 신고 목록
+	@GetMapping("/reportReviewList")
+	public String reviewBoardList(Model model) {
+		
+		List<Report> reportReviewList = reportService.getReportReviewList();
+		
+		
+		model.addAttribute("title", "리뷰 신고 목록");
+		model.addAttribute("location", "리뷰 신고 목록");
+		model.addAttribute("reportReviewList", reportReviewList);
+		
+		
+		return "/report/reportReviewList";
+	}
+	
 	//게시판 신고 목록
 	@GetMapping("/reportBoardList")
 	public String reportBoardList(Model model) {
