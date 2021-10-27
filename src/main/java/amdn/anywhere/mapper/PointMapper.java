@@ -1,6 +1,7 @@
 package amdn.anywhere.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,11 +11,11 @@ import amdn.anywhere.domain.PointDel;
 @Mapper
 public interface PointMapper {
 	
-	//포인트 소멸 시간 찾기
-	public String pointDelTime(String userId);
-	
 	//포인트 소멸 등록
-	public int addPointDel(PointDel pointDel);
+	public int addPointDel(Map<String, String> pointDelMap);
+	
+	//포인트 소멸 시간
+	public String pointDelTime(String userId);
 	
 	//포인트 소멸 코드 자동증가
 	public String getPointDelCode();

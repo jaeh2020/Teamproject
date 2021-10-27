@@ -97,4 +97,17 @@ public class Schedule {
 			}
 		}
 	}
+	
+	
+	
+	
+	
+	//@Scheduled(cron = "*/10 * * * * *") 
+	public void cornTest() { 
+		System.out.println("매일 45분에 실행됩니다."); 
+	}
+
+	
+	
+	
 }

@@ -16,6 +16,11 @@ import amdn.anywhere.domain.MembershipDel;
 @Mapper
 public interface MemberMapper {
 
+	//포인트 소멸 후 업데이트
+	public int modifyPointDel(MemberUser memberUser);
+	
+	//포인트 적립 후 업데이트
+	public int modifyPoint(MemberUser memberUser);
 	
 	//로그아웃 내역 업데이트
 	public int modifyLogout(MemberLogin memberLogin);
@@ -37,6 +42,9 @@ public interface MemberMapper {
 	
 	//소상공인 평가동의 승인 상태 승인자 변경
 	public int modifyBizEvalConfirm(BizEvalAgreeChange bizEvalAgreeChange);
+	
+	//소상공인 승인신청 개인 조회(bizId)
+	public BizEvalAgreeChange getBizEvalInfoById(String bizId);
 	
 	//소상공인 승인신청 개인 조회(code)
 	public BizEvalAgreeChange getBizEvalInfoByCode(String eAgreeCode);
