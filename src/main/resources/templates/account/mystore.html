@@ -4,6 +4,11 @@
 	  layout:decorate="~{layout/default}">
 
 <th:block layout:fragment="customTitle">
+ <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    
 	<!-- <link th:href="@{/css/lib/chartist/chartist.min.css}" rel="stylesheet"> -->
 	<title th:text="${title}"></title>
 </th:block>
@@ -110,8 +115,32 @@
 			</div>
 		</div>
 	</div>
-	
-	<!-- 검색기능 -->
+<!-- <div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-body">
+				<div class="form-group row">
+					<label class="col-md-12 col-form-label" for="storeCode">매장을 선택해주세요 <span class="text-danger">*</span></label>
+						<div class="col-md-5 col-form-label">
+							<div style="width: 700px; height: 800px;">
+							차트가 그려질 부분
+							<canvas id="myChart"></canvas>
+							</div>
+						<div class="form-group row">
+							<div class="col-lg-5 col-form-label">
+							<div style="width: 700px; height: 800px;">
+						차트가 그려질 부분
+						<canvas id="myChart1"></canvas>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->
+				
 				<!-- Main content -->
 				<div class="row">
 					<div class="col-12">
@@ -162,34 +191,49 @@
 		              	<!-- /.card-header -->
 						<div class="card-body">
 		                	<div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-						<div class="row">
-							<div class="col-sm-12">
-								<div>
-									<h2 style="font-weight:bold; color: blue;"><i class="fa fa-check"></i>  매출 테이블</h2>
-									<button id="salesListBtn" type="button" class="btn btn-outline-danger float-right" style="width: 200px; margin-bottom: 15px;"><i class="ti-search"></i> 매출 상세 조회 </button>
+		                	 <div class="row">
+								<div class="col-sm-12">
+									<div>
+										<h2 style="font-weight:bold; color: blue;"><i class="fa fa-check"></i>  차트</h2>
+									</div>
+			                        <div class="row">
+			                        	<div class="ct-gauge-chart col-md-6 float-center">
+			                        		<canvas id="myChart3" style="height:30vh; width:30vw; margin-left: 50px;"></canvas>
+			                        	</div>
+			                        	<div class="col-md-6 float-center">
+			                        	<canvas id="myChart2" style="height:30vh; width:30vw; margin-left: 50px; margin-bottom: 30px;"></canvas>
+			                        	</div>
+			                        </div>
 								</div>
-								<table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
-									<thead>
-										<tr role="row">
-		                  					<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=": activate to sort column descending">No.</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="No.: activate to sort column ascending">매장 코드</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="매장코드: activate to sort column ascending">매출 명</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="내용: activate to sort column ascending">매출 금액</th>
-							                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="상호명: activate to sort column ascending">해당 월</th>
-										</tr>
-		                  			</thead>
-		                  			<tbody id="SalesStatisticsTbody">
-										<tr>
-											<td><input type="checkbox" name="chk_info" value="No"></td>
-											<td>매장코드 입력</td>
-											<td>메뉴이름 입력</td>
-											<td>메뉴가격 입력</td>
-											<td>해당 월 입력</td>
-										</tr>	                  			
-		                  			</tbody>
-								</table>
 							</div>
-						</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<div>
+											<h2 style="font-weight:bold; color: blue;"><i class="fa fa-check"></i>  매출 테이블</h2>
+											<button id="salesListBtn" type="button" class="btn btn-outline-danger float-right" style="width: 200px; margin-bottom: 15px;"><i class="ti-search"></i> 매출 상세 조회 </button>
+										</div>
+										<table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+											<thead>
+												<tr role="row">
+				                  					<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=": activate to sort column descending">No.</th>
+									                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="No.: activate to sort column ascending">매장 코드</th>
+									                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="매장코드: activate to sort column ascending">매출 명</th>
+									                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="내용: activate to sort column ascending">매출 금액</th>
+									                  <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="상호명: activate to sort column ascending">해당 월</th>
+												</tr>
+				                  			</thead>
+				                  			<tbody id="SalesStatisticsTbody">
+												<tr>
+													<td><input type="checkbox" name="chk_info" value="No"></td>
+													<td>매장코드 입력</td>
+													<td>메뉴이름 입력</td>
+													<td>메뉴가격 입력</td>
+													<td>해당 월 입력</td>
+												</tr>	                  			
+				                  			</tbody>
+										</table>
+									</div>
+								</div>
 						<br><br>
 						<div class="row">
 							<div class="col-sm-12">
@@ -245,14 +289,7 @@
 					</div>
 					<br>
 	              <!-- /.card-body -->
-	               <div class="row">
-							<div class="col-sm-12">
-								<div>
-									<h2 style="font-weight:bold; color: blue;"><i class="fa fa-check"></i>  차트</h2>
-								</div>
-		                        <div class="ct-donute-chart"></div>
-							</div>
-					</div>
+	              
 	            </div>
 	            <!-- /.card -->
 	          </div>
@@ -511,6 +548,100 @@
     		
     });
     </script> 
+    
+        <script>
+      var ctx = document.getElementById('myChart3');
+      var myChart3 = new Chart(ctx, {
+          type: 'pie',
+          data: {
+              labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+              datasets: [{
+                  label: '# of Votes',
+                  data: [12, 19, 3, 5, 2, 3],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 2
+              }]
+          },
+          options: {
+              responsive: false,
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              },
+          }
+      });
+  </script>
+        <script>
+      var ctx = document.getElementById('myChart2');
+      var myChart2 = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+              datasets: [{
+                  label: '# of Votes',
+                  data: [12, 19, 3, 5, 2, 3, 5, 2, 3, 5, 2, 3],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 2
+              }]
+          },
+          options: {
+              responsive: false,
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              },
+          }
+      });
+  </script>
+        
 </th:block>
 
 </html>
