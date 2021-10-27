@@ -89,6 +89,9 @@
 					admin_id= #{adminId}
 					,state_code = 'state_confirm_rej'
 				</if>
+				<if test="state == '종료'">
+					,state_code = 'state_recruit_fin'
+				</if>
 			WHERE 
 				recruit_taster_biz_code = #{recruitBCode};
 	</update>
@@ -147,9 +150,9 @@
 			</if>
 		</where>
 		GROUP BY t.recruit_taster_biz_code
-		<if test="admin != null">
-			ORDER BY t.request_date DESC
-			LIMIT 5;
+		ORDER BY t.request_date DESC
+		<if test="admin != null">		
+			LIMIT 5
 		</if>
 	</select>
 	

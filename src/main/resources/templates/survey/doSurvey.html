@@ -30,6 +30,10 @@
 		.bi{
 			font-size: 18px;
 		}
+		.explain{
+			float: right;
+			margin-bottom: 0px!important;
+		}
 
 	</style>
 </th:block>	 
@@ -74,6 +78,13 @@
 			                            <td colspan="2" th:text="${recruitInfo.storeInfo.storeName}"></td>
 			                            <td colspan="2" class="titleCss"><strong>메뉴명</strong></td>
 			                            <td colspan="3" th:text="${recruitInfo.menu.menuName}"></td>    
+			                        </tr>
+			                        <tr>
+			                        	<td colspan="10">
+			                        		<p class="text-muted m-b-15 explain">
+                        						<i class="bi bi-arrow-down-square"></i> <code> 심한 정도/기호 </code> 에 따라 답변을 선택해주세요 .
+                    						</p>
+                    					</td>
 			                        </tr>
 			                        <tr>
 			                        	<td colspan="2" class="cateCss">#</td>

@@ -15,11 +15,14 @@
 				<div class="box box-primary">
 					<div class="box box-content" style="outline: solid 1px #D5D5D5; height: 600px;">
 						<div class="card-header">
-							<h4 class="m-b-0 text-white" id="reviewNum"><i class="ti-menu"></i>
-								 [[${review.reviewNum}]]
+							<h4 class="m-b-0 text-white" id="storeName"><i class="fa fa-thumbs-up"></i>
+								[[${review.storeSearch.storeName}]]
 							</h4>
 						</div>
-						<div class="memberId" style=" padding-top: 10px; font-weight: bold; font-size: 15px;">
+						<div class="reviewNum" style=" padding-top: 10px; font-weight: bold; font-size: 15px;">
+							<i class="ti-menu"></i>   [[${review.reviewNum}]] 
+						</div>
+						<div class="memberId" style=" padding-top: 20px; font-weight: bold; font-size: 15px;">
 							<i class="fa fa-user f-s-20 color-blueviolet"></i> [[${review.memberId}]] 
 						</div>
 						<div class="reviewComTime" style="padding-top: 20px; font-weight: bold; font-size: 15px;">
@@ -66,8 +69,8 @@
 					<div class="pull-left">
 						<a href="#none;" class="btn btn-primary listBtn" style="display: inline;" th:onclick="reviewListBtn([[${review.storeSearch.storeName}]]);">
 								<i class="fa fa-list"></i> 목록
-							</a>	
-						</div>
+						</a>	
+					</div>
 				</div>
 				<div class="pull-right">
 					<button type="button" class="reviewModiBtn btn btn-warning modBtn" ><i class="fa fa-edit"></i> 수정</button>
@@ -97,14 +100,16 @@
 			$('.reviewModiBtn').click(function(){
 				
 				var	memberId = $(this).parent().parent().find('.memberId').text().trim();
-				var reviewNum = $(this).parent().parent().find('#reviewNum').text().trim();
+				var reviewNum = $(this).parent().parent().find('.reviewNum').text().trim();
+				var storeName = $(this).parent().parent().find('#storeName').text().trim();
 				
 				console.log(memberId);
 				console.log(reviewNum);
+				console.log(storeName);
 				
 				if( memberId == '[[${memberId}]]'){
 					alert('리뷰수정페이지로 이동합니다.');
-					location.href = "/review/reviewModify?reviewNum=" + reviewNum;
+					location.href = "/review/reviewModify?storeName=" + storeName + '&' + 'reviewNum=' + reviewNum;;
 				}else{
 					alert('수정 권한이 없습니다.');
 					return false;
@@ -121,7 +126,7 @@
 				
 				if( memberId == '[[${memberId}]]'){
 					alert('정말로 삭제하시겠습니까?');
-					location.href = "/review/reviewUserDelete?reviewNum=" + reviewNum;
+					location.href = "/review/reviewUserDelete?reviewNum=" + reviewNum ;
 				}else{
 					alert('삭제 권한이 없습니다.');
 					return false;

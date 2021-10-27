@@ -18,6 +18,12 @@ import amdn.anywhere.domain.Storesearch;
 @Mapper
 public interface ReviewMapper {
 	
+	//리뷰수정처리
+	public int reviewModify(Review review);
+	
+	//리뷰정보가져오기(수정)
+	public Review getReviewInfoByCode(String reviewNum);
+	
 	//게시물 조회 수 증가
 	public int updateReviewCnt(String reviewNum);
 	

@@ -25,11 +25,11 @@ import amdn.anywhere.mapper.TasterMapper;
 @Service
 @Transactional
 public class TasterService {
-	private TasterMapper tasterMapper;
-	private QuestionsMapper questionsMapper;
-	private RecruitTasterByBizMapper recruitTasterByBizMapper;
-	private AgeMapper ageMapper;
-	private TasterCancelMapper tasterCancelMapper;
+	private final TasterMapper tasterMapper;
+	private final QuestionsMapper questionsMapper;
+	private final RecruitTasterByBizMapper recruitTasterByBizMapper;
+	private final AgeMapper ageMapper;
+	private final TasterCancelMapper tasterCancelMapper;
 	
 	public TasterService(TasterMapper tasterMapper, QuestionsMapper questionsMapper, RecruitTasterByBizMapper recruitTasterByBizMapper, AgeMapper ageMapper, TasterCancelMapper tasterCancelMapper) {
 		this.recruitTasterByBizMapper = recruitTasterByBizMapper;
