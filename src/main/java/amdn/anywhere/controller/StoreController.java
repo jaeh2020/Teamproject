@@ -157,7 +157,7 @@ public class StoreController {
 	}
 							  
 
-	//나의매장 메뉴수정 처리
+	//매장 메뉴수정 처리
 	@PostMapping("/myStoreManage/modifyMyMenu")
 	public String modifyMyMenu(Menu menu
 							  ,HttpSession session) {
@@ -180,7 +180,7 @@ public class StoreController {
 	}
 	
 	
-	//나의매장 메뉴 수정화면
+	//매장 메뉴 수정화면
 	@GetMapping("/myStoreManage/modifyMyMenu")
 	public String modifyMyMenu(@RequestParam(name="menuCode", required = false) String menuCode
 							  ,@RequestParam(name="storeCode", required = false) String storeCode
@@ -190,10 +190,14 @@ public class StoreController {
 		Menu menu = storeService.getMyMenuInfoByMenuCode(menuCode);
 		
 		//메뉴 대분류명 가져오기
-		Map<String, Object> paramMap = storeService.getMyMainCateOnly(storeCode);
+		//Map<String, Object> paramMap = storeService.getMyMainCateOnly(storeCode);
+		
+		//메뉴 대분류 전체 조회
+		List<FoodMainCate> mainCate = storeService.getMainCate();
 
-		model.addAttribute("mainCateOnly", paramMap.get("mainCateOnly"));
-		model.addAttribute("mainCateOnly2", paramMap.get("mainCateOnly2"));
+		model.addAttribute("mainCate", mainCate);
+		//model.addAttribute("mainCateOnly", paramMap.get("mainCateOnly"));
+		//model.addAttribute("mainCateOnly2", paramMap.get("mainCateOnly2"));
 		model.addAttribute("menu", menu);
 		model.addAttribute("title", "나의 메뉴 수정");
 		model.addAttribute("location", "나의 메뉴 수정");
@@ -266,11 +270,18 @@ public class StoreController {
 		//매장코드 가져오기
 		Store store = storeService.getStoreInfoByCode(storeCode);
 		
-		//메뉴 대분류명 가져오기
+		//메뉴 대분류 전체 조회
+		List<FoodMainCate> mainCate = storeService.getMainCate();
+		
+		
+		//매장명
 		Map<String, Object> paramMap = storeService.getMyStoreList(bizId);;
-
+		
 		model.addAttribute("storeList", paramMap.get("storeList"));
 		model.addAttribute("storeList2", paramMap.get("storeList2"));
+		
+		
+		model.addAttribute("mainCate", mainCate);
 		model.addAttribute("store", store);
 		model.addAttribute("bizId", bizId);
 		model.addAttribute("title", "메뉴 등록");
