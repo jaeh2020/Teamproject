@@ -11,6 +11,7 @@ public class BizEvalAgreeChange {
 	private String confirmId;
 	private String eStateCode;
 	private String eConfirmTime;
+	private Store store;
 	public String geteAgreeCode() {
 		return eAgreeCode;
 	}
@@ -65,13 +66,19 @@ public class BizEvalAgreeChange {
 	public void seteConfirmTime(String eConfirmTime) {
 		this.eConfirmTime = eConfirmTime;
 	}
+	public Store getStore() {
+		return store;
+	}
+	public void setStore(Store store) {
+		this.store = store;
+	}
 	@Override
 	public String toString() {
 		return "BizEvalAgreeChange [eAgreeCode=" + eAgreeCode + ", bizId=" + bizId + ", StoreCode=" + StoreCode
 				+ ", eAgreeBefore=" + eAgreeBefore + ", eAgreeAfter=" + eAgreeAfter + ", eAgreeTime=" + eAgreeTime
-				+ ", confirmId=" + confirmId + ", eStateCode=" + eStateCode + ", eConfirmTime=" + eConfirmTime + "]";
+				+ ", confirmId=" + confirmId + ", eStateCode=" + eStateCode + ", eConfirmTime=" + eConfirmTime
+				+ ", store=" + store + "]";
 	}
-	
 	
 	
 }

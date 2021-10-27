@@ -38,6 +38,7 @@
 		width: 200px;
 		height: 200px;
 		margin: 20px;
+		padding: 40px;
 	}
 	.state{
 		color: #A0AFFF;
@@ -50,18 +51,24 @@
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 		<!-- 왼쪽부분 -->
+	<input type="hidden" id="SID" th:value="${session.SID}">
 	<div class="card">
 	
 		        <h4>[[${session.SNAME}]] 사장님은 </h4>
 		        <h3>소상공인 승인이 <span class="state">[[${memberBiz.statement.stateName}]]</span> 상태 입니다.</h3>
-
+		        
+				<a th:href="@{/member/modifyEvalAgree(bizId=${session.SID})}">링크</a>
+		        <h3>소상공인 평가 동의 신청 상태 ->>>>>>>><span class="agreeState">[[${bEvalAgree.eStateCode}]]</span></h3>
 	</div>
+		<!-- 여기에 멤버쉽 변경이력 나타남 -->
+			<div id="evalConfirm"></div>
+		<!-- 끄으으읕 -->
 		
 		<div class="card card-outline-primary" >
     		<!-- 프로필 하단 -->
    			 <div class="listWrap">
    			 	<div class="list"><a th:href="@{/member/myInfo(memberId=${session.SID})}"><i class="bi bi-emoji-sunglasses f-s-60"></i><h4>내정보</h4></a></div>
-   			 	<div class="list"><a th:href="@{#}"><i class="bi bi-award f-s-60"></i><h4>평가동의</h4></a></div>
+   			 	<div class="list"><a th:href="@{#}"><i class="bi bi-award f-s-60"></i><h4>평가동의내역</h4></a></div>
    			 	<div class="list"><a th:href="@{#}"><i class="bi bi-question-octagon f-s-60"></i><h4>고객센터</h4></a></div>
    			 	<div class="list"><a th:href="@{/member/deleteMember}"><i class="bi bi-person-x f-s-60"></i><h4>회원탈퇴</h4></a></div>   			 	
    			 </div>
@@ -73,7 +80,47 @@
 	<script th:src="@{/js/lib/owl-carousel/owl.carousel.min.js}"></script>
     <script th:src="@{/js/lib/owl-carousel/owl.carousel-init.js}"></script>
 	<script type="text/javascript">
+	$(function(){
+    	
+		//평가동의 누르면 나타남
+		$('.bi-award').click(function(){
+			
+			var bizId = $('#SID').val();
+			console.log(bizId)
+			
+			var request =  $.ajax({
+				  url: "/evalChange", //요청 주소
+				  method: "GET", //요청 방식
+				  data: { bizId : bizId },
+				  dataType: "json" //받아올 포맷방식
+			});	
+			request.done(function(data){
+				console.log(data);
+				
+				var table= '';
+					
+				table += '<div class="card card-outline-primary"><table class="table table-hover">';
+				table += '<thead style="background-color: #585858; color: #fff; font-weight:bold;"><tr><td>신청한 매장 코드</td><td>동의 변경 전</td><td>동의 변경 후</td><td>변경신청 일시</td><td>승인상태</td><td>승인완료 일시</td></tr></thead>';
+				table += '<tbody><tr>';            		
+				table += '<td>' +data.storeCode+ '</td>';        		
+				table += '<td>' +data.eAgreeBefore+ '</td>';
+				table += '<td>' +data.eAgreeAfter+ '</td>';
+				table += '<td>' +data.eAgreeTime+ '</td>';
+				table += '<td>' +data.eStateCode+ '</td>';
+				table += '<td>' +data.eConfirmTime+ '</td>';
+				table += '</tr></tbody>';
+		        table += '</table></div>';
+				
+		      console.log(table,'table')
+					$('#evalConfirm').html(table);	
+			});
+			//응답 실패
+			request.fail(function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    });
+		});
 		
+	});
 	</script>
 </th:block>
 </html>

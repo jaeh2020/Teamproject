@@ -25,23 +25,7 @@
 			<result property="pointDelContents" column="point_del_contents"/>
 		</association>
 	</resultMap>
-	
-	<!-- 포인트 소멸 개인조회 -->
-	
-	
-	<!-- 소멸시간 찾기~ -->
-	<select id="pointDelTime" resultType="String">
-		SELECT
-			DATE_FORMAT(pred_del_time, "%Y-%m-%d")
-		FROM
-			tb_point
-		WHERE
-			user_id = #{userId} AND DATE_FORMAT(pred_del_time, "%Y-%m-%d") = CURDATE();
-	</select>
-	
-	
-	
-	
+
 	<!-- 포인트 소멸 -->
 	<insert id="addPointDel">
 		INSERT INTO tb_point_del
@@ -78,6 +62,18 @@
 				ORDER BY
 					point_save_time DESC LIMIT 1) - del_point);
 	</insert>
+	
+	
+	<!-- 소멸시간 찾기~ -->
+	<select id="pointDelTime" resultType="String">
+		SELECT
+			DATE_FORMAT(pred_del_time, "%Y-%m-%d")
+		FROM
+			tb_point
+		WHERE
+			user_id = #{userId} AND DATE_FORMAT(pred_del_time, "%Y-%m-%d") = CURDATE();
+	</select>
+	
 	
 	<!-- 포인트 소멸코드 자동증가 -->
 	<select id="getPointDelCode" resultType="String">
@@ -121,7 +117,9 @@
 										CONCAT('p_', LPAD(MAX(CAST(SUBSTRING(p.point_num,3,3)AS DECIMAL)),3,0))
 										END AS pointNum
 									 FROM
-										tb_point as p))
+										tb_point as p
+									 WHERE
+										user_id = #{userId}))
 			, (point_add + before_point_history)
 			, DATE_ADD(point_save_time, INTERVAL 90 DAY))
 	</insert>
