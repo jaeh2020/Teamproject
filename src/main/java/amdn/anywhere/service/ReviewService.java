@@ -13,6 +13,7 @@ import amdn.anywhere.domain.Report;
 import amdn.anywhere.domain.Review;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Storesearch;
+import amdn.anywhere.domain.ReviewReply;
 import amdn.anywhere.mapper.ReviewMapper;
 
 
@@ -28,6 +29,29 @@ public class ReviewService {
 		  this.reviewMapper = reviewMapper;
 	 }
 	
+	//리뷰댓글삭제
+	public int reviewDeleteComment(String reviewReplyNum) {
+		return reviewMapper.reviewDeleteComment(reviewReplyNum);
+	};
+	  
+	  
+	//리뷰 댓글 등록
+	public int addReviewComment(ReviewReply reviewReply) {
+		return reviewMapper.addReviewComment(reviewReply);
+	};
+	
+	//리뷰 댓글 자동증가
+	public String getNewReviewReplyNum() {
+		return reviewMapper.getNewReviewNum();
+	};
+	   
+	//리뷰 댓글 목록
+	public List<ReviewReply> getReviewCommentList(String reviewNum){
+		List<ReviewReply> reviewCommentList = reviewMapper.getReviewCommentList(reviewNum);
+		
+		return reviewCommentList;
+ 	};
+ 
 	//소비자 신고 등록
 	public int reviewReport(Report report) {
 		  return reviewMapper.reviewReport(report);

@@ -27,7 +27,7 @@
 			 <div class="card">
 			 	<form th:action="@{/report/blackListDelete}" method="post" id="penaltyForm">
 			 		<div class="card-haed" style="float: right">
-						<a th:href="@{/report/blackListInsert}" class="btn btn-primary btn-flat btn-addon m-b-10 m-l-5"><i class="ti-plus"></i> 블랙리스트 등록하기</a>			 			
+						<a href="#" class="btn btn-primary btn-flat btn-addon m-b-10 m-l-5"><i class="ti-plus"></i> 블랙리스트 등록하기</a>			 			
 			 		</div>
 		            <div class="card-body">
 		                <div class="table-responsive m-t-40">
@@ -47,15 +47,15 @@
 		                        </thead>
 		                        <tbody>
 		                        	<tr th:each="b : ${memberBlackList}">
-			                            <td th:text="${b.penaltyCode}"></td>
 			                            <td th:text="${b.blackListNum}"></td>
+			                            <td th:text="${b.penaltyCode}"></td>
 			                            <td th:text="${b.userId}"></td>
 			                            <td th:text="${b.membershipCode}"></td>
 			                            <td th:text="${b.blackListAsk}"></td>
 			                            <td th:text="${b.blackListAskTime}"></td>           
 			                            <td th:text="${b.StoreCode}"></td>           
 			                            <td th:text="${b.memberId}"></td>           
-			                            <td><a href="#none;" class="deleteBtn btn btn-danger btn-outline ti-trash text-white" id="blackListDelBtn" ></a></td>
+			                            <td><a href="#none;" class="deleteBtn btn btn-danger btn-outline ti-trash text-white" id="blackListDelBtn" th:onclick="penaltyDel([[${b.blackListNum}]])" ></a></td>
 		                            </tr>
 		                        </tbody>
 		                    </table>
@@ -70,9 +70,9 @@
 <th:block layout:fragment="customJsLib">
 	<Script type="text/javascript">
 		//삭제버튼 alert창
-	   function penaltyDel(penaltyCode){
+	   function penaltyDel(blackListNum){
 	   		if(confirm("정말 삭제하시겠습니까?")){
-	   			location.href = '/report/penaltyDelete?penaltyCode='+penaltyCode;
+	   			location.href = '/report/blackListDelete?blackListNum='+blackListNum;
 	   			return true;
 	   		}else{
 	   			return false;
