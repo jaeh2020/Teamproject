@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import amdn.anywhere.domain.Book;
 import amdn.anywhere.domain.Order;
+import amdn.anywhere.domain.Report;
 import amdn.anywhere.domain.Review;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Storesearch;
@@ -17,6 +18,18 @@ import amdn.anywhere.domain.Storesearch;
 
 @Mapper
 public interface ReviewMapper {
+	
+	//신고등록
+	public int reviewReport(Report report);
+		 
+	//신고 코드 자동증가
+	public String getNewReportNum();
+
+	//신고상태코드 가져오기
+	public Statement getReportStatement(String reportStatementCode);
+	
+	//리뷰삭제처리
+	public int reviewUserDelete(String reviewNum);
 	
 	//리뷰수정처리
 	public int reviewModify(Review review);

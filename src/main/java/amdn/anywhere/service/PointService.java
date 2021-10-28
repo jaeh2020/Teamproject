@@ -1,6 +1,7 @@
 package amdn.anywhere.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -18,14 +19,14 @@ public class PointService {
 		this.pointMapper = pointMapper;
 	}
 	
+	//포인트 소멸 등록
+	public int addPointDel(Map<String, String> pointDelMap) {
+		return pointMapper.addPointDel(pointDelMap);
+	}
+	
 	//포인트 소멸시간 찾기
 	public String pointDelTime(String userId) {
 		return pointMapper.pointDelTime(userId);
-	}
-	
-	//포인트 소멸 등록
-	public int addPointDel(PointDel pointdel) {
-		return pointMapper.addPointDel(pointdel);
 	}
 	
 	//포인트 소멸코드 자동증가

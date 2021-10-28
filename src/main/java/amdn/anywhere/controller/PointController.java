@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import amdn.anywhere.domain.MemberUser;
 import amdn.anywhere.domain.Message;
 import amdn.anywhere.domain.Point;
 import amdn.anywhere.domain.PointDel;
+import amdn.anywhere.service.MemberService;
 import amdn.anywhere.service.MessageService;
 import amdn.anywhere.service.PointService;
 
@@ -22,21 +24,23 @@ public class PointController {
 
 	private final PointService pointService;
 	private final MessageService messageService;
+	private final MemberService memberService;
 
-	public PointController(PointService pointService, MessageService messageService) {
+	public PointController(PointService pointService, MessageService messageService, MemberService memberService) {
 		this.pointService = pointService;
 		this.messageService = messageService;
+		this.memberService = memberService;
 	}
 
-	
 	//포인트 소멸
-	//@Scheduled(cron="0 0 0 * * *")
 	@PostMapping("/point/addPointDel")
-	public String addPointDel(Point point, PointDel pointDel) {
+	public String addPointDel(Point point, PointDel pointDel, Message message, MemberUser memberUser) {
 		System.out.println("포인트포인트 : " + point);
 	
 		//자동증가코드
 		String pointDelCode = pointService.getPointDelCode();
+		String messageCode = messageService.getMessageCode();
+
 		
 		//오늘 날짜 String으로 변경하기
 		LocalDate date = LocalDate.now(); //오늘 날짜 LocalDate 객체 생성
@@ -55,7 +59,17 @@ public class PointController {
 			pointDel.setUserId(point.getUserId());
 			pointDel.setPointNum(point.getPointNum());
 			pointDel.setPointDelTime(point.getPredDelTime());
-			pointService.addPointDel(pointDel);
+			//pointService.addPointDel(pointDel);
+			
+			//소멸 메시지 발송!!!
+			message.setMessageNum(messageCode);
+			message.setMemberId(point.getUserId());
+			message.setMessageCode("msg_point_delete");
+			messageService.addMessage(message);
+			
+			//user테이블 포인트 업데이트!!!
+			memberUser.setUserId(point.getUserId());
+			memberService.modifyPointDel(memberUser);
 		}
 		
 
@@ -73,7 +87,7 @@ public class PointController {
 	}
 
 	@PostMapping("/point/addPoint")
-	public String addPoint(Point point, Message message, PointDel pointDel) {
+	public String addPoint(Point point, Message message, PointDel pointDel, MemberUser memberUser) {
 		System.out.println("포인트포인트 : " + point);
 
 		// 자동증가코드
@@ -83,36 +97,17 @@ public class PointController {
 		//포인트 적립 + 메세지 전송
 		point.setPointNum(pointCode);
 		pointService.addPoint(point);
-
+		
+		//메시지 전송
 		message.setMessageNum(messageCode);
 		message.setMemberId(point.getUserId());
 		message.setMessageCode("msg_point_collect");
 		messageService.addMessage(message);
 			
-		// 포인트 소멸
-	
-		//자동증가코드
-		String pointDelCode = pointService.getPointDelCode();
-		LocalDate now = LocalDate.now(); 
-		// 결과 출력 
-		System.out.println(now+"현재시간");
-		System.out.println(point.getPredDelTime()+"디비시간");
-		String a = "2021-10-23";
+		//user테이블 포인트 업데이트!!!
+		memberUser.setUserId(point.getUserId());
+		memberService.modifyPoint(memberUser);
 		
-			pointDel.setPointDelNum(pointDelCode);
-			pointDel.setUserId(point.getUserId());
-			pointDel.setPointNum(point.getPointNum());
-			pointDel.setPointDelTime(point.getPredDelTime());
-			/*
-			 * pointDel.setPointDelContents("소멸"); pointDel.setDelPoint(null)
-			 * pointDel.setRemainPoint(null)
-			 */
-			pointService.addPointDel(pointDel);
-		
-
-		
-		//System.out.println(pointCode);
-		//System.out.println("message포인트적립 " + message);
 		return "redirect:/point/pointList";
 	}
 

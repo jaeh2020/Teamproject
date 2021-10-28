@@ -231,9 +231,9 @@
    		
    		var bizStatus = $('[name=bizStatus]').val().trim();
    		
-   		if(bizStatus == 'state_confirm_rej'){
-   			alert('소상공인 승인이 거절된 상태입니다. 확인 후 다시 신청해주세요.');
-   			return false
+   		if(bizStatus == 'state_confirm_rej' || bizStatus == 'state_confirm_ing'){
+   			alert('소상공인 승인이 정상적으로 이루어지지 않았습니다. \n확인 후 다시 신청해주세요.');
+   			location.href = "/"
    		}else{
    			$('#bizCode').val(bizCode);
    		}
