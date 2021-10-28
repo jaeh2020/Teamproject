@@ -38,7 +38,7 @@
                              <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/report/memberBlackList}">블랙리스트 목록</a></li>
                              <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/report/penaltyList}">벌점 목록</a></li>
                              <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/report/reportBoardList}">게시판 신고목록</a></li>
-                              <li><a th:if="${session.SLEVEL == 'level_admin'}" href="#">리뷰 신고목록</a></li>
+                              <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/report/reportReviewList}">리뷰 신고목록</a></li>
                          </ul>
                      </li>
 
@@ -121,7 +121,6 @@
                          <ul aria-expanded="false" class="collapse">
                              <li><a th:href="@{/message/commonMessage}">공통메세지 / 문유미</a></li>
                              <li><a href="#">포인트 소멸기준</a></li>
-                             <li><a href="#">페널티 기준/ 김채연</a></li>
                              <li><a th:href="@{/badWords/commonBadWords}">금지어 목록 / 김채연</a></li>
                          </ul>
                      </li>

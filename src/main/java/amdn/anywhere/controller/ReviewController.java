@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import amdn.anywhere.domain.Book;
 import amdn.anywhere.domain.Order;
+import amdn.anywhere.domain.Report;
 import amdn.anywhere.domain.Review;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Storesearch;
@@ -33,50 +35,92 @@ public class ReviewController {
 	  
 	  		this.reviewService = reviewService; 
 	  }
-	 
+	
+	//게시글 신고 작성처리
+	@PostMapping("/reviewReport")
+	public String reviewReport(Report report
+							 ) {
+		
+		System.out.println("report" + report);
+		
+		
+		if (report != null) {
+			report.setReportCode(reviewService.getNewReportNum());
+			reviewService.reviewReport(report);
+		}
+		
+		return "redirect:/";
+	}
+	  
+	  
+	//리뷰 신고 작성
+	@GetMapping("/reviewReport")
+	public String boardReport(Model model
+							  ,HttpSession session
+							  ,@RequestParam(name = "reportCateCode" , required = false) String reportCateCode
+							  ,@RequestParam(name = "reportStatementCode" , required = false) String reportStatementCode
+							  ,@RequestParam(name = "reviewNum" , required = false) String reviewNum) {
+		
+		//신고자 아이디 가져오기
+		String reportId = (String)session.getAttribute("SID");
+		//게시글 번호 가져오기
+		Review review = reviewService.getReviewInfoByCode(reviewNum);
+		//신고 상태코드 가져오기
+		Statement reportStatement = reviewService.getReportStatement(reportStatementCode);
+	
+		
+		model.addAttribute("title", "리뷰 신고");
+		model.addAttribute("reportId", reportId);
+		model.addAttribute("review" , review);
+		model.addAttribute("reportStatement" , reportStatement);
+	
+		return "/review/reviewReport";
+	}
+  
+	//소비자 리뷰삭제처리
+	@GetMapping("/reviewUserDelete")
+	public String reviewUserDelete(Review review
+								  ,@RequestParam(name = "reviewNum" , required = false)String reviewNum) {
+		
+		//삭제처리
+		reviewService.reviewUserDelete(reviewNum);
+		
+		return "redirect:/";
+	}  
+	  
+	 	  
 	//리뷰수정처리
 	@PostMapping("reviewModify")
 	public String reviewModify(Review review
+							  ,Storesearch storesearch
 							  ,@RequestParam(name = "storeName" , required = false) String storeName) {
-		
-		System.out.println("review 수정화면 값" + review);
-		
+
 		reviewService.reviewModify(review);
 		
-		return "redirect:/review/reviewConfirm";
+		return "redirect:/";
 	}
 	
 	  
 	// 리뷰수정
 	@GetMapping("reviewModify")
 	public String reviewModify(Model model
-							   ,@RequestParam(name = "reviewNum" , required = false)String reviewNum
-							   ,@RequestParam(name = "storeName" , required = false)String storeName) {
+							   ,@RequestParam(name = "reviewNum" , required = false)String reviewNum) {
 		
-		
-		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("storeName", storeName);
 		
 		//리뷰정보가져오기(수정)
 		Review review = reviewService.getReviewInfoByCode(reviewNum);
-		//해당 매장 이름 가져오기
-		Storesearch stroeSearch = reviewService.getReviewStoreName(paramMap);
 		
 		model.addAttribute("title", "리뷰수정");
 		model.addAttribute("review", review);
-		model.addAttribute("stroeSearch", stroeSearch);
 		
 		return "/review/reviewModify";
 	}
 	  
-	  //소비자 리뷰 상세보기
+	//소비자 리뷰 상세보기
 	@GetMapping("/reviewUserView")
 	public String reviewUserView(Model model
 								,@RequestParam(name = "reviewNum" ,required = false)String reviewNum
 								,HttpSession session) {
-		
-
-		
 		
 		//현재 로그인 아이디 가져오기
 		String memberId = (String)session.getAttribute("SID");
@@ -91,13 +135,12 @@ public class ReviewController {
 		model.addAttribute("reviewCnt", reviewCnt);
 		model.addAttribute("memberId", memberId);
 		return "/review/reviewUserView";
-	}
+		}
 	  
-	 
-	
-	//소비자 리뷰 목록
-	@GetMapping("/reviewConfirm")
-	public String reviewConfirm(Model model
+	 	
+		//소비자 리뷰 목록
+		@GetMapping("/reviewConfirm")
+		public String reviewConfirm(Model model
 								,@RequestParam(name = "storeName" , required = false)String storeName) {
 		
 		

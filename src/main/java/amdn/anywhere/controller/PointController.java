@@ -32,8 +32,6 @@ public class PointController {
 		this.memberService = memberService;
 	}
 
-	
-	
 	//포인트 소멸
 	@PostMapping("/point/addPointDel")
 	public String addPointDel(Point point, PointDel pointDel, Message message, MemberUser memberUser) {

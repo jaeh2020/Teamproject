@@ -245,6 +245,24 @@ FROM
 
 </select>
 
+<!-- 리뷰 신고 목록 -->
+<select id="getReportReviewList" resultMap="ReportBoardMap">
+SELECT
+	 rep_code
+	,rep_cate_code
+	,res_review_num
+	,rep_contents
+	,rep_time
+	,report_id
+	,member_id
+	,rep_confi_time
+	,state_code
+FROM
+	tb_report 
+WHERE
+	board_num IS NULL;
+</select>
+
 <!-- 게시판 신고 목록 -->
 <select id="getReportBoardList" resultMap="ReportBoardMap">
 	SELECT

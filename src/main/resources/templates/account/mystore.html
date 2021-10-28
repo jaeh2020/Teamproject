@@ -8,7 +8,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+	<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 	<!-- <link th:href="@{/css/lib/chartist/chartist.min.css}" rel="stylesheet"> -->
 	<title th:text="${title}"></title>
 </th:block>
@@ -19,7 +20,7 @@
 		<div class="col-lg-12">
 			<div class="box box-primary">
 				<div class="card-header" >
-					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 내 매장 관리  </h4>
+					<h4 class="m-b-0 text-white"><i class="ti-menu"></i> 내 매장 관리  </h4>
 				</div>
 				
 				<div class="card">
@@ -98,8 +99,8 @@
 				</div> -->
 				<div class="box-footer">
 					<div class="pull-right">
-						<a th:href="@{/account/mystore}" class="btn btn-success btn-flat" style="margin-top: 15px;">
-							<i class="fa fa-pencil"></i> 재무관리
+						<a onclick="Confirm();" class="btn btn-success btn-flat" style="margin-top: 15px; color: white;">
+							<i class="fa fa-pencil"></i> 매출 관리
 							<script>
 							 alert( "매장이 확인되었습니다." );
 							</script>
@@ -107,7 +108,7 @@
 						
 					</div>
 					<div class="pull-left">
-						<a href="#" class="btn btn-primary" style="margin-top: 15px;">
+						<a onclick="Alert();" class="btn btn-primary" style="margin-top: 15px; color: white;">
 							<i class="fa fa-check"></i> 컨설팅요청
 						</a>
 					</div>
@@ -191,10 +192,13 @@
 		              	<!-- /.card-header -->
 						<div class="card-body">
 		                	<div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+							
+		                	<!-- 그래프 부분 -->
+		                	
 		                	 <div class="row">
 								<div class="col-sm-12">
 									<div>
-										<h2 style="font-weight:bold; color: blue;"><i class="fa fa-check"></i>  차트</h2>
+										<h2 style="font-weight:bold; color: black;"><i class="fa fa-check"></i>  차트</h2>
 									</div>
 			                        <div class="row">
 			                        	<div class="ct-gauge-chart col-md-6 float-center">
@@ -206,10 +210,11 @@
 			                        </div>
 								</div>
 							</div>
+							
 								<div class="row">
 									<div class="col-sm-12">
 										<div>
-											<h2 style="font-weight:bold; color: blue;"><i class="fa fa-check"></i>  매출 테이블</h2>
+											<h2 style="font-weight:bold; color: red;"><i class="fa fa-check"></i>  매출 테이블</h2>
 											<button id="salesListBtn" type="button" class="btn btn-outline-danger float-right" style="width: 200px; margin-bottom: 15px;"><i class="ti-search"></i> 매출 상세 조회 </button>
 										</div>
 										<table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
@@ -321,9 +326,6 @@
 </th:block>
 
 <th:block layout:fragment="customJsLib">
-    <script th:src="@{js/lib/chartist/chartist.min.js}"></script>
-    <script th:src="@{js/lib/chartist/chartist-plugin-tooltip.min.js}"></script>
-    <script th:src="@{js/lib/chartist/chartist-custom.js}"></script>
     <script th:inline="javascript">
 	    /*<![CDATA[*/
 		var storeCode = [[${session.STCODE}]];
@@ -554,9 +556,9 @@
       var myChart3 = new Chart(ctx, {
           type: 'pie',
           data: {
-              labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+              labels: ['매출', '판관비', '관리비', '재료비', '인권비', '순수익'],
               datasets: [{
-                  label: '# of Votes',
+                  label: '# 내 매장 관리',
                   data: [12, 19, 3, 5, 2, 3],
                   backgroundColor: [
                       'rgba(255, 99, 132, 0.2)',
@@ -586,6 +588,10 @@
                       }
                   }]
               },
+              
+              // 항상보이게 하기
+
+              
           }
       });
   </script>
@@ -596,8 +602,8 @@
           data: {
               labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
               datasets: [{
-                  label: '# of Votes',
-                  data: [12, 19, 3, 5, 2, 3, 5, 2, 3, 5, 2, 3],
+                  label: '전년 대비 성장률 그래프',
+                  data: [0, 1, 3, 2, 6, 7, 6, 8, 9, 13, 12, 16],
                   backgroundColor: [
                       'rgba(255, 99, 132, 0.2)',
                       'rgba(54, 162, 235, 0.2)',
@@ -638,9 +644,136 @@
                       }
                   }]
               },
+              
+              // 항상 보이게 하기
+              animation: {
+  				duration: 1,
+  				onComplete: function () {
+  					var chartInstance = this.chart,
+  						ctx = chartInstance.ctx;
+  					ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+  					ctx.fillStyle = 'purple';
+  					ctx.textAlign = 'center';
+  					ctx.textBaseline = 'bottom';
+
+  					this.data.datasets.forEach(function (dataset, i) {
+  						var meta = chartInstance.controller.getDatasetMeta(i);
+  						meta.data.forEach(function (bar, index) {
+  							var data = dataset.data[index];							
+  							ctx.fillText(data, bar._model.x, bar._model.y - 5);
+  						});
+  					});
+  				}
+  			},
+  			scales: {
+  				yAxes: [{
+  					ticks: {
+  						beginAtZero: true,
+  						stepSize : 2,
+  						fontSize : 14,
+  					}
+  				}]
+  			}
+
           }
       });
   </script>
+  
+  <!-- Sweetalert  -->
+  <!-- 컨설팅 요청 / 재무관리 요청 -->
+  <script type="text/javascript">
+	var alert = new function(msg, type) {
+		swal({
+			title : '',
+			text : msg,
+			type : type,
+			timer : 1500,
+			customClass : 'sweet-size',
+			showConfirmButton : false
+		});
+	}
+
+	var confirm = new function(msg, title, resvNum) {
+		Swal.fire({
+			  title: 'Submit your Github username',
+			  input: 'text',
+			  inputAttributes: {
+			    autocapitalize: 'off'
+			  },
+			  showCancelButton: true,
+			  confirmButtonText: 'Look up',
+			  showLoaderOnConfirm: true,
+			  preConfirm: (login) => {
+			    return fetch(`//api.github.com/users/${login}`)
+			      .then(response => {
+			        if (!response.ok) {
+			          throw new Error(response.statusText)
+			        }
+			        return response.json()
+			      })
+			      .catch(error => {
+			        Swal.showValidationMessage(
+			          `Request failed: ${error}`
+			        )
+			      })
+			  },
+			  allowOutsideClick: () => !Swal.isLoading()
+			}).then((result) => {
+			  if (result.isConfirmed) {
+			    Swal.fire({
+			      title: `${result.value.login}'s avatar`,
+			      imageUrl: result.value.avatar_url
+			    })
+			  }
+			})
+	}
+
+	function Alert() {
+		Swal.fire({
+			  position: 'center',
+			  icon: 'success',
+			  title: '컨설팅 요청이 완료되었습니다.',
+			  showConfirmButton: false,
+			  timer: 1500
+			})
+		}
+	function Confirm() {
+		const swalWithBootstrapButtons = Swal.mixin({
+			  customClass: {
+			    confirmButton: 'btn btn-success',
+			    cancelButton: 'btn btn-danger'
+			  },
+			  buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+			  title: '매출 마감 진행하시겠습니까?',
+			  text: "마감이 확정되면 수정이 불가능 합니다.!",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonText: '네, 마감하겠습니다!',
+			  cancelButtonText: '아니요, 확인하겠습니다!',
+			  reverseButtons: true
+			}).then((result) => {
+			  if (result.isConfirmed) {
+			    swalWithBootstrapButtons.fire(
+			      '매출 마감 성공!',
+			      '잠시만 기다려주세요',
+			      'success'
+			    )
+			  } else if (
+			    /* Read more about handling dismissals below */
+			    result.dismiss === Swal.DismissReason.cancel
+			  ) {
+			    swalWithBootstrapButtons.fire(
+			      '매출 관리 요청 실패',
+			      '매출 관리 요청시 매출 확정이 필요합니다. :)',
+			      'error'
+			    )
+			  }
+			})
+	}
+</script>
         
 </th:block>
 

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import amdn.anywhere.domain.Book;
 import amdn.anywhere.domain.Order;
+import amdn.anywhere.domain.Report;
 import amdn.anywhere.domain.Review;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Storesearch;
@@ -27,10 +28,31 @@ public class ReviewService {
 		  this.reviewMapper = reviewMapper;
 	 }
 	
+	//소비자 신고 등록
+	public int reviewReport(Report report) {
+		  return reviewMapper.reviewReport(report);
+	};
+	  
+	  
+	//신고번호 자동증가 코드
+	public String getNewReportNum() {
+		  return reviewMapper.getNewReportNum();
+	};  
+	   
+	//신고 상태코드 불러오기
+	public Statement getReportStatement(String reportStatementCode) {
+		  return reviewMapper.getReportStatement(reportStatementCode);
+	};
+	  
+	//리뷰삭제처리
+	public int reviewUserDelete(String reviewNum) {
+		return reviewMapper.reviewUserDelete(reviewNum);
+	}; 
+ 
 	//리뷰수정처리
-		public int reviewModify(Review review) {
-			return reviewMapper.reviewModify(review);
-		};
+	public int reviewModify(Review review) {
+		return reviewMapper.reviewModify(review);
+	};
 		
 	//리뷰정보가져오기(수정)
 	public Review getReviewInfoByCode(String reviewNum) {
