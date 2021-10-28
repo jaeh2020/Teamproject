@@ -17,7 +17,7 @@ public interface PosMapper {
 	//table상태 update
 	public int modifyPosTable(Map<String, String> paramMap);
 	
-	//standby테이블 상태=주문완료, 완료일시, 총대기시간 update
+	//standby테이블 상태=주문완료, 완료일시
 	public int modifyPosStanbyState(Map<String, String> paramMap);
 	
 	//waiting테이블 입장대기인원 update
