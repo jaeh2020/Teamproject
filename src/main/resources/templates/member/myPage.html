@@ -11,8 +11,8 @@
 	.col-lg-1{
 		padding: 0;
 	}
-	.col-lg-2{
-		padding: 30px;
+	.col-lg-3{
+		padding: 40px;
 	}
 	hr{
 		height: 150px;
@@ -51,7 +51,7 @@
 	.level{
 		color: #46649B;
 		font-weight: bold;
-		margin-top: 10px;
+		cursor: pointer;
 	}
 	.bi-emoji-sunglasses{
 		color: #FF9E9B;
@@ -66,19 +66,25 @@
 		color: #FFDFDC
 	}
 	.card1{
-	    
 	    background-color: #BECDFF;
+	    padding: 15px;
 	}
 	.card2{
 		padding-bottom: 20px;
 	}
-	h1{
-    	cursor: pointer;
+	.profile{
+    	text-align: center;
+    	padding-top: 50px;
+	}
+	h1, h2{
     	text-align: center;
 	}
 	h4{
 		cursor: pointer;
-		margin-bottom: 50px;
+	}
+	.membership{
+		margin-top: 60px;
+		cursor: pointer;
 	}
 </style>
 </th:block>
@@ -89,42 +95,37 @@
 		<!-- 왼쪽부분 -->
 	<input type="hidden" id="SID" th:value="${session.SID}">
 	<div class="row">
-	<div class="col-lg-3">
+	<div class="col-lg-4">
 	<div class="card card1">	
 				<h1><i class="bi bi-person-square"></i></h1>
 		        <h1>[[${session.SNAME}]] 님 </h1>
-		        <h4>안녕하세요!</h4>
+		        <h2> 안녕하세요! </h2>
 	</div>
     </div>
-    <div class="col-lg-9">
+    <div class="col-lg-7">
     <div class="card card2"> 
     <div class="row">
-    			<div class="col-lg-3">
-		        <h4 class="membership">멤버쉽 변경 이력 ></h4>
-		        <h1><span class="level">[[${memberUser.membership.msLevel}]]</span></h1>
-    				</div>			 		
-					<div class="col-lg-2">
+    			<div class="col-lg-4 profile">
+			        <h5 class="membership">멤버쉽 변경 이력 ></h5>
+			        <h1  class="level">[[${memberUser.membership.msLevel}]]</h1>
+    			</div>			 		
+					<div class="col-lg-3">
 	   			 		<div class="wrap">
 	    			 		<h4>주문건수</h4>
 	    			 		<p>[[${memberUser.userOrderTotal}]]</p>
 	   			 		</div>
 	   			 	</div>
 	            	<div class="col-lg-1"><hr></div>
-          			 	<div class="col-lg-2">
+          			 	<div class="col-lg-3">
           			 		<div class="wrap">
           			 		<a th:href="@{/point/userAddPointList(userId=${session.SID})}">
 	           			 		<h4>POINT</h4>
 	           			 		<p><span>[[${memberUser.userPoint}]]</span> P</p>
 	           			 	</a>
-           			 	</div>
+           			 		</div>
           			 	</div>
-            		<div class="col-lg-1"><hr></div>
-          			 	<div class="col-lg-2">
-          			 		<div class="wrap">
-           			 		<h4>먹깨비</h4>
-           			 		<p>[[${memberUser.userEvaluator}]]</p>
-           			 	</div>
-          			 	</div>
+	            	<div class="col-lg-1"></div>
+            		
           			 	</div>
 	</div>
 	</div>

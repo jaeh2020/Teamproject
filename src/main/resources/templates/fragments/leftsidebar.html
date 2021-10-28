@@ -11,19 +11,19 @@
                      <li class="nav-devider" style="margin-bottom: 20px;" ></li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-group"></i><span class="hide-menu">회원관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a href="#" class="has-arrow"> 회원 목록 <span class="label label-rouded label-warning pull-right">2</span> </a>
+                             <li><a href="#" class="has-arrow"> 회원 목록 </a>
                                  <ul aria-expanded="false" class="collapse">
-                                     <li><a th:href="@{/member/memberList}">전체 회원 목록  / 문유미</a></li>
-                                     <li><a th:href="@{/member/memberUserList}">소비자 회원 목록 / 문유미</a></li>
+                                     <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/member/memberList}">전체 회원 목록</a></li>
+                                     <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/member/memberUserList}">소비자 회원 목록</a></li>
                                  </ul>
                              </li>
-                             <li><a th:href="@{/member/memberBizList}"> 소상공인 가입 승인 목록 / 문유미 </a>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/member/memberBizList}"> 소상공인 가입 승인 목록 </a>
 
                          </ul>
                      </li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="bi bi-cash-coin"></i><span class="hide-menu">포인트 관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/point/pointList}">포인트 목록 / 문유미</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/point/pointList}">포인트 목록 / 문유미</a></li>
                          </ul>
                      </li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-file-text-o"></i><span class="hide-menu">게시판 관리</span></a>
@@ -119,8 +119,7 @@
                      </li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-gear"></i><span class="hide-menu">환경 설정</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/message/commonMessage}">공통메세지 / 문유미</a></li>
-                             <li><a href="#">포인트 소멸기준</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/message/commonMessage}">공통메세지 / 문유미</a></li>
                              <li><a th:href="@{/badWords/commonBadWords}">금지어 목록 / 김채연</a></li>
                          </ul>
                      </li>
