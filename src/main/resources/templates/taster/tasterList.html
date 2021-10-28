@@ -32,75 +32,77 @@
 	<div class="row">
 		<div class="col-12">
 			 <div class="card">
+			 	<h3 class="card-title">평가단 신청현황</h3>
 	            <div class="card-body">
 	                 <!-- Tab panes -->
+				<div class="table-responsive m-t-40">
+				                 <div class="tab-pane active" id="taster" role="tabpanel">
+						<table id="myTable" class="table table-bordered table-striped">
+					        <thead>
+					            <tr>
+					            	<th>#</th>
+									<th>신청코드</th>
+									<th>아이디</th>
+									<th>이름</th>
+									<th>모집코드</th>
+									<th>신청매장</th>
+									<th>신청시각</th>
+									<th>상태</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+					            <tr th:each="l : ${tasterList}">
+					        		<td th:text="${lStat.count}"></td>
+					        		<td th:text="${l.applyCode}"></td>
+					        		<td th:text="${l.userId}"></td>
+					        		<td th:text="${l.userName}"></td>
+					        		<td>
+					        			<a th:href="@{/taster/recruitDetail(recruitCode=${l.recruitBCode})}" class="color-primary">[[${l.recruitBCode}]]</a>
+					        		</td>
+					        		<td th:text="${l.storeName}"></td>
+					        		<td th:text="${l.applyTime}"></td>
+					        		<td>
+					        			<span th:if="${l.state=='state_taster_com'}" class="badge badge-success">[[${l.stateName}]]</span>
+					                	<span th:unless="${l.state=='state_taster_com'}" class="badge badge-warning">[[${l.stateName}]]</span>
+					        		</td>
+						    	</tr>
+							</tbody>
+						</table>
+	                    </div>
+	                </div>
+                    <h3 class="card-title">평가단 취소자 현황</h3>
 					<div class="table-responsive m-t-40">
-	                     <div class="tab-pane active" id="taster" role="tabpanel">
-							<table id="myTable" class="table table-bordered table-striped">
-						        <thead>
-						            <tr>
-						            	<th>#</th>
-										<th>신청코드</th>
-										<th>아이디</th>
-										<th>이름</th>
-										<th>모집코드</th>
-										<th>신청매장</th>
-										<th>신청시각</th>
-										<th>상태</th>
-						            </tr>
-						        </thead>
-						        <tbody>
-						            <tr th:each="l : ${tasterList}">
-						        		<td th:text="${lStat.count}"></td>
-						        		<td th:text="${l.applyCode}"></td>
-						        		<td th:text="${l.userId}"></td>
-						        		<td th:text="${l.userName}"></td>
-						        		<td>
-						        			<a th:href="@{/taster/recruitDetail(recruitCode=${l.recruitBCode})}" class="color-primary">[[${l.recruitBCode}]]</a>
-						        		</td>
-						        		<td th:text="${l.storeName}"></td>
-						        		<td th:text="${l.applyTime}"></td>
-						        		<td>
-						        			<span th:if="${l.state=='state_taster_com'}" class="badge badge-success">[[${l.stateName}]]</span>
-						                	<span th:unless="${l.state=='state_taster_com'}" class="badge badge-warning">[[${l.stateName}]]</span>
-						        		</td>
-							    	</tr>
-								</tbody>
-							</table>
-                         </div>
-                     </div>
-						<div class="table-responsive m-t-40">
-						    <table id="calcelTb" class="table table-bordered table-striped">
-						        <thead>
-						            <tr>
-						            	<th>#</th>
-										<th>취소코드</th>
-										<th>평가단코드</th>
-										<th>아이디</th>
-										<th>이름</th>
-										<th>모집코드</th>
-										<th>평가단신청일시</th>
-										<th>취소일시</th>
-										<th>누적횟수</th>
-						            </tr>
-						        </thead>
-						        <tbody>
-						            <tr th:each="l : ${cancelList}">
-						        		<td th:text="${lStat.count}"></td>
-						        		<td th:text="${l.cancelCode}"></td>
-						        		<td th:text="${l.tasterApplyCode}"></td>
-						        		<td th:text="${l.userId}"></td>
-						        		<td th:text="${l.userName}"></td>
-						        		<td th:text="${l.recruitBCode}"></td>
-						        		<td th:text="${l.tasterApplyDate}"></td>
-						        		<td th:text="${l.cancelDate}"></td>
-						        		<td>
-						        			<span class="badge badge-danger">[[${l.numOfCancel}]]</span>
-						        		</td>
-						            </tr>
-						        </tbody>
-						    </table>
-						</div>
+					    <table id="calcelTb" class="table table-bordered table-striped">
+					        <thead>
+					            <tr>
+					            	<th>#</th>
+									<th>취소코드</th>
+									<th>평가단코드</th>
+									<th>아이디</th>
+									<th>이름</th>
+									<th>모집코드</th>
+									<th>평가단신청일시</th>
+									<th>취소일시</th>
+									<th>누적횟수</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+					            <tr th:each="l : ${cancelList}">
+					        		<td th:text="${lStat.count}"></td>
+					        		<td th:text="${l.cancelCode}"></td>
+					        		<td th:text="${l.tasterApplyCode}"></td>
+					        		<td th:text="${l.userId}"></td>
+					        		<td th:text="${l.userName}"></td>
+					        		<td th:text="${l.recruitBCode}"></td>
+					        		<td th:text="${l.tasterApplyDate}"></td>
+					        		<td th:text="${l.cancelDate}"></td>
+					        		<td>
+					        			<span class="badge badge-danger">[[${l.numOfCancel}]]</span>
+					        		</td>
+					            </tr>
+					        </tbody>
+					    </table>
+					</div>
                      </div>
                  </div>
             </div>
