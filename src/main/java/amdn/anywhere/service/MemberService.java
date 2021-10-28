@@ -152,7 +152,8 @@ public class MemberService {
 	
 	//회원 정보 조회(로그인,)
 	public Member getMemberInfoById(String memberId) {
-		return memberMapper.getMemberInfoById(memberId);
+		Member member = memberMapper.getMemberInfoById(memberId);
+		return member;
 	}
 	
 	//회원 전체 목록 조회
