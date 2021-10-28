@@ -288,9 +288,6 @@ public class BookController {
 		//상점명 조회
 		Store store = bookService.getStoreInfo(storeName);
 			
-		//예약코드 자동증가
-		//String newBookCode = bookService.getNewBookCode();
-				
 		//세션아이디(로그인되어있는 아이디)
 		String memberId = (String) session.getAttribute("SID");
 

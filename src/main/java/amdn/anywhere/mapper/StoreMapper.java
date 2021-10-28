@@ -115,9 +115,8 @@ public interface StoreMapper {
 	//나의매장 정보 조회
 	public List<Store> getMyStoreInfo(String bizCode);
 	
-	//나의매장 정보 리스트 조회(카테까지 나옴 지워야함)
+	//나의매장 정보 리스트 조회
 	public List<Store> getMyStoreList(String bizCode);
-	public List<Store> getMyStoreList2(String bizCode);
 	
 	//전체매장 테이블리스트조회
 	public List<Table> getTableList();

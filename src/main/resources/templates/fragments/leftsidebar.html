@@ -52,7 +52,7 @@
                          </ul>
                      </li>
 
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false" th:if="${session.SLEVEL == 'level_biz' || session.SLEVEL == 'level_admin'}"><i class="fa fa-cutlery"></i><span class="hide-menu">매장 관리</span></a>
+                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery"></i><span class="hide-menu">매장 관리</span></a>
 
                          <ul aria-expanded="false" class="collapse">
                              <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/store/storeManage}">매장관리(관리자)</a></li>

@@ -221,12 +221,10 @@ public class StoreService {
 	public Map<String, Object> getMyStoreList(String bizId){
 		
 		List<Store> storeList = storeMapper.getMyStoreList(bizId);
-		List<Store> storeList2 = storeMapper.getMyStoreList2(bizId);
 			
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 			
 		paramMap.put("storeList", storeList);
-		paramMap.put("storeList2", storeList2);
 		
 		return paramMap;
 	}

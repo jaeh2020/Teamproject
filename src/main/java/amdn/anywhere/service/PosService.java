@@ -31,7 +31,7 @@ public class PosService {
 		return posMapper.modifyPosTable(paramMap);
 	}
 	
-	//standby테이블 상태=주문완료, 완료일시, 총대기시간 update
+	//standby테이블 상태=주문완료, 완료일시
 	public int modifyPosStanbyState(Map<String, String> paramMap) {
 		return posMapper.modifyPosStanbyState(paramMap);
 	}

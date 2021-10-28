@@ -69,19 +69,6 @@ public class SearchController {
 	}
 	
 	
-	
-	
-	@GetMapping("eventSearch")
-	public String eventSearch(Model model) {
-		
-		
-		//List<Store> searchEventList = mainService.getSearchEventList();
-		
-		model.addAttribute("title", "이벤트중인 매장");
-		model.addAttribute("location", "이벤트중인 매장");
-		
-		return "/search/eventSearch";
-	}
 
 }
 
