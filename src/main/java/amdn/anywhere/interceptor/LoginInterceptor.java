@@ -53,6 +53,21 @@ public class LoginInterceptor implements HandlerInterceptor{
 			requestUri	 = requestUri.trim();
 			
 			//권한에 따른 주소 설정 ( 권한에 해당하는 주소가 아닐 시 메인페이지로 이동 )
+			//관리자일경우
+			if(sessionLevel.equals("level_admin")) {
+				if(requestUri.indexOf("/taster/myApplyForTaster") 	  > -1 ||
+				   requestUri.indexOf("/taster//applyTaster")         > -1	) {
+					
+					response.setContentType("text/html; charset=UTF-8");
+
+					PrintWriter printwriter = response.getWriter();
+
+					printwriter.print("<script>alert('권한이 없습니다!');history.go(-1);</script>");
+					printwriter.flush();
+					printwriter.close();
+					return false;
+				}
+			}
 			//소비자일경우
 			if(sessionLevel.equals("level_user")) {
 				if( requestUri.indexOf("/event/eventManage") 	  > -1 ||
