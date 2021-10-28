@@ -805,24 +805,6 @@
 	<!-- -->
 	
 	
-	<!-- -->
-	<!-- -->
-	<!-- -->
-	<!-- 세션ID비교하여 상점정보 OR 대분류카테고리 2개 각각 가져오기  지워야함!!!-->
-	<select id="getMyStoreList2" resultMap="storeResultMap">
-		SELECT
-			f.main_cate_name
-			,f.main_cate_code
-		FROM
-			tb_store_info AS s
-			INNER join
-			tb_food_main_cate AS f
-			ON
-			s.main_cate_code2 = f.main_cate_code
-		WHERE
-			biz_id = #{bizId};
-	</select>
-
 
 
 	<select id="getMyStoreList" resultMap="storeResultMap">

@@ -52,6 +52,7 @@ public class EnterController {
 		paramMap.put("state", state);
 		paramMap.put("cancelConfirmId", id);
 		
+		//승인버튼시 상태.완료일시.승인완료아이디 update
 		storeService.modifyStoreCancel(paramMap);
 		
 		//승인 완료 후 delete

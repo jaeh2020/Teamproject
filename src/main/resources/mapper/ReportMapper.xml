@@ -16,10 +16,6 @@
 		<result property="reportApplyId"		column="report_apply_id"></result>
 		<result property="memberId"		column="member_id"></result>
 		<result property="stateCode"		column="state_code"></result>
-			<association property="reportCate" 		javaType="ReportCate">
-			<id property="reportCateCode"			column="rep_cate_code"/>
-			<result property="reportCate"		column="rep_cate"/>
-			</association>
 	</resultMap>
 	
 	<resultMap type="Penalty" id="PenaltyMap">
@@ -53,6 +49,16 @@
 
 
 
+<!-- 블랙리스트 삭제 -->
+<delete id="blackListDelete" parameterType="String">
+	DELETE
+	FROM
+		tb_member_blacklist
+	WHERE 
+		blacklist_num = #{blackListNum};
+</delete>
+
+
 <!-- 블랙리스트 자동증가 -->
 <select id="getBlackListCode" resultType="String">
 	SELECT
@@ -68,7 +74,7 @@
 <!-- 블랙리스트 목록 가져오기 -->
 <select id="getmemberBlackList" resultMap="memberBlackListMap">
 	SELECT 
-		blacklist_num
+		  blacklist_num
 		, penalty_code
 		, blacklist_ask_time
 		, blacklist_ask
@@ -209,6 +215,7 @@ FROM
 </delete>
 
 
+
 <!-- 게시판 확정 처리 -->
 <update id="reportBoardCon" parameterType="Report">
 	UPDATE 
@@ -266,22 +273,19 @@ WHERE
 <!-- 게시판 신고 목록 -->
 <select id="getReportBoardList" resultMap="ReportBoardMap">
 	SELECT
-	 r.rep_code
-	,r.rep_cate_code
-	,c.rep_cate
-	,r.board_num
-	,r.rep_contents
-	,r.rep_time
-	,r.report_id
-	,r.member_id
-	,r.rep_confi_time
-	,r.state_code
+	 rep_code
+	,rep_cate_code
+	,board_num
+	,rep_contents
+	,rep_time
+	,report_id
+	,member_id
+	,rep_confi_time
+	,state_code
 FROM
-	tb_report AS r
-	INNER join
-	tb_report_cate AS c
-	on
-	r.rep_cate_code = c.rep_cate_code;
+	tb_report 
+WHERE
+	res_review_num IS NULL;
 </select>
 
 

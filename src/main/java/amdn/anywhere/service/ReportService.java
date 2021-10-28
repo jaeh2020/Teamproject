@@ -23,8 +23,13 @@ public class ReportService {
 		  this.reportMapper = reportMapper;
 	 }
 	  
-	 
-	 //블랙리스트코드 자동증가
+	 //블랙리스트삭제
+	 public int blackListDelete(String blackListNum) {
+		 return reportMapper.blackListDelete(blackListNum);
+	 };
+	
+	  
+	  //블랙리스트코드 자동증가
 	 public String getBlackListCode() {
 		 return reportMapper.getBlackListCode();
 	 }
@@ -82,7 +87,7 @@ public class ReportService {
 	  public int reportDelete(String reportCode) {
 		  return reportMapper.reportDelete(reportCode);
 	  }
-	  
+	
 	  
 	  //게시판 확정 처리
 	  public int reportBoardCon(Report report) {

@@ -116,6 +116,72 @@
 	<result property="stateCode"		column="state_code"></result>
 </resultMap>
 
+<resultMap type="ReviewReply" id="reviewReplyMap">
+	<result property="reviewReplyNum"		column="sto_rev_comm_num"></result>
+	<result property="reviewReplyContents"		column="rev_comm_contents"></result>
+	<result property="reviewReplyRegTime"		column="rev_comm_time"></result>
+	<result property="reviewNum"		column="res_review_num"></result>
+	<result property="storeCode"		column="store_code"></result>
+	<result property="memberId"		column="member_id"></result>
+</resultMap>
+
+
+
+<!-- 리뷰댓글삭제 -->
+<delete id="reviewDeleteComment" parameterType="String">
+		DELETE
+		FROM
+			tb_review_store_comment
+		WHERE 
+			sto_rev_comm_num = #{reviewReplyNum};
+</delete>
+
+<!-- 리뷰 댓글 등록 -->
+<insert id="addReviewComment" parameterType="ReviewReply">
+	INSERT INTO tb_review_store_comment(
+		sto_rev_comm_num
+		, rev_comm_contents
+		, rev_comm_time
+		, res_review_num
+		, store_code
+		, member_id)
+		VALUES (
+		#{reviewReplyNum}
+		, #{reviewReplyContents}
+		, NOW()
+		, #{reviewNum}
+		, #{storeCode}
+		, #{memberId});
+
+</insert>
+
+<!-- 리뷰 댓글 자동증가 -->
+<select id="getNewReviewReplyNum" resultType="String">
+	SELECT
+		CASE
+		WHEN COUNT(1) = 0 THEN 'com_001'
+		ELSE
+			CONCAT('com_', LPAD(MAX(CAST(SUBSTRING(sto_rev_comm_num,5,6)AS DECIMAL)+1),3,0))
+		END AS reviewReplyNum
+	FROM
+	tb_review_store_comment;
+</select>
+
+<!-- 리뷰 댓글 조회 -->
+<select id="getReviewCommentList" resultMap="reviewReplyMap">
+	SELECT 
+		sto_rev_comm_num
+		, rev_comm_contents
+		, rev_comm_time
+		, res_review_num
+		, store_code
+		, member_id
+	FROM 
+		tb_review_store_comment
+	WHERE
+		res_review_num = #{reviewNum};
+</select>
+
 <!-- 신고등록 -->
 	<insert id="reviewReport" parameterType="Report" >
 		INSERT INTO tb_report
@@ -266,13 +332,14 @@
 
 <!-- 관리자 리뷰 상세보기 -->
 <select id="getreviewView" resultMap="reviewResultMap" parameterType="String">
-	  SELECT
+	 SELECT
 		 r.member_id
 		,s.review_score
 		,r.review_contents
 		,r.review_com_time
 		,r.review_num
 		,i.store_name
+		,r.store_code
 	FROM
 		tb_review AS r
 		INNER join

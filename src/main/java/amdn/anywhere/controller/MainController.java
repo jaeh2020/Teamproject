@@ -72,7 +72,6 @@ public class MainController {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("placeInput", placeInput);
 		paramMap.put("mainCateCode", mainCateCode);
-		paramMap.put("mainCateCode", mainCateCode);
 		paramMap.put("searchKey", searchKey);
 		paramMap.put("searchCode", newSearchCode);
 		
