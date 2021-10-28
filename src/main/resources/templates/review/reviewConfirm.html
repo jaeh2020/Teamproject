@@ -31,7 +31,7 @@
 		                 <tbody>
 	                        	<tr th:each="r : ${getreviewList}">
 		                            <td th:text="${r.reviewNum}"></td>
-		                            <td><a  class="btn btn-dark btn-outline ti-search" th:href="@{/review/reviewUserView(storeName=${stroeSearch.storeName},reviewNum=${r.reviewNum})}"></a></td>
+		                            <td><a  class="btn btn-dark btn-outline ti-search" th:href="@{/review/reviewUserView(reviewNum=${r.reviewNum})}"></a></td>
 		                            <td th:text="${r.reviewScore.reviewScore}"></td>
 		                            <td th:text="${r.memberId}"></td>
 		                            <td th:text="${r.reviewLikes}"></td>

@@ -13,13 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import amdn.anywhere.domain.Board;
+import amdn.anywhere.domain.BoardReply;
 import amdn.anywhere.domain.Book;
 import amdn.anywhere.domain.Order;
 import amdn.anywhere.domain.Report;
 import amdn.anywhere.domain.Review;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Storesearch;
+import amdn.anywhere.domain.ReviewReply;
 import amdn.anywhere.service.ReviewService;
 
 
@@ -36,6 +38,50 @@ public class ReviewController {
 	  		this.reviewService = reviewService; 
 	  }
 	
+	//리뷰 댓글 삭제처리
+	@GetMapping("/reviewDeleteComment")
+	public String reviewDeleteComment(ReviewReply reviewReply
+								,@RequestParam(name = "reviewReplyNum" , required = false) String reviewReplyNum
+								,@RequestParam(name = "reviewNum" , required = false) String reviewNum
+								, HttpSession session) {
+		
+	
+			 //로그인 정보 가져오기
+			 String memberId = (String) session.getAttribute("SID");
+			 reviewReply.setMemberId(memberId);
+		 
+			 System.out.println("boardReply 화면 값" + reviewReply);
+			
+			 reviewService.reviewDeleteComment(reviewReplyNum);
+			
+			 return "redirect:/review/reviewUserView?reviewNum="+ reviewNum ;
+	}
+	  
+	  
+	  //리뷰 댓글 등록
+	  @PostMapping("/reviewUserView")
+		public String boardView(ReviewReply reviewReply
+				, HttpSession session
+				, @RequestParam(name = "reviewNum" , required = false) String reviewNum) {
+			
+			//로그인 정보 가져오기
+			String memberId = (String) session.getAttribute("SID");
+			reviewReply.setMemberId(memberId);
+			
+			System.out.println("커맨드 객체 boardReply" + reviewReply);
+			
+			
+			//게시글 댓글 자동증가 생성 후 insert
+			if (reviewReply != null) {
+				reviewReply.setReviewReplyNum(reviewService.getNewReviewReplyNum());
+				reviewService.addReviewComment(reviewReply);
+				
+			}
+			
+			return "redirect:/review/reviewUserView?reviewNum=" + reviewNum;
+		}  
+	
+	  
 	//게시글 신고 작성처리
 	@PostMapping("/reviewReport")
 	public String reviewReport(Report report
@@ -129,7 +175,10 @@ public class ReviewController {
 		//조회 수 증가
 		Integer reviewCnt = 0;
 		reviewCnt = reviewService.updateReviewCnt(reviewNum);
+		//리뷰 댓글 목록
+		List<ReviewReply> reviewCommentList = reviewService.getReviewCommentList(reviewNum);
 		
+		model.addAttribute("reviewCommentList", reviewCommentList);
 		model.addAttribute("title", "리뷰조회");
 		model.addAttribute("review", review);
 		model.addAttribute("reviewCnt", reviewCnt);

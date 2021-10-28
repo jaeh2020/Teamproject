@@ -41,15 +41,14 @@
 							<br>
 							<div class="my-3 p-3 bg-white rounded shadow-sm" th:if="${reviewCommentList ne null and #lists.size(reviewCommentList) > 0}" th:each=" rc : ${reviewCommentList}">
 								<!-- 히든 된 데이터 -->
-								<!-- <input type="hidden" name="boardReplyCode"  class="boardReplyCode">  -->
-								
-								<div class="commentId" ></div>
+								<input type="hidden" name="reviewReplyNum"  class="reviewReplyNum" th:value="${rc.reviewReplyNum}">
+								<div class="commentId" th:text="${rc.memberId}"></div>
 								<br>
-								<div class="comment-content"></div>
+								<div class="comment-content" th:text="${rc.reviewReplyContents}"></div>
 								<br>
-								<div class="comment-date"  style="display: inline;"></div> 
+								<div class="comment-date" th:text="${rc.reviewReplyRegTime}" style="display: inline;"></div> 
 								<div style="float: right;">
-									<a href="#none;" th:onclick="delReply([[${rc.reviewReplyCode}]],[[${bc.boardNum}]]);" id="delComment">삭제</a>
+									<a href="#none;" th:onclick="delReply([[${rc.reviewReplyNum}]],[[${rc.reviewNum}]]);" id="delComment">삭제</a>
 								</div>
 								<hr>
 							</div> 
@@ -57,8 +56,10 @@
 							<div class="row">
 								<div class="col-md-12 ">
 									<div class="form-group">
+									   	
+										<input type="hidden" name="storeCode"  class="storeCode" th:value="${review.storeCode}">
 										<label style="font-weight: bold;">댓글</label>
-										<input type="text" class="form-control" style="height: 100px;" name="boardReplyContents">
+										<input type="text" class="form-control" style="height: 100px;" name="reviewReplyContents">
 										<button type="button" class="btn btn-inverse" style="margin-top: 10px; float: right;" id="commentBtn">등록</button>
 									</div>
 								</div>
@@ -84,59 +85,84 @@
 <th:block layout:fragment="customJsLib">
 	<script type="text/javascript">
 	
-		/* 목록화면이동 유효성 검사 */
-	   function reviewListBtn(storeName){
-	   		if(confirm("목록으로 돌아가시겠습니까?")){
-	   			location.href = '/review/reviewConfirm?storeName=' + storeName;
-	   			return true;
-	   		}else{
-	   			return false;
-	   		}
-	   		
-	   	}
+		 //a테그시 유효성 검사
+		   function delReply(reviewReplyNum, reviewNum){
+			   if(confirm("삭제하시겠습니까?")){
+			        location.href = '/review/reviewDeleteComment?reviewReplyNum=' + reviewReplyNum + '&' + 'reviewNum=' + reviewNum;
+			        return true;
+			    } else {
+			        return false;
+			    }
+		   }
 	
-	   /* 수정,삭제 화면 이동 유효성검사 */
-		$(function(){
-			$('.reviewModiBtn').click(function(){
+		   $(function(){
+		      	$('#commentBtn').on('click',function(){
+		      		
+		      		var reviewReplyContents = $('[name=reviewReplyContents]')
+		      		
+		      		if(reviewReplyContents.val() == ''){
+						alert('댓글을 입력해주세요.')
+						reviewReplyContents.focus();
+		      			return false;
+		      		}
+		      		alert('등록하시겠습니까?')
+		      		$('#reviewcommentForm').submit();
+		      	});	
+			});	
+	
+		/* 목록화면이동 유효성 검사 */
+		   function reviewListBtn(storeName){
+		   		if(confirm("목록으로 돌아가시겠습니까?")){
+		   			location.href = '/review/reviewConfirm?storeName=' + storeName;
+		   			return true;
+		   		}else{
+		   			return false;
+		   		}
+		   		
+		   	}
+		
+		   /* 수정,삭제 화면 이동 유효성검사 */
+			$(function(){
+				$('.reviewModiBtn').click(function(){
+					
+					var	memberId = $(this).parent().parent().find('.memberId').text().trim();
+					var reviewNum = $(this).parent().parent().find('#reviewNum').text().trim();
+					var storeName = $(this).parent().parent().find('.storeName').text().trim();
+					
+					console.log(memberId);
+					console.log(reviewNum);
+					console.log(storeName);
+					
+					if( memberId == '[[${memberId}]]'){
+						alert('리뷰수정페이지로 이동합니다.');
+						location.href = "/review/reviewModify?storeName=" + storeName + '&' + 'reviewNum=' + reviewNum;
+					}else{
+						alert('수정 권한이 없습니다.');
+						return false;
+					}
+				});
 				
-				var	memberId = $(this).parent().parent().find('.memberId').text().trim();
-				var reviewNum = $(this).parent().parent().find('#reviewNum').text().trim();
-				var storeName = $(this).parent().parent().find('.storeName').text().trim();
-				
-				console.log(memberId);
-				console.log(reviewNum);
-				console.log(storeName);
-				
-				if( memberId == '[[${memberId}]]'){
-					alert('리뷰수정페이지로 이동합니다.');
-					location.href = "/review/reviewModify?storeName=" + storeName + '&' + 'reviewNum=' + reviewNum;
-				}else{
-					alert('수정 권한이 없습니다.');
-					return false;
-				}
+				$('.reviewDelBtn').click(function(){
+					
+					var	memberId = $(this).parent().parent().find('.memberId').text().trim();
+					var reviewNum = $(this).parent().parent().find('#reviewNum').text().trim();
+					
+					console.log(memberId);
+					console.log(reviewNum);
+					
+					if( memberId == '[[${memberId}]]'){
+						alert('정말로 삭제하시겠습니까?');
+						location.href = "/review/reviewUserDelete?reviewNum=" + reviewNum ;
+					}else{
+						alert('삭제 권한이 없습니다.');
+						return false;
+					}
+				});
 			});
-			
-			$('.reviewDelBtn').click(function(){
-				
-				var	memberId = $(this).parent().parent().find('.memberId').text().trim();
-				var reviewNum = $(this).parent().parent().find('#reviewNum').text().trim();
-				
-				console.log(memberId);
-				console.log(reviewNum);
-				
-				if( memberId == '[[${memberId}]]'){
-					alert('정말로 삭제하시겠습니까?');
-					location.href = "/review/reviewUserDelete?reviewNum=" + reviewNum ;
-				}else{
-					alert('삭제 권한이 없습니다.');
-					return false;
-				}
-			});
-		});
-	</script>
-
-	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
-	<script src="js/lib/owl-carousel/owl.carousel-init.js"></script>	     -->
+		</script>
+	
+		<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+		<script src="js/lib/owl-carousel/owl.carousel-init.js"></script>	     -->
 
 
 </th:block>

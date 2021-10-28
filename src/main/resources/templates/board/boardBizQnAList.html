@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents">
+	<div class="card card-outline-primary" >
+		<div class="col-lg-12">
+			<div class="box box-primary">
+				<div class="card-header" >
+					<h4 class="m-b-0 text-white" ><i class="ti-menu"></i> 소비자 문의 목록  </h4>
+				</div>
+				<div class="box-body" style="padding-top: 20px;" >
+					<table class="table table-bordered ">
+						<thead>
+							<tr>
+								<th style="width: 30px; font-style: italic; font-weight: bold;">NO.</th>
+								<th style="font-weight: bold;">제목</th>
+								<th style="width: 120px; font-weight: bold;">작성자 아이디</th>
+								<th style="width: 150px;  font-weight: bold;">작성시간</th>
+								<th style="width: 60px; font-weight: bold;">조회</th>
+							</tr>
+						</thead>
+						<tbody id="boardListMore">
+							<tr th:if="${boardBizQnAList ne null and #lists.size(boardBizQnAList) > 0}" th:each=" b : ${boardBizQnAList}">
+								<td th:text="${b.boardNum}"></td>
+								<td>
+									<a th:href="@{/board/boardBizQnAView(boardNum=${b.boardNum})}"  th:text="${b.boardTitle}" id="boardSecretHref"></a>
+								</td>
+								<td>
+									<a href="javascript:void(0)" class="memberInfoSearch" th:text="${b.memberId}"></a>
+								</td>
+								<td th:text="${b.boardRegTime}"></td>
+								<td th:text="${b.boardViews}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>			
+				<div class="box-footer">
+					<div class="pull-right">
+						<a th:href="@{/board/boardBizQnAWrite}" class="btn btn-success btn-flat"  style="margin-top: 15px; "><i class="fa fa-pencil"></i> 글쓰기</a>
+					</div>
+					<div class="pull-left">
+						<button type="button" class="btn btn-warning btn-flat testBtn"  style="margin-top: 15px; ">권한설정</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+<th:block layout:fragment="customJsLib">
+
+
+<script type="text/javascript">
+												
+    
+    
+    $(function(){
+    	
+    	var loginLevel = 'admin';
+    	
+    	$('.testBtn').on('click', function(){
+    		if(loginLevel == 'admin'){
+	    		$(this).removeClass('btn-warning')    			
+	    		$(this).addClass('btn-info')
+	    		loginLevel = 'user';
+    		}else{
+	    		$(this).removeClass('btn-info')    			
+	    		$(this).addClass('btn-warning')    			
+	    		loginLevel = 'admin';
+    		}
+    		
+    	});
+    	
+    	
+		$('.memberInfoSearch').on('click',function(){
+			
+			var memId = $(this).text();		
+			
+			var request =  $.ajax({
+				  url: "/board/memberSearch", //요청 주소
+				  method: "GET", //요청 방식
+				  data: { memberId : memId }, // input name->cateCode,  value->stName
+				  dataType: "json" //받아올 포맷방식
+			});	
+			request.done(function(data){
+				
+				console.log(data);
+				console.log(data.memberId, data.memberName, data.memberGender, data.memberBirth);
+				 
+				var htmml= '';
+				if(loginLevel == 'admin'){					
+					htmml += '<br><span class="ti-comments-smiley"></span> ' + '<text style="font-family: Jua, sans-serif; font-size:40px">'+ data.memberId + '</text>';
+					htmml += '<br><br> <text class="text-info" style="font-family: Jua, sans-serif;"> 회원 이름 : </text>' + '<text style="font-family: Jua, sans-serif;">' + data.memberName + '</text>' ;
+					htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 회원 성별 : </text>'  + '<text style="font-family: Jua, sans-serif;">' + data.memberGender + '</text>';
+					htmml += '<br> <text class="text-info" style="font-family: Jua, sans-serif;"> 생년월일 : </text>' + '<text style="font-family: Jua, sans-serif;">'+ data.memberBirth + '</text>'; 
+				}else{
+					htmml = '<text class="text-info" style="font-family: Jua, sans-serif;"> 권한이 없습니다. </text>';
+				}
+					Swal.fire(htmml); 
+				});
+				 request.fail(function( jqXHR, textStatus){
+				 alert( "Request failed: " + textStatus );
+				}); 
+			});
+		});
+    
+
+</script>
+	<!-- <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+	<script src="js/lib/owl-carousel/owl.carousel-init.js"></script> -->	    
+</th:block>
+
+
+
+</html>

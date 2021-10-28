@@ -12,6 +12,9 @@ import amdn.anywhere.domain.Report;
 @Mapper
 public interface ReportMapper {
 	
+	//블랙리스트삭제
+	public int blackListDelete(String blackListNum);
+	
 	//블랙리스트코드 자동증가
 	public String getBlackListCode();
 	

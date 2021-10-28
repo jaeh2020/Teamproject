@@ -32,6 +32,19 @@ public class ReportController {
 	 
 	 
 	 
+	 //블랙리스트 삭제
+	 @GetMapping("/blackListDelete")
+	 public String blackListDelete(MemberBlackList memberBlackList
+			 					,@RequestParam(name = "blackListNum" , required = false)String blackListNum) {
+		 
+		 System.out.println("memberBlackList" + memberBlackList);
+		 
+		 reportService.blackListDelete(blackListNum);
+		 
+		 return "redirect:/report/memberBlackList";
+	 }
+	
+	 
 	 
 	 //블랙리스트 목록
 	@GetMapping("/memberBlackList")
@@ -130,6 +143,22 @@ public class ReportController {
 		}
 	
 	 
+		//리뷰 벌점 부과 폼 작성처리
+		@PostMapping("/penaltyreviewAdd")
+		public String penaltyreviewAdd(Penalty penalty
+				) {
+			
+			System.out.println("penalty" + penalty);
+			
+			
+			if (penalty != null) {
+				penalty.setPenaltyCode(reportService.getNewPenaltyCode());
+				reportService.boardPenalty(penalty);
+			}
+			
+			return "redirect:/report/reportReviewList";
+		}
+		
 	 //벌점 부과 폼 작성처리
 		@PostMapping("/penaltyAdd")
 		public String penaltyAdd(Penalty penalty
@@ -146,6 +175,28 @@ public class ReportController {
 			return "redirect:/report/reportBoardList";
 		}
 	 
+		//리뷰 벌점 부과 폼 작성
+		@GetMapping("/penaltyreviewAdd")
+		public String penaltyreviewAdd(Model model
+				,HttpSession session
+				,@RequestParam(name = "reportCode" , required = false)String reportCode
+				,@RequestParam(name = "boardNum" , required = false)String boardNum) {
+			
+			//벌점 부여자 아이디 가져오기
+			String memberId = (String)session.getAttribute("SID");
+			//신고 코드 가져오기
+			Report getReportCode = reportService.getReportBoardCode(reportCode);
+			
+			
+			model.addAttribute("title", "벌점 부과");
+			model.addAttribute("memberId", memberId);
+			model.addAttribute("getReportCode", getReportCode);
+			
+			
+			
+			return "report/penaltyreviewAdd";
+		}
+		
 	 //벌점 부과 폼 작성
 	@GetMapping("/penaltyAdd")
 	public String penaltyAdd(Model model
@@ -169,6 +220,18 @@ public class ReportController {
 	}
 	
 	 
+	//리뷰 삭제 처리
+	@GetMapping("/reviewReportDelete")
+	public String reviewReportDelete(Report report
+			, @RequestParam(name = "reportCode" , required = false) String reportCode) {
+		
+		System.out.println("report" + report);
+		
+		reportService.reportDelete(reportCode);
+		
+		return "redirect:/report/reportReviewList";
+	}
+	
 	 //게시판 삭제 처리
 	 @GetMapping("/reportDelete")
 	 public String reportDelete(Report report
@@ -181,6 +244,17 @@ public class ReportController {
 		 return "redirect:/report/reportBoardList";
 	 }
 	
+	 
+	 //리뷰 확정 처리
+	 @PostMapping("/reportReviewCom")
+	 public String reportReviewCom(Report report) {
+		 
+		 System.out.println("report +" + report);
+		 
+		 reportService.reportBoardCon(report);
+		 
+		 return "redirect:/report/reportReviewList";
+	 }
 	 
 	 
 	 //게시판 확정 처리
@@ -195,6 +269,26 @@ public class ReportController {
 	}
 	 
 	 
+	 
+	 //리뷰 신고 확정
+	 @GetMapping("/reportReviewCom")
+	 public String reportReviewCom(Model model
+								  ,HttpSession session
+							      ,@RequestParam(name = "reportCode" , required = false) String reportCode) {
+		 
+		 //신고확정자 아이디 가져오기
+		 String memberId = (String)session.getAttribute("SID");
+		 //신고 게시물 조회 
+		 Report report = reportService.getReportBoardCode(reportCode);
+		 
+		 model.addAttribute("title", "리뷰 신고 확정");
+		 model.addAttribute("location", "리뷰 신고 목록");
+		 model.addAttribute("memberId", memberId);
+		 model.addAttribute("report", report);
+		 
+		 
+		 return "report/reportReviewCom";
+	 }
 	 
 	 //게시판 신고 확정
 	@GetMapping("/reportBoardCom")
