@@ -167,7 +167,7 @@ public class BoardService {
 		  return boardQnAList;
 	  }
 	  
-	  //소상공인 게시글 목록
+	  //공지사항 게시글 목록
 	  public List<Board> getBoardNoticeList(){
 		  List<Board> boardNoticeList = boardMapper.getBoardNoticeList();
 		  
