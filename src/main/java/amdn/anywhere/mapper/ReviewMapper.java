@@ -12,12 +12,25 @@ import amdn.anywhere.domain.Report;
 import amdn.anywhere.domain.Review;
 import amdn.anywhere.domain.Statement;
 import amdn.anywhere.domain.Storesearch;
+import amdn.anywhere.domain.ReviewReply;
 
 
 
 
 @Mapper
 public interface ReviewMapper {
+	
+	//리뷰댓글삭제
+	public int reviewDeleteComment(String reviewReplyNum);
+	
+	//리뷰 댓글 등록
+	public int addReviewComment(ReviewReply reviewReply);
+	
+	//리뷰 댓글 자동증가
+	public String getNewReviewReplyNum();
+	
+	//리뷰 댓글 목록
+	public List<ReviewReply> getReviewCommentList(String reviewNum);
 	
 	//신고등록
 	public int reviewReport(Report report);

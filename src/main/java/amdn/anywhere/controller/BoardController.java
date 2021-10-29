@@ -120,6 +120,63 @@ public class BoardController {
 
 	
 	
+	//소상공인 문의 댓글 삭제처리
+	@GetMapping("/deleteBizQnAComment")
+	public String deleteBizQnAComment(BoardReply boardReply
+			,@RequestParam(name = "boardReplyCode" , required = false) String boardReplyCode
+			,@RequestParam(name = "boardNum" , required = false) String boardNum
+			, HttpSession session) {
+		
+		
+		//로그인 정보 가져오기
+		String memberId = (String) session.getAttribute("SID");
+		boardReply.setMemberId(memberId);
+		
+		System.out.println("boardReply 화면 값" + boardReply);
+		
+		boardService.deleteComment(boardReplyCode);
+		
+		return "redirect:/board/boardBizQnAView?boardNum="+ boardNum ;
+	}
+	
+	//소비자 문의 댓글 삭제처리
+	@GetMapping("/deleteQnAComment")
+	public String deleteQnAComment(BoardReply boardReply
+			,@RequestParam(name = "boardReplyCode" , required = false) String boardReplyCode
+			,@RequestParam(name = "boardNum" , required = false) String boardNum
+			, HttpSession session) {
+		
+		
+		//로그인 정보 가져오기
+		String memberId = (String) session.getAttribute("SID");
+		boardReply.setMemberId(memberId);
+		
+		System.out.println("boardReply 화면 값" + boardReply);
+		
+		boardService.deleteComment(boardReplyCode);
+		
+		return "redirect:/board/boardQnAView?boardNum="+ boardNum ;
+	}
+	
+	// 소상공인 게시글 댓글 삭제처리
+	@GetMapping("/deleteBizComment")
+	public String deleteBizComment(BoardReply boardReply
+			,@RequestParam(name = "boardReplyCode" , required = false) String boardReplyCode
+			,@RequestParam(name = "boardNum" , required = false) String boardNum
+			, HttpSession session) {
+		
+		
+		//로그인 정보 가져오기
+		String memberId = (String) session.getAttribute("SID");
+		boardReply.setMemberId(memberId);
+		
+		System.out.println("boardReply 화면 값" + boardReply);
+		
+		boardService.deleteComment(boardReplyCode);
+		
+		return "redirect:/board/boardBizView?boardNum="+ boardNum ;
+	}
+	
 	//게시글 댓글 삭제처리
 	@GetMapping("/deleteComment")
 	public String deleteComment(BoardReply boardReply
@@ -141,7 +198,31 @@ public class BoardController {
 
 	
 	
-	//소상공인 게시글 수정 처리
+	//소상공인 문의 게시글 수정 처리
+	@PostMapping("/boardBizQnAModify")
+	public String boardBizQnAModify(Board board) {
+		
+		
+		System.out.println("board 수정화면 값" + board);
+		
+		boardService.boardModify(board);
+		
+		return "redirect:/board/boardBizQnAList";
+	}
+	
+	//소비자 문의 게시글 수정 처리
+	@PostMapping("/boardQnAModify")
+	public String boardQnAModify(Board board) {
+		
+		
+		System.out.println("board 수정화면 값" + board);
+		
+		boardService.boardModify(board);
+		
+		return "redirect:/board/boardQnAList";
+	}
+	
+	//공지사항 수정 처리
 	@PostMapping("/boardNoticeModify")
 	public String boardNoticeModify(Board board) {
 		
@@ -175,6 +256,34 @@ public class BoardController {
 		boardService.boardModify(board);
 		
 		return "redirect:/board/boardList";
+	}
+	
+	// 소상공인 문의 게시글 수정
+	@GetMapping("/boardBizQnAModify")
+	public String boardBizQnAModify(Model model
+			,@RequestParam(name = "boardNum" , required = false) String boardNum) {
+		
+		//게시글 수정정보 가져오기
+		Board board = boardService.getBoardInfoByCode(boardNum); 
+		
+		model.addAttribute("title", "소비자 문의 수정");
+		model.addAttribute("board" , board); 
+		
+		return "/board/boardBizQnAModify";
+	}
+	
+	// 소비자 문의 게시글 수정
+	@GetMapping("/boardQnAModify")
+	public String boardQnAModify(Model model
+			,@RequestParam(name = "boardNum" , required = false) String boardNum) {
+		
+		//게시글 수정정보 가져오기
+		Board board = boardService.getBoardInfoByCode(boardNum); 
+		
+		model.addAttribute("title", "소비자 문의 수정");
+		model.addAttribute("board" , board); 
+		
+		return "/board/boardQnAModify";
 	}
 	
 	
@@ -221,8 +330,34 @@ public class BoardController {
 	}
 	
 	
+	//소상공인 문의 삭제처리
+	@GetMapping("/boardBizQnADelete")
+	public String boardBizQnADelete(Board board
+			,@RequestParam(name = "boardNum" , required = false) String boardNum ) {
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("boardNum", boardNum);
+		
+		boardService.boardDelete(paramMap);
+		
+		return "redirect:/board/boardBizQnAList";
+	}
+	
+	//소비자 문의 삭제처리
+	@GetMapping("/boardQnADelete")
+	public String boardQnADelete(Board board
+			,@RequestParam(name = "boardNum" , required = false) String boardNum ) {
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("boardNum", boardNum);
+		
+		boardService.boardDelete(paramMap);
+		
+		return "redirect:/board/boardQnAList";
+	}
+	
 	//공지사항 삭제처리
-	@PostMapping("/boardNoticeDelete")
+	@GetMapping("/boardNoticeDelete")
 	public String boardNoticeDelete(Board board
 									,@RequestParam(name = "boardNum" , required = false) String boardNum ) {
 		
@@ -269,6 +404,75 @@ public class BoardController {
 	}
 	
 	
+	//소상공인 문의 게시물 댓글 등록
+	@PostMapping("/boardBizQnAView")
+	public String boardBizQnAView(BoardReply boardReply
+			, HttpSession session
+			, @RequestParam(name = "boardNum" , required = false) String boardNum) {
+		
+		//로그인 정보 가져오기
+		String memberId = (String) session.getAttribute("SID");
+		boardReply.setMemberId(memberId);
+		
+		System.out.println("커맨드 객체 boardReply" + boardReply);
+		
+		
+		//게시글 댓글 자동증가 생성 후 insert
+		if (boardReply != null) {
+			boardReply.setBoardReplyCode(boardService.getNewBoardReplyNum());
+			boardService.addComment(boardReply);
+			
+		}
+		
+		return "redirect:/board/boardBizQnAView?boardNum=" + boardNum;
+	}
+	
+	//소비자 문의 게시물 댓글 등록
+	@PostMapping("/boardQnAView")
+	public String boardQnAView(BoardReply boardReply
+			, HttpSession session
+			, @RequestParam(name = "boardNum" , required = false) String boardNum) {
+		
+		//로그인 정보 가져오기
+		String memberId = (String) session.getAttribute("SID");
+		boardReply.setMemberId(memberId);
+		
+		System.out.println("커맨드 객체 boardReply" + boardReply);
+		
+		
+		//게시글 댓글 자동증가 생성 후 insert
+		if (boardReply != null) {
+			boardReply.setBoardReplyCode(boardService.getNewBoardReplyNum());
+			boardService.addComment(boardReply);
+			
+		}
+		
+		return "redirect:/board/boardQnAView?boardNum=" + boardNum;
+	}
+	
+	//소상공인 게시물 댓글 등록
+	@PostMapping("/boardBizView")
+	public String boardBizView(BoardReply boardReply
+			, HttpSession session
+			, @RequestParam(name = "boardNum" , required = false) String boardNum) {
+		
+		//로그인 정보 가져오기
+		String memberId = (String) session.getAttribute("SID");
+		boardReply.setMemberId(memberId);
+		
+		System.out.println("커맨드 객체 boardReply" + boardReply);
+		
+		
+		//게시글 댓글 자동증가 생성 후 insert
+		if (boardReply != null) {
+			boardReply.setBoardReplyCode(boardService.getNewBoardReplyNum());
+			boardService.addComment(boardReply);
+			
+		}
+		
+		return "redirect:/board/boardBizView?boardNum=" + boardNum;
+	}
+	
 	//게시물 댓글 등록
 	@PostMapping("/boardView")
 	public String boardView(BoardReply boardReply
@@ -281,20 +485,72 @@ public class BoardController {
 		
 		System.out.println("커맨드 객체 boardReply" + boardReply);
 		
-	
+		
 		//게시글 댓글 자동증가 생성 후 insert
-			if (boardReply != null) {
-				boardReply.setBoardReplyCode(boardService.getNewBoardReplyNum());
-				boardService.addComment(boardReply);
-				
-			}
+		if (boardReply != null) {
+			boardReply.setBoardReplyCode(boardService.getNewBoardReplyNum());
+			boardService.addComment(boardReply);
 			
+		}
+		
 		return "redirect:/board/boardView?boardNum=" + boardNum;
 	}
 	
 	
 	
+	//소상공인 문의 게시글 조회
+	@GetMapping("/boardBizQnAView")
+	public String boardBizQnAView(Model model
+			,@RequestParam(name = "boardNum" , required = false) String boardNum
+			,@RequestParam(name = "boardReplyCode", required = false) String boardReplyCode
+			,HttpSession session) {
+		
+		//게시물 정보 가져오기
+		Board board = boardService.getBoardInfoByCode(boardNum);
+		//조회 수 증가
+		Integer boardCnt = 0;
+		boardCnt = boardService.updateBoardCnt(boardNum);
+		//로그인 아이디 가져오기
+		String memberId = (String) session.getAttribute("SID");
+		//게시글 댓글 목록
+		List<BoardReply> boardCommentList = boardService.getBoardCommentList(boardNum);
+		
+		
+		model.addAttribute("boardCommentList", boardCommentList);	
+		model.addAttribute("title", "QnA 게시판 조회");
+		model.addAttribute("board", board);
+		model.addAttribute("boardCnt", boardCnt);
+		model.addAttribute("memberId", memberId);
+		
+		return "/board/boardBizQnAView"; 
+	}
 	
+	//소비자 문의 게시글 조회
+	@GetMapping("/boardQnAView")
+	public String boardQnAView(Model model
+			,@RequestParam(name = "boardNum" , required = false) String boardNum
+			,@RequestParam(name = "boardReplyCode", required = false) String boardReplyCode
+			,HttpSession session) {
+		
+		//게시물 정보 가져오기
+		Board board = boardService.getBoardInfoByCode(boardNum);
+		//조회 수 증가
+		Integer boardCnt = 0;
+		boardCnt = boardService.updateBoardCnt(boardNum);
+		//로그인 아이디 가져오기
+		String memberId = (String) session.getAttribute("SID");
+		//게시글 댓글 목록
+		List<BoardReply> boardCommentList = boardService.getBoardCommentList(boardNum);
+		
+		
+		model.addAttribute("boardCommentList", boardCommentList);	
+		model.addAttribute("title", "QnA 게시판 조회");
+		model.addAttribute("board", board);
+		model.addAttribute("boardCnt", boardCnt);
+		model.addAttribute("memberId", memberId);
+		
+		return "/board/boardQnAView"; 
+	}
 	
 	//공지사항 게시글 조회
 	@GetMapping("/boardNoticeView")
@@ -391,7 +647,34 @@ public class BoardController {
 		  
 	  }
 	  
-	
+	  //소비자 문의 게시글 목록
+	  @GetMapping("/boardBizQnAList")
+	  public String boardBizQnAList(Model model) {
+		  
+		  List<Board> boardBizQnAList = boardService.getBoardBizQnAList();
+		  
+		  
+		  model.addAttribute("title", "소상공인 문의 목록");
+		  model.addAttribute("location", "소상공인 문의 ");
+		  model.addAttribute("boardBizQnAList", boardBizQnAList);
+		  
+		  return "/board/boardBizQnAList";
+	  }
+	  
+	  //소비자 문의 게시글 목록
+	  @GetMapping("/boardQnAList")
+	  public String boardQnAList(Model model) {
+			
+		 List<Board> boardQnAList = boardService.getBoardQnAList();
+			
+			
+			model.addAttribute("title", "소비자 QnA 목록");
+			model.addAttribute("location", "소비자 문의");
+			model.addAttribute("boardQnAList", boardQnAList);
+			
+			return "/board/boardQnAList";
+		}
+		
 	  //공지사항 게시글 목록
 	  @GetMapping("/boardNoticeList")
 	  public String boardNoticeList(Model model) {
@@ -405,6 +688,7 @@ public class BoardController {
 		  
 		  return "/board/boardNoticeList";
 	  }
+	  
 	  //소상공인 게시글 목록
 	  @GetMapping("/boardBizList")
 	  public String boardBizList(Model model) {
@@ -418,20 +702,53 @@ public class BoardController {
 		
 		return "/board/boardBizList";
 	}
-		
-	  
-	  // 소비자 게시글 목록
+		  
+	// 소비자 게시글 목록
 	@GetMapping("/boardList")
 	public String boardList(Model model) {
 		
 		List<Board> boardList = boardService.getBoardList();
 		
 		
-		model.addAttribute("title", "게시판 목록");
+		model.addAttribute("title", "소비자 게시판 목록");
 		model.addAttribute("location", "소비자 게시판");
 		model.addAttribute("boardList", boardList);
 		
 		return "/board/boardList";
+	}
+	
+	// 소상공인 문의 게시글 작성 처리
+	@PostMapping("/boardBizQnAWrite")
+	public String boardBizQnAWrite(Board board) {
+		System.out.println("====================");
+		System.out.println(" 커맨드객체 board : " + board);
+		System.out.println("====================");
+		
+		//게시글 자동증가 생성 후 insert
+		if (board != null) {
+			board.setBoardNum(boardService.getNewBoardNum());
+			boardService.boardBizQnAWrite(board);
+		}
+		
+		
+		return "redirect:/board/boardBizQnAList";
+	}
+	
+	// 소비자 문의 게시글 작성 처리
+	@PostMapping("/boardQnAWrite")
+	public String boardQnAWrite(Board board) {
+		System.out.println("====================");
+		System.out.println(" 커맨드객체 board : " + board);
+		System.out.println("====================");
+		
+		//게시글 자동증가 생성 후 insert
+		if (board != null) {
+			board.setBoardNum(boardService.getNewBoardNum());
+			boardService.boardQnAWrite(board);
+		}
+		
+		
+		return "redirect:/board/boardQnAList";
 	}
 	
 	// 공지사항 작성 처리
@@ -485,7 +802,43 @@ public class BoardController {
 		return "redirect:/board/boardList";
 	}
 	
+	//소상공인 문의 작성 
+	@GetMapping("/boardBizQnAWrite")
+	public String boardBizQnAWrite(Model model
+			,HttpSession session
+			,@RequestParam(name = "boardStatementCode" , required = false) String boardStatementCode) {
+		
+		//로그인 아이디 가져오기
+		String memberId = (String) session.getAttribute("SID");
+		
+		//상태코드 가져오기
+		Statement boardStatement = boardService.getboardStatement(boardStatementCode);
+		
+		model.addAttribute("title", "공지사항 등록");
+		model.addAttribute("memberId", memberId);
+		model.addAttribute("boardStatement", boardStatement);
+		
+		return "/board/boardBizQnAWrite";
+	}
 	
+	//소비자 문의 작성 
+	@GetMapping("/boardQnAWrite")
+	public String boardQnAWrite(Model model
+			,HttpSession session
+			,@RequestParam(name = "boardStatementCode" , required = false) String boardStatementCode) {
+		
+		//로그인 아이디 가져오기
+		String memberId = (String) session.getAttribute("SID");
+		
+		//상태코드 가져오기
+		Statement boardStatement = boardService.getboardStatement(boardStatementCode);
+		
+		model.addAttribute("title", "공지사항 등록");
+		model.addAttribute("memberId", memberId);
+		model.addAttribute("boardStatement", boardStatement);
+		
+		return "/board/boardQnAWrite";
+	}
 	
 	//공지사항 작성 
 	@GetMapping("/boardNoticeWrite")
@@ -524,8 +877,6 @@ public class BoardController {
 		
 		return "/board/boardBizWrite";
 		}
-	
-	
 	
 	// 게시글 작성 
 	@GetMapping("/boardWrite")

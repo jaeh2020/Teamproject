@@ -127,6 +127,16 @@ public class BoardService {
 	  }
 	  
 	  
+	  //소상공인 문의 등록
+	  public int boardBizQnAWrite(Board board) {
+		  return boardMapper.boardBizQnAWrite(board);
+	  }
+	  
+	  //소비자 문의 등록
+	  public int boardQnAWrite(Board board) {
+		  return boardMapper.boardQnAWrite(board);
+	  }
+	  
 	  //공지사항 등록
 	  public int boardNoticeWrite(Board board) {
 		  return boardMapper.boardNoticeWrite(board);
@@ -142,6 +152,20 @@ public class BoardService {
 		  return boardMapper.boardWrite(board);
 	  }
 	  
+	  
+	  //소상공인 QnA 게시글 목록
+	  public List<Board> getBoardBizQnAList(){
+		  List<Board> boardBizQnAList = boardMapper.getBoardBizQnAList();
+		  
+		  return boardBizQnAList;
+	  }
+	  
+	  //소비자 QnA 게시글 목록
+	  public List<Board> getBoardQnAList(){
+		  List<Board> boardQnAList = boardMapper.getBoardQnAList();
+		  
+		  return boardQnAList;
+	  }
 	  
 	  //소상공인 게시글 목록
 	  public List<Board> getBoardNoticeList(){

@@ -189,15 +189,10 @@ public class StoreController {
 		//메뉴 수정화면
 		Menu menu = storeService.getMyMenuInfoByMenuCode(menuCode);
 		
-		//메뉴 대분류명 가져오기
-		//Map<String, Object> paramMap = storeService.getMyMainCateOnly(storeCode);
-		
 		//메뉴 대분류 전체 조회
 		List<FoodMainCate> mainCate = storeService.getMainCate();
 
 		model.addAttribute("mainCate", mainCate);
-		//model.addAttribute("mainCateOnly", paramMap.get("mainCateOnly"));
-		//model.addAttribute("mainCateOnly2", paramMap.get("mainCateOnly2"));
 		model.addAttribute("menu", menu);
 		model.addAttribute("title", "나의 메뉴 수정");
 		model.addAttribute("location", "나의 메뉴 수정");

@@ -79,7 +79,7 @@ public class PosController {
 		paramMap.put("storeCode", storeCode);
 		paramMap.put("state", state);
 		
-		//standby테이블 상태=주문완료, 완료일시, 총대기시간 update
+		//standby테이블 상태=주문완료, 완료일시 update
 		posService.modifyPosStanbyState(paramMap);
 		//book테이블 상태=주문완료
 		posService.modifyPosBookState(paramMap);

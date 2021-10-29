@@ -43,7 +43,7 @@
 					</div>
 					
 					<h3 class="box-title m-t-40"></h3>
-						<form th:action="@{/board/boardBizView(boardNum=${board.boardNum})}" method="post" id="commentForm">
+						<form th:action="@{/board/boardQnAView(boardNum=${board.boardNum})}" method="post" id="commentForm">
 							<!-- Reply List {s}-->
 							<h5 class="border-bottom pb-2 mb-0"><i class="ti-menu"></i> Reply list</h5>
 							<br>
@@ -76,7 +76,7 @@
 						<hr>
 				<div class="box-footer" style="margin-top: 20px;">
 					<div class="pull-left">
-						<a th:href="@{/board/boardBizList}" class="btn btn-primary listBtn" style="display: inline;">
+						<a th:href="@{/board/boardQnAList}" class="btn btn-primary listBtn" style="display: inline;">
 								<i class="fa fa-list"></i> 목록
 							</a>	
 						</div>
@@ -99,7 +99,7 @@
     /* 댓글 삭제 유효성검사 */
    function delReply(boardReplyCode, boardNum){
 	   if(confirm("삭제하시겠습니까?")){
-	        location.href = '/board/deleteBizComment?boardReplyCode=' + boardReplyCode + '&' + 'boardNum=' + boardNum;
+	        location.href = '/board/deleteQnAComment?boardReplyCode=' + boardReplyCode + '&' + 'boardNum=' + boardNum;
 	        return true;
 	    } else {
 	        return false;
@@ -135,7 +135,7 @@
 				
 				if( memberId == '[[${memberId}]]'){
 					alert('게시판 수정페이지로 이동합니다.');
-					location.href = "/board/boardBizModify?boardNum=" + boardNum;
+					location.href = "/board/boardQnAModify?boardNum=" + boardNum;
 				}else{
 					alert('수정 권한이 없습니다.');
 					return false;
@@ -152,7 +152,7 @@
 				
 				if( memberId == '[[${memberId}]]'){
 					alert('정말로 삭제하시겠습니까?');
-					location.href = "/board/boardBizDelete?boardNum="+ boardNum;
+					location.href = "/board/boardQnADelete?boardNum="+ boardNum;
 				}else{
 					alert('삭제 권한이 없습니다.');
 					return false;

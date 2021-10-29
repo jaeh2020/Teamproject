@@ -260,7 +260,7 @@
 	
 	
 
-<!-- 나의 주문내역리스트 조회 -->
+	<!-- 나의 주문내역리스트 조회 -->
 	<select id="getOrderUserInfoById" resultMap="orderResultMap" parameterType="map">
 		SELECT
 			o.o_code

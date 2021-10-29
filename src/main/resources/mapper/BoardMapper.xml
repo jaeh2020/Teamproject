@@ -271,6 +271,61 @@
 			member_id = #{memberId};
 	</select>
 	
+	<!-- 소상공인 문의 등록 -->
+	<insert id="boardBizQnAWrite" parameterType="Board" >
+		INSERT INTO tb_board_management
+		( board_num    
+		, b_cate_code 
+		, board_title  
+		, board_contents  
+		, board_file_attach  
+		, board_secret  
+		, board_time    
+		, board_views   
+		, member_id    
+		, state_code   
+		)
+		VALUES (
+		  #{boardNum}
+		, 'b_qa'
+		, #{boardTitle}
+		, #{boardContents}
+		, #{boardFile}
+		, #{boardSecret}
+		, NOW()
+		, #{boardViews}
+		, #{memberId}
+		, #{stateCode});
+	</insert>
+	
+	<!-- 소비자 문의 등록 -->
+	<insert id="boardQnAWrite" parameterType="Board" >
+		INSERT INTO tb_board_management
+		( board_num    
+		, b_cate_code 
+		, board_title  
+		, board_contents  
+		, board_file_attach  
+		, board_secret  
+		, board_time    
+		, board_views   
+		, member_id    
+		, state_code   
+		)
+		VALUES (
+		  #{boardNum}
+		, 'u_qa'
+		, #{boardTitle}
+		, #{boardContents}
+		, #{boardFile}
+		, #{boardSecret}
+		, NOW()
+		, #{boardViews}
+		, #{memberId}
+		, #{stateCode});
+	</insert>
+	
+	
 	<!-- 공지사항 등록 -->
 	<insert id="boardNoticeWrite" parameterType="Board" >
 		INSERT INTO tb_board_management
@@ -365,6 +420,36 @@
 	</select>
 	
 	
+	<!-- 소상공인 문의 리스트 -->
+		<select id="getBoardBizQnAList" resultMap="borderMap">
+			SELECT 
+				 board_num 
+				,board_title 
+				,member_id
+				,board_time 
+				,board_views 
+			FROM 
+				tb_board_management
+			where
+				b_cate_code = 'b_qa'
+			ORDER BY board_num DESC;
+		</select>
+		
+	<!-- 소비자 문의 리스트 -->
+		<select id="getBoardQnAList" resultMap="borderMap">
+			SELECT 
+				 board_num 
+				,board_title 
+				,member_id
+				,board_time 
+				,board_views 
+			FROM 
+				tb_board_management
+			where
+				b_cate_code = 'u_qa'
+			ORDER BY board_num DESC;
+		</select>
+		
 	<!-- 공지사항 리스트 -->
 		<select id="getBoardNoticeList" resultMap="borderMap">
 			SELECT 

@@ -64,6 +64,12 @@ public interface BoardMapper {
 	 //아이디 조회
 	 public Member getMemberRead(String memId);
 	 
+	 //소상공인 문의 등록
+	 public int boardBizQnAWrite(Board board);
+	 
+	 //소비자 문의 등록
+	 public int boardQnAWrite(Board board);
+	 
 	 //공지사항 등록
 	 public int boardNoticeWrite(Board board);
 	 
@@ -76,6 +82,12 @@ public interface BoardMapper {
 	 //게시판 번호 증가코드
 	 public String getNewBoardNum();
 	
+	 //소상공인 QnA 목록
+	 public List<Board> getBoardBizQnAList();
+	 
+	 //소비자 QnA 목록
+	 public List<Board> getBoardQnAList();
+	 
 	 //공지사항 목록
 	 public List<Board> getBoardNoticeList();
 	 

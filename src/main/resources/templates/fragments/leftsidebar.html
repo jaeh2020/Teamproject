@@ -11,19 +11,19 @@
                      <li class="nav-devider" style="margin-bottom: 20px;" ></li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-group"></i><span class="hide-menu">회원관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a href="#" class="has-arrow"> 회원 목록 <span class="label label-rouded label-warning pull-right">2</span> </a>
+                             <li><a href="#" class="has-arrow"> 회원 목록 </a>
                                  <ul aria-expanded="false" class="collapse">
-                                     <li><a th:href="@{/member/memberList}">전체 회원 목록  / 문유미</a></li>
-                                     <li><a th:href="@{/member/memberUserList}">소비자 회원 목록 / 문유미</a></li>
+                                     <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/member/memberList}">전체 회원 목록</a></li>
+                                     <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/member/memberUserList}">소비자 회원 목록</a></li>
                                  </ul>
                              </li>
-                             <li><a th:href="@{/member/memberBizList}"> 소상공인 가입 승인 목록 / 문유미 </a>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/member/memberBizList}"> 소상공인 가입 승인 목록 </a>
 
                          </ul>
                      </li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="bi bi-cash-coin"></i><span class="hide-menu">포인트 관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/point/pointList}">포인트 목록 / 문유미</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/point/pointList}">포인트 목록</a></li>
                          </ul>
                      </li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-file-text-o"></i><span class="hide-menu">게시판 관리</span></a>
@@ -46,23 +46,23 @@
 
                          <ul aria-expanded="false" class="collapse">
 
-                             <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/enter/addStore}">입점 등록 / 김지아</a></li>
-                             <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/enter/cancelMyStore}">입점 취소 신청 / 김지아</a></li>
-                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/enter/cancelStoreManage}">입점 취소 관리(관리자) / 김지아</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/enter/addStore}">입점 등록</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/enter/cancelMyStore}">입점 취소 신청</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/enter/cancelStoreManage}">입점 취소 관리(관리자)</a></li>
                          </ul>
                      </li>
 
-                     <li> <a class="has-arrow  " href="#" aria-expanded="false" th:if="${session.SLEVEL == 'level_biz' || session.SLEVEL == 'level_admin'}"><i class="fa fa-cutlery"></i><span class="hide-menu">매장 관리</span></a>
+                     <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery"></i><span class="hide-menu">매장 관리</span></a>
 
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/store/storeManage}">매장관리(관리자) / 김지아</a></li>
-                             <li><a href="#" class="has-arrow" th:if="${session.SLEVEL == 'level_biz'}">내 매장 관리 / 김지아 <span class="label label-rouded label-warning pull-right">3</span></a>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/store/storeManage}">매장관리(관리자)</a></li>
+                             <li><a href="#" class="has-arrow" th:if="${session.SLEVEL == 'level_biz'}">내 매장 관리 <span class="label label-rouded label-warning pull-right">3</span></a>
                                  <ul aria-expanded="false" class="collapse">
 
 
-                                     <li><a th:href="@{/store/myStoreManage/myStoreInfo}">매장 정보 수정 / 김지아</a></li>
-                                     <li><a th:href="@{/store/myStoreManage/myMenuManage}">메뉴 관리 / 김지아</a></li>
-                                     <li><a th:href="@{/store/myStoreManage/myTableManage}">테이블 관리 / 김지아</a></li>
+                                     <li><a th:href="@{/store/myStoreManage/myStoreInfo}">매장 정보 수정</a></li>
+                                     <li><a th:href="@{/store/myStoreManage/myMenuManage}">메뉴 관리</a></li>
+                                     <li><a th:href="@{/store/myStoreManage/myTableManage}">테이블 관리</a></li>
 
                                  </ul>
                              </li>
@@ -70,40 +70,40 @@
                      </li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-gift"></i><span class="hide-menu">이벤트 관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/event/eventList}">이벤트 목록/ 전세원</a></li>
-                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/event/eventManage}">이벤트 관리/ 전세원</a></li>
+                             <li><a th:href="@{/event/eventList}">이벤트 목록</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/event/eventManage}">이벤트 관리</a></li>
                          </ul>
                      </li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-question"></i><span class="hide-menu">QnA</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a href="#">소상공인 문의</a></li>
-                             <li><a href="#">소비자 문의</a></li>
+                             <li><a  th:if="${session.SLEVEL == 'level_biz' || session.SLEVEL == 'level_admin'}" th:href="@{/board/boardBizQnAList}">소상공인 문의</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_user' || session.SLEVEL == 'level_admin'}" th:href="@{/board/boardQnAList}">소비자 문의</a></li>
                          </ul>
                      </li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="bi bi-emoji-sunglasses-fill"></i><span class="hide-menu">평가단</span></a>
                          <ul aria-expanded="false" class="collapse">
                              <li><a th:href="@{/taster/recruitNotice}">모집 공고/ 전세원</a></li>
-                             <li><a th:if="${session.SLEVEL == 'level_user'}" th:href="@{/taster/myApplyForTaster}">내 신청 현황/ 전세원</a></li>
-                             <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/taster/applyRecruit}">평가단 모집하기/ 전세원</a></li>
-                             <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/taster/myRecruitList}"> 평가단 모집 현황 / 전세원</a></li>
-                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/taster/recruitList}">평가단 모집 관리 / 전세원</a></li>
-                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/taster/tasterList}">평가단 관리 / 전세원</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_user'}" th:href="@{/taster/myApplyForTaster}">내 신청 현황</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/taster/applyRecruit}">평가단 모집하기</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/taster/myRecruitList}"> 평가단 모집 현황</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/taster/recruitList}">평가단 모집 관리</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/taster/tasterList}">평가단 관리</a></li>
                          </ul>
                      </li>
                       <li> <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-pencil-square-o"></i><span class="hide-menu">설문조사</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/survey/questionManage}">문항/항목 관리 / 전세원</a></li>
-                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/survey/surveyList}">설문조사 현황 / 전세원</a></li>
-                             <li><a th:if="${session.SLEVEL == 'level_user'}" th:href="@{/survey/mySurveyList}">내 설문조사 / 전세원</a></li>
-                             <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/survey/surveyResult}">설문조사 결과/ 전세원</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/survey/questionManage}">문항/항목 관리</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/survey/surveyList}">설문조사 현황</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_user'}" th:href="@{/survey/mySurveyList}">내 설문조사</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_biz'}" th:href="@{/survey/surveyResult}">설문조사 결과</a></li>
                          </ul>
                      </li>
                       <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-credit-card"></i><span class="hide-menu">재무관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/account/salesList}">매출 현황 / 양재혁</a></li>
-                             <li><a th:href="@{/account/expenseList}">지출 목록 / 양재혁</a></li>
+                             <li><a th:href="@{/account/salesList}">매출 현황</a></li>
+                             <li><a th:href="@{/account/expenseList}">지출 목록</a></li>
                              <li><a th:href="@{/account/close}">결산 관리</a></li>
-                             <li><a href="#" class="has-arrow">My Store / 양재혁<span class="label label-rouded label-warning pull-right">3</span></a>
+                             <li><a href="#" class="has-arrow">My Store<span class="label label-rouded label-warning pull-right">3</span></a>
                                  <ul aria-expanded="false" class="collapse">
                                      <li><a th:href="@{/account/mystore}">내 매장 관리</a></li>
                                      <li><a href="#">통계 요약 </a></li>
@@ -114,21 +114,20 @@
                      </li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-thumbs-up"></i><span class="hide-menu">리뷰 관리</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/review/reviewList}">리뷰 목록</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/review/reviewList}">리뷰 목록</a></li>
                          </ul>
                      </li>
                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-gear"></i><span class="hide-menu">환경 설정</span></a>
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/message/commonMessage}">공통메세지 / 문유미</a></li>
-                             <li><a href="#">포인트 소멸기준</a></li>
-                             <li><a th:href="@{/badWords/commonBadWords}">금지어 목록 / 김채연</a></li>
+                             <li><a th:if="${session.SLEVEL == 'level_admin'}" th:href="@{/message/commonMessage}">공통메세지</a></li>
+                             <li><a th:href="@{/badWords/commonBadWords}">금지어 목록</a></li>
                          </ul>
                      </li>
 
                      <li> <a class="has-arrow" href="#" aria-expanded="false" th:if="${session.SLEVEL == 'level_biz'}"><i class="fa ti-hand-point-up"></i><span class="hide-menu">POS</span></a>
 
                          <ul aria-expanded="false" class="collapse">
-                             <li><a th:href="@{/pos/posMain}">POS화면 (pos가정)/김지아</a></li>
+                             <li><a th:href="@{/pos/posMain}">POS화면 (pos가정)</a></li>
                          </ul>
                      </li>
                  </ul>
