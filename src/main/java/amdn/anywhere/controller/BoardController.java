@@ -647,7 +647,7 @@ public class BoardController {
 		  
 	  }
 	  
-	  //소비자 문의 게시글 목록
+	  //소상공인 문의 게시글 목록
 	  @GetMapping("/boardBizQnAList")
 	  public String boardBizQnAList(Model model) {
 		  
