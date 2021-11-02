@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default}">
+	  layout:decorate="~{layout/default2}">
 
-<th:block layout:fragment="customTitle">
-	<title th:text="${title}"></title>
+
 	
-	
-<!-- css -->
+<th:block layout:fragment="customCss">
 <style type= "text/css">
 
 	.btn-pink{
@@ -55,13 +53,12 @@
 	    color: #7e7e7e;
 	}
 
-
-	
 </style>
-	
-	
 </th:block>
 
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
 	
@@ -140,12 +137,12 @@
 					<i class="fa ti-timer f-s-20"></i>
 					<br>
 					<small>최근 업데이트 시간 : </small>
-					<small th:text="${searchKeyword.searchUpdateTime}"></small>
+					<small th:if="${searchKeyword != null}" th:text="${searchKeyword.searchUpdateTime}"></small>
 				</h6>
 				</div>
 				
 				<table>
-					<tbody>
+					<tbody th:if="${searchKeyword != null}">
 						<tr style="margin: 5px;">
 							<td>
 							<button class="btn btn-pink btn-outline f-s-15" disabled> 1 </button>

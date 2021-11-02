@@ -58,7 +58,7 @@
 			, num_of_cancel_times)
 			SELECT 
 				sf_new_taster_cancel_code()
-				, a.taster_apply_code
+				, MAX(a.taster_apply_code)
 				, #{userId}
 				, NOW()
 				, (SELECT COUNT(1)+1 FROM tb_taster_cancel WHERE user_id = #{userId})

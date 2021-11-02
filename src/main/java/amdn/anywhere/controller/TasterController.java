@@ -155,10 +155,9 @@ public class TasterController {
 		
 		List<Taster> tasterList = tasterService.getTasterList(paramMap);
 		if(tasterList.isEmpty()==false)	{
-			for(Taster taster : tasterList) {
-				if(taster.getState().equals("state_taster_cancel"))model.addAttribute("apply", "n");
+				if(tasterList.get(0).getState().equals("state_taster_cancel"))model.addAttribute("apply", "n");
 				else model.addAttribute("apply", "y");
-			}
+		
 		}else model.addAttribute("apply", "n");
 		
 		model.addAttribute("title", "평가단 모집 공고");

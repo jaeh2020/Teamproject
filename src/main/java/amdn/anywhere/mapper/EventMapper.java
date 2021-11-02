@@ -15,4 +15,8 @@ public interface EventMapper {
 	public int updateEvent(Map<String, String> paramMap);
 	//3. 이벤트 등록하기
 	public int addEvent(Event event);
+	//4.이벤트 삭제하기
+	public int deleteEvent(String eventCode);
+	//5. 이벤트 수정하기
+	public int modifyEvent(Event event);
 }

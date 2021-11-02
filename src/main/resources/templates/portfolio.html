@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/default3}">
+<th:block layout:fragment="customCss">
+	<style type="text/css">
+		.wrapper{
+			width: 70%;
+			margin : 130px;
+			text-align: center;
+			left: 150px;
+			background-color: #45529c;
+		}
+		img {
+			width: 820px;
+			height: 537px;
+		}
+		.testimonial-text{
+			font-size: 20px;
+			color: black;
+		}
+		.card-title{
+			font-size: 30px;
+		}
+		.table-head{
+			float:left;
+			margin: 10px 0px 10px 0px; 
+		}
+		th{
+			background-color: #efefef;
+		}
+		td{
+			color: black;
+		}
+		.right, .left{
+			height: 150px;
+
+		}
+		.btnDiv{
+			padding-top: 180px;
+		}
+		.bi{
+			font-size: 20px;
+		}
+		.moveDiv{
+			margin-top: 20px;
+		}
+		.move{
+			width: 90%;
+			height: 60px;
+			font-size: 21px;
+    		padding-top: 15px;
+		}
+	</style>
+</th:block>	  
+
+<th:block layout:fragment="customContents">
+	<div class="card wrapper">
+		<div class="card-title"><p>[한국스마트정보교육원]</p><strong class="text-white"> 개발자 40기 1팀 프로젝트 소개      by 전세원  </strong></div>
+		<div class="card bg-light">
+		    <div class="testimonial-text">
+                <i class="fa fa-quote-left"></i>
+                	POS(point of sales: 판매시점 정보관리시스템)연동 및 평가결과 기반 매출 경쟁력 강화 시스템  
+                <i class="fa fa-quote-right"></i>
+             </div>
+         </div>
+         <div class="card bg-light">
+                <h4><strong class="table-head">
+                	담당 기능 
+                </strong></h4>
+                <table class="table table-bordered">
+                	<thead>
+						<tr>
+							<th>권한   \  기능</th>
+							<th>이벤트</th>
+							<th>평가단</th>
+							<th>설문조사</th>
+						</tr>
+                	</thead>
+                	<tbody>
+                		<tr>
+                			<th>관리자</th>
+                			<td>이벤트관리 및 등록</td>
+                			<td>평가단관리</td>
+                			<td>설문조사관리 및 항목/문항관리</td>
+                		</tr>
+                		<tr>
+                			<th>소상공인</th>
+                			<td></td>
+                			<td>평가단 모집 및 현황</td>
+                			<td>설문조사 결과 확인</td>
+                		</tr>
+                		<tr>
+                			<th>소비자</th>
+                			<td>진행중인 이벤트 조회</td>
+                			<td>평가단 신청 및 취소</td>
+                			<td>설문조사 참여</td>
+                		</tr>
+                	</tbody>
+                </table>
+  		    </div>               
+			<div class="card-body">
+				<div class="row">
+					<div class="col-lg-1 btnDiv">
+						<button type="button" class="btn left"><i class="bi bi-chevron-double-left"></i></button>
+					</div>	
+					<div class="col-lg-10">
+						<div id="first">
+						  <img th:src="@{images/portfolio/22.png}" alt="...">
+						</div>
+						<div id="second" class="hidden">
+						  <img th:src="@{images/portfolio/11.png}" alt="...">
+						</div>
+					</div>			  
+					<div class="col-lg-1 btnDiv">
+						<button type="button" class="btn right"><i class="bi bi-chevron-double-right"></i></button>
+					</div>	
+				</div>
+				<div class="row moveDiv">
+					<div class="col-md-6">
+						<a th:href="@{/main}" class="btn btn-info move text-white">메인으로 이동</a>
+					</div>
+					<div class="col-md-6">
+						<a th:href="@{/member/login}" class="btn btn-warning move text-white">로그인으로 이동</a>
+					</div>
+				</div>	
+			</div>
+			
+		</div>
+		
+</th:block>
+<th:block layout:fragment="customJsLib">
+	<script type="text/javascript">
+		$(function(){
+			$('.right').on("click", function(){
+				$('#first').attr('class', 'hidden');
+				$('#second').removeAttr('class');
+			});
+			$('.left').on("click", function(){
+				$('#first').removeAttr('class', 'hidden');
+				$('#second').attr('class', 'hidden');
+			});
+			
+		});
+	</script> 
+</th:block>
+</html>    

@@ -1,16 +1,8 @@
 package amdn.anywhere.controller;
 
-import java.io.IOException;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpSession;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -37,6 +29,55 @@ public class EventController {
 		this.eventService = eventService;
 		this.storeService = storeService;
 	}
+	//11. 이벤트 수정 프로세스
+	@PostMapping("/modifyEventProcess")
+	public String modifyEventProcess(HttpSession session
+			,@RequestParam(value="img", required = false) MultipartFile img, Event event
+			,@RequestParam(value="bannerImg", required = false) MultipartFile bannerImg) {
+		
+		event.setAdminId((String) session.getAttribute("SID"));
+		//dto 에 세팅
+		event.setEventImgName(img.getOriginalFilename());
+		event.setEventBannerName(bannerImg.getOriginalFilename());
+		//서버에 저장될 파일 이름 생성 : 나노시간 _원래 파일명
+		String newImgName = Long.toString(System.nanoTime()) + "_" + img.getOriginalFilename(); 
+		String newBannerName = Long.toString(System.nanoTime()) + "_" + bannerImg.getOriginalFilename(); 
+		//dto 에 세팅
+		event.setImgStoredPath(newImgName);
+		event.setBannerStoredPath(newBannerName);
+		//이벤트 수정 처리
+		eventService.modifyEvent(event);
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("img", img);
+		paramMap.put("bannerImg", bannerImg);
+		paramMap.put("newImgName", newImgName);
+		paramMap.put("newBannerName", newBannerName);
+		//파일을 서버에 저장하기
+		eventService.uploadImages(paramMap, session);	
+		return "redirect:/event/eventManage";
+	}
+	//10. 이벤트 수정
+	@GetMapping("/modifyEvent")
+	public String modifyEvent(@RequestParam(value="eventCode", required = false) String eventCode, Model model) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("eventCode", eventCode);
+		List<Event> eventList = eventService.getEventList(paramMap);
+		if(!eventList.isEmpty()) {
+			Event eventInfo = eventList.get(0);
+			model.addAttribute("eventInfo", eventInfo);
+		}
+		model.addAttribute("title", "이벤트 수정");
+		model.addAttribute("location", "이벤트 수정");
+		
+		return "/event/modifyEvent";
+	}
+	//9. 이벤트 삭제
+	@GetMapping("/deleteEvent")
+	public String deleteEvent(@RequestParam(value="eventCode", required = false) String eventCode) {
+		eventService.deleteEvent(eventCode);
+		return "redirect:/event/eventManage";
+	}
 	//8. 이벤트 등록시 매장검색 프로세스
 	@PostMapping("/searchStore")
 	public String searchStore(@RequestParam(value="searchKey", required = false) String searchKey, Model model){
@@ -56,7 +97,7 @@ public class EventController {
 	}
 	//6. 이벤트 등록 프로세스
 	@PostMapping("/addEventProcess")
-	public String addEventProcess(Model model, HttpSession session
+	public String addEventProcess(HttpSession session
 				,@RequestParam(value="img", required = false) MultipartFile img, Event event
 				,@RequestParam(value="bannerImg", required = false) MultipartFile bannerImg){
 		event.setAdminId((String) session.getAttribute("SID"));
@@ -69,26 +110,16 @@ public class EventController {
 		//dto 에 세팅
 		event.setImgStoredPath(newImgName);
 		event.setBannerStoredPath(newBannerName);
-		
 		//이벤트 등록 처리
 		eventService.addEvent(event);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("img", img);
+		paramMap.put("bannerImg", bannerImg);
+		paramMap.put("newImgName", newImgName);
+		paramMap.put("newBannerName", newBannerName);
 		//파일을 서버에 저장하기
-		try {
-			byte[] imgBytes = img.getBytes();
-			byte[] bannerBytes = bannerImg.getBytes();
-
-			//저장경로 지정
-
-			Path path1 = Paths.get(System.getProperty("user.dir") + "/src/main/resources/static/images/event/"+ newImgName);
-			Path path2 = Paths.get(System.getProperty("user.dir") + "/src/main/resources/static/images/event/"+ newBannerName);
-			
-			Files.write(path1,imgBytes);
-			Files.write(path2,bannerBytes);
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		eventService.uploadImages(paramMap, session);
+		
 	
 		return "redirect:/event/eventManage";
 	}

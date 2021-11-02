@@ -42,8 +42,6 @@ public class Schedule {
 	//하루에 한번 이벤트 기간 조회 및 update 하기
 	@Scheduled(cron = "0 0 0 * * ?")
 	public void checkEventPeriod() {
-		//매일 자정에 실행
-		//현재 날짜 가져오기
 		
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String today= df.format(new Date());
@@ -55,14 +53,14 @@ public class Schedule {
 				Date eventStr = df.parse(e.getEventStr());
 				Date eventFin = df.parse(e.getEventFin());
 				Date date= df.parse(today);
-				
-				if(date.compareTo(eventStr) >= 0) {
-					System.out.println("시작일이 오늘이거나 지난 경우");
+				//시작일이 오늘이거나 이미 지난 경우
+				if(date.compareTo(eventStr) >= 0 && !e.getStateCode().equals("state_event_end")) {
 					
 					paramMap.put("eventCode", e.getEventCode());
 					paramMap.put("state", "start");
 					eventService.updateEvent(paramMap);
 					paramMap.clear();
+				//종료일이 지난 경우	
 				}else if(date.compareTo(eventFin) > 0) {
 					
 					paramMap.put("eventCode", e.getEventCode());

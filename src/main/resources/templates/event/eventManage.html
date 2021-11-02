@@ -13,6 +13,9 @@
 			.badge {
 				font-size: small;
 			}
+			.bi{
+				font-size: 18px;
+			}
 		</style>
 </th:block>
 <th:block layout:fragment="customTitle">
@@ -33,7 +36,6 @@
 </th:block>
 <!-- contents layout:fragment 정의 -->
 <th:block layout:fragment="customContents">
-
 <div class="row">
 		<div class="col-12">
 			 <div class="card">
@@ -54,6 +56,8 @@
 	                                <th data-orderable="false">공고보기</th>
 	                                <th data-orderable="false">상세보기</th>
 	                                <th data-orderable="false">종료</th>
+	                                <th data-orderable="false">삭제</th>
+	                                <th data-orderable="false">수정</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
@@ -71,7 +75,9 @@
 		                            </td>
 		                            <td><a type="button" th:href="@{/event/eventDetail(eventCode=${l.eventCode})}" class="btn btn-success btn-outline ti-search text-white" ></a></td>
 		                            <td><button type="button" class="btn btn-success btn-outline ti-search text-white" th:onclick="viewFn([[${l.eventName}]], [[${l.eventDetail}]])"></button></td>
-		                            <td><a type="button" th:onclick="finFn([[${l.stateCode}]],[[${l.eventCode}]])" class="finBtn btn btn-danger btn-outline ti-trash text-white" ></a></td>
+		                            <td><a type="button" th:onclick="finFn([[${l.stateCode}]],[[${l.eventCode}]])" class="finBtn btn btn-danger btn-outline text-white" ><i class="bi bi-x"></i></a></td>
+		                            <td><a type="button" th:href="@{/event/deleteEvent(eventCode=${l.eventCode})}" class="deleteBtn btn btn-danger btn-outline text-white" ><i class="bi bi-trash"></i></a></td>
+		                            <td><a type="button" th:href="@{/event/modifyEvent(eventCode=${l.eventCode})}" class="modifyBtn btn btn-warning btn-outline text-white" ><i class="bi bi-wrench"></i></a></td>
 	                            </tr>
 	                        </tbody>
 	                    </table>
@@ -86,6 +92,13 @@
 
 <th:block layout:fragment="customJsLib">
     <script type="text/javascript">
+    function confirmFn(){
+    	if(confirm('삭제하시겠습니까?')){
+			return true;
+		}else return false;
+    }
+    	$(function(){$('.deleteBtn').on("click", confirmFn)});
+
  		
     	function finFn(stateCode, eventCode){
    			if(stateCode == 'state_event_end'){

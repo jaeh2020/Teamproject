@@ -47,7 +47,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 			printwriter.print("<script>alert('로그인이 필요합니다!'); window.location.href='/member/login';</script>");
 			printwriter.flush();
 			printwriter.close();
-			//response.sendRedirect("/member/login");
+
 			return false;
 		}else {
 			requestUri	 = requestUri.trim();

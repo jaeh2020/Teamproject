@@ -206,15 +206,15 @@
 		                                	<a th:if="${l.boardCateCode} == 'a_notic'" th:href="@{/board/boardNoticeList}">[[${l.boardCateName}]]</a>
 		                                	<a th:if="${l.boardCateCode} == 'b_board'" th:href="@{/board/boardBizList}">[[${l.boardCateName}]]</a>
 		                                	<a th:if="${l.boardCateCode} == 'u_board'" th:href="@{/board/boardList}">[[${l.boardCateName}]]</a>
-		                                	<a th:if="${l.boardCateCode} == 'b_qa'" th:href="@{/board/boardList}">[[${l.boardCateName}]]</a>
-		                                	<a th:if="${l.boardCateCode} == 'u_qa'" th:href="@{/board/boardList}">[[${l.boardCateName}]]</a>
+		                                	<a th:if="${l.boardCateCode} == 'b_qa'" th:href="@{/board/boardBizQnAList}">[[${l.boardCateName}]]</a>
+		                                	<a th:if="${l.boardCateCode} == 'u_qa'" th:href="@{/board/boardQnAList}">[[${l.boardCateName}]]</a>
 		                                </td>
 		                                <td>
 		                                	<a th:if="${l.boardCateCode} == 'a_notic'" th:href="@{/board/boardNoticeView(boardNum=${l.boardNum})}">[[${l.boardTitle}]]</a>
 		                                	<a th:if="${l.boardCateCode} == 'b_board'" th:href="@{/board/boardBizView(boardNum=${l.boardNum})}">[[${l.boardTitle}]]</a>
 		                                	<a th:if="${l.boardCateCode} == 'u_board'" th:href="@{/board/boardView(boardNum=${l.boardNum})}">[[${l.boardTitle}]]</a>
-		                                	<a th:if="${l.boardCateCode} == 'b_qa'" th:href="@{/board/boardView(boardNum=${l.boardNum})}">[[${l.boardTitle}]]</a>
-		                                	<a th:if="${l.boardCateCode} == 'u_qa'" th:href="@{/board/boardView(boardNum=${l.boardNum})}">[[${l.boardTitle}]]</a>
+		                                	<a th:if="${l.boardCateCode} == 'b_qa'" th:href="@{/board/boardBizQnAView(boardNum=${l.boardNum})}">[[${l.boardTitle}]]</a>
+		                                	<a th:if="${l.boardCateCode} == 'u_qa'" th:href="@{/board/boardQnAView(boardNum=${l.boardNum})}">[[${l.boardTitle}]]</a>
 		                                </td>
 		                                <td th:text="${l.boardRegTime}"></td>
 		                                <td>

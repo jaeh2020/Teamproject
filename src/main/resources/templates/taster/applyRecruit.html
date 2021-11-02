@@ -169,6 +169,7 @@
 			var selectAllCate = $('#selectAllCate');
 			var surveyCateList = $('[name=cateList]');
 			var specialCateList = $('[name=specialCateList]');
+			var notSelectSpecial= $('#notSelectSpecial');
 		
 
 			//연령대 선택 - 모든 연령대 이벤트
@@ -235,6 +236,7 @@
 							surveyCateList.prop("checked", false);
 							specialCateList.prop("checked", false);
 							specialCateList.attr('disabled','true');
+							notSelectSpecial.removeAttr('disabled');
 						}
 					}else{
 						selectAllCate.prop("checked", false);

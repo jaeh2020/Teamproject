@@ -112,10 +112,8 @@ public class QuestionController{
 		String id = (String) session.getAttribute("SID");
 		String recruitBCode = paramMap.get("recruitCode");
 		
-		System.out.println(paramMap);
 		Set<String> questionSet = paramMap.keySet();
 		
-		System.out.println(questionSet);
 		List<QuestionAnswer> questionAnswerList = new ArrayList<QuestionAnswer>();
 		
 		//키를 담을 변수 선언: 키 셋 변수
@@ -134,9 +132,10 @@ public class QuestionController{
 			}
 			questionAnswerList.add(qAnswer);
 		}
-		 Map<String, Object> map = new HashMap<String, Object>();
 		//insert처리
 		int result = questionService.addQuestionAnswer(questionAnswerList);
+
+		Map<String, Object> map = new HashMap<String, Object>();
 		if(result > 0) {
 			//평가단 정보 -> 설문 참여완료로 상태 업뎃.
 			map.put("userId", id);

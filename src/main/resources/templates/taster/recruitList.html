@@ -178,11 +178,18 @@
 	$(function(){
 		$('.cancelBtn').on("click", function(){
 			var recruitBCode = $(this).parent().parent().find('.recruitCode').text();
-			cancleAlert(function(checked){
-				if (checked) {
-		            window.location.href = "/taster/changeState?recruitCode="+ recruitBCode + "&state=취소";
-		        }
-			});
+			var stateName = $(this).parent().parent().find('.stateName').text();
+			if(stateName == '승인완료'){
+				alert('이미 승인된 모집입니다!');
+			}else if(stateName == '승인거절'){
+				alert('이미 승인거절된 모집입니다!');
+			}else{
+				cancleAlert(function(checked){
+					if (checked) {
+			            window.location.href = "/taster/changeState?recruitCode="+ recruitBCode + "&state=취소";
+			        }
+				});
+			}
 		});
 	});
 	

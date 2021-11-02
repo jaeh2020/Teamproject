@@ -48,7 +48,7 @@ public class MainController {
 	
 	
 		
-	@GetMapping("/")
+	@GetMapping("/main")
 	public String main(Model model
 					  ,@RequestParam(name="placeInput", required = false) String placeInput
 					  ,@RequestParam(name="placeAddress", required = false) String placeAddress
@@ -61,7 +61,7 @@ public class MainController {
 		
 		//실시간검색현황 조회
 		SearchKeyword searchKeyword = mainService.getSearchKeyword();
-		
+		if(searchKeyword != null) model.addAttribute("searchKeyword", searchKeyword);
 		//메뉴 카테고리(대분류) 불러오기
 		List<FoodMainCate> mainCate = storeService.getMainCate();
 		
@@ -82,7 +82,7 @@ public class MainController {
 			mainService.addSearchTotal(paramMap);
 		}
 		
-		model.addAttribute("searchKeyword", searchKeyword);
+		
 		model.addAttribute("mainCate", mainCate);
 		model.addAttribute("title", "AMDN, 아무데나");
 		model.addAttribute("mainList", mainList);

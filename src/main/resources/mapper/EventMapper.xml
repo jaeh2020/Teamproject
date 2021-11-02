@@ -20,7 +20,21 @@
 		<result property="storeCode" column="store_code" />
 		<result property="storeName" column="store_name" />
 	</resultMap>
-	
+	<update id="modifyEvent" parameterType="Event">
+		UPDATE tb_event
+		SET event_name = #{eventName}
+		    , img_original_name = #{eventImgName}
+		    , banner_original_name = #{eventBannerName}
+		    , start_time = #{eventStr}
+		    , end_time = #{eventFin}
+		    , detail = #{eventDetail}
+		    , stored_image_path = #{imgStoredPath}
+		    , stored_banner_path = #{bannerStoredPath}
+		WHERE event_code = #{eventCode}
+	</update>
+	<delete id="deleteEvent" parameterType="String">
+	    DELETE FROM tb_event WHERE event_code=#{eventCode}
+	</delete>
 	<insert id="addEvent" parameterType="Event">
 		INSERT INTO tb_event
 			(event_code
@@ -50,9 +64,14 @@
 			, #{adminId}
 			, #{imgStoredPath}
 			, #{bannerStoredPath}
-			, #{storeCode}
-			, #{storeName})
-
+			<if test="storeCode != '' ">
+				, #{storeCode}
+				, #{storeName})	
+			</if>
+			<if test="storeCode == ''">
+				, null
+				, null)		
+			</if>
 	</insert>
 	<update id="updateEvent" parameterType="map">
 		UPDATE tb_event

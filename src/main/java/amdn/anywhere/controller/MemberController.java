@@ -405,7 +405,7 @@ public class MemberController {
 		memberService.modifyLogout(memberLogin);
 		//세션종료
 		session.invalidate();
-		return "redirect:/";
+		return "redirect:/main";
 	}
 	
 	//로그인
@@ -415,46 +415,57 @@ public class MemberController {
 						, HttpSession session
 						, RedirectAttributes redirecAttr
 						, MemberBiz memberBiz
-						, MemberLogin memberLogin) {
-		//1 회원이 있다
+						, MemberLogin memberLogin
+						, Model model ) {
+		
+		String result = "/member/login";
+		
 		if(memberId != null && !"".equals(memberId) &&
 			memberPw != null && !"".equals(memberPw)) {
+			
 			Member member = memberService.getMemberInfoById(memberId);
-
-			//비즈 로그인 시
-			if(member != null && member.getLevelCode().equals("level_biz")) {
-				if(memberPw.equals(member.getMemberPw())) {
-					session.setAttribute("SID", memberId);
-					session.setAttribute("SLEVEL", member.getLevelCode());
-					session.setAttribute("SNAME", member.getMemberName());
-					
-					//로그인내역남기기
-					memberLogin.setLoginNum(memberService.getLoginCode());
-					memberLogin.setLevelCode(member.getLevelCode());
-					memberService.addLogin(memberLogin);					
-					System.out.println("memberLogin::::"+memberLogin);
-					
-					return "redirect:/member/myPageBiz?memberId="+memberBiz.getMemberId();
+			//1 회원이 있다
+			if(member != null) {
+				
+				//비즈 로그인 시
+				if(member != null && member.getLevelCode().equals("level_biz")) {
+					if(memberPw.equals(member.getMemberPw())) {// 비밀번호 일치
+						session.setAttribute("SID", memberId);
+						session.setAttribute("SLEVEL", member.getLevelCode());
+						session.setAttribute("SNAME", member.getMemberName());
+						
+						//로그인내역남기기
+						memberLogin.setLoginNum(memberService.getLoginCode());
+						memberLogin.setLevelCode(member.getLevelCode());
+						memberService.addLogin(memberLogin);					
+						System.out.println("memberLogin::::"+memberLogin);
+						
+						result = "redirect:/member/myPageBiz?memberId="+memberBiz.getMemberId();
+					}else { //비번 불일치
+						model.addAttribute("idpwCheck", "비밀번호가 일치하지 않습니다.");						
+					}
+				}else {
+					if(memberPw.equals(member.getMemberPw())) {
+						session.setAttribute("SID", memberId);
+						session.setAttribute("SLEVEL", member.getLevelCode());
+						session.setAttribute("SNAME", member.getMemberName());
+						
+						//로그인내역남기기
+						memberLogin.setLoginNum(memberService.getLoginCode());
+						memberLogin.setLevelCode(member.getLevelCode());
+						memberService.addLogin(memberLogin);					
+						System.out.println("memberLogin::::"+memberLogin);
+						if(member.getLevelCode().equals("level_admin")) result = "redirect:/admin";
+						else result = "redirect:/main";
+					}else { //비번 불일치
+						model.addAttribute("idpwCheck", "비밀번호가 일치하지 않습니다.");						
+					}
 				}
-			}else {
-				if(memberPw.equals(member.getMemberPw())) {
-					session.setAttribute("SID", memberId);
-					session.setAttribute("SLEVEL", member.getLevelCode());
-					session.setAttribute("SNAME", member.getMemberName());
-					
-					//로그인내역남기기
-					memberLogin.setLoginNum(memberService.getLoginCode());
-					memberLogin.setLevelCode(member.getLevelCode());
-					memberService.addLogin(memberLogin);					
-					System.out.println("memberLogin::::"+memberLogin);
-					if(member.getLevelCode().equals("level_admin")) return "redirect:/admin";
-					else return "redirect:/";
-				}
+			}else {// 아이디 정보 없음
+				model.addAttribute("idpwCheck", "등록된 아이디가 아닙니다.");	
 			}
 		}
-		//2 회원이 없다면 result -> 등록된 정보가 없습니다.
-		//redirecAttr.addAttribute("result", "등록된 정보가 없습니다.");
-		return "redirect:/member/login";
+		return result;
 	};
 	
 	
